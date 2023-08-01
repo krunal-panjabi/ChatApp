@@ -1,0 +1,57 @@
+<div class="container text-center mt-5 reg-title" >
+    <h1 style="">Let's Get You Connected And <span class="text-danger"> Chat</span> With Other <span class="text-info"> People</span></h1>
+</div>
+<div class="text-center mt-3"><h2 class="text-secondary">Register to use this app</h2></div>
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="col-12 col-lg-5">
+        <main class="form-signin">
+            <form [formGroup]="userForm"(ngSubmit)="submitForm()" autocomplete="off" class="p-3 border">
+                <h4>Choose your name</h4>
+                <div class="form-floating mb-3">
+                    <input formControlName="username" type="text" class="form-control" placeholder="Name" 
+                    [class.is-invalid]="submitted && userForm.get('name')?.errors">
+                    <label for="Name">Name</label>
+                    <span class="text-danger" *ngIf="submitted && userForm.get('name')?.hasError('required')">
+                        Please choose a name
+                    </span>
+
+                    <span class="text-danger" *ngIf="submitted && userForm.get('name')?.hasError('maxlength')||
+                    userForm.get('name')?.hasError('minlength')">
+                        Your name must be atleast 3 , and maximum 15 characters
+                    </span>
+
+                   
+
+                </div>
+
+
+                <h4>Enter Password</h4>
+
+                <div class="form-floating mb-3">
+
+                <input formControlName="password" type="password" class="form-control" placeholder="Password" 
+                [class.is-invalid]="submitted && userForm.get('password')?.errors">
+                <label for="Password">Password</label>
+                <span class="text-danger" *ngIf="submitted && userForm.get('password')?.hasError('required')">
+                    Please enter password
+                </span>
+                </div>
+
+                <!-- <div class="form-floating" *ngIf="apiErrorMessages.length > 0" >
+
+                    <ul class="text-danger">
+                        <li *ngFor="let error of apiErrorMessages">
+                            {{error}}
+                        </li>
+                    </ul>
+                </div> -->
+
+                <div class="d-grid mt-4 px-4">
+                    <button class="btn btn-warning" type="submit">Submit</button>
+                </div>
+
+            </form>
+        </main>
+    </div>
+</div>

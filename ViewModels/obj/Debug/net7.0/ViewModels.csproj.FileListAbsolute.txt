@@ -1,0 +1,12 @@
+D:\AKchat\ViewModels\bin\Debug\net7.0\ViewModels.deps.json
+D:\AKchat\ViewModels\bin\Debug\net7.0\ViewModels.dll
+D:\AKchat\ViewModels\bin\Debug\net7.0\ViewModels.pdb
+D:\AKchat\ViewModels\obj\Debug\net7.0\ViewModels.csproj.AssemblyReference.cache
+D:\AKchat\ViewModels\obj\Debug\net7.0\ViewModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\AKchat\ViewModels\obj\Debug\net7.0\ViewModels.AssemblyInfoInputs.cache
+D:\AKchat\ViewModels\obj\Debug\net7.0\ViewModels.AssemblyInfo.cs
+D:\AKchat\ViewModels\obj\Debug\net7.0\ViewModels.csproj.CoreCompileInputs.cache
+D:\AKchat\ViewModels\obj\Debug\net7.0\ViewModels.dll
+D:\AKchat\ViewModels\obj\Debug\net7.0\refint\ViewModels.dll
+D:\AKchat\ViewModels\obj\Debug\net7.0\ViewModels.pdb
+D:\AKchat\ViewModels\obj\Debug\net7.0\ref\ViewModels.dll

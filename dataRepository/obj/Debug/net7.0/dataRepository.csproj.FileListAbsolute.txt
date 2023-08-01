@@ -1,0 +1,15 @@
+D:\AKchat\dataRepository\obj\Debug\net7.0\dataRepository.csproj.AssemblyReference.cache
+D:\AKchat\dataRepository\obj\Debug\net7.0\dataRepository.GeneratedMSBuildEditorConfig.editorconfig
+D:\AKchat\dataRepository\obj\Debug\net7.0\dataRepository.AssemblyInfoInputs.cache
+D:\AKchat\dataRepository\obj\Debug\net7.0\dataRepository.AssemblyInfo.cs
+D:\AKchat\dataRepository\obj\Debug\net7.0\dataRepository.csproj.CoreCompileInputs.cache
+D:\AKchat\dataRepository\bin\Debug\net7.0\dataRepository.deps.json
+D:\AKchat\dataRepository\bin\Debug\net7.0\dataRepository.dll
+D:\AKchat\dataRepository\bin\Debug\net7.0\dataRepository.pdb
+D:\AKchat\dataRepository\bin\Debug\net7.0\ViewModels.dll
+D:\AKchat\dataRepository\bin\Debug\net7.0\ViewModels.pdb
+D:\AKchat\dataRepository\obj\Debug\net7.0\dataRepository.csproj.CopyComplete
+D:\AKchat\dataRepository\obj\Debug\net7.0\dataRepository.dll
+D:\AKchat\dataRepository\obj\Debug\net7.0\refint\dataRepository.dll
+D:\AKchat\dataRepository\obj\Debug\net7.0\dataRepository.pdb
+D:\AKchat\dataRepository\obj\Debug\net7.0\ref\dataRepository.dll
