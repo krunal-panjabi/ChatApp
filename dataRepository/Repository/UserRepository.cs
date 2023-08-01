@@ -30,5 +30,19 @@ namespace dataRepository.Repository
                 return i;
             }
         }
+        public int checkforname(string name)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("spCheckUsername", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@name", name);
+                con.Open();
+
+                int i = cmd.ExecuteNonQuery();
+
+                return i;
+            }
+        }
     }
 }

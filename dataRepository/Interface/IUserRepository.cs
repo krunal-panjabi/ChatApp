@@ -11,6 +11,7 @@ namespace dataRepository.Interface
     public interface IUserRepository
     {
         public int registerrepo(UserVM model);
+        public int checkforname(string name);
 
     }
 }

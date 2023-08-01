@@ -10,3 +10,15 @@ D:\AKchat\ViewModels\obj\Debug\net7.0\ViewModels.dll
 D:\AKchat\ViewModels\obj\Debug\net7.0\refint\ViewModels.dll
 D:\AKchat\ViewModels\obj\Debug\net7.0\ViewModels.pdb
 D:\AKchat\ViewModels\obj\Debug\net7.0\ref\ViewModels.dll
+D:\ChatApp\ChatApp\ViewModels\bin\Debug\net7.0\ViewModels.deps.json
+D:\ChatApp\ChatApp\ViewModels\bin\Debug\net7.0\ViewModels.dll
+D:\ChatApp\ChatApp\ViewModels\bin\Debug\net7.0\ViewModels.pdb
+D:\ChatApp\ChatApp\ViewModels\obj\Debug\net7.0\ViewModels.csproj.AssemblyReference.cache
+D:\ChatApp\ChatApp\ViewModels\obj\Debug\net7.0\ViewModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\ChatApp\ChatApp\ViewModels\obj\Debug\net7.0\ViewModels.AssemblyInfoInputs.cache
+D:\ChatApp\ChatApp\ViewModels\obj\Debug\net7.0\ViewModels.AssemblyInfo.cs
+D:\ChatApp\ChatApp\ViewModels\obj\Debug\net7.0\ViewModels.csproj.CoreCompileInputs.cache
+D:\ChatApp\ChatApp\ViewModels\obj\Debug\net7.0\ViewModels.dll
+D:\ChatApp\ChatApp\ViewModels\obj\Debug\net7.0\refint\ViewModels.dll
+D:\ChatApp\ChatApp\ViewModels\obj\Debug\net7.0\ViewModels.pdb
+D:\ChatApp\ChatApp\ViewModels\obj\Debug\net7.0\ref\ViewModels.dll

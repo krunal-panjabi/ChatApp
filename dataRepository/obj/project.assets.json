@@ -3380,11 +3380,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\AKchat\\dataRepository\\dataRepository.csproj",
+      "projectUniqueName": "D:\\ChatApp\\ChatApp\\dataRepository\\dataRepository.csproj",
       "projectName": "dataRepository",
-      "projectPath": "D:\\AKchat\\dataRepository\\dataRepository.csproj",
+      "projectPath": "D:\\ChatApp\\ChatApp\\dataRepository\\dataRepository.csproj",
       "packagesPath": "C:\\Users\\pca59\\.nuget\\packages\\",
-      "outputPath": "D:\\AKchat\\dataRepository\\obj\\",
+      "outputPath": "D:\\ChatApp\\ChatApp\\dataRepository\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -3407,8 +3407,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\AKchat\\ViewModels\\ViewModels.csproj": {
-              "projectPath": "D:\\AKchat\\ViewModels\\ViewModels.csproj"
+            "D:\\ChatApp\\ChatApp\\ViewModels\\ViewModels.csproj": {
+              "projectPath": "D:\\ChatApp\\ChatApp\\ViewModels\\ViewModels.csproj"
             }
           }
         }
