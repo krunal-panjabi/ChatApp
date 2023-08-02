@@ -32,6 +32,7 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(false);
             }
         }
+<<<<<<< HEAD
         [HttpPost("UserLogin")]
         public IActionResult Login([FromBody] UserVM model)
         {
@@ -45,11 +46,17 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(false);
             }
         }
+=======
+>>>>>>> 706ce3b (check for name done)
         [HttpPost("CheckForName")]
         public IActionResult CheckForName([FromBody] string name)
         {
             var i = _userrepo.checkforname(name);
+<<<<<<< HEAD
             if (i == 0)
+=======
+            if(i==0)
+>>>>>>> 706ce3b (check for name done)
             {
                 return Ok(false);
 
@@ -59,7 +66,10 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(true);
             }
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 706ce3b (check for name done)
         //public IActionResult Index()
         //{
         //    return View();

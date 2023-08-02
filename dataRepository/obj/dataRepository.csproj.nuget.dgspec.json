@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ChatApp\\ChatApp\\dataRepository\\dataRepository.csproj": {}
+    "D:\\ChatApp\\dataRepository\\dataRepository.csproj": {}
   },
   "projects": {
-    "D:\\ChatApp\\ChatApp\\dataRepository\\dataRepository.csproj": {
+    "D:\\ChatApp\\dataRepository\\dataRepository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ChatApp\\ChatApp\\dataRepository\\dataRepository.csproj",
+        "projectUniqueName": "D:\\ChatApp\\dataRepository\\dataRepository.csproj",
         "projectName": "dataRepository",
-        "projectPath": "D:\\ChatApp\\ChatApp\\dataRepository\\dataRepository.csproj",
-        "packagesPath": "C:\\Users\\pca59\\.nuget\\packages\\",
-        "outputPath": "D:\\ChatApp\\ChatApp\\dataRepository\\obj\\",
+        "projectPath": "D:\\ChatApp\\dataRepository\\dataRepository.csproj",
+        "packagesPath": "C:\\Users\\pca29\\.nuget\\packages\\",
+        "outputPath": "D:\\ChatApp\\dataRepository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\pca59\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pca29\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -34,8 +34,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\ChatApp\\ChatApp\\ViewModels\\ViewModels.csproj": {
-                "projectPath": "D:\\ChatApp\\ChatApp\\ViewModels\\ViewModels.csproj"
+              "D:\\ChatApp\\ViewModels\\ViewModels.csproj": {
+                "projectPath": "D:\\ChatApp\\ViewModels\\ViewModels.csproj"
               }
             }
           }
@@ -75,25 +75,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\ChatApp\\ChatApp\\ViewModels\\ViewModels.csproj": {
+    "D:\\ChatApp\\ViewModels\\ViewModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ChatApp\\ChatApp\\ViewModels\\ViewModels.csproj",
+        "projectUniqueName": "D:\\ChatApp\\ViewModels\\ViewModels.csproj",
         "projectName": "ViewModels",
-        "projectPath": "D:\\ChatApp\\ChatApp\\ViewModels\\ViewModels.csproj",
-        "packagesPath": "C:\\Users\\pca59\\.nuget\\packages\\",
-        "outputPath": "D:\\ChatApp\\ChatApp\\ViewModels\\obj\\",
+        "projectPath": "D:\\ChatApp\\ViewModels\\ViewModels.csproj",
+        "packagesPath": "C:\\Users\\pca29\\.nuget\\packages\\",
+        "outputPath": "D:\\ChatApp\\ViewModels\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\pca59\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pca29\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -142,7 +142,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

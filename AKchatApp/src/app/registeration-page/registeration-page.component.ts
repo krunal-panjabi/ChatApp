@@ -23,6 +23,22 @@ export class RegisterationPageComponent implements OnInit {
     })
   }
 
+  validateName(event: any) {
+    if (event.target.value== '') {
+      this.userForm.get('username')?.setErrors({ invalid: true ,message:"Name is alreday taken." });
+    }
+    // else {
+    //   this.accountService.validateEmail(event.target.value).subscribe(
+    //     data => {
+    //       if (data.toString() == 'false') {
+    //         this.registerForm.get('username')?.setErrors({ invalid: true ,message:"EmailId is already in use. Please enter different EmailId."});
+    //         console.log(data);
+    //       }
+    //     }
+    //   )
+    // }
+  }
+
   submitForm(){
     this.submitted = true ;
 

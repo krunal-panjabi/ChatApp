@@ -10,18 +10,18 @@
                 <h4>Choose your name</h4>
                 <div class="form-floating mb-3">
                     <input formControlName="username" type="text" class="form-control" placeholder="Name" 
-                    [class.is-invalid]="submitted && userForm.get('name')?.errors">
+                    [class.is-invalid]="submitted && userForm.get('username')?.errors">
                     <label for="Name">Name</label>
-                    <span class="text-danger" *ngIf="submitted && userForm.get('name')?.hasError('required')">
+                    <span class="text-danger" *ngIf="submitted && userForm.get('username')?.hasError('required')">
                         Please choose a name
                     </span>
-
+                    <span class="text-danger" *ngIf="userForm.get('username')?.invalid">
+                        {{ userForm.get('username')?.errors?.['message'] }}
+                    </span>
                     <span class="text-danger" *ngIf="submitted && userForm.get('name')?.hasError('maxlength')||
                     userForm.get('name')?.hasError('minlength')">
                         Your name must be atleast 3 , and maximum 15 characters
                     </span>
-
-                   
 
                 </div>
 
