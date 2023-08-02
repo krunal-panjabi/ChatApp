@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ViewModels.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace dataRepository.Repository
 {
@@ -32,31 +33,41 @@ namespace dataRepository.Repository
         }
         public int checkforname(string name)
         {
+            int valid = 10;
             using (SqlConnection con = new SqlConnection(connections))
             {
                 SqlCommand cmd = new SqlCommand("spCheckUsername", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.Add("@valid", SqlDbType.Int).Direction = ParameterDirection.Output;
                 con.Open();
 
-                int i = cmd.ExecuteNonQuery();
-
-                return i;
+                cmd.ExecuteNonQuery();
+                if (cmd.Parameters["@valid"].Value != DBNull.Value)
+                {
+                    valid = (int)cmd.Parameters["@valid"].Value;
+                }
+                return valid;
             }
         }
         public int loginrepo(UserVM model)
         {
+            int valid = 10;
             using (SqlConnection con = new SqlConnection(connections))
             {
                 SqlCommand cmd = new SqlCommand("LoginUser", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@name", model.username);
                 cmd.Parameters.AddWithValue("@password", model.password);
+                cmd.Parameters.Add("@valid", SqlDbType.Int).Direction = ParameterDirection.Output;
                 con.Open();
 
-                int i = cmd.ExecuteNonQuery();
-
-                return i;
+                cmd.ExecuteNonQuery();
+                if (cmd.Parameters["@valid"].Value != DBNull.Value)
+                {
+                    valid = (int)cmd.Parameters["@valid"].Value;
+                }
+                return valid;
             }
         }
     }

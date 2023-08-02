@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from '../users.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { UsersService } from '../users.service';
 export class RegisterationPageComponent implements OnInit {
   userForm : FormGroup = new FormGroup({});
   submitted = false;
-  constructor(private formBuilder : FormBuilder,private service : UsersService) { }
+  constructor(private formBuilder : FormBuilder,private service : UsersService , private router: Router) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -24,19 +25,14 @@ export class RegisterationPageComponent implements OnInit {
   }
 
   validateName(event: any) {
-    if (event.target.value== '') {
-      this.userForm.get('username')?.setErrors({ invalid: true ,message:"Name is alreday taken." });
-    }
-    // else {
-    //   this.accountService.validateEmail(event.target.value).subscribe(
-    //     data => {
-    //       if (data.toString() == 'false') {
-    //         this.registerForm.get('username')?.setErrors({ invalid: true ,message:"EmailId is already in use. Please enter different EmailId."});
-    //         console.log(data);
-    //       }
-    //     }
-    //   )
-    // }
+    debugger;
+    this.service.CheckName(event.target.value).subscribe({
+      next:(response)=>{
+        if(!response){
+          this.userForm.get('username')?.setErrors({invalid:true , message :"Name is already taken."})
+        }
+      }
+    })
   }
 
   submitForm(){
@@ -45,8 +41,8 @@ export class RegisterationPageComponent implements OnInit {
     if(this.userForm.valid){
       this.service.postData(this.userForm.value).subscribe(data =>{
         alert("added");
-        console.log(data);
         this.userForm.reset();
+        this.router.navigateByUrl('/login')
       })
     }
   }

@@ -3,14 +3,14 @@
 </div>
 <div class="text-center mt-3"><h2 class="text-secondary">Register to use this app</h2></div>
 
-<div class="d-flex justify-content-center mt-5">
+<div class="d-flex justify-content-center mt-5 mainBody">
     <div class="col-12 col-lg-5">
         <main class="form-signin">
             <form [formGroup]="userForm"(ngSubmit)="submitForm()" autocomplete="off" class="p-3 border">
                 <h4>Choose your name</h4>
                 <div class="form-floating mb-3">
                     <input formControlName="username" type="text" class="form-control" placeholder="Name" 
-                    [class.is-invalid]="submitted && userForm.get('username')?.errors">
+                    [class.is-invalid]="submitted && userForm.get('username')?.errors"  (focusout)="validateName($event)">
                     <label for="Name">Name</label>
                     <span class="text-danger" *ngIf="submitted && userForm.get('username')?.hasError('required')">
                         Please choose a name
@@ -48,9 +48,14 @@
                 </div> -->
 
                 <div class="d-grid mt-4 px-4">
-                    <button class="btn btn-warning" type="submit">Submit</button>
+                    <button class="btn btn-primary" type="submit">Register</button>
                 </div>
 
+                <div class="d-flex justify-content-center mt-3">
+                    <p class="haveAccount">Already have an account?</p>
+                    <button class="btn btn-secondary btn-sm " [routerLink]="['/']">Log In</button >
+                
+                </div>
             </form>
         </main>
     </div>

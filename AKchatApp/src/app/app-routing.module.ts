@@ -5,7 +5,9 @@ import { LoginPageComponent } from './login-page/login-page.component';
 
 const routes: Routes = [
   { path: '', component: LoginPageComponent },
-  { path: 'register', component: RegisterationPageComponent }
+  { path: 'login', component: LoginPageComponent },
+  { path: 'register', component: RegisterationPageComponent },
+  { path: 'chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule) }
 ];
 
 @NgModule({

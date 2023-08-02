@@ -9,12 +9,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterationPageComponent } from './registeration-page/registeration-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UsersService } from './users.service';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
-    RegisterationPageComponent
+    RegisterationPageComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

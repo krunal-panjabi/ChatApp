@@ -1,0 +1,10 @@
+.noAccount{
+color: gray;
+align-items: center;
+display: flex;
+margin-bottom: 0px;
+margin-right: 10px;
+}
+.mainBody{
+    height: 590px;
+}

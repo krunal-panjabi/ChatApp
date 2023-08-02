@@ -3,3 +3,13 @@
     background-color: yellow;
 
 }
+.mainBody{
+    height: 590px;
+}
+.haveAccount{
+color: gray;
+align-items: center;
+display: flex;
+margin-bottom: 0px;
+margin-right: 10px;
+}
