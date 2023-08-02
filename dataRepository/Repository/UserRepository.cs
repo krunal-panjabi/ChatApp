@@ -44,5 +44,20 @@ namespace dataRepository.Repository
                 return i;
             }
         }
+        public int loginrepo(UserVM model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("LoginUser", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@name", model.username);
+                cmd.Parameters.AddWithValue("@password", model.password);
+                con.Open();
+
+                int i = cmd.ExecuteNonQuery();
+
+                return i;
+            }
+        }
     }
 }

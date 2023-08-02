@@ -31,9 +31,35 @@ namespace AKchat.Areas.user.Controllers
             {
                 return Ok(false);
             }
-
-
         }
+        [HttpPost("UserLogin")]
+        public IActionResult Login([FromBody] UserVM model)
+        {
+            var i = _userrepo.loginrepo(model);
+            if (i > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
+        [HttpPost("CheckForName")]
+        public IActionResult CheckForName([FromBody] string name)
+        {
+            var i = _userrepo.checkforname(name);
+            if (i == 0)
+            {
+                return Ok(false);
+
+            }
+            else
+            {
+                return Ok(true);
+            }
+        }
+
         //public IActionResult Index()
         //{
         //    return View();
