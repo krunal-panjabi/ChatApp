@@ -1,4 +1,5 @@
-﻿using dataRepository.Interface;
+﻿using AKchat.Services;
+using dataRepository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using ViewModels.Models;
 
@@ -12,9 +13,11 @@ namespace AKchat.Areas.user.Controllers
 
         private readonly IUserRepository _userrepo;
         private readonly IConfiguration _configuration;
-        public UserController(IUserRepository userrepo, IConfiguration configuration)
+        private readonly ChatServices _chatservices;
+        public UserController(IUserRepository userrepo, IConfiguration configuration,ChatServices chatservices)
         {
             _userrepo = userrepo;
+            _chatservices=chatservices;
             _configuration = configuration;
 
         }
@@ -22,7 +25,12 @@ namespace AKchat.Areas.user.Controllers
         [HttpPost("Register")]
         public IActionResult Register([FromBody] UserVM model)//company register
         {
-            var i = _userrepo.registerrepo(model);
+            if (_chatservices.AddUserToList(model))
+            {
+                return NoContent();
+            }
+            return BadRequest("User Name Taken");
+            /*var i = _userrepo.registerrepo(model);
             if (i > 0)
             {
                 return Ok(true);
@@ -30,7 +38,7 @@ namespace AKchat.Areas.user.Controllers
             else
             {
                 return Ok(false);
-            }
+            }*/
         }
 
         [HttpPost("UserLogin")]

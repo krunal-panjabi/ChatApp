@@ -1,24 +1,47 @@
-﻿using System.Collections.Generic;
+﻿using dataRepository.Interface;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using ViewModels.Models;
 
 namespace AKchat.Services
 {
     public class ChatServices
     {
-        private static readonly Dictionary<string, string> Users = new Dictionary<string, string>();
-        public bool AddUserToList(string userToAdd)
+        private readonly IUserRepository _userrepo;
+        private IConfiguration _config;
+        public ChatServices(IConfiguration configuration, IUserRepository userrepo)
         {
-            lock (Users)
+            _userrepo = userrepo;
+            _config = configuration;
+         
+        }
+        private static readonly Dictionary<string, string> Users = new Dictionary<string, string>();
+        public bool AddUserToList(UserVM model)
+        {
+            var valid = _userrepo.registerrepo(model);
+            if (valid == 0)
             {
-                foreach (var user in Users)
+                lock (Users)
                 {
-                    if (user.Key.ToLower() == userToAdd.ToLower())
+                    foreach (var user in Users)
                     {
-                        return false;
+                        if (user.Key.ToLower() == model.username.ToLower())
+                        {
+                            return false;
+                        }
                     }
+                    Users.Add(model.username, null);
+                    return true;
                 }
-                Users.Add(userToAdd, null);
-                return true;
+            }
+            else
+            {
+                var i=_userrepo.registerrepo(model);
+                if (i > 0)
+                {
+                    return true;
+                }
             }
         }
 

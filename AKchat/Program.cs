@@ -1,3 +1,5 @@
+using AKchat.Hubs;
+using AKchat.Services;
 using dataRepository.Interface;
 using dataRepository.Repository;
 
@@ -25,6 +27,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSingleton<ChatServices>();
+builder.Services.AddSignalR();
+
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -42,5 +47,6 @@ app.UseAuthorization();
 
 app.UseCors("AllowOrigin");
 app.MapControllers();
+app.MapHub<ChatHub>("/hubs/chat");
 
 app.Run();
