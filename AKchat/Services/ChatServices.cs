@@ -14,12 +14,11 @@ namespace AKchat.Services
         {
             _userrepo = userrepo;
             _config = configuration;
-         
         }
         private static readonly Dictionary<string, string> Users = new Dictionary<string, string>();
         public bool AddUserToList(UserVM model)
         {
-            var valid = _userrepo.registerrepo(model);
+            var valid = _userrepo.loginrepo(model);
             if (valid == 0)
             {
                 lock (Users)
@@ -31,18 +30,11 @@ namespace AKchat.Services
                             return false;
                         }
                     }
-                    Users.Add(model.username, null);
+                    Users.Add(model.username.ToLower(), null);
                     return true;
                 }
             }
-            else
-            {
-                var i=_userrepo.registerrepo(model);
-                if (i > 0)
-                {
-                    return true;
-                }
-            }
+            return false;
         }
 
         public void AddUserConnectionId(string user, string connectionId)

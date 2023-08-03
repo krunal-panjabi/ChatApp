@@ -25,12 +25,8 @@ namespace AKchat.Areas.user.Controllers
         [HttpPost("Register")]
         public IActionResult Register([FromBody] UserVM model)//company register
         {
-            if (_chatservices.AddUserToList(model))
-            {
-                return NoContent();
-            }
-            return BadRequest("User Name Taken");
-            /*var i = _userrepo.registerrepo(model);
+           
+            var i = _userrepo.registerrepo(model);
             if (i > 0)
             {
                 return Ok(true);
@@ -38,21 +34,22 @@ namespace AKchat.Areas.user.Controllers
             else
             {
                 return Ok(false);
-            }*/
+            }
         }
 
         [HttpPost("UserLogin")]
         public IActionResult Login([FromBody] UserVM model)
         {
             var i = _userrepo.loginrepo(model);
-            if (i == 0)
+            if(i == 0)
             {
-                return Ok(true);
+                if (_chatservices.AddUserToList(model))
+                {
+                    return Ok(true);
+                }
+                return Ok("Name in use");
             }
-            else
-            {
-                return Ok(false);
-            }
+            return Ok(false);
         }
 
         [HttpGet("CheckForName")]

@@ -25,25 +25,32 @@ export class LoginPageComponent implements OnInit {
   }
 
   submitForm(){
-    debugger;
     this.submitted = true ;
-
+    
     if (this.userForm.valid) {
       this.service.LoginData(this.userForm.value).subscribe({
+      
         next: (response) => {
-
-          if(response)
-          {
-            this.router.navigateByUrl('/chat')
+          console.log("the response",response);
+          if(typeof(response)=='boolean'){
+            if(response)
+            {
+              this.service.myName=this.userForm.get('username')?.value;
+              this.router.navigateByUrl('/chat')
+            }
+            else
+            {
+              this.userForm.setErrors({InvalidUser:true})
+            }
           }
-          else
-          {
-            this.userForm.setErrors({InvalidUser:true})
+          else{
+            this.userForm.setErrors({CheckUser:true})
           }
+         
           },
        
         error: (error) => {
-          // debugger;
+          this.userForm.setErrors({CheckUser:true});
           console.log('Error:', error);
           // Perform error handling, such as displaying a user-friendly message
         },
