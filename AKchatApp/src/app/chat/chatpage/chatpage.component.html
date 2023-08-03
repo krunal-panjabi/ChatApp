@@ -13,18 +13,19 @@
 
             <div class="card-header h3 text-muted text-center">Users</div>
             <div class="card-body">
-                <div class="row mt-1" >
+                <div class="row mt-1" *ngFor="let user of service.offlineUsers" >
                     <div class="col">
                         <div class="d-grid">
                             <button type="button" 
-                            class="btn btn-success card-text btn-block">{{service.myName}}<span> (you)</span></button>
+                            class="btn btn-success card-text btn-block">{{user.username}}<span> (you)</span>
+                         <span class="position-absolute pos_dot"    *ngIf="service.onlineUsers.includes(user.username)">
+                            <div class="onlinesign"></div>
+                         </span>
+                        </button>
                         </div>
                     </div>
                 </div>
-
-                
-
-
+              
             </div>
 
         </div>

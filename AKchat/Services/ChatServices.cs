@@ -41,9 +41,9 @@ namespace AKchat.Services
         {
             lock (Users)
             {
-                if (!Users.ContainsKey(user))
+                if (Users.ContainsKey(user.ToLower()))
                 {
-                    Users[user] = connectionId;
+                    Users[user.ToLower()] = connectionId;
                 }
             }
         }
@@ -67,9 +67,9 @@ namespace AKchat.Services
         {
             lock (Users)
             {
-                if (Users.ContainsKey(user))
+                if (Users.ContainsKey(user.ToLower()))
                 {
-                    Users.Remove(user);
+                    Users.Remove(user.ToLower());
                 }
             }
         }

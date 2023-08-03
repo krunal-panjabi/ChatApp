@@ -22,12 +22,13 @@ namespace AKchat.Hubs
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, "ChatApp");
+            await base.OnDisconnectedAsync(exception);
             var user = _chatServices.GetUserByConnectionId(Context.ConnectionId);
             _chatServices.RemoveUserFromList(user);
             await DisplayOnlineUsers();
 
 
-            await base.OnDisconnectedAsync(exception);
+          
         }
 
         public async Task AddUserConnectionId(string name)

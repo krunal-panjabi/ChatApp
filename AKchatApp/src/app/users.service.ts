@@ -6,12 +6,15 @@ import { environment } from 'src/environments/environment';
 import { HubConnection } from '@microsoft/signalr';
 import { HubConnectionBuilder } from '@microsoft/signalr/dist/esm/HubConnectionBuilder';
 import { HttpTransportType } from '@microsoft/signalr/dist/esm/ITransport';
+import { OfflineUsers } from './Models/OfflineUsers';
 
 @Injectable(
   // providedIn: 'root'
 )
 export class UsersService {
   myName:string ='';
+  onlineUsers:string[]=[];
+  offlineUsers:OfflineUsers[]=[];
   private chatConnection?:HubConnection;
   readonly url = "https://localhost:7239/"
   constructor(private http:HttpClient) { }
@@ -30,21 +33,48 @@ export class UsersService {
     return this.http.post(`${environment.apiUrl}User/UserLogin`, User );
   }
    
+  getAllUsers() {
+    return this.http
+      .get<OfflineUsers[]>(
+        `${environment.apiUrl}User/GetOfflineUsers`
+      )
+      .subscribe({
+        next: (data) => {
+          this.offlineUsers = data;
+          console.log('offlineUser');
+
+          console.log(this.offlineUsers);
+        },
+      });
+  }
+
   createChatConnection(){
-    alert('chatco hitted');
+
     this.chatConnection=new HubConnectionBuilder()
-    .withUrl(`${environment.apiUrl}hubs/chat`,{
+    .withUrl(`https://localhost:7239/hubs/chat`,{
       skipNegotiation:true,
       transport:HttpTransportType.WebSockets,
     }).withAutomaticReconnect().build();
 
     this.chatConnection.start().catch(error=>{
-      alert('start conn hitted');
+     
       console.log(error);
     });
+
+    this.chatConnection.on('UserConnected',()=>{
+      this.addUserConnectionId();
+    })
+    this.chatConnection.on('OnlineUsers',(onlineUsers)=>{
+      this.onlineUsers=[...onlineUsers];
+    })
   }
   stopChatConnection(){
     this.chatConnection?.stop().catch(error=>console.log(error));
+  }
+  async addUserConnectionId(){
+    return this.chatConnection?.invoke('AddUserConnectionId',this.myName)
+    .catch(error=>console.log(error));
+    
   }
   // public CheckName(username:string):Observable<any>{
   //   return this.http.post(`${environment.apiUrl}User/CheckForName`,username)

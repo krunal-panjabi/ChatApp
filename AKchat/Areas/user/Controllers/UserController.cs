@@ -67,6 +67,12 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(true);
             }
         }
+        [HttpGet("GetOfflineUsers")]
+        public List<AllUsersVm> GetAllUsers()
+        {
+            var users = _userrepo.GetAllUsers();
+            return users;
+        }
 
     }
 }

@@ -70,5 +70,27 @@ namespace dataRepository.Repository
                 return valid;
             }
         }
+        public List<AllUsersVm> GetAllUsers()
+        {
+            List<AllUsersVm> model = new List<AllUsersVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetAllUsers", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    AllUsersVm names = new AllUsersVm
+                    {
+                       username= rdr["name"].ToString()
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
+        }
     }
 }

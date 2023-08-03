@@ -13,6 +13,7 @@ namespace dataRepository.Interface
         public int registerrepo(UserVM model);
         public int checkforname(string name);
         public int loginrepo(UserVM model);
+        public List<AllUsersVm> GetAllUsers();
 
     }
 }

@@ -1,3 +1,12 @@
 .mainBody{
     height: 700px;
 }
+.pos_dot{
+    right:22px;
+}
+.onlinesign{
+    height: 10px;
+    width: 10px;
+    background: #07f107;
+    border-radius: 25px;
+}
