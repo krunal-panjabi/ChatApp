@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{toUser}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+      <div class="card users-card">
+          <div class="card-header"><h3>Messages</h3></div>
+          <div class="card-body card-messages">
+          <app-messages [messages]="service.privateMessages"></app-messages>  
+     </div>
+     <div class="card-footer">
+      <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input>
+  </div>  
+  </div>

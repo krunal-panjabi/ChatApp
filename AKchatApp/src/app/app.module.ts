@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginPageComponent } from './login-page/login-page.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterationPageComponent } from './registeration-page/registeration-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UsersService } from './users.service';
@@ -25,7 +25,8 @@ import { FooterComponent } from './footer/footer.component';
     AppRoutingModule,
     NgbModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
    providers: [UsersService],
   bootstrap: [AppComponent]

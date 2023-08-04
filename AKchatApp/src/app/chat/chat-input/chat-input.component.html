@@ -1,13 +1,13 @@
-<form #messageForm=""  autocomplete="off">
+<form #messageForm="ngForm"  autocomplete="off">
     <div class="row">
         <div class="col-9">
-            <input  type="text"  name="content" required class="form-control" placeholder="send message">
+            <input  type="text" [(ngModel)]="content" required name="content"  class="form-control" placeholder="send message">
         </div>
         <div class="col-3">
             <div class="d-grid">
-                <button class="btn btn-dark btn-block" type="submit">send</button>
+                <button [disabled]="!messageForm.valid" class="btn btn-dark btn-block" type="submit" (click)="sendMessage()">send</button>
             </div>
         </div>
     </div>
 
-</form>  
+</form> 

@@ -6,6 +6,8 @@ import { ChatComponent } from './chat.component';
 import { ChatpageComponent } from './chatpage/chatpage.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ChatInputComponent } from './chat-input/chat-input.component';
+import { FormsModule } from '@angular/forms';
+import { PrivateChatsComponent } from './private-chats/private-chats.component';
 
 
 @NgModule({
@@ -13,11 +15,13 @@ import { ChatInputComponent } from './chat-input/chat-input.component';
     ChatComponent,
     ChatpageComponent,
     MessagesComponent,
-    ChatInputComponent
+    ChatInputComponent,
+    PrivateChatsComponent
   ],
   imports: [
     CommonModule,
-    ChatRoutingModule
+    ChatRoutingModule,
+    FormsModule
   ]
 })
 export class ChatModule { }

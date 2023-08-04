@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Message } from 'src/app/Models/message';
+import { UsersService } from 'src/app/users.service';
 
 @Component({
   selector: 'app-messages',
@@ -6,5 +8,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent {
-
+@Input() messages:Message[]=[];
+constructor(private service:UsersService){
+  
+}
 }

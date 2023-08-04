@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OfflineUsers } from 'src/app/Models/OfflineUsers';
 import { UsersService } from 'src/app/users.service';
+import { PrivateChatsComponent } from '../private-chats/private-chats.component';
 
 @Component({
   selector: 'app-chatpage',
@@ -9,7 +11,7 @@ import { UsersService } from 'src/app/users.service';
 })
 export class ChatpageComponent implements OnInit,OnDestroy {
 
-  constructor(public service : UsersService) { }
+  constructor(public service : UsersService,private modalService:NgbModal) { }
   
  ngOnDestroy(): void {
   alert('destroyed');
@@ -21,5 +23,11 @@ export class ChatpageComponent implements OnInit,OnDestroy {
     this.service.getAllUsers();
     this.service.createChatConnection();
   }
-
+  sendMessage(content:string){
+    this.service.sendMessage(content);
+  }
+  openPrivateChat(toUser:string){
+   const modalRef=this.modalService.open(PrivateChatsComponent);
+   modalRef.componentInstance.toUser=toUser;
+  }
 }

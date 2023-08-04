@@ -13,12 +13,14 @@
 
             <div class="card-header h3 text-muted text-center">Users</div>
             <div class="card-body">
-                <div class="row mt-1" *ngFor="let user of service.offlineUsers" >
+                <div class="row mt-1" *ngFor="let user of service.offlineUsers">
                     <div class="col">
                         <div class="d-grid">
                             <button type="button" 
-                            class="btn btn-success card-text btn-block">{{user.username}}<span> (you)</span>
-                         <span class="position-absolute pos_dot"    *ngIf="service.onlineUsers.includes(user.username)">
+                            [disabled]="user.username === service.myName"
+                            (click)="openPrivateChat(user.username)"
+                            class="btn card-text btn-success" >{{user.username}}<span *ngIf="user.username === service.myName"> (you)</span>
+                            <span class="position-absolute pos_dot"    *ngIf="service.onlineUsers.includes(user.username)">
                             <div class="onlinesign"></div>
                          </span>
                         </button>
@@ -35,10 +37,10 @@
         <div class="card border-secondary">
             <div class="card-header h3 text-muted text-center">Messages</div>
             <div class="card-body" style="min-height: 500px;">
-                <app-messages></app-messages>
+                <app-messages [messages]="service.messages"></app-messages>
             </div>
             <div class="card-footer">
-                <app-chat-input></app-chat-input>
+                <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input>
             </div>
         </div>
     </div>
