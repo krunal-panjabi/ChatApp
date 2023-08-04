@@ -10,3 +10,18 @@
     background: #07f107;
     border-radius: 25px;
 }
+
+.cgroup{
+    background-color: yellow;
+    color: black;
+    font-weight: 500;
+}
+.hbutton{
+    
+    font-weight: 500;
+}
+
+.cpbtn{
+    border: solid gray 1px;
+    border-radius: 8px;
+}

@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OfflineUsers } from 'src/app/Models/OfflineUsers';
 import { UsersService } from 'src/app/users.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GroupCreateComponent } from '../group-create/group-create.component';
 
 @Component({
   selector: 'app-chatpage',
@@ -9,7 +11,7 @@ import { UsersService } from 'src/app/users.service';
 })
 export class ChatpageComponent implements OnInit,OnDestroy {
 
-  constructor(public service : UsersService) { }
+  constructor(public service : UsersService ,  private modalService: NgbModal) { }
   
  ngOnDestroy(): void {
   alert('destroyed');
@@ -21,5 +23,12 @@ export class ChatpageComponent implements OnInit,OnDestroy {
     this.service.getAllUsers();
     this.service.createChatConnection();
   }
+
+  openGroupModal(){
+    const modalRef = this.modalService.open(GroupCreateComponent);
+    modalRef.componentInstance;
+  }
+
+ 
 
 }
