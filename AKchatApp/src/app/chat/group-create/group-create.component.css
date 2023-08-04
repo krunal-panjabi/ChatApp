@@ -1,0 +1,9 @@
+.form-width{
+    width: 100%;
+}
+
+.grp-members{
+    border: solid grey 1px;
+    border-radius: 8px;
+    padding: 10px;
+}

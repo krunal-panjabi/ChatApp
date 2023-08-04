@@ -1,2 +1,85 @@
+.DS_STORE
 
-.vs/AKchat/FileContentIndex/596b98a6-7a6f-486b-9af7-ece949531200.vsidx
+/dist/
+/bazel-out
+/integration/bazel/bazel-*
+*.log
+/node_modules/
+
+# CircleCI temporary file for cache key computation.
+# See `save_month_to_file` in `.circleci/config.yml`.
+month.txt
+
+# Include when developing application packages.
+pubspec.lock
+.c9
+.idea/
+.devcontainer/*
+!.devcontainer/README.md
+!.devcontainer/recommended-devcontainer.json
+!.devcontainer/recommended-Dockerfile
+.settings/
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
+*.swo
+*.swp
+modules/.settings
+modules/.vscode
+.vimrc
+.nvimrc
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio 2015/2017 cache/options directory
+.vs/
+.obj/
+
+
+# Don't check in secret files
+*secret.js
+
+# Ignore npm/yarn debug log
+npm-debug.log
+yarn-error.log
+
+# build-analytics
+.build-analytics
+
+# rollup-test output
+/modules/rollup-test/dist/
+
+# User specific bazel settings
+.bazelrc.user
+
+# User specific ng-dev settings
+.ng-dev.user*
+
+.notes.md
+baseline.json
+
+# Ignore .history for the xyz.local-history VSCode extension
+.history
+
+# Husky
+.husky/_
+aio/content/examples/.DS_Store
+/.vs/AKchat/DesignTimeBuild/.dtbcache.v2
+/.vs/AKchat/v17/.futdcache.v2
+/.vs/AKchat/v17/.suo
+/.vs/ProjectEvaluation/akchat.metadata.v7.bin
+/.vs/ProjectEvaluation/akchat.projects.v7.bin
+/AKchat/obj/Debug/net7.0/AKchat.csproj.AssemblyReference.cache
+/dataRepository/obj/Debug/net7.0/dataRepository.csproj.AssemblyReference.cache
+/Models/obj/Debug/net7.0/Models.assets.cache
+/Models/obj/Debug/net7.0/Models.GeneratedMSBuildEditorConfig.editorconfig

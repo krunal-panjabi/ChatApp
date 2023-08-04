@@ -6,7 +6,8 @@ import { ChatComponent } from './chat.component';
 import { ChatpageComponent } from './chatpage/chatpage.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ChatInputComponent } from './chat-input/chat-input.component';
-import { FormsModule } from '@angular/forms';
+import { GroupCreateComponent } from './group-create/group-create.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrivateChatsComponent } from './private-chats/private-chats.component';
 
 
@@ -16,12 +17,14 @@ import { PrivateChatsComponent } from './private-chats/private-chats.component';
     ChatpageComponent,
     MessagesComponent,
     ChatInputComponent,
-    PrivateChatsComponent
+    PrivateChatsComponent,
+    GroupCreateComponent
   ],
   imports: [
     CommonModule,
     ChatRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ChatModule { }
