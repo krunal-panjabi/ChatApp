@@ -6,11 +6,14 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using ViewModels.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace dataRepository.Repository
 {
+
+
     public class UserRepository : IUserRepository
     {
         public string connections = "server=192.168.2.59\\SQL2019;Database=AKchat;User Id=sa;Password=Tatva@123;Encrypt=False";
