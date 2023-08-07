@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from 'src/app/users.service';
-
 @Component({
   selector: 'app-private-chats',
   templateUrl: './private-chats.component.html',

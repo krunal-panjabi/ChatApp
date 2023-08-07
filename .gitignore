@@ -83,3 +83,9 @@ aio/content/examples/.DS_Store
 /dataRepository/obj/Debug/net7.0/dataRepository.csproj.AssemblyReference.cache
 /Models/obj/Debug/net7.0/Models.assets.cache
 /Models/obj/Debug/net7.0/Models.GeneratedMSBuildEditorConfig.editorconfig
+/AKchat/obj/Debug/net7.0/AKchat.csproj.AssemblyReference.cache
+/AKchat/obj/Debug/net7.0/AKchat.GeneratedMSBuildEditorConfig.editorconfig
+/dataRepository/obj/Debug/net7.0/dataRepository.GeneratedMSBuildEditorConfig.editorconfig
+/.vs/AKchat/v17/.suo
+/ViewModels/obj/Debug/net7.0/ViewModels.csproj.AssemblyReference.cache
+/ViewModels/obj/Debug/net7.0/ViewModels.GeneratedMSBuildEditorConfig.editorconfig

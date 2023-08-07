@@ -5,8 +5,6 @@ import { UsersService } from 'src/app/users.service';
 import { GroupCreateComponent } from '../group-create/group-create.component';
 import { PrivateChatsComponent } from '../private-chats/private-chats.component';
 
-
-
 @Component({
   selector: 'app-chatpage',
   templateUrl: './chatpage.component.html',
@@ -22,7 +20,7 @@ export class ChatpageComponent implements OnInit,OnDestroy {
  }
 
   ngOnInit(): void {
-    alert("here hitted");
+    
     this.service.getAllUsers();
     this.service.createChatConnection();
   }
@@ -32,6 +30,18 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   openPrivateChat(toUser:string){
    const modalRef=this.modalService.open(PrivateChatsComponent);
    modalRef.componentInstance.toUser=toUser;
+ 
+   this.service.loadprivatechats(toUser);
+  //  this.service.loadprivatechats(toUser, this.service.myName).subscribe({
+  //   next: (data) => {
+  //     this.service.privateMessages = data;
+  //     console.log('the previous message', data);
+  //   },
+  //   error: (error) => {
+  //     console.error('Error loading private chats', error);
+  //   }
+  // });
+
   }
 
   openGroupModal(){
@@ -39,6 +49,5 @@ export class ChatpageComponent implements OnInit,OnDestroy {
     modalRef.componentInstance;
   }
 
- 
 
 }

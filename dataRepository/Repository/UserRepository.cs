@@ -12,8 +12,6 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace dataRepository.Repository
 {
-
-
     public class UserRepository : IUserRepository
     {
         public string connections = "server=192.168.2.59\\SQL2019;Database=AKchat;User Id=sa;Password=Tatva@123;Encrypt=False";
@@ -32,6 +30,19 @@ namespace dataRepository.Repository
                 int i = cmd.ExecuteNonQuery();
 
                 return i;
+            }
+        }
+        public void storechat(MessageVM model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("SendMessage", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@fromname", model.From);
+                cmd.Parameters.AddWithValue("@toname", model.To);
+                cmd.Parameters.AddWithValue("@message", model.Content);
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
             }
         }
         public int checkforname(string name)
@@ -83,10 +94,36 @@ namespace dataRepository.Repository
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
-                {
+                {   
                     AllUsersVm names = new AllUsersVm
                     {
                        username= rdr["name"].ToString()
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
+        }
+        public List<MessageVM> loadprivatechat(string from ,string to)
+        {
+            List<MessageVM> model = new List<MessageVM>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("loadprivatechat", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@fromname", from);
+                cmd.Parameters.AddWithValue("@toname", to);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    MessageVM names = new MessageVM
+                    {
+                        From= rdr["fromusername"].ToString(),
+                        To= rdr["tousername"].ToString(),
+                        Content = rdr["message"].ToString()
                     };
 
                     model.Add(names);

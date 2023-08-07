@@ -1,4 +1,5 @@
 ﻿using AKchat.Services;
+using dataRepository.Interface;
 using Microsoft.AspNetCore.SignalR;
 using ViewModels.Models;
 
@@ -6,9 +7,11 @@ namespace AKchat.Hubs
 {
     public class ChatHub : Hub
     {
+        private readonly IUserRepository _userrepo;
         private readonly ChatServices _chatServices;
-        public ChatHub(ChatServices chatServices)
+        public ChatHub(ChatServices chatServices,IUserRepository userrepo)
         {
+            _userrepo = userrepo;
             _chatServices = chatServices;
         }
 
@@ -44,6 +47,7 @@ namespace AKchat.Hubs
 
         public async Task CreatePrivateChat(MessageVM message)
         {
+            _userrepo.storechat(message);
             string privateGroupName = GetPrivateGroupName(message.From, message.To);
             await Groups.AddToGroupAsync(Context.ConnectionId, privateGroupName);
             var toConnectionId = _chatServices.GetConnectionIdByUser(message.To);
@@ -56,6 +60,7 @@ namespace AKchat.Hubs
 
         public async Task ReceivePrivateMessage(MessageVM message)
         {
+            _userrepo.storechat(message);
             string privateGroupName = GetPrivateGroupName(message.From, message.To);
             await Clients.Group(privateGroupName).SendAsync("NewPrivateMessage", message);
         }

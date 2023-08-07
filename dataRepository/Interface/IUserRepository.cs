@@ -14,6 +14,7 @@ namespace dataRepository.Interface
         public int checkforname(string name);
         public int loginrepo(UserVM model);
         public List<AllUsersVm> GetAllUsers();
-
+        public void storechat(MessageVM model);
+        public List<MessageVM> loadprivatechat(string from, string to);
     }
 }

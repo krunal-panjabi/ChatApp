@@ -73,6 +73,12 @@ namespace AKchat.Areas.user.Controllers
             var users = _userrepo.GetAllUsers();
             return users;
         }
+        [HttpGet("LoadInitialPrivateChat")]
+        public List<MessageVM> LoadInitialPrivateChat(string fromUser, string toUser)
+        {
+            var messages = _userrepo.loadprivatechat(fromUser, toUser);
+            return messages;
+        }
 
     }
 }

@@ -54,6 +54,25 @@ export class UsersService {
       });
   }
 
+  intitializeloadprivatechats(toUser:string, fromUser:string) :Observable<Message[]> {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    let params= new HttpParams()
+    params = params.append('toUser', toUser);
+    params = params.append('fromUser', fromUser);
+    return this.http.get<Message[]>(`${environment.apiUrl}User/LoadInitialPrivateChat`,{ 'headers': headers, 'params': params });
+  }
+
+  loadprivatechats(toUser:string){
+    this.intitializeloadprivatechats(toUser,this.myName).subscribe({
+      next:(data)=>{
+        this.privateMessages=data;
+      },
+      error:(error)=>{
+        console.error('error loading private chats',error);
+      }
+    });
+  }
+  
   createChatConnection(){
 
     this.chatConnection=new HubConnectionBuilder()
@@ -80,8 +99,10 @@ export class UsersService {
     this.chatConnection.on('OpenPrivateChat',(newMessage:Message)=>{
       this.privateMessages=[...this.privateMessages,newMessage];
       this.privateMessageInitiated=true;
+     this.loadprivatechats(newMessage.from);
       const modalRef=this.modalService.open(PrivateChatsComponent);
       modalRef.componentInstance.toUser=newMessage.from;
+
     });
 
       this.chatConnection.on('NewPrivateMessage',(newMessage:Message)=>{
@@ -120,12 +141,16 @@ export class UsersService {
       to:to
     };
     if(!this.privateMessageInitiated){
+      alert('if hitted');
+      this.loadprivatechats(to);
       this.privateMessageInitiated=true; //if they have started talking with each other
       return this.chatConnection?.invoke('CreatePrivateChat',message).then(()=>{
         this.privateMessages=[...this.privateMessages,message];
       })
       .catch(error=>console.log(error));
     }else{
+      alert('else hitted');
+      this.privateMessages = [...this.privateMessages, message];
       return this.chatConnection?.invoke('ReceivePrivateMessage',message)
       .catch(error=>console.log(error));
     }
@@ -134,9 +159,6 @@ export class UsersService {
     return this.chatConnection?.invoke('RemovePrivateChat',this.myName,otherUser)
     .catch(error=>console.log(error));
   }
-  // public CheckName(username:string):Observable<any>{
-  //   return this.http.post(`${environment.apiUrl}User/CheckForName`,username)
-  // }    const headers = new HttpHeaders({ 'content-type': 'application/json' });
-    // const params = new HttpParams().set("email", email);
-    // return this.http.get(`${environment.apiUrl}Account/ValidateEmail`,{ 'headers': headers, 'params': params })
+
+
 }
