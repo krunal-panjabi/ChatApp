@@ -11,6 +11,7 @@ namespace dataRepository.Interface
     public interface IUserRepository
     {
         public int registerrepo(UserVM model);
+        public int creategroup(string grpname,string members);
         public int checkforname(string name);
         public int loginrepo(UserVM model);
         public List<AllUsersVm> GetAllUsers();

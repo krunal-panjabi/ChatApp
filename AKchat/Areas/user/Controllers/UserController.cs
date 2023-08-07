@@ -80,5 +80,22 @@ namespace AKchat.Areas.user.Controllers
             return messages;
         }
 
+
+
+        [HttpPost("CreateGroup")]
+        public IActionResult CreateGroup(string grpname , string members)//company register
+        {
+
+            var i = _userrepo.creategroup(grpname,members);
+            if (i > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
+
     }
 }

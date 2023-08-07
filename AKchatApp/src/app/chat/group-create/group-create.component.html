@@ -10,27 +10,41 @@
         <div class="d-flex justify-content-center mainBody">
             <div class="col-12 col-lg-5 form-width">
                 <main class="form-signin">
-                    <form [formGroup]="groupForm"(ngSubmit)="submitForm()" autocomplete="off" class="p-3 border">
+                    <form [formGroup]="groupForm" autocomplete="off" class="p-3 border">
                         <h4>Enter Group Name</h4>
                         <div class="form-floating mb-3">
-                            <input formControlName="username" type="text" class="form-control" placeholder="Name" 
+                            <input formControlName="username" [(ngModel)]="grpname" type="text" class="form-control" placeholder="Name" 
                             >
                             <label for="Name">Group Name</label>
                         </div>
                         <h4>Select Members</h4>
-                        <div class="form-floating mb-3">
+                        <div class="form-group">
+                            <label for="offlineUsers">Offline Users:</label>
+                            <div *ngFor="let user of service.offlineUsers">
+                              <label>
+                                <input type="checkbox"
+                                       name="offlineUsers"
+                                       (change)="updateSelectedUsers(user, $event)"
+                                 />
+                                {{  user.username }}
+                              </label>
+                            </div>
+                          </div>
+                          <button (click)="getSelectedUsers()">Get Selected Users</button>
+                          
+                        <!-- <div class="form-floating mb-3" *ngFor="let user of service.offlineUsers; let i = index">
                             <div class="form-check border grp-members">
-                                <input mdbCheckboxclass="form-check-input"type="checkbox"value=""id="flexCheckDefault"/>
-                                <label class="form-check-label ms-3" for="flexCheckDefault">
-                                  Default checkbox
+                                <input  [formControlName]="i.toString()" mdbCheckboxclass="form-check-input"type="checkbox"value=""id="{{ 'flexCheckDefault' + i }}"/>
+                                <label class="form-check-label ms-3" for="{{ 'flexCheckDefault' + i }}">
+                                    {{user.username}}
                                 </label>
                               </div>
-                        </div>
+                        </div> -->
     
-        
+<!--         
                         <div class="d-grid mt-4 px-4">
                             <button class="btn btn-primary" type="submit">Register</button>
-                        </div>
+                        </div> -->
         
                         
                     </form>

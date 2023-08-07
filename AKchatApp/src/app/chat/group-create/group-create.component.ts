@@ -1,7 +1,8 @@
 import { Component,OnInit} from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { group } from 'src/app/Models/group';
 import { UsersService } from 'src/app/users.service';
 
 
@@ -12,25 +13,97 @@ import { UsersService } from 'src/app/users.service';
 })
 export class GroupCreateComponent  {
   submitted = false;
-
+  grpname:string='';
+  selectedUsers: string[] = [];
   groupForm : FormGroup = new FormGroup({});
+  allnames:string='';
+  group:group | undefined;
 
-  /**
-   *
-   */
-  constructor(public activeModal: NgbActiveModal, private formBuilder : FormBuilder,private service : UsersService ) {
+  constructor(public activeModal: NgbActiveModal, private formBuilder : FormBuilder,public service : UsersService ) {
+    this.groupForm = this.formBuilder.group({
+      username: [''],
+      members: this.formBuilder.array([]),
+    });
   }
 
-  submitForm(){
-    this.submitted = true ;
+  get membersArray(): FormArray {
+    return this.groupForm.get('members') as FormArray;
+  }
 
-    if(this.groupForm.valid){
-      this.service.postData(this.groupForm.value).subscribe(data =>{
-        alert("added");
-        this.groupForm.reset();
-      })
+  
+
+  ngOnInit(): void {
+
+    this.service.offlineUsers.forEach((user) => {
+      this.membersArray.push(new FormControl(false)); // Initialize unchecked
+    });
+    alert("here hitted");
+    this.service.getAllUsers();
+   
+  }
+  updateSelectedUsers(user: any, event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      console.log("this is user name",user.username);
+      this.selectedUsers.push(user.username);
+
+    } else {
+      const index = this.selectedUsers.indexOf(user.userName);
+      if (index !== -1) {
+        this.selectedUsers.splice(index, 1);
+      }
     }
   }
+ 
+  
+  
+  getSelectedUsers() {
+     this.allnames = this.selectedUsers.join(',');
+    // console.log("this is list of selected users and grpname",this.allnames,this.grpname);
+
+    
+      this.service.createGroup(this.grpname, this.allnames).subscribe(
+        (response) => {
+          console.log('Group created:', response);
+          // Handle success, display messages, etc.
+          // Close the modal or perform other actions
+          this.activeModal.close('Group created successfully');
+        },
+        (error) => {
+          console.error('Error creating group:', error);
+          // Handle error, display error messages, etc.
+        }
+      );
+    }
+  
+ 
+
+
+
+
+
+
+
+  // submitForm() {
+  //   if (this.groupForm.valid) {
+  //     const formData = this.groupForm.value;
+
+  //     const selectedMembers = this.membersArray.controls
+  //       .map((control, index) => control.value ? this.service.offlineUsers[index].username : null)
+  //       .filter(username => username !== null);
+
+  //     formData.members = selectedMembers;
+  //     console.log('members',this.membersArray)
+
+  //   }
+  // }
+
+
+
+
+
+
+
 
 
   }

@@ -10,6 +10,7 @@ import { OfflineUsers } from './Models/OfflineUsers';
 import { Message } from './Models/message';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PrivateChatsComponent } from './chat/private-chats/private-chats.component';
+import { group } from './Models/group';
 
 @Injectable(
   // providedIn: 'root'
@@ -28,6 +29,22 @@ export class UsersService {
   public postData(User: user): Observable<any> {
     return this.http.post(`${environment.apiUrl}User/Register`, User );
   }
+
+
+  // public createGroup(grpname: string, members: string[]): Observable<any> {
+  //   const model = { grpname, members };
+  //   console.log("ready to go to api");
+  //   return this.http.post(`${environment.apiUrl}User/CreateGroup`, model );
+  // }
+
+  createGroup(grpname:string, members:string) :Observable<any> {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    let params= new HttpParams()
+    params = params.append('grpname', grpname);
+    params = params.append('members', members);
+    return this.http.post<Message[]>(`${environment.apiUrl}User/CreateGroup`,{ 'headers': headers, 'params': params });
+  }
+
 
   CheckName(username: string): Observable<any> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
