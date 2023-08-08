@@ -4,6 +4,7 @@ import { OfflineUsers } from 'src/app/Models/OfflineUsers';
 import { UsersService } from 'src/app/users.service';
 import { GroupCreateComponent } from '../group-create/group-create.component';
 import { PrivateChatsComponent } from '../private-chats/private-chats.component';
+import { GroupChatComponent } from '../group-chat/group-chat.component';
 
 @Component({
   selector: 'app-chatpage',
@@ -22,6 +23,7 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     
     this.service.getAllUsers();
+    this.service.getAllGroups(this.service.myName);
     this.service.createChatConnection();
   }
   sendMessage(content:string){
@@ -42,6 +44,12 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   //   }
   // });
 
+  }
+
+
+  openGroupChat(GroupName:string){
+    const modalRef=this.modalService.open(GroupChatComponent);
+    modalRef.componentInstance.GroupName=GroupName;
   }
 
   openGroupModal(){

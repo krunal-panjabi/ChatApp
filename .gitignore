@@ -89,3 +89,5 @@ aio/content/examples/.DS_Store
 /.vs/AKchat/v17/.suo
 /ViewModels/obj/Debug/net7.0/ViewModels.csproj.AssemblyReference.cache
 /ViewModels/obj/Debug/net7.0/ViewModels.GeneratedMSBuildEditorConfig.editorconfig
+/AKchat/obj/Debug/net7.0/AKchat.csproj.AssemblyReference.cache
+/ViewModels/obj/Debug/net7.0/ViewModels.csproj.AssemblyReference.cache

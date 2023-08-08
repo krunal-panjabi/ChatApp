@@ -7,3 +7,51 @@
     border-radius: 8px;
     padding: 10px;
 }
+.ucheckbox{
+    margin-right: 20px;
+    margin-left: 10px
+}
+
+/* .userlist{
+    background-color: blue;
+    opacity: 0.5;
+}
+
+.usercheck{
+    opacity: 1;
+    z-index: 2;
+} */
+
+
+.userlist {
+    position: relative;
+    background-color: blue;
+    opacity: 0.5;
+    margin-bottom: 5px;
+    border: solid blue 2px;
+    border-radius: 10px;
+    /* Other styling for the container */
+  }
+  
+  .userlist::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: blue;
+    opacity: 0.5;
+    pointer-events: none; /* Prevents the pseudo-element from blocking interaction */
+    border: solid blue 2px;
+    border-radius: 10px;
+
+  }
+  
+  .usercheck {
+    position: relative;
+    z-index: 1;
+    opacity: 1;
+    color: white;
+    /* Other styling for the text */
+  }

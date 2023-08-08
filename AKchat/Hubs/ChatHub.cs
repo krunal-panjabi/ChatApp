@@ -44,6 +44,15 @@ namespace AKchat.Hubs
         {
             await Clients.Group("ChatApp").SendAsync("NewMessage", message);
         }
+        public async Task ReceiveGrpMessage(GroupMsgVm message)
+        {
+            MessageVM model = new MessageVM
+            {
+                From = message.from,
+                Content=message.content
+            };
+            await Clients.Group("ChatApp1").SendAsync("NewGrpMessage", model);
+        }
 
         public async Task CreatePrivateChat(MessageVM message)
         {
@@ -57,6 +66,7 @@ namespace AKchat.Hubs
             await Clients.Client(toConnectionId).SendAsync("OpenPrivateChat", message);
 
         }
+
 
         public async Task ReceivePrivateMessage(MessageVM message)
         {

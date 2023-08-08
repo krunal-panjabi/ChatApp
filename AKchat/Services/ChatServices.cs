@@ -64,7 +64,7 @@ namespace AKchat.Services
         }
 
         public void RemoveUserFromList(string user)
-        {
+      {
             lock (Users)
             {
                 if (Users.ContainsKey(user.ToLower()))
