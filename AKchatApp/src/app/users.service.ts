@@ -93,6 +93,7 @@ export class UsersService {
       this.onlineUsers=[...onlineUsers];
     });
     this.chatConnection.on('NewMessage',(newMessage:Message)=>{
+      alert('newmessage hitted');
     this.messages=[...this.messages,newMessage];
     });
 
