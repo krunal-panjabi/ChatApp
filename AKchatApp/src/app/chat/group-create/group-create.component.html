@@ -19,7 +19,7 @@
                         <div class="form-group">
                             <label for="offlineUsers">All Users :</label>
                             <div class="userlist" *ngFor="let user of service.offlineUsers">
-                                <label class="usercheck" >
+                                <label class="usercheck" *ngIf="service.myName !== user.username">
                                     <input class="ucheckbox" type="checkbox" name="offlineUsers"
                                         (change)="updateSelectedUsers(user, $event)" />
                                     {{ user.username }}
@@ -39,7 +39,7 @@
 
 
                         <div class="d-grid mt-4 px-4">
-                            <button (click)="getSelectedUsers()" class="btn btn-primary">Register</button>
+                            <button (click)="getSelectedUsers()" class="btn btn-primary">Create Group</button>
                         </div>
 
 

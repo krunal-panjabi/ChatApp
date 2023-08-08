@@ -58,6 +58,7 @@ export class GroupCreateComponent  {
   
   
   getSelectedUsers() {
+    this.selectedUsers.push(this.service.myName);
      this.allnames = this.selectedUsers.join(',');
     // console.log("this is list of selected users and grpname",this.allnames,this.grpname);
 
@@ -65,17 +66,15 @@ export class GroupCreateComponent  {
       this.service.createGroup(this.grpname, this.allnames).subscribe(
         (response) => {
           console.log('Group created:', response);
-          // Handle success, display messages, etc.
-          // Close the modal or perform other actions
           this.activeModal.close('Group created successfully');
           this.service.getAllGroups(this.service.myName);
 
         },
         (error) => {
           console.error('Error creating group:', error);
-          // Handle error, display error messages, etc.
         }
       );
+      this.service.getAllGroups(this.service.myName);
     }
   
  
