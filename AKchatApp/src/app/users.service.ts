@@ -11,23 +11,27 @@ import { Message } from './Models/message';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PrivateChatsComponent } from './chat/private-chats/private-chats.component';
 import { group } from './Models/group';
+import { groupname } from './Models/groupname';
+import { groupmodel } from './Models/groupmodel';
 
 @Injectable(
   // providedIn: 'root'
 )
 export class UsersService {
-  myName:string ='';
-  onlineUsers:string[]=[];
-  offlineUsers:OfflineUsers[]=[];
-  messages:Message[]=[];
-  private chatConnection?:HubConnection;
-  privateMessages: Message[]=[];
-  privateMessageInitiated=false;
+  myName: string = '';
+  onlineUsers: string[] = [];
+  offlineUsers: OfflineUsers[] = [];
+  groups : groupname[]=[];
+  messages: Message[] = [];
+  grpmessages: Message[] = [];
+  private chatConnection?: HubConnection;
+  privateMessages: Message[] = [];
+  privateMessageInitiated = false;
   readonly url = "https://localhost:7239/"
-  constructor(private http:HttpClient,private modalService:NgbModal) { }
+  constructor(private http: HttpClient, private modalService: NgbModal) { }
 
   public postData(User: user): Observable<any> {
-    return this.http.post(`${environment.apiUrl}User/Register`, User );
+    return this.http.post(`${environment.apiUrl}User/Register`, User);
   }
 
 
@@ -37,25 +41,22 @@ export class UsersService {
   //   return this.http.post(`${environment.apiUrl}User/CreateGroup`, model );
   // }
 
-  createGroup(grpname:string, members:string) :Observable<any> {
-    const headers = new HttpHeaders({ 'content-type': 'application/json' });
-    let params= new HttpParams()
-    params = params.append('grpname', grpname);
-    params = params.append('members', members);
-    return this.http.post<Message[]>(`${environment.apiUrl}User/CreateGroup`,{ 'headers': headers, 'params': params });
+  createGroup(grpname: string, members: string): Observable<any> {
+    const group = { groupName: grpname, members: members }
+    return this.http.post<Message[]>(`${environment.apiUrl}User/CreateGroup`, group);
   }
 
 
   CheckName(username: string): Observable<any> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", username);
-    return this.http.get(`${environment.apiUrl}User/CheckForName`,{ 'headers': headers, 'params': params })
+    return this.http.get(`${environment.apiUrl}User/CheckForName`, { 'headers': headers, 'params': params })
   }
 
   public LoginData(User: user): Observable<any> {
-    return this.http.post(`${environment.apiUrl}User/UserLogin`, User );
+    return this.http.post(`${environment.apiUrl}User/UserLogin`, User);
   }
-   
+
   getAllUsers() {
     return this.http
       .get<OfflineUsers[]>(
@@ -71,111 +72,155 @@ export class UsersService {
       });
   }
 
-  intitializeloadprivatechats(toUser:string, fromUser:string) :Observable<Message[]> {
+  getAllGroups(username: string) {
+    alert('egtAll groups hitted');
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
-    let params= new HttpParams()
-    params = params.append('toUser', toUser);
-    params = params.append('fromUser', fromUser);
-    return this.http.get<Message[]>(`${environment.apiUrl}User/LoadInitialPrivateChat`,{ 'headers': headers, 'params': params });
+    const params = new HttpParams().set("username", username);
+    return this.http.get<groupname[]>(`${environment.apiUrl}User/GetGroups`, { 'headers': headers, 'params': params }).subscribe({
+      next: (data) => {
+        console.log("groupnames",data);
+        this.groups = data;
+        console.log("group",this.groups);
+      },
+    });
   }
 
-  loadprivatechats(toUser:string){
-    this.intitializeloadprivatechats(toUser,this.myName).subscribe({
-      next:(data)=>{
-        this.privateMessages=data;
+
+
+  intitializeloadprivatechats(toUser: string, fromUser: string): Observable<Message[]> {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    let params = new HttpParams()
+    params = params.append('toUser', toUser);
+    params = params.append('fromUser', fromUser);
+    return this.http.get<Message[]>(`${environment.apiUrl}User/LoadInitialPrivateChat`, { 'headers': headers, 'params': params });
+  }
+
+  loadprivatechats(toUser: string) {
+    this.intitializeloadprivatechats(toUser, this.myName).subscribe({
+      next: (data) => {
+        this.privateMessages = data;
       },
-      error:(error)=>{
-        console.error('error loading private chats',error);
+      error: (error) => {
+        console.error('error loading private chats', error);
       }
     });
   }
-  
-  createChatConnection(){
 
-    this.chatConnection=new HubConnectionBuilder()
-    .withUrl(`https://localhost:7239/hubs/chat`,{
-      skipNegotiation:true,
-      transport:HttpTransportType.WebSockets,
-    }).withAutomaticReconnect().build();
+  createChatConnection() {
 
-    this.chatConnection.start().catch(error=>{
-     
+    this.chatConnection = new HubConnectionBuilder()
+      .withUrl(`https://localhost:7239/hubs/chat`, {
+        skipNegotiation: true,
+        transport: HttpTransportType.WebSockets,
+      }).withAutomaticReconnect().build();
+
+    this.chatConnection.start().catch(error => {
+
       console.log(error);
     });
 
-    this.chatConnection.on('UserConnected',()=>{
+    this.chatConnection.on('UserConnected', () => {
       this.addUserConnectionId();
     });
-    this.chatConnection.on('OnlineUsers',(onlineUsers)=>{
-      this.onlineUsers=[...onlineUsers];
+    this.chatConnection.on('OnlineUsers', (onlineUsers) => {
+      this.onlineUsers = [...onlineUsers];
     });
-    this.chatConnection.on('NewMessage',(newMessage:Message)=>{
-    this.messages=[...this.messages,newMessage];
-    });
-
-    this.chatConnection.on('OpenPrivateChat',(newMessage:Message)=>{
-      this.privateMessages=[...this.privateMessages,newMessage];
-      this.privateMessageInitiated=true;
-     this.loadprivatechats(newMessage.from);
-      const modalRef=this.modalService.open(PrivateChatsComponent);
-      modalRef.componentInstance.toUser=newMessage.from;
-
+    this.chatConnection.on('NewMessage', (newMessage: Message) => {
+      this.messages = [...this.messages, newMessage];
     });
 
-      this.chatConnection.on('NewPrivateMessage',(newMessage:Message)=>{
-        this.privateMessages=[...this.privateMessages,newMessage];
-        });
+    this.chatConnection.on('NewGrpMessage', (newMessage: Message) => {
+      alert('newgrp hitted ....kk');
+      this.grpmessages = [...this.grpmessages, newMessage];
+      console.log("this are message",this.grpmessages);
+    });
 
-        this.chatConnection.on('ClosePrivateChat',()=>{
-         this.privateMessageInitiated=false;
-         this.privateMessages=[];
-         this.modalService.dismissAll();
-          });
+    this.chatConnection.on('OpenPrivateChat', (newMessage: Message) => {
+      this.privateMessages = [...this.privateMessages, newMessage];
+      this.privateMessageInitiated = true;
+      this.loadprivatechats(newMessage.from);
+      const modalRef = this.modalService.open(PrivateChatsComponent);
+      modalRef.componentInstance.toUser = newMessage.from;
+
+    });
+
+    this.chatConnection.on('NewPrivateMessage', (newMessage: Message) => {
+      this.privateMessages = [...this.privateMessages, newMessage];
+    });
+
+    this.chatConnection.on('ClosePrivateChat', () => {
+      this.privateMessageInitiated = false;
+      this.privateMessages = [];
+      this.modalService.dismissAll();
+    });
   }
-  stopChatConnection(){
-    this.chatConnection?.stop().catch(error=>console.log(error));
+  stopChatConnection() {
+    this.chatConnection?.stop().catch(error => console.log(error));
   }
-  async addUserConnectionId(){
-    return this.chatConnection?.invoke('AddUserConnectionId',this.myName)
-    .catch(error=>console.log(error));
-    
+  async addUserConnectionId() {
+    return this.chatConnection?.invoke('AddUserConnectionId', this.myName)
+      .catch(error => console.log(error));
+
   }
-  async sendMessage(content:string){
+  async sendMessage(content: string) {
     console.log("send message called");
-    const message:Message={
-      from:this.myName,
-      content:content
+    const message: Message = {
+      from: this.myName,
+      content: content
     };
 
-    return this.chatConnection?.invoke('ReceiveMessage',message)
-    .catch(error=>console.log(error));
-    
+    return this.chatConnection?.invoke('ReceiveMessage', message)
+      .catch(error => console.log(error));
+
   }
-  async sendPrivateMessage(to:string,content:string){
-    const message:Message={
-      from:this.myName,
-      content:content,
-      to:to
+
+  async sendGrpMessage(content: string,gname:string) {
+    alert("send message called");
+    const message: groupmodel = {
+      from: this.myName,
+      content: content,
+      grpname:gname
     };
-    if(!this.privateMessageInitiated){
+
+    return this.chatConnection?.invoke('ReceiveGrpMessage', message)
+      .catch(error => console.log(error));
+
+  }
+
+
+
+
+
+
+
+  async sendPrivateMessage(to: string, content: string) {
+    const message: Message = {
+      from: this.myName,
+      content: content,
+      to: to
+    };
+    if (!this.privateMessageInitiated) {
       alert('if hitted');
       this.loadprivatechats(to);
-      this.privateMessageInitiated=true; //if they have started talking with each other
-      return this.chatConnection?.invoke('CreatePrivateChat',message).then(()=>{
-        this.privateMessages=[...this.privateMessages,message];
+      this.privateMessageInitiated = true; //if they have started talking with each other
+      return this.chatConnection?.invoke('CreatePrivateChat', message).then(() => {
+        this.privateMessages = [...this.privateMessages, message];
       })
-      .catch(error=>console.log(error));
-    }else{
+        .catch(error => console.log(error));
+    } else {
       alert('else hitted');
       this.privateMessages = [...this.privateMessages, message];
-      return this.chatConnection?.invoke('ReceivePrivateMessage',message)
-      .catch(error=>console.log(error));
+      return this.chatConnection?.invoke('ReceivePrivateMessage', message)
+        .catch(error => console.log(error));
     }
   }
-  async closePrivateChatMesage(otherUser:string){
-    return this.chatConnection?.invoke('RemovePrivateChat',this.myName,otherUser)
-    .catch(error=>console.log(error));
+  async closePrivateChatMesage(otherUser: string) {
+    return this.chatConnection?.invoke('RemovePrivateChat', this.myName, otherUser)
+      .catch(error => console.log(error));
   }
+
+
+
 
 
 }

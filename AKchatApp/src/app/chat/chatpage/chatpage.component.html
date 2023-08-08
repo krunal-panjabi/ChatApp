@@ -32,6 +32,18 @@
                     </div>
                 </div>
 
+                        <!-- for groups -->
+                <div class="row mt-1" *ngFor="let grp of service.groups">
+                    <div class="col">
+                        <div class="d-grid">
+                            <button  (click)="openGroupChat(grp.groupname)" type="button" class="btn card-text btn-primary" >{{grp.groupname}}<span class="ms-2"> (Group)</span>
+                         
+                        </button>
+                        </div>
+                    </div>
+                </div>
+                        <!-- for groups ends -->
+
                 
 
 

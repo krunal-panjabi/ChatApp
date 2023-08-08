@@ -68,6 +68,8 @@ export class GroupCreateComponent  {
           // Handle success, display messages, etc.
           // Close the modal or perform other actions
           this.activeModal.close('Group created successfully');
+          this.service.getAllGroups(this.service.myName);
+
         },
         (error) => {
           console.error('Error creating group:', error);

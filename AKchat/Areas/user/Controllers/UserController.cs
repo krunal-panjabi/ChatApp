@@ -73,6 +73,17 @@ namespace AKchat.Areas.user.Controllers
             var users = _userrepo.GetAllUsers();
             return users;
         }
+
+
+        [HttpGet("GetGroups")]
+        public List<AllGroupsVm> GetGroups(string username)
+        {
+            var grpnames = _userrepo.GetAllGroupsName(username);
+            return grpnames;
+        }
+
+
+
         [HttpGet("LoadInitialPrivateChat")]
         public List<MessageVM> LoadInitialPrivateChat(string fromUser, string toUser)
         {
@@ -81,12 +92,11 @@ namespace AKchat.Areas.user.Controllers
         }
 
 
-
         [HttpPost("CreateGroup")]
-        public IActionResult CreateGroup(string grpname , string members)//company register
+        public IActionResult CreateGroup([FromBody] GroupVM model)//company register
         {
-
-            var i = _userrepo.creategroup(grpname,members);
+            
+            var i = _userrepo.creategroup(model.groupName,model.members);
             if (i > 0)
             {
                 return Ok(true);

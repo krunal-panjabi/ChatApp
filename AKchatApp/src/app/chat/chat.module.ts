@@ -9,6 +9,7 @@ import { ChatInputComponent } from './chat-input/chat-input.component';
 import { GroupCreateComponent } from './group-create/group-create.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrivateChatsComponent } from './private-chats/private-chats.component';
+import { GroupChatComponent } from './group-chat/group-chat.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { PrivateChatsComponent } from './private-chats/private-chats.component';
     MessagesComponent,
     ChatInputComponent,
     PrivateChatsComponent,
-    GroupCreateComponent
+    GroupCreateComponent,
+    GroupChatComponent
   ],
   imports: [
     CommonModule,

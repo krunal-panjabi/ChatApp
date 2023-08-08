@@ -106,6 +106,29 @@ namespace dataRepository.Repository
             }
             return model;
         }
+        public List<AllGroupsVm> GetAllGroupsName(string username)
+        {
+            List<AllGroupsVm> model = new List<AllGroupsVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("FetchGrpNamesByUser", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@name", username);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    AllGroupsVm names = new AllGroupsVm
+                    {
+                        groupname = rdr["GrpName"].ToString()
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
+        }
         public List<MessageVM> loadprivatechat(string from ,string to)
         {
             List<MessageVM> model = new List<MessageVM>();
@@ -132,5 +155,23 @@ namespace dataRepository.Repository
             }
             return model;
         }
+
+        public int creategroup(string grpname , string members)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("InsertUsersIntoGroup", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@names", members);
+                cmd.Parameters.AddWithValue("@grpname", grpname);
+                con.Open();
+
+                int i = cmd.ExecuteNonQuery();
+
+                return i;
+            }
+        }
+
+
     }
 }
