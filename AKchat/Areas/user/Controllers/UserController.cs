@@ -91,6 +91,13 @@ namespace AKchat.Areas.user.Controllers
             return messages;
         }
 
+        [HttpGet("LoadInitialGroupChat")]
+        public List<MessageVM> LoadInitialGroupChat(string grpname)
+        {
+            var messages = _userrepo.loadgroupchat(grpname);
+            return messages;
+        }
+
 
         [HttpPost("CreateGroup")]
         public IActionResult CreateGroup([FromBody] GroupVM model)//company register

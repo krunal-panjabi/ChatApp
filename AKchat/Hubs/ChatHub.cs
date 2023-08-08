@@ -46,12 +46,13 @@ namespace AKchat.Hubs
         }
         public async Task ReceiveGrpMessage(GroupMsgVm message)
         {
+            _userrepo.storegroupchat(message);
             MessageVM model = new MessageVM
             {
                 From = message.from,
                 Content=message.content
             };
-            await Clients.Group("ChatApp1").SendAsync("NewGrpMessage", model);
+            await Clients.Group("ChatApp").SendAsync("NewGrpMessage", model);
         }
 
         public async Task CreatePrivateChat(MessageVM message)

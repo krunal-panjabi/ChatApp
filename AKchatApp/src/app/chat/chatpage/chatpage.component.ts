@@ -50,6 +50,7 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   openGroupChat(GroupName:string){
     const modalRef=this.modalService.open(GroupChatComponent);
     modalRef.componentInstance.GroupName=GroupName;
+    this.service.loadgrpchats(GroupName);
   }
 
   openGroupModal(){

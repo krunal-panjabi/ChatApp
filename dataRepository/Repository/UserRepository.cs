@@ -45,6 +45,20 @@ namespace dataRepository.Repository
                 int i = cmd.ExecuteNonQuery();
             }
         }
+        public void storegroupchat(GroupMsgVm model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("storegrpchat", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@fromname", model.from);
+                cmd.Parameters.AddWithValue("@grpname", model.grpname);
+                cmd.Parameters.AddWithValue("@message", model.content);
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+            }
+
+        }
         public int checkforname(string name)
         {
             int valid = 10;
@@ -146,6 +160,31 @@ namespace dataRepository.Repository
                     {
                         From= rdr["fromusername"].ToString(),
                         To= rdr["tousername"].ToString(),
+                        Content = rdr["message"].ToString()
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
+        }
+        public List<MessageVM> loadgroupchat(string grpname)
+        {
+            List<MessageVM> model = new List<MessageVM>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("loadgrpchat", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@grpname", grpname);
+               
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    MessageVM names = new MessageVM
+                    {
+                        From = rdr["Name"].ToString(),
                         Content = rdr["message"].ToString()
                     };
 

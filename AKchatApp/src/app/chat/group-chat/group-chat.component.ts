@@ -16,7 +16,7 @@ export class GroupChatComponent {
   }
   
   sendMessage(content:string){
-    alert('send mes hit');
+ 
     this.service.sendGrpMessage(content,this.GroupName);
     // this.service.sendPrivateMessage(this.toUser,content);
   }

@@ -106,6 +106,31 @@ export class UsersService {
     });
   }
 
+  intitializeloadgrpchats(gpname: string): Observable<Message[]> {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    let params = new HttpParams()
+    params = params.append('grpname', gpname);
+    return this.http.get<Message[]>(`${environment.apiUrl}User/LoadInitialGroupChat`, { 'headers': headers, 'params': params });
+  }
+
+  loadgrpchats(gpname: string) {
+    this.intitializeloadgrpchats(gpname).subscribe({
+      next: (data) => {
+        this.grpmessages = data;
+        console.log("the grpmessages",this.grpmessages);
+      },
+      error: (error) => {
+        console.error('error loading private chats', error);
+      }
+    });
+  }
+
+
+
+
+
+
+
   createChatConnection() {
 
     this.chatConnection = new HubConnectionBuilder()
@@ -176,7 +201,7 @@ export class UsersService {
   }
 
   async sendGrpMessage(content: string,gname:string) {
-    alert("send message called");
+   
     const message: groupmodel = {
       from: this.myName,
       content: content,

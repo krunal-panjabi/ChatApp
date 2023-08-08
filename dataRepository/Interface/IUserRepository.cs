@@ -18,5 +18,7 @@ namespace dataRepository.Interface
         public void storechat(MessageVM model);
         public List<MessageVM> loadprivatechat(string from, string to);
         public List<AllGroupsVm> GetAllGroupsName(string username);
+        public void storegroupchat(GroupMsgVm model);
+        public List<MessageVM> loadgroupchat(string grpname);
     }
 }
