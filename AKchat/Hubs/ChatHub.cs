@@ -63,7 +63,10 @@ namespace AKchat.Hubs
 
         }
      
-
+        public async Task LoadGrpNames()
+        {
+            await Clients.Groups("ChatApp").SendAsync("CallForLoadGrpNames");
+        }
         public async Task ReceivePrivateMessage(MessageVM message)
         {
             _userrepo.storechat(message);

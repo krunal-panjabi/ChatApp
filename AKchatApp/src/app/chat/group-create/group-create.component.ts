@@ -72,6 +72,8 @@ export class GroupCreateComponent  {
         }
       );
       this.service.getAllGroups(this.service.myName);
+      this.service.callbackend();
+      
     }
   
  

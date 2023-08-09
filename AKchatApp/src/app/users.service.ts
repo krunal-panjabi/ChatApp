@@ -131,15 +131,7 @@ export class UsersService {
       }
     });
   }
-
-
-
-
-
-
-
   createChatConnection() {
-
     this.chatConnection = new HubConnectionBuilder()
       .withUrl(`https://localhost:7239/hubs/chat`, {
         skipNegotiation: true,
@@ -153,25 +145,33 @@ export class UsersService {
     this.chatConnection.on('UserConnected', () => {
       this.addUserConnectionId();
     });
+
     this.chatConnection.on('OnlineUsers', (onlineUsers) => {
       this.onlineUsers = [...onlineUsers];
     });
+
+    this.chatConnection.on('CallForLoadGrpNames',()=>{
+      alert('for grps called');
+        this.getAllGroups(this.myName);
+    });
+
+    
+
     this.chatConnection.on('NewMessage',(newMessage:Message)=>{
-      alert('newmessage hitted');
     this.messages=[...this.messages,newMessage];
     });
 
     this.chatConnection.on('NewGrpMessage', (newMessage: Message) => {
-      alert('newgrp hitted ....kk');
+    
       console.log('the person',newMessage.from);
       this.grpmessages = [...this.grpmessages, newMessage];
       console.log("this are message",this.grpmessages);
     });
 
     this.chatConnection.on('OpenPrivateChat', (newMessage: Message) => {
+
       this.privateMessages = [...this.privateMessages, newMessage];
       this.privateMessageInitiated = true;
-      alert('called for private message');
       this.loadprivatechats(newMessage.from);
       const modalRef = this.modalService.open(PrivateChatsComponent);
       modalRef.componentInstance.toUser = newMessage.from;
@@ -197,6 +197,11 @@ export class UsersService {
       .catch(error => console.log(error));
   }
 
+  async callbackend()
+  {alert('backedn called');
+    return this.chatConnection?.invoke('LoadGrpNames')
+    .catch(error => console.log(error));
+  }
   async sendMessage(content: string) {
     console.log("send message called");
     const message: Message = {

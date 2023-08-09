@@ -53,7 +53,7 @@ export class ChatpageComponent implements OnInit,OnDestroy {
     this.service.loadgrpchats(GroupName);
     this.service.loadgrpmembers(GroupName).subscribe({
       next:(data)=>{
-        alert('loaded members of grp');
+    
         this.service.grpmembers=data;
       },
       error:(error)=>{

@@ -2,8 +2,8 @@
     <h4 class="modal-title">{{GroupName}}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 </div>
-<div class="d-flex ms-3"> <span style="color: red;"> Members : </span>
-    <div class="ms-2"  *ngFor="let user of service.grpmembers">
+<div class="d-flex ms-3"> <span class="text-danger fw-bolder"> Members : </span>
+    <div class="ms-2 fw-bolder"  *ngFor="let user of service.grpmembers">
         {{user.username}},
      </div>
 </div>
