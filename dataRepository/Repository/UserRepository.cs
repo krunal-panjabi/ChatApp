@@ -15,12 +15,13 @@ namespace dataRepository.Repository
     public class UserRepository : IUserRepository
     {
         public string connections = "server=192.168.2.59\\SQL2019;Database=AKchat;User Id=sa;Password=Tatva@123;Encrypt=False";
-
+       
 
         public int registerrepo(UserVM model)
         {
             using (SqlConnection con = new SqlConnection(connections))
             {
+            
                 SqlCommand cmd = new SqlCommand("spInsertUser", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@name", model.username);

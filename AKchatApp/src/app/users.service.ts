@@ -45,7 +45,6 @@ export class UsersService {
   createGroup(grpname: string, members: string): Observable<any> {
     const group = { groupName: grpname, members: members }
     return this.http.post<Message[]>(`${environment.apiUrl}User/CreateGroup`, group);
-   
   }
   
   CheckName(username: string): Observable<any> {
