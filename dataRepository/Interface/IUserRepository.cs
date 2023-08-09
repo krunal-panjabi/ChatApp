@@ -20,5 +20,6 @@ namespace dataRepository.Interface
         public List<AllGroupsVm> GetAllGroupsName(string username);
         public void storegroupchat(GroupMsgVm model);
         public List<MessageVM> loadgroupchat(string grpname);
+        public List<AllUsersVm> loadmembers(string gpname);
     }
 }

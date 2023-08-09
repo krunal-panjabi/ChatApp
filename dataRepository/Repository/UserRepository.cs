@@ -120,6 +120,30 @@ namespace dataRepository.Repository
             }
             return model;
         }
+        public List<AllUsersVm> loadmembers(string gpname)
+        {
+            List<AllUsersVm> model = new List<AllUsersVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("loadgrpmembers", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@grpname", gpname);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    AllUsersVm names = new AllUsersVm
+                    {
+                        username = rdr["Name"].ToString()
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
+
+        }
         public List<AllGroupsVm> GetAllGroupsName(string username)
         {
             List<AllGroupsVm> model = new List<AllGroupsVm>();

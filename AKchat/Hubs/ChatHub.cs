@@ -19,9 +19,8 @@ namespace AKchat.Hubs
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, "ChatApp");
             await Clients.Caller.SendAsync("UserConnected");
-
         }
-
+         
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, "ChatApp");
@@ -29,11 +28,7 @@ namespace AKchat.Hubs
             var user = _chatServices.GetUserByConnectionId(Context.ConnectionId);
             _chatServices.RemoveUserFromList(user);
             await DisplayOnlineUsers();
-
-
-          
         }
-
         public async Task AddUserConnectionId(string name)
         {
             _chatServices.AddUserConnectionId(name, Context.ConnectionId);
@@ -67,7 +62,7 @@ namespace AKchat.Hubs
             await Clients.Client(toConnectionId).SendAsync("OpenPrivateChat", message);
 
         }
-
+     
 
         public async Task ReceivePrivateMessage(MessageVM message)
         {

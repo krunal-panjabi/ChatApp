@@ -91,6 +91,13 @@ namespace AKchat.Areas.user.Controllers
             return messages;
         }
 
+        [HttpGet("LoadGrpMembers")]
+        public List<AllUsersVm> LoadGrpMembers(string grpname)
+        {
+            var members = _userrepo.loadmembers(grpname);
+            return members;
+        }
+
         [HttpGet("LoadInitialGroupChat")]
         public List<MessageVM> LoadInitialGroupChat(string grpname)
         {

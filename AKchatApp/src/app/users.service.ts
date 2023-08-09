@@ -21,6 +21,7 @@ export class UsersService {
   myName: string = '';
   onlineUsers: string[] = [];
   offlineUsers: OfflineUsers[] = [];
+  grpmembers: OfflineUsers[]=[];
   groups : groupname[]=[];
   messages: Message[] = [];
   grpmessages: Message[] = [];
@@ -44,9 +45,9 @@ export class UsersService {
   createGroup(grpname: string, members: string): Observable<any> {
     const group = { groupName: grpname, members: members }
     return this.http.post<Message[]>(`${environment.apiUrl}User/CreateGroup`, group);
+   
   }
-
-
+  
   CheckName(username: string): Observable<any> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", username);
@@ -73,7 +74,6 @@ export class UsersService {
   }
 
   getAllGroups(username: string) {
-    alert('egtAll groups hitted');
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", username);
     return this.http.get<groupname[]>(`${environment.apiUrl}User/GetGroups`, { 'headers': headers, 'params': params }).subscribe({
@@ -104,6 +104,13 @@ export class UsersService {
         console.error('error loading private chats', error);
       }
     });
+  }
+  
+  loadgrpmembers(gpname:string):Observable<OfflineUsers[]>{
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    let params = new HttpParams()
+    params = params.append('grpname', gpname);
+    return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/LoadGrpMembers`, { 'headers': headers, 'params': params });
   }
 
   intitializeloadgrpchats(gpname: string): Observable<Message[]> {
@@ -140,7 +147,6 @@ export class UsersService {
       }).withAutomaticReconnect().build();
 
     this.chatConnection.start().catch(error => {
-
       console.log(error);
     });
 
@@ -157,6 +163,7 @@ export class UsersService {
 
     this.chatConnection.on('NewGrpMessage', (newMessage: Message) => {
       alert('newgrp hitted ....kk');
+      console.log('the person',newMessage.from);
       this.grpmessages = [...this.grpmessages, newMessage];
       console.log("this are message",this.grpmessages);
     });
@@ -164,11 +171,13 @@ export class UsersService {
     this.chatConnection.on('OpenPrivateChat', (newMessage: Message) => {
       this.privateMessages = [...this.privateMessages, newMessage];
       this.privateMessageInitiated = true;
+      alert('called for private message');
       this.loadprivatechats(newMessage.from);
       const modalRef = this.modalService.open(PrivateChatsComponent);
       modalRef.componentInstance.toUser = newMessage.from;
 
     });
+
 
     this.chatConnection.on('NewPrivateMessage', (newMessage: Message) => {
       this.privateMessages = [...this.privateMessages, newMessage];
@@ -186,8 +195,8 @@ export class UsersService {
   async addUserConnectionId() {
     return this.chatConnection?.invoke('AddUserConnectionId', this.myName)
       .catch(error => console.log(error));
-
   }
+
   async sendMessage(content: string) {
     console.log("send message called");
     const message: Message = {
@@ -197,9 +206,7 @@ export class UsersService {
 
     return this.chatConnection?.invoke('ReceiveMessage', message)
       .catch(error => console.log(error));
-
   }
-
   async sendGrpMessage(content: string,gname:string) {
    
     const message: groupmodel = {
@@ -210,14 +217,7 @@ export class UsersService {
 
     return this.chatConnection?.invoke('ReceiveGrpMessage', message)
       .catch(error => console.log(error));
-
   }
-
-
-
-
-
-
 
   async sendPrivateMessage(to: string, content: string) {
     const message: Message = {

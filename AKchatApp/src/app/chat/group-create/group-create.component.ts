@@ -60,9 +60,6 @@ export class GroupCreateComponent  {
   getSelectedUsers() {
     this.selectedUsers.push(this.service.myName);
      this.allnames = this.selectedUsers.join(',');
-    // console.log("this is list of selected users and grpname",this.allnames,this.grpname);
-
-    
       this.service.createGroup(this.grpname, this.allnames).subscribe(
         (response) => {
           console.log('Group created:', response);
