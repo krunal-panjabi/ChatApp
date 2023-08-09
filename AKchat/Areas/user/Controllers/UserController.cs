@@ -76,11 +76,20 @@ namespace AKchat.Areas.user.Controllers
 
 
         [HttpGet("GetGroups")]
-        public List<AllGroupsVm> GetGroups(string username)
+        public IActionResult GetGroups(string username)
         {
             var grpnames = _userrepo.GetAllGroupsName(username);
-            return grpnames;
+
+            if (grpnames != null)
+            {
+                return Ok(grpnames); 
+            }
+            else
+            {
+                return NotFound(); 
+            }
         }
+
 
 
 

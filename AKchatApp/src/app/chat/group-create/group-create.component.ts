@@ -37,7 +37,7 @@ export class GroupCreateComponent  {
     this.service.offlineUsers.forEach((user) => {
       this.membersArray.push(new FormControl(false)); // Initialize unchecked
     });
-    alert("here hitted");
+   
     this.service.getAllUsers();
    
   }
@@ -75,36 +75,5 @@ export class GroupCreateComponent  {
       this.service.callbackend();
       
     }
-  
- 
-
-
-
-
-
-
-
-  // submitForm() {
-  //   if (this.groupForm.valid) {
-  //     const formData = this.groupForm.value;
-
-  //     const selectedMembers = this.membersArray.controls
-  //       .map((control, index) => control.value ? this.service.offlineUsers[index].username : null)
-  //       .filter(username => username !== null);
-
-  //     formData.members = selectedMembers;
-  //     console.log('members',this.membersArray)
-
-  //   }
-  // }
-
-
-
-
-
-
-
-
-
   }
 

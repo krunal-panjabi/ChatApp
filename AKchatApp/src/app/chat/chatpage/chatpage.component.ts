@@ -16,7 +16,7 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   constructor(public service : UsersService,private modalService:NgbModal) { }
   
  ngOnDestroy(): void {
-  alert('destroyed');
+  
    this.service.stopChatConnection();
  }
 

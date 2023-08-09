@@ -74,6 +74,7 @@ export class UsersService {
   }
 
   getAllGroups(username: string) {
+ 
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", username);
     return this.http.get<groupname[]>(`${environment.apiUrl}User/GetGroups`, { 'headers': headers, 'params': params }).subscribe({
@@ -82,6 +83,11 @@ export class UsersService {
         this.groups = data;
         console.log("group",this.groups);
       },
+      error: (error) => {
+        if (error.status === 400) {
+          console.error("By refreshing the page you got disconnected");
+        }
+      }
     });
   }
 
@@ -158,12 +164,12 @@ export class UsersService {
     
 
     this.chatConnection.on('NewMessage',(newMessage:Message)=>{
+      
     this.messages=[...this.messages,newMessage];
     });
 
     this.chatConnection.on('NewGrpMessage', (newMessage: Message) => {
-    
-      console.log('the person',newMessage.from);
+      
       this.grpmessages = [...this.grpmessages, newMessage];
       console.log("this are message",this.grpmessages);
     });
@@ -231,7 +237,7 @@ export class UsersService {
       to: to
     };
     if (!this.privateMessageInitiated) {
-      alert('if hitted');
+     
       this.loadprivatechats(to);
       this.privateMessageInitiated = true; //if they have started talking with each other
       return this.chatConnection?.invoke('CreatePrivateChat', message).then(() => {
@@ -239,7 +245,7 @@ export class UsersService {
       })
         .catch(error => console.log(error));
     } else {
-      alert('else hitted');
+      
       this.privateMessages = [...this.privateMessages, message];
       return this.chatConnection?.invoke('ReceivePrivateMessage', message)
         .catch(error => console.log(error));

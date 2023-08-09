@@ -13,10 +13,10 @@
         <div class="d-grid mb-2 cpbtn">
             <button class="btn  btn-block cgroup" (click)="openGroupModal()"  type="button" >Create Group</button>
         </div>
-        <div class="card border-secondary mb-3">
+        <div class="card user-list border-secondary mb-3">
 
             <div class="card-header h3 text-muted text-center">Users</div>
-            <div class="card-body">
+            <div class="card-body p-2">
                 <div class="row mt-1" *ngFor="let user of service.offlineUsers">
                     <div class="col">
                         <div class="d-grid">
@@ -36,7 +36,7 @@
                 <div class="row mt-1" *ngFor="let grp of service.groups">
                     <div class="col">
                         <div class="d-grid">
-                            <button  (click)="openGroupChat(grp.groupname)" type="button" class="btn card-text btn-primary" >{{grp.groupname}}<span class="ms-2"> (Group)</span>
+                            <button  (click)="openGroupChat(grp.groupname)" type="button" class="btn card-text btn-primary btn-group" >{{grp.groupname}}<span class="ms-2"> (Group)</span>
                          
                         </button>
                         </div>
@@ -54,7 +54,7 @@
 
     <div class="col-lg-9">
         <div class="card border-secondary">
-            <div class="card-header h3 text-muted text-center">Messages</div>
+            <div class="card-header h3 text-muted text-center">General Chat</div>
             <div class="card-body" style="min-height: 500px;">
                 <app-messages [messages]="service.messages"></app-messages>
             </div>
