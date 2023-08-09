@@ -10,7 +10,7 @@ content :string='';
 @Output() contentemitter = new EventEmitter();
 
 sendMessage(){
-  alert('hit sendmessage');
+
   if(this.content.trim()!=="")
   {
     console.log('teh message',this.content);

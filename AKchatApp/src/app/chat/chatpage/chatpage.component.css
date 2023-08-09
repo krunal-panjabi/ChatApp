@@ -25,3 +25,11 @@
     border: solid gray 1px;
     border-radius: 8px;
 }
+
+.user-list{
+    height: 512px;
+    overflow-y: auto
+}
+.btn-group{
+    padding: 5px;
+}
