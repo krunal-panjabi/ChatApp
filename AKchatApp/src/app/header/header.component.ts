@@ -12,6 +12,7 @@ export class HeaderComponent {
   constructor(public service:UsersService,private router:Router) { }
 
   ngOnInit(): void {
+    
   }
   logout(){
     alert('log otu called');

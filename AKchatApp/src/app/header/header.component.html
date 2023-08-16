@@ -9,7 +9,7 @@
         <div> <span class="navbar-brand mb-0 h1">Chat Application</span></div>
         <div class="d-flex">
           <span class="navbar-brand mb-0 h1 mx-1">{{service.myName}}</span>
-          <button class="btn btn-primary mx-1">Profile</button>
+          <a class="btn btn-primary mx-1" routerLink="/user-profile">Profile</a>
           <button class="btn btn-danger mx-1" (click)="logout()">LogOut</button>
         </div>
       </div>
