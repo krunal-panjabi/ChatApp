@@ -13,7 +13,7 @@ namespace ViewModels.Models
         public string From { get; set; }
         public string To { get; set; }
         [Required]
-
         public string Content { get; set; }
+        public string time { get; set; }
     }
 }

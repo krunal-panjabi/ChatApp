@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +9,13 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
-  constructor() { }
+  constructor(public service:UsersService,private router:Router) { }
 
   ngOnInit(): void {
   }
-
+  logout(){
+    alert('log otu called');
+    this.service.myName='';
+    this.router.navigateByUrl('/login');
+  }
 }

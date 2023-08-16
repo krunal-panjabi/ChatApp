@@ -5,6 +5,7 @@ import { UsersService } from 'src/app/users.service';
 import { GroupCreateComponent } from '../group-create/group-create.component';
 import { PrivateChatsComponent } from '../private-chats/private-chats.component';
 import { GroupChatComponent } from '../group-chat/group-chat.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chatpage',
@@ -13,15 +14,13 @@ import { GroupChatComponent } from '../group-chat/group-chat.component';
 })
 export class ChatpageComponent implements OnInit,OnDestroy {
 
-  constructor(public service : UsersService,private modalService:NgbModal) { }
+  constructor(public service : UsersService,private modalService:NgbModal,private router:Router) { }
   
- ngOnDestroy(): void {
-  
+ ngOnDestroy(): void{
    this.service.stopChatConnection();
  }
 
-  ngOnInit(): void {
-    
+  ngOnInit():void{
     this.service.getAllUsers();
     this.service.getAllGroups(this.service.myName);
     this.service.createChatConnection();
@@ -29,24 +28,20 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   sendMessage(content:string){
     this.service.sendMessage(content);
   }
+  isUserAuthenticated(){
+    return true;
+  }
   openPrivateChat(toUser:string){
    const modalRef=this.modalService.open(PrivateChatsComponent);
    modalRef.componentInstance.toUser=toUser;
  
    this.service.loadprivatechats(toUser);
-  //  this.service.loadprivatechats(toUser, this.service.myName).subscribe({
-  //   next: (data) => {
-  //     this.service.privateMessages = data;
-  //     console.log('the previous message', data);
-  //   },
-  //   error: (error) => {
-  //     console.error('Error loading private chats', error);
-  //   }
-  // });
-
   }
 
-
+  logout(){
+    this.service.myName='';
+    this.router.navigateByUrl('/login');
+  }
   openGroupChat(GroupName:string){
     const modalRef=this.modalService.open(GroupChatComponent);
     modalRef.componentInstance.GroupName=GroupName;

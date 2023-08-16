@@ -1,5 +1,17 @@
 <nav class="navbar navbar-dark bg-success">
-    <div class="container-fluid d-flex justify-content-center">
-      <span class="navbar-brand mb-0 h1" >Chat Application</span>
-    </div>
-  </nav>
+ <div class="container-fluid d-flex justify-content-center" *ngIf="!service.myName">
+  <span class="navbar-brand mb-0 h1">Chat Application</span>
+ </div>
+
+  <div class="container-fluid d-flex" *ngIf="service.myName">
+      <div class="col-md-6"></div>
+      <div class="col-md-6 justify-content-between d-flex">
+        <div> <span class="navbar-brand mb-0 h1">Chat Application</span></div>
+        <div class="d-flex">
+          <span class="navbar-brand mb-0 h1 mx-1">{{service.myName}}</span>
+          <button class="btn btn-primary mx-1">Profile</button>
+          <button class="btn btn-danger mx-1" (click)="logout()">LogOut</button>
+        </div>
+      </div>
+  </div>
+</nav>

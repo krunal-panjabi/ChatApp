@@ -185,7 +185,8 @@ namespace dataRepository.Repository
                     {
                         From= rdr["fromusername"].ToString(),
                         To= rdr["tousername"].ToString(),
-                        Content = rdr["message"].ToString()
+                        Content = rdr["message"].ToString(),
+                        time = rdr["FormattedChatTime"].ToString()
                     };
 
                     model.Add(names);
@@ -210,7 +211,8 @@ namespace dataRepository.Repository
                     MessageVM names = new MessageVM
                     {
                         From = rdr["Name"].ToString(),
-                        Content = rdr["message"].ToString()
+                        Content = rdr["message"].ToString(),
+                        time = rdr["FormattedChatTime"].ToString()
                     };
 
                     model.Add(names);

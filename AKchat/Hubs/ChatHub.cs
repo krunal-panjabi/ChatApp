@@ -35,9 +35,6 @@ namespace AKchat.Hubs
             {
                 Console.WriteLine("Login Again");
             }
-
-
-
         }
         public async Task AddUserConnectionId(string name)
         {

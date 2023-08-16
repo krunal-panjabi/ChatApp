@@ -218,11 +218,10 @@ export class UsersService {
       .catch(error => console.log(error));
   }
   async sendGrpMessage(content: string,gname:string) {
-   
     const message: groupmodel = {
       from: this.myName,
       content: content,
-      grpname:gname
+      grpname:gname,
     };
 
     return this.chatConnection?.invoke('ReceiveGrpMessage', message)
@@ -230,10 +229,11 @@ export class UsersService {
   }
 
   async sendPrivateMessage(to: string, content: string) {
+   // const formattedTime = format(currentTime, 'MMM dd,HH:mm');
     const message: Message = {
       from: this.myName,
       content: content,
-      to: to
+      to: to,
     };
     if (!this.privateMessageInitiated) {
      

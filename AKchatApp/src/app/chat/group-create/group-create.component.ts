@@ -46,7 +46,6 @@ export class GroupCreateComponent  {
     if (isChecked) {
       console.log("this is user name",user.username);
       this.selectedUsers.push(user.username);
-
     } else {
       const index = this.selectedUsers.indexOf(user.userName);
       if (index !== -1) {
@@ -65,7 +64,6 @@ export class GroupCreateComponent  {
           console.log('Group created:', response);
           this.activeModal.close('Group created successfully');
           this.service.getAllGroups(this.service.myName);
-
         },
         (error) => {
           console.error('Error creating group:', error);
@@ -73,7 +71,6 @@ export class GroupCreateComponent  {
       );
       this.service.getAllGroups(this.service.myName);
       this.service.callbackend();
-      
     }
   }
 
