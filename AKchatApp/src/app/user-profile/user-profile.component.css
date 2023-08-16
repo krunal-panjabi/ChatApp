@@ -1,0 +1,23 @@
+.mat-card{
+    margin: 2%;
+    text-align: left;
+    box-shadow: 2px 2px 14px 16px rgb(182 182 182 / 40%), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.date{
+    margin-bottom: 20px;
+         width: 100%;
+         border: solid #dbdbdb 1px;
+         padding: 15px;
+         border-radius: 5px;
+}
+
+/* :host ::ng-deep .mat-form-field-wrapper {
+    padding: 0px;
+} */
+
+.content-with-border{
+    border: solid #dbdbdb 1px;
+    padding: 15px;
+    border-radius: 5px;
+}

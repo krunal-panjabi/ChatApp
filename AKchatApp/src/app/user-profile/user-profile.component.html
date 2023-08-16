@@ -1,0 +1,103 @@
+
+
+
+<mat-card>
+    <mat-card-content class="d-flex flex-column">
+        <label>Name</label>
+        <mat-form-field appearance="outline" >
+           
+            <mat-label>Name</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+    </mat-card-content>
+
+    <mat-card-content class="d-flex flex-column">
+        <label>Profile Image</label>
+        <mat-form-field appearance="outline" >
+           
+            <mat-label>Image</mat-label>
+            <input matInput >
+        </mat-form-field>
+
+    </mat-card-content>
+
+
+    <mat-card-content class="d-flex flex-column">
+        <label>Email</label>
+        <mat-form-field appearance="outline" >
+           
+            <mat-label>Email</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+    </mat-card-content>
+
+
+    <mat-card-content class="d-flex flex-column mb-4 content-with-border">
+        <div class="d-flex">
+        <label>Gender :</label>
+        <mat-radio-group [(ngModel)]="Gender" class="mb-2">
+            <mat-radio-button class="ms-4" value="Male">Male</mat-radio-button>
+            <mat-radio-button class="ms-4" value="Female">Female</mat-radio-button>
+            <mat-radio-button class="ms-4" value="Other">Other</mat-radio-button>
+          </mat-radio-group>
+        </div>
+          <p>You selected: {{ Gender }}</p>
+
+    </mat-card-content>
+
+
+    <mat-card-content class="d-flex flex-column">
+        <label>Phone Number</label>
+        <mat-form-field appearance="outline" >
+           
+            <mat-label>Phone Number</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+    </mat-card-content>
+
+
+    <mat-form-field class="date">
+        <label>Choose Your Birth date</label>
+        <input matInput [matDatepicker]="picker">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+    <mat-card-content class="d-flex flex-column">
+        <label>About me</label>
+        <mat-form-field appearance="outline" >
+           
+            <mat-label>About Me</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+    </mat-card-content>
+
+    <mat-card-content class="d-flex flex-column content-with-border">
+        <div class="d-flex">
+        <label>Status :</label>
+        <mat-radio-group [(ngModel)]="selectedOption" class="mb-2">
+            <mat-radio-button class="ms-4" value="Single">Single</mat-radio-button>
+            <mat-radio-button class="ms-4" value="Married">Married</mat-radio-button>
+            <mat-radio-button class="ms-4" value="Prefer Not To Say">Prefer Not To Say</mat-radio-button>
+          </mat-radio-group>
+        </div>
+          <p>You selected: {{ selectedOption }}</p>
+
+    </mat-card-content>
+
+  
+
+  
+
+
+
+
+
+
+    <mat-card-footer></mat-card-footer>
+</mat-card>
