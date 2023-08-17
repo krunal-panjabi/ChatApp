@@ -34,7 +34,7 @@ builder.Services.AddSignalR();
 
 
 var app = builder.Build();
-
+var path = Directory.GetCurrentDirectory();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

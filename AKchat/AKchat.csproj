@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Assets\UserProfile\" />
     <Folder Include="Controllers\" />
   </ItemGroup>
 

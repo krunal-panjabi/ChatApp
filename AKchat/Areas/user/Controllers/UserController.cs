@@ -2,6 +2,7 @@
 using dataRepository.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.ContentModel;
 using ViewModels.Models;
 
 namespace AKchat.Areas.user.Controllers
@@ -58,12 +59,41 @@ namespace AKchat.Areas.user.Controllers
             var httpRequest = HttpContext.Request;
             var imageFile = httpRequest.Form.Files["Image"];
             string name = httpRequest.Form["name"].ToString();
+            string angpath = "\\assets\\img\\" + imageFile.FileName;
             if (imageFile == null)
             {
                 return BadRequest("No image file uploaded.");
             }
+            if (imageFile != null)
+            {
+               
+                string addpath = "\\Assets\\UserProfile";
+                var filePath = Directory.GetCurrentDirectory() + addpath + imageFile.FileName;
+                Console.WriteLine(filePath);
 
-            using (var memoryStream = new MemoryStream())
+                var filepathanguar = Path.Combine("D:\\ChatApp\\ChatApp\\AKchatApp\\src\\assets\\img", imageFile.FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    imageFile.CopyTo(stream);
+                }
+
+                using (var stream = new FileStream(filepathanguar, FileMode.Create))
+                {
+                    imageFile.CopyTo(stream);
+                }
+              
+            }
+            var i = _userrepo.uploadphoto(angpath, name);
+            if (i > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+            /*using (var memoryStream = new MemoryStream())
             {
                 imageFile.CopyTo(memoryStream);
                 byte[] imageBytes = memoryStream.ToArray();
@@ -79,7 +109,7 @@ namespace AKchat.Areas.user.Controllers
                 {
                     return Ok(false);
                 }
-            }
+            }*/
         }
         [HttpPost("ProfileData")]
         public IActionResult profiledata([FromBody] ProfileVm model)

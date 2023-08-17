@@ -23,7 +23,7 @@ export class UserProfileComponent  implements OnInit{
     console.log("himansu");
     debugger;
     this.empForm.patchValue(this.service.singleuser);
-
+    this.imageUrl=this.service.singleuser.imgstr;
   }
 
   constructor(private formBuilder : FormBuilder,private service : UsersService , private router: Router) { 
@@ -50,7 +50,7 @@ export class UserProfileComponent  implements OnInit{
       }
     })
     this.service.getAllUsers();
-    this.service.myName=this.empForm.get('Name')?.value;
+    this.service.myName=this.empForm.get('name')?.value;
     this.service.uploadfile(this.file,this.service.myName).subscribe(
       data =>{
         console.log('done');
