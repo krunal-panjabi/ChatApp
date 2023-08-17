@@ -20,12 +20,14 @@ export class HeaderComponent {
     this.service.getuserprofiledetail().subscribe({
       next:(data:profile)=>{
         this.service.singleuser=data;
+        alert('successfull bind');
+        this.router.navigateByUrl('/user-profile');
       },
       error: (error) => {
       console.error('error loading private chats', error);
     }
     });
-     this.router.navigateByUrl('/user-profile');
+     
   }
   logout(){
     this.service.myName='';

@@ -161,11 +161,11 @@ namespace dataRepository.Repository
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@userName", name);
 
-                await con.OpenAsync(); // Await the asynchronous open operation
+                await con.OpenAsync(); 
 
-                using (SqlDataReader rdr = await cmd.ExecuteReaderAsync()) // Await the asynchronous ExecuteReader operation
+                using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                 {
-                    while (await rdr.ReadAsync()) // Await the asynchronous Read operation
+                    while (await rdr.ReadAsync())
                     {
                         ProfileVm names = new ProfileVm
                         {
