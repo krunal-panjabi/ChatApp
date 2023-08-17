@@ -21,3 +21,19 @@
     padding: 15px;
     border-radius: 5px;
 }
+
+.user-image{
+    height: 110px;
+    width: 110px;
+    border-radius: 50%;
+    background-color: red;
+    position: relative;
+}
+.image-input{
+    height: 110px;
+    width: 110px;
+    border-radius: 50%;
+    opacity: 0;
+    position: absolute;
+    z-index: 22;
+}
