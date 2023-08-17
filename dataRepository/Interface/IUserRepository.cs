@@ -21,5 +21,8 @@ namespace dataRepository.Interface
         public void storegroupchat(GroupMsgVm model);
         public List<MessageVM> loadgroupchat(string grpname);
         public List<AllUsersVm> loadmembers(string gpname);
+        public int profiledata(ProfileVm model);
+        public int uploadphoto(string photo, string name);
+        public Task<ProfileVm> GetUserByProfileAsync(string name);
     }
 }

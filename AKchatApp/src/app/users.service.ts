@@ -13,6 +13,7 @@ import { PrivateChatsComponent } from './chat/private-chats/private-chats.compon
 import { group } from './Models/group';
 import { groupname } from './Models/groupname';
 import { groupmodel } from './Models/groupmodel';
+import { profile } from './Models/profile';
 
 @Injectable(
   // providedIn: 'root'
@@ -21,6 +22,7 @@ export class UsersService {
   myName: string = '';
   onlineUsers: string[] = [];
   offlineUsers: OfflineUsers[] = [];
+  singleuser!:profile;
   grpmembers: OfflineUsers[]=[];
   groups : groupname[]=[];
   messages: Message[] = [];
@@ -54,7 +56,22 @@ export class UsersService {
   }
 
   public LoginData(User: user): Observable<any> {
+
     return this.http.post(`${environment.apiUrl}User/UserLogin`, User);
+  }
+  public postFile(profiledata:profile):Observable<any> {
+    alert('for profile data');
+   profiledata.username=this.myName;
+    return this.http.post(`${environment.apiUrl}User/ProfileData`, profiledata);
+  }
+  public uploadfile(fileToUpload: File,name:string) {
+    alert('for upload file');
+    const endpoint = `${environment.apiUrl}User/uploadphoto`;
+    const formData: FormData = new FormData();
+    formData.append('Image', fileToUpload, fileToUpload.name);
+    formData.append('name',name);
+    return this.http
+      .post(endpoint, formData);
   }
 
   getAllUsers() {
@@ -90,7 +107,24 @@ export class UsersService {
     });
   }
 
+  public getuserprofiledetail():Observable<profile>{
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    const params = new HttpParams().set("username", this.myName);
+    return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
+  }
 
+  // getuserprofiledata(){
+  //   this.getuserprofiledetail().subscribe({
+  //   next:(data: profile)=>{
+  //     alert('uservalue assign');
+  //    this.singleuser=data;
+  //    console.log('data',this.singleuser);
+  //   },
+  //   error: (error) => {
+  //     console.error('error loading private chats', error);
+  //   }
+  //   });
+  // }
 
   intitializeloadprivatechats(toUser: string, fromUser: string): Observable<Message[]> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });

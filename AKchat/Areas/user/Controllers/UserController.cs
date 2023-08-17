@@ -1,5 +1,6 @@
 ﻿using AKchat.Services;
 using dataRepository.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ViewModels.Models;
 
@@ -51,7 +52,56 @@ namespace AKchat.Areas.user.Controllers
             }
             return Ok(false);
         }
+        [HttpPost("uploadphoto")]
+        public IActionResult uploadphoto()
+        {
+            var httpRequest = HttpContext.Request;
+            var imageFile = httpRequest.Form.Files["Image"];
+            string name = httpRequest.Form["name"].ToString();
+            if (imageFile == null)
+            {
+                return BadRequest("No image file uploaded.");
+            }
 
+            using (var memoryStream = new MemoryStream())
+            {
+                imageFile.CopyTo(memoryStream);
+                byte[] imageBytes = memoryStream.ToArray();
+
+                string base64String = Convert.ToBase64String(imageBytes);
+
+               var i=_userrepo.uploadphoto(base64String, name);
+                if (i > 0)
+                {
+                    return Ok(true);
+                }
+                else
+                {
+                    return Ok(false);
+                }
+            }
+        }
+        [HttpPost("ProfileData")]
+        public IActionResult profiledata([FromBody] ProfileVm model)
+        {
+            var i = _userrepo.profiledata(model);
+              if(i>0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+
+
+        }
+        [HttpGet("FetchUserDetail")]
+        public async Task<IActionResult> GetUserByprofile(string username)
+        {
+            var user = await _userrepo.GetUserByProfileAsync(username);
+            return Ok(user);
+        }
         [HttpGet("CheckForName")]
         public IActionResult CheckForName(string username)
         {

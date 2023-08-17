@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { profile } from '../Models/profile';
 import { UsersService } from '../users.service';
 
 @Component({
@@ -14,8 +15,19 @@ export class HeaderComponent {
   ngOnInit(): void {
     
   }
+  profile()
+  {
+    this.service.getuserprofiledetail().subscribe({
+      next:(data:profile)=>{
+        this.service.singleuser=data;
+      },
+      error: (error) => {
+      console.error('error loading private chats', error);
+    }
+    });
+     this.router.navigateByUrl('/user-profile');
+  }
   logout(){
-    alert('log otu called');
     this.service.myName='';
     this.router.navigateByUrl('/login');
   }

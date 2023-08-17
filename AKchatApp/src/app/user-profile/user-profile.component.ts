@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
@@ -8,34 +8,73 @@ import { Router } from '@angular/router';
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css']
 })
-export class UserProfileComponent {
+export class UserProfileComponent  implements OnInit{
   currentUser: any;
+  imageUrl: string = "/assets/img/upload.png";
+  fileToUpload!: File ;
+  file!:File;
   // userForm : FormGroup = new FormGroup({});
   // submitted = false;
   selectedOption: string = '';
   Gender: string = '';
   empForm: FormGroup;
+ 
+  ngOnInit(): void {
+    console.log("himansu");
+    debugger;
+    this.empForm.patchValue(this.service.singleuser);
 
+  }
 
   constructor(private formBuilder : FormBuilder,private service : UsersService , private router: Router) { 
     this.empForm = this.formBuilder.group({
-      Name: '',
-      Email: '',
+      name: '',
+      email: '',
       gender:'',
       phonenumber:'',
       dob:'',
       aboutme:'',
       status:'',
-
+      imgstr:''
     });
   }
   onFormSubmit(){
   if(this.empForm.valid){
     console.log(this.empForm.value);
+    this.service.postFile(this.empForm.value).subscribe({
+      next:(response)=>{
+       console.log(response);
+      },
+      error:(error)=>{
+        console.log(error);
+      }
+    })
+    this.service.getAllUsers();
+    this.service.myName=this.empForm.get('Name')?.value;
+    this.service.uploadfile(this.file,this.service.myName).subscribe(
+      data =>{
+        console.log('done');
+      }
+    );
   }
   }
 
-  ngOnInit(): void {
-  }
-
+  handleFileInput(event:any) {
+    let reader=new FileReader();
+    this.file=event.target.files[0];
+   
+    reader.onload=(event:any)=>{
+      this.imageUrl=event.target.result;
+    }
+    reader.readAsDataURL(this.file);
+  
+    }
 }
+// this.service.LoginData(this.userForm.value).subscribe({
+      
+//   next: (response) => {
+//     console.log("the response",response);   
+//     },
+//   error: (error) => {
+//   },
+// }

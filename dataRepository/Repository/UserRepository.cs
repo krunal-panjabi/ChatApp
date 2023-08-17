@@ -121,6 +121,72 @@ namespace dataRepository.Repository
             }
             return model;
         }
+        /* public async Task<ProfileVm> getuserbyprofile(string name)
+         {
+             List<ProfileVm> model = new List<ProfileVm>();
+             using (SqlConnection con = new SqlConnection(connections))
+             {
+                 SqlCommand cmd = new SqlCommand("selectuserbyprofile", con);
+                 cmd.CommandType = CommandType.StoredProcedure;
+                 cmd.Parameters.AddWithValue("@userName", name);
+                 con.Open();
+                 SqlDataReader rdr = cmd.ExecuteReader();
+                 while ( rdr.Read())
+                 {
+                     ProfileVm names = new ProfileVm
+                     {
+                         name = rdr["Name"].ToString(),
+                         email = rdr["Email"].ToString(),
+                         aboutme = rdr["aboutme"].ToString(),
+                         status = rdr["status"].ToString(),
+                         imgstr = rdr["imgstr"].ToString(),
+                         gender = rdr["gender"].ToString(),
+                         phonenumber = rdr["phonenumber"].ToString(),
+                         dob = rdr["dob"].ToString()
+                     };
+
+                     model.Add(names);
+                 }
+                 con.Close();
+             }
+             return model.FirstOrDefault();
+         }*/
+        public async Task<ProfileVm> GetUserByProfileAsync(string name)
+        {
+            List<ProfileVm> model = new List<ProfileVm>();
+
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("selectuserbyprofile", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userName", name);
+
+                await con.OpenAsync(); // Await the asynchronous open operation
+
+                using (SqlDataReader rdr = await cmd.ExecuteReaderAsync()) // Await the asynchronous ExecuteReader operation
+                {
+                    while (await rdr.ReadAsync()) // Await the asynchronous Read operation
+                    {
+                        ProfileVm names = new ProfileVm
+                        {
+                            name = rdr["Name"].ToString(),
+                            email = rdr["Email"].ToString(),
+                            aboutme = rdr["aboutme"].ToString(),
+                            status = rdr["status"].ToString(),
+                            imgstr = rdr["imgstr"].ToString(),
+                            gender = rdr["gender"].ToString(),
+                            phonenumber = rdr["phonenumber"].ToString(),
+                            dob = rdr["dob"].ToString()
+                        };
+
+                        model.Add(names);
+                    }
+                }
+            }
+
+            return model.FirstOrDefault();
+        }
+
         public List<AllUsersVm> loadmembers(string gpname)
         {
             List<AllUsersVm> model = new List<AllUsersVm>();
@@ -221,7 +287,42 @@ namespace dataRepository.Repository
             }
             return model;
         }
+        public int profiledata(ProfileVm model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("spInsertUserProfile", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userName", model.username);
+                cmd.Parameters.AddWithValue("@name", model.name);
+                cmd.Parameters.AddWithValue("@gender", model.gender);
+                cmd.Parameters.AddWithValue("@phoneNumber", model.phonenumber);
+                cmd.Parameters.AddWithValue("@dob", model.dob);
+                cmd.Parameters.AddWithValue("@aboutme", model.aboutme);
+                cmd.Parameters.AddWithValue("@status", model.status);
+                cmd.Parameters.AddWithValue("@email", model.email);
+                con.Open();
 
+                int i = cmd.ExecuteNonQuery();
+
+                return i;
+            }
+        }
+        public int uploadphoto(string photo,string name)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("spInsertImageInUserProfile", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userName", name);
+                cmd.Parameters.AddWithValue("@imageSrc", photo);
+                con.Open();
+
+                int i = cmd.ExecuteNonQuery();
+
+                return i;
+            }
+        }
         public int creategroup(string grpname , string members)
         {
             using (SqlConnection con = new SqlConnection(connections))
