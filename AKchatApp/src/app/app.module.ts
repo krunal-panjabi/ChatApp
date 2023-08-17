@@ -14,7 +14,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MaterialModule } from './material.module';
-import { MatChipsModule } from '@angular/material/chips';
+//import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { MatChipsModule } from '@angular/material/chips';
     FormsModule,
     MaterialModule,
     BrowserAnimationsModule,
-    MatChipsModule
+   // MatChipsModule
     
   ],
    providers: [UsersService],

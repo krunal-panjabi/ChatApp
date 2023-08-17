@@ -14,40 +14,28 @@ export class UserProfileComponent {
   // submitted = false;
   selectedOption: string = '';
   Gender: string = '';
+  empForm: FormGroup;
 
 
-  constructor(private formBuilder : FormBuilder,private service : UsersService , private router: Router) { }
+  constructor(private formBuilder : FormBuilder,private service : UsersService , private router: Router) { 
+    this.empForm = this.formBuilder.group({
+      Name: '',
+      Email: '',
+      gender:'',
+      phonenumber:'',
+      dob:'',
+      aboutme:'',
+      status:'',
+
+    });
+  }
+  onFormSubmit(){
+  if(this.empForm.valid){
+    console.log(this.empForm.value);
+  }
+  }
 
   ngOnInit(): void {
-    this.initializeForm();
-  }
-  initializeForm(){
-    // this.userForm = this.formBuilder.group({
-    //   username : ['' ,[Validators.required,Validators.minLength(3),Validators.maxLength(15)]],
-    //   password : ['' ,[Validators.required]],
-    // })
   }
 
-  // validateName(event: any) {
-  //   debugger;
-  //   this.service.CheckName(event.target.value).subscribe({
-  //     next:(response)=>{
-  //       if(!response){
-  //         this.userForm.get('username')?.setErrors({invalid:true , message :"Name is already taken."})
-  //       }
-  //     }
-  //   })
-  // }
-
-  // submitForm(){
-  //   this.submitted = true ;
-
-  //   if(this.userForm.valid){
-  //     this.service.postData(this.userForm.value).subscribe(data =>{
-  //       alert("added");
-  //       this.userForm.reset();
-  //       this.router.navigateByUrl('/login')
-  //     })
-  //   }
-  // }
 }
