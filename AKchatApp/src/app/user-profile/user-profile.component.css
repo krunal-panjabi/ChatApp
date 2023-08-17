@@ -10,6 +10,7 @@
          border: solid #dbdbdb 1px;
          padding: 15px;
          border-radius: 5px;
+         
 }
 
 /* :host ::ng-deep .mat-form-field-wrapper {
