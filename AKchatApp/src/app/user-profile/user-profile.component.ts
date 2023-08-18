@@ -15,13 +15,11 @@ export class UserProfileComponent  implements OnInit{
   file!:File;
   // userForm : FormGroup = new FormGroup({});
   // submitted = false;
-  selectedOption: string = '';
-  Gender: string = '';
+  // selectedOption: string = '';
+  // Gender: string = '';
   empForm: FormGroup;
  
   ngOnInit(): void {
-    console.log("himansu");
-    debugger;
     this.empForm.patchValue(this.service.singleuser);
     this.imageUrl=this.service.singleuser.imgstr;
   }
@@ -32,7 +30,7 @@ export class UserProfileComponent  implements OnInit{
       email: '',
       gender:'',
       phonenumber:'',
-      dob:'',
+      dob:Date,
       aboutme:'',
       status:'',
       imgstr:''

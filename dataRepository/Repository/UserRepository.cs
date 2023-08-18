@@ -176,7 +176,7 @@ namespace dataRepository.Repository
                             imgstr = rdr["imgstr"].ToString(),
                             gender = rdr["gender"].ToString(),
                             phonenumber = rdr["phonenumber"].ToString(),
-                            dob = rdr["dob"].ToString()
+                            dob = Convert.ToDateTime(rdr["dob"])
                         };
 
                         model.Add(names);
