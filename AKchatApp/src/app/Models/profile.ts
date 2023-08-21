@@ -3,7 +3,7 @@ export interface profile
     username?:string,
     name:string,
     email:string,
-    dob:string,
+    dob:Date,
     gender:string,
     phonenumber:string,
     aboutme:string,

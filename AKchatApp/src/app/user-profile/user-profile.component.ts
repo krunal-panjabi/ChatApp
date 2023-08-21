@@ -15,8 +15,8 @@ export class UserProfileComponent  implements OnInit{
   file!:File;
   // userForm : FormGroup = new FormGroup({});
   // submitted = false;
-  selectedOption: string = '';
-  Gender: string = '';
+  // selectedOption: string = '';
+  // Gender: string = '';
   empForm: FormGroup;
  
   ngOnInit(): void {
@@ -31,7 +31,7 @@ export class UserProfileComponent  implements OnInit{
       email: '',
       gender:'',
       phonenumber:'',
-      dob:'',
+      dob:Date,
       aboutme:'',
       status:'',
       imgstr:''

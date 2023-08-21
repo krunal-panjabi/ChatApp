@@ -37,3 +37,12 @@
     position: absolute;
     z-index: 22;
 }
+
+:host ::ng-deep .mat-form-field-infix{
+    display: flex;
+}
+
+.date-toggle{    
+    position: absolute;
+    right: 5px;
+}
