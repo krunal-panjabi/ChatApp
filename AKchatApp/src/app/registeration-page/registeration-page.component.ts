@@ -40,7 +40,6 @@ export class RegisterationPageComponent implements OnInit {
 
     if(this.userForm.valid){
       this.service.postData(this.userForm.value).subscribe(data =>{
-        alert("added");
         this.userForm.reset();
         this.router.navigateByUrl('/login')
       })

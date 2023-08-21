@@ -1,3 +1,8 @@
+.main-body
+{
+    height: fit-content;
+}
+
 .mat-card{
     margin: 2%;
     text-align: left;
@@ -6,9 +11,9 @@
 
 .date{
     margin-bottom: 20px;
-         width: 100%;
+         width: fit-content;
          border: solid #dbdbdb 1px;
-         padding: 15px;
+         padding: 7px;
          border-radius: 5px;
          
 }
@@ -38,6 +43,19 @@
     z-index: 22;
 }
 
+.edit-pencil{
+    position: absolute;
+    right: 0px;
+    bottom : 0px;
+    background-color: #22ce22;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 :host ::ng-deep .mat-form-field-infix{
     display: flex;
 }
@@ -46,3 +64,8 @@
     position: absolute;
     right: 5px;
 }
+.half-size{
+    width:48%;
+    height: fit-content;
+}
+
