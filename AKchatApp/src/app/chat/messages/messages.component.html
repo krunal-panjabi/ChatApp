@@ -4,6 +4,21 @@
             <div>
                 <span class="text-primary fw-bolder">{{message.from}}:  </span>
                 <span class="ml-1">{{message.content}}</span>
+                <ng-container *ngIf="!this.service.isGroupChat; else groupChat"> 
+                <img src="/assets/img/onetick.jpg" style="height: 15px; width: 15px;"
+                     *ngIf="message.from === this.service.myName && message.isdelievered === 0 && message.isread === 0">
+                <img src="/assets/img/dtick.png" style="height: 15px; width: 15px;"
+                     *ngIf="message.from === this.service.myName && message.isdelievered === 1 && message.isread===0">
+                <img src="/assets/img/bluedtick.png" style="height: 15px; width: 15px;"
+                     *ngIf="message.from === this.service.myName && message.isread === 1">
+                    </ng-container>
+
+                    <ng-template #groupChat>
+                <img src="/assets/img/onetick.jpg" style="height: 15px; width: 15px;"
+                *ngIf="message.from===this.service.myName && message.isgrpread===0">
+                <img src="/assets/img/bluedtick.png" style="height: 15px; width: 15px;"
+                *ngIf="message.from===this.service.myName && message.isgrpread===1">
+            </ng-template>
             </div>
             <div>
                 <span class=" date">{{message.time | date:'MMM dd, HH:mm'}}</span>

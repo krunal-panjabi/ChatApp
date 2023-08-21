@@ -66,7 +66,6 @@ namespace AKchat.Areas.user.Controllers
             }
             if (imageFile != null)
             {
-               
                 string addpath = "\\Assets\\UserProfile";
                 var filePath = Directory.GetCurrentDirectory() + addpath + imageFile.FileName;
                 Console.WriteLine(filePath);
@@ -188,9 +187,9 @@ namespace AKchat.Areas.user.Controllers
         }
 
         [HttpGet("LoadInitialGroupChat")]
-        public List<MessageVM> LoadInitialGroupChat(string grpname)
+        public async Task<List<MessageVM>> LoadInitialGroupChat(string grpname,string name)
         {
-            var messages = _userrepo.loadgroupchat(grpname);
+            var messages =await _userrepo.loadgroupchat(grpname,name);
             return messages;
         }
 

@@ -35,14 +35,13 @@
     <mat-card-content class="d-flex flex-column mb-4 content-with-border">
         <div class="d-flex">
         <label>Gender :</label>
-        <mat-radio-group [(ngModel)]="Gender" class="mb-2" formControlName="gender">
+        <mat-radio-group  class="mb-2" formControlName="gender">
             <mat-radio-button class="ms-4" value="Male">Male</mat-radio-button>
             <mat-radio-button class="ms-4" value="Female">Female</mat-radio-button>
             <mat-radio-button class="ms-4" value="Other">Other</mat-radio-button>
           </mat-radio-group>
         </div>
-          <p>You selected: {{ Gender }}</p>
-
+         
     </mat-card-content>
 
 
@@ -78,17 +77,17 @@
     <mat-card-content class="d-flex flex-column content-with-border">
         <div class="d-flex">
         <label>Status :</label>
-        <mat-radio-group [(ngModel)]="selectedOption" class="mb-2" formControlName="status">
+        <mat-radio-group class="mb-2" formControlName="status">
             <mat-radio-button class="ms-4" value="Single">Single</mat-radio-button>
             <mat-radio-button class="ms-4" value="Married">Married</mat-radio-button>
             <mat-radio-button class="ms-4" value="Prefer Not To Say">Prefer Not To Say</mat-radio-button>
           </mat-radio-group>
         </div>
-          <p>You selected: {{ selectedOption }}</p>
+          
 
     </mat-card-content>
     <mat-card-content class="d-flex justify-content-end">
-            <button [disabled]="Image.value==''" mat-raised-button color="primary" class="w-100" type="submit">Save</button>
+            <button mat-raised-button color="primary" class="w-100" type="submit">Save</button>
     </mat-card-content>
     <mat-card-footer></mat-card-footer>
 </mat-card>

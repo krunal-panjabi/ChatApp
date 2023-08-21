@@ -52,31 +52,90 @@ namespace AKchat.Hubs
             MessageVM model = new MessageVM
             {
                 From = message.from,
-                Content=message.content
+                Content = message.content,
+                time = DateTime.Now.ToString("MMM dd, HH:mm"),
             };
             await Clients.Group("ChatApp").SendAsync("NewGrpMessage", model);
+            /* _userrepo.storegroupchat(message);
+             string privateGroupName = message.grpname;
+             await Groups.AddToGroupAsync(Context.ConnectionId, privateGroupName);
+             string[] namearr = message.username.Split(',');
+             foreach(string item in namearr)
+             {
+                 if (_chatServices.IsUserOnline(item))
+                 {
+                     var toConnectionId = _chatServices.GetConnectionIdByUser(item);
+                     await Groups.AddToGroupAsync(toConnectionId, privateGroupName);
+                     MessageVM model = new MessageVM
+                     {
+                         From = message.from,
+                         Content = message.content,
+                         time = DateTime.Now.ToString("MMM dd, HH:mm"),
+                         grpname=message.grpname
+                     };
+                     await Clients.Group(privateGroupName).SendAsync("NewGrpMessage", model);
+                 }
+             }*/
+
+
+            //   await Clients.Group("ChatApp").SendAsync("NewGrpMessage", model);
         }
 
         public async Task CreatePrivateChat(MessageVM message)
         {
-            _userrepo.storechat(message);
+         
             string privateGroupName = GetPrivateGroupName(message.From, message.To);
             await Groups.AddToGroupAsync(Context.ConnectionId, privateGroupName);
-            var toConnectionId = _chatServices.GetConnectionIdByUser(message.To);
+            if(_chatServices.IsUserOnline(message.To))
+            {
+                message.isread = 1;
+                _userrepo.storechat(message);
+                var toConnectionId = _chatServices.GetConnectionIdByUser(message.To);
+                await Groups.AddToGroupAsync(toConnectionId, privateGroupName);
+                await Clients.Client(toConnectionId).SendAsync("OpenPrivateChat", message);
+            }
+            else
+            {
+                 _userrepo.storechat(message);
+                MessageVM model = new MessageVM
+                {
+                    From = message.From,
+                    Content = message.Content,
+                    time = DateTime.Now.ToString("MMM dd, HH:mm")
+                };
+                await Clients.Group("ChatApp").SendAsync("NewPrivateChatMessage", model);
+            }
             // for openinf private chat
 
-            await Groups.AddToGroupAsync(toConnectionId, privateGroupName);
-            await Clients.Client(toConnectionId).SendAsync("OpenPrivateChat", message);
+          
+            
+            /*if(_chatServices.IsUserOnline(message.To))
+            {
+                await Clients.Client(toConnectionId).SendAsync("OpenPrivateChat", message);
+            }
+            else
+            {
+                MessageVM model = new MessageVM
+                {
+                    From = message.From,
+                    Content = message.Content,
+                    time = DateTime.Now.ToString("MMM dd, HH:mm")
+                };
+                await Clients.Group("ChatApp").SendAsync("NewPrivateChatMessage", model);
+            }*/
+
 
         }
-     
+
         public async Task LoadGrpNames()
         {
             await Clients.Groups("ChatApp").SendAsync("CallForLoadGrpNames");
         }
         public async Task ReceivePrivateMessage(MessageVM message)
         {
+            message.isread = 1;
             _userrepo.storechat(message);
+            message.time = DateTime.Now.ToString("MMM dd, HH:mm");
             string privateGroupName = GetPrivateGroupName(message.From, message.To);
             await Clients.Group(privateGroupName).SendAsync("NewPrivateMessage", message);
         }

@@ -9,7 +9,8 @@ import { UsersService } from 'src/app/users.service';
 })
 export class MessagesComponent {
 @Input() messages:Message[]=[];
-constructor(private service:UsersService){
+
+constructor(public service:UsersService){
   
 }
 }

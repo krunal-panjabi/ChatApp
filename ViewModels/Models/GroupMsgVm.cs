@@ -11,5 +11,6 @@ namespace ViewModels.Models
         public string content { get; set; }
         public string grpname { get; set; }
         public string from { get; set; }
+      //  public string[]? username { get; set; }
     }
 }

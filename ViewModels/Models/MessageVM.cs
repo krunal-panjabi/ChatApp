@@ -15,5 +15,11 @@ namespace ViewModels.Models
         [Required]
         public string Content { get; set; }
         public string time { get; set; }
+
+        public int isdelievered { get;set; }
+        public int isread { get; set; }
+        public int isgrpread { get; set; }
+        public string? grpname { get; set; }
+       
     }
 }

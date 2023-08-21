@@ -20,8 +20,7 @@ export class UserProfileComponent  implements OnInit{
   empForm: FormGroup;
  
   ngOnInit(): void {
-    console.log("himansu");
-    debugger;
+
     this.empForm.patchValue(this.service.singleuser);
     this.imageUrl=this.service.singleuser.imgstr;
   }
@@ -51,6 +50,7 @@ export class UserProfileComponent  implements OnInit{
     })
     this.service.getAllUsers();
     this.service.myName=this.empForm.get('name')?.value;
+    console.log("fie name",this.file);
     this.service.uploadfile(this.file,this.service.myName).subscribe(
       data =>{
         console.log('done');

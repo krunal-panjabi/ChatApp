@@ -19,6 +19,7 @@ import { profile } from './Models/profile';
   // providedIn: 'root'
 )
 export class UsersService {
+  isGroupChat:boolean=false;
   myName: string = '';
   onlineUsers: string[] = [];
   offlineUsers: OfflineUsers[] = [];
@@ -135,8 +136,10 @@ export class UsersService {
   }
 
   loadprivatechats(toUser: string) {
+    this.isGroupChat=false;
     this.intitializeloadprivatechats(toUser, this.myName).subscribe({
       next: (data) => {
+        console.log(data);
         this.privateMessages = data;
       },
       error: (error) => {
@@ -152,15 +155,17 @@ export class UsersService {
     return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/LoadGrpMembers`, { 'headers': headers, 'params': params });
   }
 
-  intitializeloadgrpchats(gpname: string): Observable<Message[]> {
+  intitializeloadgrpchats(name:string,gpname: string): Observable<Message[]> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     let params = new HttpParams()
     params = params.append('grpname', gpname);
+    params = params.append('name', name);
     return this.http.get<Message[]>(`${environment.apiUrl}User/LoadInitialGroupChat`, { 'headers': headers, 'params': params });
   }
 
   loadgrpchats(gpname: string) {
-    this.intitializeloadgrpchats(gpname).subscribe({
+    this.isGroupChat=true;
+    this.intitializeloadgrpchats(this.myName,gpname).subscribe({
       next: (data) => {
         this.grpmessages = data;
         console.log("the grpmessages",this.grpmessages);
@@ -194,32 +199,34 @@ export class UsersService {
         this.getAllGroups(this.myName);
     });
 
-    
-
     this.chatConnection.on('NewMessage',(newMessage:Message)=>{
       
     this.messages=[...this.messages,newMessage];
     });
 
     this.chatConnection.on('NewGrpMessage', (newMessage: Message) => {
-      
+    //  this.loadgrpchats(newMessage.grpname);
       this.grpmessages = [...this.grpmessages, newMessage];
-      console.log("this are message",this.grpmessages);
+    });
+
+    this.chatConnection.on('NewPrivateChatMessage',(newMessage:Message)=>{
+       this.privateMessages=[...this.privateMessages,newMessage];
     });
 
     this.chatConnection.on('OpenPrivateChat', (newMessage: Message) => {
-
-      this.privateMessages = [...this.privateMessages, newMessage];
+    alert('for open');
+    this.loadprivatechats(newMessage.from);
+  //    this.privateMessages = [...this.privateMessages, newMessage];
       this.privateMessageInitiated = true;
-      this.loadprivatechats(newMessage.from);
       const modalRef = this.modalService.open(PrivateChatsComponent);
       modalRef.componentInstance.toUser = newMessage.from;
-
     });
 
-
+    
     this.chatConnection.on('NewPrivateMessage', (newMessage: Message) => {
-      this.privateMessages = [...this.privateMessages, newMessage];
+     // this.loadprivatechats(newMessage.from);
+     
+    this.privateMessages = [...this.privateMessages, newMessage];
     });
 
     this.chatConnection.on('ClosePrivateChat', () => {
@@ -251,36 +258,53 @@ export class UsersService {
     return this.chatConnection?.invoke('ReceiveMessage', message)
       .catch(error => console.log(error));
   }
+
+
   async sendGrpMessage(content: string,gname:string) {
+    this.isGroupChat=true;
+  //  const usernames:string []=this.grpmembers.map(member=>member.username);
     const message: groupmodel = {
       from: this.myName,
       content: content,
       grpname:gname,
+   //  username:usernames
     };
 
     return this.chatConnection?.invoke('ReceiveGrpMessage', message)
       .catch(error => console.log(error));
   }
 
+
+
   async sendPrivateMessage(to: string, content: string) {
+    this.isGroupChat=false;
    // const formattedTime = format(currentTime, 'MMM dd,HH:mm');
     const message: Message = {
       from: this.myName,
       content: content,
       to: to,
     };
+    if(this.onlineUsers.includes(to)){
+      message.isdelievered=1;
+      message.isread=0;
+    }
+    else{
+      message.isdelievered=0;
+      message.isread=0;
+    }
     if (!this.privateMessageInitiated) {
-     
-      this.loadprivatechats(to);
       this.privateMessageInitiated = true; //if they have started talking with each other
       return this.chatConnection?.invoke('CreatePrivateChat', message).then(() => {
-        this.privateMessages = [...this.privateMessages, message];
+       
+        this.loadprivatechats(to);
+      //  this.privateMessages = [...this.privateMessages, message];
       })
         .catch(error => console.log(error));
     } else {
-      
-      this.privateMessages = [...this.privateMessages, message];
-      return this.chatConnection?.invoke('ReceivePrivateMessage', message)
+   //   this.privateMessages = [...this.privateMessages, message];
+      return this.chatConnection?.invoke('ReceivePrivateMessage', message).then(()=>{
+        this.loadprivatechats(to);
+      })
         .catch(error => console.log(error));
     }
   }
@@ -288,9 +312,5 @@ export class UsersService {
     return this.chatConnection?.invoke('RemovePrivateChat', this.myName, otherUser)
       .catch(error => console.log(error));
   }
-
-
-
-
 
 }

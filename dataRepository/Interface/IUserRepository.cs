@@ -19,7 +19,7 @@ namespace dataRepository.Interface
         public List<MessageVM> loadprivatechat(string from, string to);
         public List<AllGroupsVm> GetAllGroupsName(string username);
         public void storegroupchat(GroupMsgVm model);
-        public List<MessageVM> loadgroupchat(string grpname);
+        public Task<List<MessageVM>> loadgroupchat(string grpname, string name);
         public List<AllUsersVm> loadmembers(string gpname);
         public int profiledata(ProfileVm model);
         public int uploadphoto(string photo, string name);

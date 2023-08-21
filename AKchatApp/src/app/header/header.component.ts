@@ -20,7 +20,7 @@ export class HeaderComponent {
     this.service.getuserprofiledetail().subscribe({
       next:(data:profile)=>{
         this.service.singleuser=data;
-        alert('successfull bind');
+
         this.router.navigateByUrl('/user-profile');
       },
       error: (error) => {

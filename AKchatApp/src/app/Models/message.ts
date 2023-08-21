@@ -3,4 +3,8 @@ export interface Message {
     to?: string;
     from: string;
     time?:string;
+    isdelievered?:number;
+    isread?:number;
+    isgrpread?:number;
+ //   grpname?:string;
   }

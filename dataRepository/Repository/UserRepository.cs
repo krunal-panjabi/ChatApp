@@ -42,6 +42,8 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@fromname", model.From);
                 cmd.Parameters.AddWithValue("@toname", model.To);
                 cmd.Parameters.AddWithValue("@message", model.Content);
+                cmd.Parameters.AddWithValue("@isread", model.isread);
+                cmd.Parameters.AddWithValue("@isdeliever", model.isdelievered);
                 con.Open();
                 int i = cmd.ExecuteNonQuery();
             }
@@ -178,7 +180,7 @@ namespace dataRepository.Repository
                             phonenumber = rdr["phonenumber"].ToString(),
                             dob = rdr["dob"].ToString()
                         };
-
+                      
                         model.Add(names);
                     }
                 }
@@ -234,7 +236,7 @@ namespace dataRepository.Repository
             }
             return model;
         }
-        public List<MessageVM> loadprivatechat(string from ,string to)
+       /* public List<MessageVM> loadprivatechat(string from, string to)
         {
             List<MessageVM> model = new List<MessageVM>();
             using (SqlConnection con = new SqlConnection(connections))
@@ -249,8 +251,8 @@ namespace dataRepository.Repository
                 {
                     MessageVM names = new MessageVM
                     {
-                        From= rdr["fromusername"].ToString(),
-                        To= rdr["tousername"].ToString(),
+                        From = rdr["fromusername"].ToString(),
+                        To = rdr["tousername"].ToString(),
                         Content = rdr["message"].ToString(),
                         time = rdr["FormattedChatTime"].ToString()
                     };
@@ -260,8 +262,38 @@ namespace dataRepository.Repository
                 con.Close();
             }
             return model;
+        }*/
+        public  List<MessageVM> loadprivatechat(string from ,string to)
+        {
+            List<MessageVM> model = new List<MessageVM>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("loadprivatechat", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@fromname", from);
+                cmd.Parameters.AddWithValue("@toname", to);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    MessageVM names = new MessageVM
+                    {
+                        From = rdr["fromusername"].ToString(),
+                        To = rdr["tousername"].ToString(),
+                        Content = rdr["message"].ToString(),
+                        time = rdr["FormattedChatTime"].ToString(),
+                        isread = Convert.ToInt32(rdr["isread"]),
+                        isdelievered = Convert.ToInt32(rdr["delievered"])
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+           
+            }
+            return model;
         }
-        public List<MessageVM> loadgroupchat(string grpname)
+        public async Task<List<MessageVM>> loadgroupchat(string grpname,string name)
         {
             List<MessageVM> model = new List<MessageVM>();
             using (SqlConnection con = new SqlConnection(connections))
@@ -269,24 +301,84 @@ namespace dataRepository.Repository
                 SqlCommand cmd = new SqlCommand("loadgrpchat", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@grpname", grpname);
-               
-                con.Open();
-                SqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                {
-                    MessageVM names = new MessageVM
-                    {
-                        From = rdr["Name"].ToString(),
-                        Content = rdr["message"].ToString(),
-                        time = rdr["FormattedChatTime"].ToString()
-                    };
+                cmd.Parameters.AddWithValue("@fromname", name);
 
-                    model.Add(names);
+               await con.OpenAsync();
+                using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                {
+                    while (await rdr.ReadAsync())
+                    {
+                        MessageVM names = new MessageVM
+                        {
+                            From = rdr["Name"].ToString(),
+                            Content = rdr["message"].ToString(),
+                            time = rdr["FormattedChatTime"].ToString(),
+                            isgrpread = Convert.ToInt32(rdr["count"]),
+                        };
+
+                        model.Add(names);
+                    }
+                    con.Close();
                 }
-                con.Close();
+                   
             }
             return model;
         }
+
+        /*public async Task<ProfileVm> GetUserByProfileAsync(string name)
+        {
+            List<ProfileVm> model = new List<ProfileVm>();
+
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("selectuserbyprofile", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userName", name);
+
+                await con.OpenAsync();
+
+                using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                {
+                    while (await rdr.ReadAsync())
+                    {
+                        ProfileVm names = new ProfileVm
+                        {
+                            name = rdr["Name"].ToString(),
+                            email = rdr["Email"].ToString(),
+                            aboutme = rdr["aboutme"].ToString(),
+                            status = rdr["status"].ToString(),
+                            imgstr = rdr["imgstr"].ToString(),
+                            gender = rdr["gender"].ToString(),
+                            phonenumber = rdr["phonenumber"].ToString(),
+                            dob = rdr["dob"].ToString()
+                        };
+
+                        model.Add(names);
+                    }
+                }
+            }
+
+            return model.FirstOrDefault();
+        }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public int profiledata(ProfileVm model)
         {
             using (SqlConnection con = new SqlConnection(connections))

@@ -81,6 +81,10 @@ namespace AKchat.Services
                 return Users.OrderBy(x => x.Key).Select(x => x.Key).ToArray();
             }
         }
+        public bool IsUserOnline(string from)
+        {
+            return Users.ContainsKey(from);
+        }
 
     }
 }
