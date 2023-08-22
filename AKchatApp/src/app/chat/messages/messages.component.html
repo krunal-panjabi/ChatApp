@@ -1,29 +1,38 @@
 <div style="overflow-y: auto;height: 400px;">
-    <div class="card-text" *ngFor="let message of messages">
-        <div class="d-flex justify-content-between">
+    <div class="card-text d-flex mb-2" *ngFor="let message of messages"  [class.justify-content-between]="message.from !== service.myName"
+    [class.justify-content-end]="message.from === service.myName">
+        <div class="d-flex messages" [class.messagesFromOthers]="message.from !== service.myName"
+            [class.messagesFromMe]="message.from === service.myName">
             <div>
-                <span class="text-primary fw-bolder">{{message.from}}:  </span>
+                <ng-container *ngIf="message.from !== service.myName">
+                    <span class="text sender fw-bolder">{{ message.from }}: </span>
+                </ng-container>
                 <span class="ml-1">{{message.content}}</span>
-                <ng-container *ngIf="!this.service.isGroupChat; else groupChat"> 
-                <img src="/assets/img/onetick.jpg" style="height: 15px; width: 15px;"
-                     *ngIf="message.from === this.service.myName && message.isdelievered === 0 && message.isread === 0">
-                <img src="/assets/img/dtick.png" style="height: 15px; width: 15px;"
-                     *ngIf="message.from === this.service.myName && message.isdelievered === 1 && message.isread===0">
-                <img src="/assets/img/bluedtick.png" style="height: 15px; width: 15px;"
-                     *ngIf="message.from === this.service.myName && message.isread === 1">
-                    </ng-container>
+                <ng-container *ngIf="!this.service.isGroupChat; else groupChat">
+                    <img src="/assets/img/onetick.jpg" class="ticks" style="height: 15px; width: 15px;"
+                        *ngIf="message.from === this.service.myName && message.isdelievered === 0 && message.isread === 0">
+                    <img src="/assets/img/dtick.png" class="ticks" style="height: 15px; width: 15px;"
+                        *ngIf="message.from === this.service.myName && message.isdelievered === 1 && message.isread===0">
+                    <img src="/assets/img/bluedtick.png"class="ticks" style="height: 15px; width: 15px;"
+                        *ngIf="message.from === this.service.myName && message.isread === 1">
+                </ng-container>
 
-                    <ng-template #groupChat>
-                <img src="/assets/img/onetick.jpg" style="height: 15px; width: 15px;"
-                *ngIf="message.from===this.service.myName && message.isgrpread===0">
-                <img src="/assets/img/bluedtick.png" style="height: 15px; width: 15px;"
-                *ngIf="message.from===this.service.myName && message.isgrpread===1">
-            </ng-template>
+                <ng-template #groupChat>
+                    <img src="/assets/img/onetick.jpg"class="ticks" style="height: 15px; width: 15px;"
+                        *ngIf="message.from===this.service.myName && message.isgrpread===0">
+                    <img src="/assets/img/bluedtick.png"class="ticks" style="height: 15px; width: 15px;"
+                        *ngIf="message.from===this.service.myName && message.isgrpread===1">
+                </ng-template>
             </div>
-            <div>
-                <span class=" date">{{message.time | date:'MMM dd, HH:mm'}}</span>
-            </div>
+
         </div>
+
+        <div class="d-flex justify-content-end align-items-center ms-2">
+            <span class=" date">{{message.time | date:'MMM dd, HH:mm'}}</span>
+        </div>
+
+
+
     </div>
 
 </div>

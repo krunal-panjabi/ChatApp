@@ -2,3 +2,29 @@
     color:rgb(179 179 179);
     font-size: small;
 }
+
+.messagesFromOthers{
+    background-color: #b3bcff;
+    padding: 6px;
+    padding-inline: 10px;
+    border-radius: 22px;
+    justify-content: space-between;
+    width: fit-content;
+}
+
+.messagesFromMe{
+    background-color: #dddddd;
+    padding: 6px;
+    padding-inline: 10px;
+
+    border-radius: 22px;
+    justify-content: space-between;
+    width: fit-content;
+}
+
+.ticks{
+    mix-blend-mode: darken;
+}
+.sender{
+    color: black;
+}
