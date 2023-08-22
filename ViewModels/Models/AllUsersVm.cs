@@ -9,5 +9,7 @@ namespace ViewModels.Models
     public  class AllUsersVm
     {
         public string username { get; set; }
+        public string imgstr { get; set; }
+
     }
 }

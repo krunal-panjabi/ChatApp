@@ -25,7 +25,8 @@ export class UsersService {
   toUser:string='';
   myName: string = '';
   typename:string='';
-  imageUrl : string = "/assets/img/upload.png";
+  //imageUrl : string = "/assets/img/upload.png";
+  imageUrl : string = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ";
   onlineUsers: string[] = [];
   offlineUsers: OfflineUsers[] = [];
   singleuser!:profile;

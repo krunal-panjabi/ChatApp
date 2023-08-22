@@ -111,10 +111,11 @@ namespace dataRepository.Repository
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
-                {   
+                {
                     AllUsersVm names = new AllUsersVm
                     {
-                       username= rdr["name"].ToString()
+                        username = rdr["name"].ToString(),
+                        imgstr = rdr["image"].ToString()
                     };
 
                     model.Add(names);

@@ -31,12 +31,12 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   isUserAuthenticated(){
     return true;
   }
-  openPrivateChat(toUser:string){
+    openPrivateChat(toUser: string, image: string){
     this.service.toUser=toUser;
-    console.log("to user",this.service.toUser);
+    console.log("to user",this.service.toUser); 
    const modalRef=this.modalService.open(PrivateChatsComponent);
    modalRef.componentInstance.toUser=toUser;
-   
+   modalRef.componentInstance.image=image;
    this.service.loadprivatechats(toUser);
   }
 

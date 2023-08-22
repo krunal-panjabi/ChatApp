@@ -23,8 +23,12 @@ export class UserProfileComponent  implements OnInit{
   ngOnInit(): void {
 
     this.empForm.patchValue(this.service.singleuser);
-    this.imageUrl=this.service.singleuser.imgstr;
-  }
+    if (this.service.singleuser.imgstr === "") {
+      // Set a default image URL if imgstr is empty
+      this.imageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ"; // Replace with your actual default image URL
+    } else {
+      this.imageUrl = this.service.singleuser.imgstr;
+    }  }
 
   constructor(private formBuilder : FormBuilder,private service : UsersService , private router: Router) { 
     this.empForm = this.formBuilder.group({
