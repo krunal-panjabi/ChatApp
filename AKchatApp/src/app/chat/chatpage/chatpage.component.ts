@@ -32,14 +32,17 @@ export class ChatpageComponent implements OnInit,OnDestroy {
     return true;
   }
   openPrivateChat(toUser:string){
+    this.service.toUser=toUser;
+    console.log("to user",this.service.toUser);
    const modalRef=this.modalService.open(PrivateChatsComponent);
    modalRef.componentInstance.toUser=toUser;
- 
+   
    this.service.loadprivatechats(toUser);
   }
 
   logout(){
     this.service.myName='';
+    this.service.isTyping=false;
     this.router.navigateByUrl('/login');
   }
   openGroupChat(GroupName:string){

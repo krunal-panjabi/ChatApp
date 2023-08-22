@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title">{{toUser}}</h4>
+    <h4 class="modal-title">{{toUser}}</h4><img src="/assets/img/indityp.gif" style="mix-blend-mode: multiply;height:25px;width:60px">
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
@@ -7,6 +7,8 @@
           <div class="card-header"><h3>Messages</h3></div>
           <div class="card-body card-messages">
           <app-messages [messages]="service.privateMessages"></app-messages>  
+          <div *ngIf="service.isTyping">
+        <span class="fw-bolder text-primary">{{service.username}}</span><span><img src="/assets/img/indityp.gif" style="mix-blend-mode: multiply;height:25px;width:60px"></span></div>
      </div>
     
   <div class="card-footer">

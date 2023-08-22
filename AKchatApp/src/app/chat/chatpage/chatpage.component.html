@@ -25,7 +25,8 @@
                             <button type="button" 
                             [disabled]="user.username === service.myName"
                             (click)="openPrivateChat(user.username)"
-                            class="btn card-text btn-success" >{{user.username}}<span *ngIf="user.username === service.myName"> (you)</span>
+                            class="btn card-text btn-success" >{{user.username}}
+                        <span *ngIf="user.username === service.myName"> (you)</span>  <span class="fw-bolder text-primary" *ngIf="user.username===service.username && service.isTyping">typing...</span> 
                             <span class="position-absolute pos_dot"    *ngIf="service.onlineUsers.includes(user.username)">
                             <div class="onlinesign"></div>
                          </span>

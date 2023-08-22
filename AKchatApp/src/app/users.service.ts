@@ -20,7 +20,11 @@ import { profile } from './Models/profile';
 )
 export class UsersService {
   isGroupChat:boolean=false;
+  isTyping :boolean=false;
+  username:string='';
+  toUser:string='';
   myName: string = '';
+  typename:string='';
   imageUrl : string = "/assets/img/upload.png";
   onlineUsers: string[] = [];
   offlineUsers: OfflineUsers[] = [];
@@ -32,6 +36,7 @@ export class UsersService {
   private chatConnection?: HubConnection;
   privateMessages: Message[] = [];
   privateMessageInitiated = false;
+  privatetypeintiate=false;
   readonly url = "https://localhost:7239/"
   constructor(private http: HttpClient, private modalService: NgbModal) { }
 
@@ -179,6 +184,7 @@ export class UsersService {
       }
     });
   }
+  
   createChatConnection() {
     this.chatConnection = new HubConnectionBuilder()
       .withUrl(`https://localhost:7239/hubs/chat`, {
@@ -214,17 +220,33 @@ export class UsersService {
 
     this.chatConnection.on('NewPrivateChatMessage',(newMessage:Message)=>{
        this.privateMessages=[...this.privateMessages,newMessage];
+     
     });
 
     this.chatConnection.on('OpenPrivateChat', (newMessage: Message) => {
     alert('for open');
     this.loadprivatechats(newMessage.from);
+    this.typename=newMessage.from;
   //    this.privateMessages = [...this.privateMessages, newMessage];
       this.privateMessageInitiated = true;
       const modalRef = this.modalService.open(PrivateChatsComponent);
       modalRef.componentInstance.toUser = newMessage.from;
     });
 
+     this.chatConnection.on('ReceiveTypingIndicator',(name:string)=>{
+      this.privatetypeintiate=true;
+      this.isTyping=true;
+      this.username=name;
+      setTimeout(()=>{
+        this.isTyping=false;
+      },4000);
+     });
+     this.chatConnection.on('ReceiveCloseTypingIndicator',(name:string)=>{
+      alert('close type');
+      this.isTyping=false;
+     });
+   //receiveTypingIndicator(callback: (connectionId: string) => void)
+   //{ this.chatConnection.on('ReceiveTypingIndicator', callback); }
 
     
     this.chatConnection.on('NewPrivateMessage', (newMessage: Message) => {
@@ -251,6 +273,29 @@ export class UsersService {
   {
     return this.chatConnection?.invoke('LoadGrpNames')
     .catch(error => console.log(error));
+  }
+
+  startTyping(name:string)
+  {
+    if(!name || name.trim()==='')
+    {
+      name=this.typename;
+    }
+    if(!this.privatetypeintiate)
+    {
+      this.privatetypeintiate=true;
+      return this.chatConnection?.invoke('SendTypingIndicator',name,this.myName).
+      catch(error => console.log(error));
+    }
+    else{
+      return this.chatConnection?.invoke('SendTypingIndicator',name,this.myName).
+      catch(error => console.log(error));
+    }
+  }
+  closeTyping(name:string)
+  {
+    return this.chatConnection?.invoke('SendClosingIndicator',name).
+   catch(error => console.log(error));
   }
   async sendMessage(content: string) {
     console.log("send message called");

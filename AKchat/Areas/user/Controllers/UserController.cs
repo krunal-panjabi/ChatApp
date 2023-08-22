@@ -70,7 +70,8 @@ namespace AKchat.Areas.user.Controllers
                 var filePath = Directory.GetCurrentDirectory() + addpath + imageFile.FileName;
                 Console.WriteLine(filePath);
 
-                var filepathanguar = Path.Combine("D:\\ChatApp\\AKchatApp\\src\\assets\\img", imageFile.FileName);
+                var filepathanguar = Path.Combine("D:\\ChatApp\\ChatApp\\AKchatApp\\src\\assets\\img", imageFile.FileName);
+
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {

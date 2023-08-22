@@ -8,7 +8,9 @@ import { UsersService } from 'src/app/users.service';
 })
 export class PrivateChatsComponent implements OnInit,OnDestroy {
   @Input() toUser='';
-  constructor(public activeModal:NgbActiveModal,public service:UsersService){}
+
+  constructor(public activeModal:NgbActiveModal,public service:UsersService){
+  }
   ngOnInit(): void {
     
   }

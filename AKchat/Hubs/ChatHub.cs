@@ -1,6 +1,8 @@
 ﻿using AKchat.Services;
 using dataRepository.Interface;
+using Humanizer;
 using Microsoft.AspNetCore.SignalR;
+using System.Xml.Linq;
 using ViewModels.Models;
 
 namespace AKchat.Hubs
@@ -14,7 +16,8 @@ namespace AKchat.Hubs
             _userrepo = userrepo;
             _chatServices = chatServices;
         }
-
+        string currentuser;
+        int count = 50;
         public override async Task OnConnectedAsync()
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, "ChatApp");
@@ -160,6 +163,19 @@ namespace AKchat.Hubs
         {
             var stringCompare = string.CompareOrdinal(from, to) < 0;
             return stringCompare ? $"{from}-{to}" : $"{to}-{from}";
+        }
+        public async Task SendTypingIndicator(string name,string myname)
+        {
+           
+                var toConnectionId = _chatServices.GetConnectionIdByUser(name);
+                await Clients.Client(toConnectionId).SendAsync("ReceiveTypingIndicator", myname);
+           
+            //  await Clients.Client(toConnectionId).SendAsync("OpenPrivateChat", message);
+        }
+        public async Task SendClosingIndicator(string name)
+        {
+            var toConnectionId = _chatServices.GetConnectionIdByUser(name);
+            await Clients.Client(toConnectionId).SendAsync("ReceiveCloseTypingIndicator",name);
         }
     }
 }
