@@ -21,6 +21,7 @@ import { profile } from './Models/profile';
 export class UsersService {
   isGroupChat:boolean=false;
   myName: string = '';
+  imageUrl : string = "/assets/img/upload.png";
   onlineUsers: string[] = [];
   offlineUsers: OfflineUsers[] = [];
   singleuser!:profile;
@@ -61,12 +62,10 @@ export class UsersService {
     return this.http.post(`${environment.apiUrl}User/UserLogin`, User);
   }
   public postFile(profiledata:profile):Observable<any> {
-    alert('for profile data');
    profiledata.username=this.myName;
     return this.http.post(`${environment.apiUrl}User/ProfileData`, profiledata);
   }
   public uploadfile(fileToUpload: File,name:string) {
-    alert('for upload file');
     const endpoint = `${environment.apiUrl}User/uploadphoto`;
     const formData: FormData = new FormData();
     formData.append('Image', fileToUpload, fileToUpload.name);
@@ -111,6 +110,11 @@ export class UsersService {
   public getuserprofiledetail():Observable<profile>{
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", this.myName);
+    return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
+  }
+  public getuserImage(name:string):Observable<profile>{
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    const params = new HttpParams().set("username", name);
     return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
   }
 
@@ -195,7 +199,6 @@ export class UsersService {
     });
 
     this.chatConnection.on('CallForLoadGrpNames',()=>{
-      alert('for grps called');
         this.getAllGroups(this.myName);
     });
 
@@ -245,7 +248,7 @@ export class UsersService {
   }
 
   async callbackend()
-  {alert('backedn called');
+  {
     return this.chatConnection?.invoke('LoadGrpNames')
     .catch(error => console.log(error));
   }

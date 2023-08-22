@@ -1,0 +1,35 @@
+.header{
+    position: relative;
+}
+
+.dropdown{
+    position: absolute;
+    right: 90px;
+}
+.buttons{
+   width:  -webkit-fill-available;
+
+
+}
+
+button.dbtn:focus {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    border: none;}
+
+    hr{
+        margin: 8px;
+        opacity: 1;
+    }
+
+    .user-image{
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+    }
+
+    hr{
+        color: white;
+    }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
+import { profile } from '../Models/profile';
 
 @Component({
   selector: 'app-login-page',
@@ -33,8 +34,18 @@ export class LoginPageComponent implements OnInit {
         next: (response) => {
           console.log("the response",response);
           if(typeof(response)=='boolean'){
+            console.log(response);
             if(response)
             {
+              this.service.getuserImage(this.userForm.get('username')?.value).subscribe({
+                next: (data: profile) => {
+                  this.service.imageUrl = data.imgstr;
+                  console.log(this.service.imageUrl);
+                },
+                error: (error) => {
+                  console.error('Error loading private chats', error);
+                }
+              });
               this.service.myName=this.userForm.get('username')?.value;
               this.router.navigateByUrl('/chat')
             }

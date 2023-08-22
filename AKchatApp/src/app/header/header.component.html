@@ -1,17 +1,37 @@
 <nav class="navbar navbar-dark bg-success">
- <div class="container-fluid d-flex justify-content-center" *ngIf="!service.myName">
-  <span class="navbar-brand mb-0 h1">Chat Application</span>
- </div>
+  <div class="container-fluid d-flex justify-content-center" *ngIf="!service.myName">
+    <span class="navbar-brand mb-0 h1">Chat Application</span>
+  </div>
 
   <div class="container-fluid d-flex" *ngIf="service.myName">
-      <div class="col-md-6"></div>
-      <div class="col-md-6 justify-content-between d-flex">
-        <div> <span class="navbar-brand mb-0 h1">Chat Application</span></div>
-        <div class="d-flex">
-          <span class="navbar-brand mb-0 h1 mx-1">{{service.myName}}</span>
-          <a class="btn btn-primary mx-1" (click)="profile()">Profile</a>
-          <button class="btn btn-danger mx-1" (click)="logout()">LogOut</button>
-        </div>
+    <div class="col-md-6"></div>
+    <div class="col-md-6 justify-content-between d-flex header">
+      <div>
+         <span class="navbar-brand mb-0 h1">Chat Application</span>
       </div>
-  </div>
+
+      
+
+
+        <div class="dropdown mb-0">
+          <img class="user-image me-2" [src]="this.service.imageUrl" alt="">
+          <button class="btn  dropdown-toggle p-0 dbtn" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <span class="navbar-brand ">{{service.myName}}</span>
+          </button>
+          <ul class="dropdown-menu mt-2" style="background-color: rgba(25,135,84,255);padding: 10px;"><hr>
+            <li><a class="btn btn-primary mx-1 buttons" (click)="profile()">Profile</a></li><hr>
+            <li><a class="btn btn-danger mx-1 buttons" (click)="logout()">LogOut</a></li><hr>
+          </ul>
+        </div>
+
+
+
+
+          <!-- <span class="navbar-brand mb-0 h1 mx-1">{{service.myName}}</span>
+          <a class="btn btn-primary mx-1" (click)="profile()">Profile</a>
+          <button class="btn btn-danger mx-1" (click)="logout()">LogOut</button> -->
+      </div>
+    </div>
+  
 </nav>
