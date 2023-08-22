@@ -8,7 +8,7 @@
           <div class="card-body card-messages">
           <app-messages [messages]="service.privateMessages"></app-messages>  
      </div>
-     <div *ngIf="isTyping">Typing the user...</div>
+    
   <div class="card-footer">
       <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input>
   </div>  
