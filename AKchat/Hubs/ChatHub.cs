@@ -87,7 +87,7 @@ namespace AKchat.Hubs
             string privateGroupName = GetPrivateGroupName(message.From, message.To);
             await Groups.AddToGroupAsync(Context.ConnectionId, privateGroupName);
             if(_chatServices.IsUserOnline(message.To))
-            {
+            {                      
                 message.isread = 1;
                 _userrepo.storechat(message);
                 var toConnectionId = _chatServices.GetConnectionIdByUser(message.To);
@@ -123,8 +123,6 @@ namespace AKchat.Hubs
                 };
                 await Clients.Group("ChatApp").SendAsync("NewPrivateChatMessage", model);
             }*/
-
-
         }
 
         public async Task LoadGrpNames()

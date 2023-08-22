@@ -222,6 +222,7 @@ export class UsersService {
       modalRef.componentInstance.toUser = newMessage.from;
     });
 
+
     
     this.chatConnection.on('NewPrivateMessage', (newMessage: Message) => {
      // this.loadprivatechats(newMessage.from);
