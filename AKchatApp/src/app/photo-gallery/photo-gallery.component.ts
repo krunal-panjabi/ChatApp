@@ -9,8 +9,8 @@ import { GalleryData } from '../Models/galleryData';
   styleUrls: ['./photo-gallery.component.css']
 })
 export class PhotoGalleryComponent {
-
-  galleryData: GalleryData[] = [];
+  heartIconClass = 'bi bi-heart';
+    galleryData: GalleryData[] = [];
   constructor(public service: UsersService, private router: Router) { }
 
   ngOnInit(): void {
@@ -37,5 +37,11 @@ export class PhotoGalleryComponent {
     this.galleryData = data;
   });
 }
+
+
+toggleHeartClass() {
+  this.heartIconClass = this.heartIconClass === 'bi bi-heart' ? 'bi bi-heart-fill' : 'bi bi-heart';
+}
+
 
 }
