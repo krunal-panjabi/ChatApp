@@ -32,7 +32,17 @@
                 </ng-template>
             </div>
 
+            <div *ngIf="showContextMenu" class="context-menu" >
+                <button (click)="deleteChat()" style="background-color: transparent;border: 0px;padding: 0px;"><i class="bi bi-trash-fill"></i></button>
+              </div>
         </div>
+       
+        <!-- <li>
+            <button mat-raised-button (click)="openDialog()">Pick one</button>
+          </li>
+          <li >
+            You chose: <em>fhgdfj</em>
+          </li> -->
 
         <div class="d-flex justify-content-end align-items-center ms-2">
             <span class=" date">{{message.time | date:'MMM dd, HH:mm'}}</span>

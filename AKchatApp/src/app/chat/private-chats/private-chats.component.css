@@ -1,3 +1,52 @@
+.touserimg{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    /* position: absolute; */
+}
+
+.touserimgbtn{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    /* position: relative; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: solid green 2px;
+}
+
+.display{
+    flex-direction: row;
+    display: flex;
+}
+
+
+
+
+.my-division{
+    position: absolute;
+    height: 420px;
+    width: 420px;
+    z-index: 3;
+    left: 40px;
+    background-color: white;
+    border: solid rgb(0, 0, 0) 2px;
+    border-radius: 12px;
+    box-shadow: 3px 11px 23px 20px #888888
+}
+
+
+.my-division-close{
+    position: absolute;
+    top:2%;
+    right: 2%;
+    opacity: 0.8;
+    color: white;
+    background-color: white;
+    font-size: x-large;
+}
 .modal-container{
     z-index: 1000;
 }

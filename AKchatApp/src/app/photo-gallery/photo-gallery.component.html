@@ -1,0 +1,40 @@
+<div class="mainBody">
+    <div class="row d-flex justify-content-center mt-5">
+
+
+
+        <div class="container d-flex justify-content-center mt-2">
+            <a class="btn btn-primary" [routerLink]="['/upload-gallery']" >upload Image</a>
+        </div>
+        
+        <div class="col-6 mt-3" style="background-color: #ededed;height: 615px;overflow-y: auto;">
+            
+
+            <div class="container d-flex justify-content-center p-2" *ngFor="let data of galleryData" >
+                
+                <div class="card mt-3" style="width: fit-content;height: fit-content;" >
+                    <div class="m-3"> <img class="user-image me-2"
+                            src="https://blog.tryshiftcdn.com/uploads/2021/01/multiple-instagram-accounts@1x_1160x600_acf_cropped.jpg"
+                            alt="">
+
+                        <span class="navbar-brand ">{{ data.uploadedUser }}</span>
+                    </div> <hr>
+                    <img class="card-img-top" style="height: 300px;width: 550px;max-width: -webkit-fill-available;"
+                    [src]="data.imgstr"
+                        alt="Card image cap">
+                        <hr>
+                    <div class="card-body">
+                        <p class="card-text" style="margin: 0px 0px 3px;">
+                            <!-- <i class="bi bi-heart" style="font-size: larger;"></i> <i
+                                class="bi bi-chat ms-1" style="font-size: larger;"></i> -->
+                            </p>
+                                <span><span style="font-weight: 600;">{{data.uploadedUser}}</span>&nbsp; {{data.caption}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

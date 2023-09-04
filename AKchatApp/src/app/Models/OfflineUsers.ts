@@ -1,4 +1,6 @@
 export interface OfflineUsers
 {
-username: string
+username: string,
+imgstr:string,
+
 }

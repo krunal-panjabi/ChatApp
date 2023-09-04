@@ -24,6 +24,21 @@ export class ChatpageComponent implements OnInit,OnDestroy {
     this.service.getAllUsers();
     this.service.getAllGroups(this.service.myName);
     this.service.createChatConnection();
+
+    if (this.service.myName) {
+
+      // this.updateImageUrl(); // Update imageUrl if myName is available
+      console.log(this.service.myName);
+      
+    }
+    else{
+     setTimeout(() => {
+       this.router.navigateByUrl('/no-connection');
+       setTimeout(() => {
+         this.router.navigateByUrl('/login');
+       }, 3000);
+     }, 0);
+    }
   }
   sendMessage(content:string){
     this.service.sendMessage(content);
@@ -31,12 +46,12 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   isUserAuthenticated(){
     return true;
   }
-  openPrivateChat(toUser:string){
+    openPrivateChat(toUser: string, image: string){
     this.service.toUser=toUser;
-    console.log("to user",this.service.toUser);
+    console.log("to user",this.service.toUser); 
    const modalRef=this.modalService.open(PrivateChatsComponent);
    modalRef.componentInstance.toUser=toUser;
-   
+   modalRef.componentInstance.image=image;
    this.service.loadprivatechats(toUser);
   }
 
@@ -63,6 +78,20 @@ export class ChatpageComponent implements OnInit,OnDestroy {
     const modalRef = this.modalService.open(GroupCreateComponent);
     modalRef.componentInstance;
   }
+
+
+  // customSort(userA: any, userB: any): number {
+  //   if (userA.username === this.service.myName) {
+  //     return -1; // userA comes first
+  //   } else if (userB.username === this.service.myName) {
+  //     return 1; // userB comes first
+  //   } else {
+  //     // Compare other users based on your criteria, if needed
+  //     // For example, you can compare usernames alphabetically
+  //     return userA.username.localeCompare(userB.username);
+  //   }
+  // }
+
 
 
 }

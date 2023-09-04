@@ -20,6 +20,7 @@ namespace ViewModels.Models
         public int isread { get; set; }
         public int isgrpread { get; set; }
         public string? grpname { get; set; }
+        //public int msgid { get; set;}
        
     }
 }

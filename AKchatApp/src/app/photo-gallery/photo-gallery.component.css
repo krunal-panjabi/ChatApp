@@ -1,0 +1,11 @@
+.mainBody{
+    height: 700px;
+}
+.user-image{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+hr{
+    margin: 10px 0px;
+}

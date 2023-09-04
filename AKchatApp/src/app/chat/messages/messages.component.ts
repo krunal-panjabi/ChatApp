@@ -26,4 +26,21 @@ if(!isNaN(numerickey) && numerickey!==mesaageId){
 }
 });
 }
+
+onDivRightClick(event: MouseEvent): void {
+  event.preventDefault(); // Prevent the default browser context menu
+  console.log("hello");
+  this.showContextMenu = !this.showContextMenu;
+  // Add your custom logic here
+}
+
+deleteChat(){
+  alert("deleted");
+}
+
+
+openDialog(){
+  alert("dialogue box");
+}
+
 }

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ViewModels.Models
 {
-    public  class AllUsersVm
+    public class GalleryVm
     {
-        public string username { get; set; }
+        public string caption { get; set; }
         public string imgstr { get; set; }
-
+        public string uploadedUser { get; set; }
     }
 }

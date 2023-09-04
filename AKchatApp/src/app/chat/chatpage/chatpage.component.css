@@ -33,3 +33,9 @@
 .btn-group{
     padding: 5px;
 }
+
+ .user-image{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+}

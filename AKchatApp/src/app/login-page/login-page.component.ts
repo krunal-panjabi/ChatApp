@@ -12,6 +12,7 @@ import { profile } from '../Models/profile';
 export class LoginPageComponent implements OnInit {
   userForm : FormGroup = new FormGroup({});
   submitted = false;
+ 
   constructor(private formBuilder : FormBuilder ,private service : UsersService,private router:Router) { }
 
   ngOnInit(): void {
@@ -69,5 +70,7 @@ export class LoginPageComponent implements OnInit {
     )
     }
   }
+
+
 
 }

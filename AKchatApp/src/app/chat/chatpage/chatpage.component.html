@@ -6,7 +6,7 @@
 </div>
 
 <div class="row mt-3 mainBody">
-    <div class="col-lg-2">
+    <div class="col-lg-3">
         <div class="d-grid mb-2 cpbtn">
             <button class="btn btn-danger btn-block hbutton" (click)="logout()" type="button" >Back To Home</button>
         </div>
@@ -24,8 +24,9 @@
                         <div class="d-grid">
                             <button type="button" 
                             [disabled]="user.username === service.myName"
-                            (click)="openPrivateChat(user.username)"
-                            class="btn card-text btn-success" >{{user.username}}
+                            (click)="openPrivateChat(user.username,user.imgstr)"
+                            class="btn card-text btn-success d-flex justify-content-start users" ><img class="user-image me-2" [src]="user.imgstr ? user.imgstr : '/assets/img/profile.png'" alt="">
+                            {{user.username}}
                         <span *ngIf="user.username === service.myName"> (you)</span>  <span class="fw-bolder text-primary" *ngIf="user.username===service.username && service.isTyping">typing...</span> 
                             <span class="position-absolute pos_dot"    *ngIf="service.onlineUsers.includes(user.username)">
                             <div class="onlinesign"></div>
@@ -55,7 +56,7 @@
         </div>
     </div>
 
-    <div class="col-lg-9">
+    <div class="col-lg-8">
         <div class="card border-secondary">
             <div class="card-header h3 text-muted text-center">General Chat</div>
             <div class="card-body" style="min-height: 500px;">

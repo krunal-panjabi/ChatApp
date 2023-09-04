@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { profile } from '../Models/profile';
 import { UsersService } from '../users.service';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-header',
@@ -10,11 +12,13 @@ import { UsersService } from '../users.service';
 })
 export class HeaderComponent implements OnInit {
   imageUrl: string = "/assets/img/upload.png";
-  
-  constructor(public service: UsersService, private router: Router) { }
+isChatRoute: boolean = false;
+extractedWord :string = '' ;
+  constructor(public service: UsersService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    alert('header change');
+
+    this.extractedWord = this.route.snapshot.paramMap.get('chat') as string;
      if (this.service.myName) {
 
       // this.updateImageUrl(); // Update imageUrl if myName is available

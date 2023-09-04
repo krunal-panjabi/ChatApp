@@ -111,10 +111,11 @@ namespace dataRepository.Repository
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
-                {   
+                {
                     AllUsersVm names = new AllUsersVm
                     {
-                       username= rdr["name"].ToString()
+                        username = rdr["name"].ToString(),
+                        imgstr = rdr["image"].ToString()
                     };
 
                     model.Add(names);
@@ -283,7 +284,8 @@ namespace dataRepository.Repository
                         Content = rdr["message"].ToString(),
                         time = rdr["FormattedChatTime"].ToString(),
                         isread = Convert.ToInt32(rdr["isread"]),
-                        isdelievered = Convert.ToInt32(rdr["delievered"])
+                        isdelievered = Convert.ToInt32(rdr["delievered"]),
+                        //msgid = Convert.ToInt32(rdr["msgid"])
                     };
 
                     model.Add(names);
@@ -431,6 +433,48 @@ namespace dataRepository.Repository
             }
         }
 
+        public int UploadGalleryData(string caption, string imgstr, string uploadedUser)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("UploadGalleryData", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@caption", caption);
+                cmd.Parameters.AddWithValue("@imgstr", imgstr);
+                cmd.Parameters.AddWithValue("@uploadedUser", uploadedUser);
+                con.Open();
+
+                int i = cmd.ExecuteNonQuery();
+
+                return i;
+            }
+        }
+
+
+        public List<GalleryVm> GetGalleryData()
+        {
+            List<GalleryVm> model = new List<GalleryVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetGalleryData", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    GalleryVm gallery = new GalleryVm
+                    {
+                        caption = rdr["caption"].ToString(),
+                        imgstr = rdr["imgstr"].ToString(),
+                        uploadedUser = rdr["uploadedUser"].ToString()
+                    };
+
+                    model.Add(gallery);
+                }
+                con.Close();
+            }
+            return model;
+        }
 
     }
 }
