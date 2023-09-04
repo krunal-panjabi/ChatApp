@@ -2,7 +2,7 @@
     <div class="card-text d-flex mb-2" *ngFor="let message of messages"  [class.justify-content-between]="message.from !== service.myName"
     [class.justify-content-end]="message.from === service.myName">
         <div class="d-flex messages" [class.messagesFromOthers]="message.from !== service.myName"
-            [class.messagesFromMe]="message.from === service.myName">
+            [class.messagesFromMe]="message.from === service.myName" (contextmenu)="onDivRightClick($event)">
             <div>
                 <ng-container *ngIf="message.from !== service.myName">
                     <span class="text sender fw-bolder">{{ message.from }}: </span>
@@ -25,7 +25,17 @@
                 </ng-template>
             </div>
 
+            <div *ngIf="showContextMenu" class="context-menu" >
+                <button (click)="deleteChat()" style="background-color: transparent;border: 0px;padding: 0px;"><i class="bi bi-trash-fill"></i></button>
+              </div>
         </div>
+       
+        <!-- <li>
+            <button mat-raised-button (click)="openDialog()">Pick one</button>
+          </li>
+          <li >
+            You chose: <em>fhgdfj</em>
+          </li> -->
 
         <div class="d-flex justify-content-end align-items-center ms-2">
             <span class=" date">{{message.time | date:'MMM dd, HH:mm'}}</span>

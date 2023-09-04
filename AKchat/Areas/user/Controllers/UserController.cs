@@ -70,7 +70,7 @@ namespace AKchat.Areas.user.Controllers
                 var filePath = Directory.GetCurrentDirectory() + addpath + imageFile.FileName;
                 Console.WriteLine(filePath);
 
-                var filepathanguar = Path.Combine("D:\\ChatApp\\ChatApp\\AKchatApp\\src\\assets\\img", imageFile.FileName);
+                var filepathanguar = Path.Combine("D:\\ChatApp\\AKchatApp\\src\\assets\\img", imageFile.FileName);
 
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -209,6 +209,32 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(false);
             }
         }
+
+
+        [HttpPost("UploadGalleryData")]
+        public IActionResult UploadGalleryData([FromBody] GalleryVm model)//company register
+        {
+
+            var i = _userrepo.UploadGalleryData(model.caption, model.imgstr, model.uploadedUser);
+            if (i > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
+
+
+        [HttpGet("GetGallery")]
+        public List<GalleryVm> GetGallery()
+        {
+            var gallery = _userrepo.GetGalleryData();
+            return gallery;
+        }
+
+
 
     }
 }

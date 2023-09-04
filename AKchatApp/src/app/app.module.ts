@@ -14,6 +14,9 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MaterialModule } from './material.module';
+import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
+import { UploadGalleryComponent } from './upload-gallery/upload-gallery.component';
+import { NoConnectionComponent } from './no-connection/no-connection.component';
 //import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
@@ -23,7 +26,10 @@ import { MaterialModule } from './material.module';
     RegisterationPageComponent,
     HeaderComponent,
     FooterComponent,
-    UserProfileComponent
+    UploadGalleryComponent,
+    UserProfileComponent,
+    PhotoGalleryComponent,
+    NoConnectionComponent
   ],
   imports: [
     BrowserModule,

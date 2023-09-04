@@ -2,10 +2,10 @@
     position: relative;
 }
 
-.dropdown{
+/* .dropdown{
     position: absolute;
     right: 90px;
-}
+} */
 .buttons{
    width:  -webkit-fill-available;
 

@@ -1,24 +1,15 @@
 <div class="modal-header">
     <div class="display">
         <div>
-            <button class="touserimgbtn me-3 ms-2" (click)="toggleDivision()"><img class="touserimg" src={{image}}></button>
+            <button class="touserimgbtn me-3 ms-2" (click)="toggleDivision()"><img class="touserimg"
+                    src={{image}}></button>
         </div>
         <span class="align-self-center" style="font-size: x-large;">
             {{toUser}}
         </span>
     </div>
-    <h4 class="modal-title">{{toUser}}</h4><img src="/assets/img/indityp.gif" style="mix-blend-mode: multiply;height:25px;width:60px">
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 </div>
-
-
-<!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary touserimg" data-toggle="modal" data-target="#exampleModalCenter">
-    <img class="touserimg" src={{image}}>
-  </button> -->
-
-
-
 
 <div *ngIf="divisionVisible" class="my-division">
     <img class="" style=" height: 400px;
@@ -28,21 +19,21 @@
 
 </div>
 
+<div class="modal-body">
+    <div class="card users-card">
+        <div class="card-header">
+            <h3>Messages</h3>
+        </div>
+        <div class="card-body card-messages">
+            <app-messages [messages]="service.privateMessages"></app-messages>
+            <div *ngIf="service.isTyping">
+                <span class="fw-bolder text-primary">{{service.username}}</span><span><img src="/assets/img/indityp.gif"
+                        style="mix-blend-mode: multiply;height:25px;width:60px"></span>
+            </div>
+        </div>
 
-
-
-
-
-  <div class="modal-body">
-      <div class="card users-card">
-          <div class="card-header"><h3>Messages</h3></div>
-          <div class="card-body card-messages">
-          <app-messages [messages]="service.privateMessages"></app-messages>  
-          <div *ngIf="service.isTyping">
-        <span class="fw-bolder text-primary">{{service.username}}</span><span><img src="/assets/img/indityp.gif" style="mix-blend-mode: multiply;height:25px;width:60px"></span></div>
-     </div>
-    
-  <div class="card-footer">
-      <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input>
-  </div>  
-  </div>
+        <div class="card-footer">
+            <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input>
+        </div>
+    </div>
+</div>

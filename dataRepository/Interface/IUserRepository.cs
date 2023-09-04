@@ -24,5 +24,9 @@ namespace dataRepository.Interface
         public int profiledata(ProfileVm model);
         public int uploadphoto(string photo, string name);
         public Task<ProfileVm> GetUserByProfileAsync(string name);
+        public int UploadGalleryData(string caption, string imgstr , string uploadedUser);
+        public List<GalleryVm> GetGalleryData();
+
+
     }
 }

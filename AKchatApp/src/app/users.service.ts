@@ -14,6 +14,7 @@ import { group } from './Models/group';
 import { groupname } from './Models/groupname';
 import { groupmodel } from './Models/groupmodel';
 import { profile } from './Models/profile';
+import { GalleryData } from './Models/galleryData';
 
 @Injectable(
   // providedIn: 'root'
@@ -25,7 +26,6 @@ export class UsersService {
   toUser:string='';
   myName: string = '';
   typename:string='';
-  //imageUrl : string = "/assets/img/upload.png";
   imageUrl : string = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ";
   onlineUsers: string[] = [];
   offlineUsers: OfflineUsers[] = [];
@@ -46,16 +46,23 @@ export class UsersService {
   }
 
 
-  // public createGroup(grpname: string, members: string[]): Observable<any> {
-  //   const model = { grpname, members };
-  //   console.log("ready to go to api");
-  //   return this.http.post(`${environment.apiUrl}User/CreateGroup`, model );
-  // }
-
   createGroup(grpname: string, members: string): Observable<any> {
     const group = { groupName: grpname, members: members }
     return this.http.post<Message[]>(`${environment.apiUrl}User/CreateGroup`, group);
   }
+
+  uploadGalleryData(caption: string, imgstr: string, uploadedUser:string): Observable<any> {
+    const galleryData = { caption: caption, imgstr: imgstr,uploadedUser:uploadedUser }
+    return this.http.post<Message[]>(`${environment.apiUrl}User/UploadGalleryData`, galleryData);
+  }
+
+  getGalleryData(): Observable<GalleryData[]> {
+    return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery`);
+  }
+
+  // uploadGalleryData(data: GalleryData): Observable<any> {
+  //   return this.http.post(`${environment.apiUrl}User/UploadGalleryData`, data);
+  // }
   
   CheckName(username: string): Observable<any> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
@@ -124,18 +131,7 @@ export class UsersService {
     return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
   }
 
-  // getuserprofiledata(){
-  //   this.getuserprofiledetail().subscribe({
-  //   next:(data: profile)=>{
-  //     alert('uservalue assign');
-  //    this.singleuser=data;
-  //    console.log('data',this.singleuser);
-  //   },
-  //   error: (error) => {
-  //     console.error('error loading private chats', error);
-  //   }
-  //   });
-  // }
+
 
   intitializeloadprivatechats(toUser: string, fromUser: string): Observable<Message[]> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
@@ -215,7 +211,6 @@ export class UsersService {
     });
 
     this.chatConnection.on('NewGrpMessage', (newMessage: Message) => {
-    //  this.loadgrpchats(newMessage.grpname);
       this.grpmessages = [...this.grpmessages, newMessage];
     });
 
@@ -228,7 +223,6 @@ export class UsersService {
     alert('for open');
     this.loadprivatechats(newMessage.from);
     this.typename=newMessage.from;
-  //    this.privateMessages = [...this.privateMessages, newMessage];
       this.privateMessageInitiated = true;
       const modalRef = this.modalService.open(PrivateChatsComponent);
       modalRef.componentInstance.toUser = newMessage.from;
@@ -246,12 +240,10 @@ export class UsersService {
       alert('close type');
       this.isTyping=false;
      });
-   //receiveTypingIndicator(callback: (connectionId: string) => void)
-   //{ this.chatConnection.on('ReceiveTypingIndicator', callback); }
+ 
 
     
     this.chatConnection.on('NewPrivateMessage', (newMessage: Message) => {
-     // this.loadprivatechats(newMessage.from);
      
     this.privateMessages = [...this.privateMessages, newMessage];
     });
@@ -312,12 +304,10 @@ export class UsersService {
 
   async sendGrpMessage(content: string,gname:string) {
     this.isGroupChat=true;
-  //  const usernames:string []=this.grpmembers.map(member=>member.username);
     const message: groupmodel = {
       from: this.myName,
       content: content,
       grpname:gname,
-   //  username:usernames
     };
 
     return this.chatConnection?.invoke('ReceiveGrpMessage', message)
@@ -328,7 +318,6 @@ export class UsersService {
 
   async sendPrivateMessage(to: string, content: string) {
     this.isGroupChat=false;
-   // const formattedTime = format(currentTime, 'MMM dd,HH:mm');
     const message: Message = {
       from: this.myName,
       content: content,

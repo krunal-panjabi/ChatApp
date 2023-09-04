@@ -9,8 +9,27 @@ import { UsersService } from 'src/app/users.service';
 })
 export class MessagesComponent {
 @Input() messages:Message[]=[];
+showContextMenu = false;
+
 
 constructor(public service:UsersService){
   
 }
+
+onDivRightClick(event: MouseEvent): void {
+  event.preventDefault(); // Prevent the default browser context menu
+  console.log("hello");
+  this.showContextMenu = !this.showContextMenu;
+  // Add your custom logic here
+}
+
+deleteChat(){
+  alert("deleted");
+}
+
+
+openDialog(){
+  alert("dialogue box");
+}
+
 }
