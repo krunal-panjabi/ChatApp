@@ -27,6 +27,8 @@ namespace dataRepository.Interface
         public int UploadGalleryData(string caption, string imgstr , string uploadedUser);
         public List<GalleryVm> GetGalleryData();
 
-
+        public int DisLikeEntry(LikeVm model);
+        public int LikeEntry(LikeVm model);
+        public List<AllUsersVm> GetLikeMembers(int msgid);
     }
 }

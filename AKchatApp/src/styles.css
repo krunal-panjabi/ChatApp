@@ -12,3 +12,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     z-index: 1500;
     position: relative;
 } */
+.cdk-global-overlay-wrapper, 
+.cdk-overlay-container, 
+.cdk-overlay-connected-position-bounding-box {
+    z-index: 9999!important;
+}

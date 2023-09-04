@@ -33,6 +33,32 @@ namespace dataRepository.Repository
                 return i;
             }
         }
+        public int DisLikeEntry(LikeVm model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("DisLikeEntryByUser", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@msgid", model.msgid);
+                cmd.Parameters.AddWithValue("@name", model.name);
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+                return i;
+            }
+        }
+        public int LikeEntry(LikeVm model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("LikeEntryByUser", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@msgid", model.msgid);
+                cmd.Parameters.AddWithValue("@name", model.name);
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+                return i;
+            }
+        }
         public void storechat(MessageVM model)
         {
             using (SqlConnection con = new SqlConnection(connections))
@@ -100,6 +126,29 @@ namespace dataRepository.Repository
                 }
                 return valid;
             }
+        }
+        public List<AllUsersVm> GetLikeMembers(int msgid)
+        {
+            List<AllUsersVm> model = new List<AllUsersVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetAllLikeMembers", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@msgid", msgid);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    AllUsersVm names = new AllUsersVm
+                    {
+                        username = rdr["name"].ToString()
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
         }
         public List<AllUsersVm> GetAllUsers()
         {
@@ -285,6 +334,8 @@ namespace dataRepository.Repository
                         time = rdr["FormattedChatTime"].ToString(),
                         isread = Convert.ToInt32(rdr["isread"]),
                         isdelievered = Convert.ToInt32(rdr["delievered"]),
+                        messageid = Convert.ToInt32(rdr["messageid"]),
+                        messageLike = Convert.ToInt32(rdr["MessageLike"])
                         //msgid = Convert.ToInt32(rdr["msgid"])
                     };
 

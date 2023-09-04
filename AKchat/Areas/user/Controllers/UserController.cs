@@ -111,6 +111,19 @@ namespace AKchat.Areas.user.Controllers
                 }
             }*/
         }
+        [HttpPost("DisLikemsgbyId")]
+        public IActionResult DisLikeMsgById([FromBody] LikeVm model)
+        {
+            var i = _userrepo.DisLikeEntry(model);
+            if (i == 0)
+            {
+                return Ok(false);
+            }
+            else
+            {
+                return Ok(true);
+            }
+        }
         [HttpPost("ProfileData")]
         public IActionResult profiledata([FromBody] ProfileVm model)
         {
@@ -124,6 +137,20 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(false);
             }
 
+
+        }
+        [HttpPost("LikemsgbyId")]
+        public IActionResult LikeMsgById([FromBody] LikeVm model)
+        {
+            var i = _userrepo.LikeEntry(model);
+            if (i == 0)
+            {
+                return Ok(false);
+            }
+            else
+            {
+                return Ok(true);
+            }
 
         }
         [HttpGet("FetchUserDetail")]
@@ -153,7 +180,19 @@ namespace AKchat.Areas.user.Controllers
             var users = _userrepo.GetAllUsers();
             return users;
         }
-
+        [HttpGet("GetLikeMembers")]
+        public IActionResult GetLikeMmbers(int msgid)
+        {
+            var members = _userrepo.GetLikeMembers(msgid);
+            if (members != null)
+            {
+                return Ok(members);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
 
         [HttpGet("GetGroups")]
         public IActionResult GetGroups(string username)

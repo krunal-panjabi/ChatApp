@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UsersService } from 'src/app/users.service';
 
 @Component({
   selector: 'app-dialog-body',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./dialog-body.component.css']
 })
 export class DialogBodyComponent {
-
+  constructor(public service:UsersService){}
 }

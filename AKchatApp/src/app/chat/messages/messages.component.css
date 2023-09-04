@@ -38,63 +38,100 @@
     z-index: 10;
 } */
 .date {
-    color: rgb(179, 179, 179);
-    font-size: small;
-  }
-  
-  .messagesFromOthers {
-    background-color: #b3bcff;
-    padding: 6px;
-    padding-inline: 10px;
-    border-radius: 22px;
-    justify-content: space-between;
-    width: fit-content;
-  }
-  
-  .messagesFromMe {
-    background-color: #dddddd;
-    padding: 6px;
-    padding-inline: 10px;
-    border-radius: 22px;
-    justify-content: space-between;
-    width: fit-content;
-  }
-  
-  .ticks {
-    mix-blend-mode: darken;
-  }
-  
-  .sender {
-    color: black;
-  }
-  
-  .d-none {
-    display: none;
-  }
-  
-  .divcont {
-    position: absolute;
-    right: -74px;
-    bottom: -45px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 5px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 15;
-  }
-  .opendiv{
-    z-index: 10;
-  }
-  .contentdiv {
-    z-index: 10;
-  }
-  .messages .contentdiv .opendiv{
-    margin-top: -20px;
-    position: relative;
-    left: 38px;
-    align-self: flex-end;
-  }
+  color: rgb(179, 179, 179);
+  font-size: small;
+}
+
+.messagesFromOthers {
+  background-color: #b3bcff;
+  padding: 6px;
+  padding-inline: 10px;
+  border-radius: 22px;
+  justify-content: space-between;
+  width: fit-content;
+  margin-left: 18px;
+}
+
+.messagesFromMe {
+  background-color: #dddddd;
+  padding: 6px;
+  padding-inline: 10px;
+  border-radius: 22px;
+  justify-content: space-between;
+  width: fit-content;
+ 
+}
+
+.ticks {
+  mix-blend-mode: darken;
+}
+
+.sender {
+  color: black;
+  z-index: 10;
+}
+
+.d-none {
+  display: none;
+}
+.colorheart{
+  color:red;
+}
+.div1cont {
+  position: absolute;
+  left: -8px;
+  bottom: -58px;
+  background-color: #FFF;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 15;
+}
+.divcont {
+  position: absolute;
+  right: -91px;
+  bottom: -45px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 4px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding-right: 6px;
+  padding-left: 4px;
+  z-index: 15;
+}
+.likelogo{
+  position: relative;
+  top:10px;
+}
+.memdiv{
+  position: absolute;
+  top:77px;
+  order:1 ;
+}
+
+.opendiv{
+  z-index: 10;
+}
+.contentdiv {
+  order: 2;
+  position: relative;
+}
+.messages .contentdiv .opendiv{
+  margin-top: -20px;
+  position: relative;
+  left: 38px;
+  align-self: flex-end;
+}
+.open1div{
+  z-index: 10;
+}
+.messages .contentdiv .open1div{
+  margin-top: -23px;
+  position: relative;
+  right: 59px;
+}
   /* .messages .contentdiv button {
     align-self: flex-end;
     margin-top: -20px;

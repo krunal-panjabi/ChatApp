@@ -174,6 +174,22 @@ namespace AKchat.Hubs
            
             //  await Clients.Client(toConnectionId).SendAsync("OpenPrivateChat", message);
         }
+        public async Task SendLikeRes(int msgid, string name, int like)
+        {
+            if (_chatServices.IsUserOnline(name))
+            {
+                var toConnectionId = _chatServices.GetConnectionIdByUser(name);
+                await Clients.Client(toConnectionId).SendAsync("ReceiveLikeRes", msgid, like);
+            }
+        }
+        public async Task SendLikeResById(int msgid, string name, int like)
+        {
+            if (_chatServices.IsUserOnline(name))
+            {
+                var toConnectionId = _chatServices.GetConnectionIdByUser(name);
+                await Clients.Client(toConnectionId).SendAsync("ReceiveLikeResById", msgid, like);
+            }
+        }
         public async Task SendClosingIndicator(string name)
         {
             var toConnectionId = _chatServices.GetConnectionIdByUser(name);

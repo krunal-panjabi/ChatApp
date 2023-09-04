@@ -15,11 +15,13 @@ import { groupname } from './Models/groupname';
 import { groupmodel } from './Models/groupmodel';
 import { profile } from './Models/profile';
 import { GalleryData } from './Models/galleryData';
+import { MessageService } from './message.service';
 
 @Injectable(
   // providedIn: 'root'
 )
 export class UsersService {
+  isgeneral:boolean=false;
   isGroupChat:boolean=false;
   isTyping :boolean=false;
   username:string='';
@@ -31,6 +33,7 @@ export class UsersService {
   offlineUsers: OfflineUsers[] = [];
   singleuser!:profile;
   grpmembers: OfflineUsers[]=[];
+  likemembers:OfflineUsers[]=[];
   groups : groupname[]=[];
   messages: Message[] = [];
   grpmessages: Message[] = [];
@@ -39,7 +42,7 @@ export class UsersService {
   privateMessageInitiated = false;
   privatetypeintiate=false;
   readonly url = "https://localhost:7239/"
-  constructor(private http: HttpClient, private modalService: NgbModal) { }
+  constructor(private http: HttpClient, private modalService: NgbModal,public msgservice:MessageService) { }
 
   public postData(User: user): Observable<any> {
     return this.http.post(`${environment.apiUrl}User/Register`, User);
@@ -69,6 +72,24 @@ export class UsersService {
     const params = new HttpParams().set("username", username);
     return this.http.get(`${environment.apiUrl}User/CheckForName`, { 'headers': headers, 'params': params })
   }
+  dislikemessage(mesaageId:any,name:string):Observable<any>{
+    const likeentry={
+      msgid:mesaageId,
+      name:name
+    }
+    return this.http.post(`${environment.apiUrl}User/DisLikemsgbyId`,likeentry)
+    }
+    likemessage(mesaageId: any,name:string): Observable<any> {
+      console.log('messageid in service',mesaageId);
+      const likeentry={
+        msgid:mesaageId,
+        name:name
+      }
+      // const headers = new HttpHeaders({ 'content-type': 'application/json' });
+      // const params = new HttpParams().set("msgid", mesaageId);
+     // const params = new HttpParams().set("msgid", mesaageId);
+      return this.http.post(`${environment.apiUrl}User/LikemsgbyId`, likeentry)
+    }
 
   public LoginData(User: user): Observable<any> {
 
@@ -86,7 +107,12 @@ export class UsersService {
     return this.http
       .post(endpoint, formData);
   }
-
+  getLikeMembers(msgid:any)
+  {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    const params = new HttpParams().set("msgid", msgid);
+    return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetLikeMembers`, { 'headers': headers, 'params': params });
+  }
   getAllUsers() {
     return this.http
       .get<OfflineUsers[]>(
@@ -234,6 +260,31 @@ export class UsersService {
         this.isTyping=false;
       },4000);
      });
+     this.chatConnection.on('ReceiveLikeRes',(msgid:any,like:any)=>{
+      if(like===1)
+      {
+        this.msgservice.messageDiv1Visibility[msgid]=true;
+      }
+      else{
+        this.msgservice.messageDiv1Visibility[msgid]=false;
+      }
+     
+     });
+
+     this.chatConnection.on('ReceiveLikeResById',(msgid:any,like:any)=>{
+      if(like===0)
+      {
+       const spanClass = '.heart-' + msgid;
+       const selectedSpan = document.querySelector(spanClass) as HTMLElement;
+       selectedSpan.classList.add('d-none');
+      }
+      else{
+        const spanClass = '.heart-' + msgid;
+       const selectedSpan = document.querySelector(spanClass) as HTMLElement;
+       selectedSpan.classList.remove('d-none');
+      }
+     });
+
      this.chatConnection.on('ReceiveCloseTypingIndicator',(name:string)=>{
       alert('close type');
       this.isTyping=false;
@@ -265,7 +316,16 @@ export class UsersService {
     return this.chatConnection?.invoke('LoadGrpNames')
     .catch(error => console.log(error));
   }
-
+ async SendLikeRes(msgid:any,like:any)
+  {
+    return this.chatConnection?.invoke('SendLikeRes',msgid,this.toUser,like)
+    .catch(error => console.log(error));
+  }
+  async SendLikeResBymsgid(msgid:any,like:any)
+  {
+    return this.chatConnection?.invoke('SendLikeResById',msgid,this.toUser,like)
+    .catch(error => console.log(error));
+  }
   startTyping(name:string)
   {
     if(!name || name.trim()==='')

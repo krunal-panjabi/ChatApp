@@ -6,5 +6,7 @@ export interface Message {
     isdelievered?:number;
     isread?:number;
     isgrpread?:number;
+    messageid?:number;
+    messageLike?:number;
  //   grpname?:string;
   }
