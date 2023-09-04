@@ -10,6 +10,7 @@ import { GroupCreateComponent } from './group-create/group-create.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrivateChatsComponent } from './private-chats/private-chats.component';
 import { GroupChatComponent } from './group-chat/group-chat.component';
+import { DialogBodyComponent } from './dialog-body/dialog-body.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { GroupChatComponent } from './group-chat/group-chat.component';
     ChatInputComponent,
     PrivateChatsComponent,
     GroupCreateComponent,
-    GroupChatComponent
+    GroupChatComponent,
+    DialogBodyComponent
   ],
   imports: [
     CommonModule,

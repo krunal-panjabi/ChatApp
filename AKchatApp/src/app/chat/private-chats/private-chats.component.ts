@@ -19,6 +19,7 @@ ngOnDestroy(): void {
 }
 
 sendMessage(content:string){
+ 
   this.service.sendPrivateMessage(this.toUser,content);
 }
 }

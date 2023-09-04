@@ -1,23 +1,25 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit,ElementRef, Output, OnChanges, OnDestroy, AfterViewInit, SimpleChanges, ViewChild,DoCheck} from '@angular/core';
 import { UsersService } from 'src/app/users.service';
-import { debounceTime } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { EmojioneAreaDirective } from './emojione-area.diractive';
+
+declare var $:any;
+
 @Component({
   selector: 'app-chat-input',
   templateUrl: './chat-input.component.html',
-  styleUrls: ['./chat-input.component.css']
+  styleUrls: ['./chat-input.component.css'],
 })
-export class ChatInputComponent {
-content :string='';
+export class ChatInputComponent implements OnInit,OnDestroy,AfterViewInit,OnChanges{
+ 
+content :any;
 @Output() contentemitter = new EventEmitter();
 content1: string = '';
-
 @Output() contentemitter1 = new EventEmitter<string>();
-constructor(public service:UsersService){
-
+constructor(public service:UsersService,private el:ElementRef){
 }
+
 onTyping() {
-   console.log('read content');
+  this.content= $("#mText")[0].emojioneArea.getText();
   if(this.content.trim()!="")
   {
     const recipientId = 'recipientUserId';
@@ -28,21 +30,54 @@ onTyping() {
     this.service.closeTyping(this.service.toUser);
   }
 }
-// onTyping() { 
-//   const recipientId = 'recipientUserId'; 
-//   if (this.typingTimeout) 
-//   { clearTimeout(this.typingTimeout); } 
-//   this.typingTimeout = setTimeout(() => { this.service.startTyping(this.service.toUser); }, 3000); // 3000 milliseconds = 3 seconds }
-// }
 
-  sendMessage(){
+ngOnDestroy(): void {
+  // $('#mText').emojioneArea({
+  //   pickerPosition:'right',
+  //   destroy:true
+  // });
+
+}
+ngOnChanges(changes: SimpleChanges): void {
+  // if(this.content.trim()!="")
+  // {
+  //   this.onTyping();
+  // }
+}
+ngAfterViewInit(): void {
+//   const mytext=this.el.nativeElement.querySelector('#mText');
+// $(mytext).emojioneArea({
+//   pickerPosition:'right'
+// })
+// $(this.messageEditor.nativeElement).emojioneArea({
+//   pickerPosition:'right'
+// })
+}
+
+ngOnInit(): void {
+  $('#mText').emojioneArea({
+    pickerPosition:'right'
+  });
+ $(document).on('input','.emojionearea-editor',()=>{
+  this.onTyping();
+ });
+//   $(this.el.nativeElement).emojioneArea({
+// pickerPosition:'right'
+//   });
+
+}
+
+sendMessage(){
+    // this.content=(document.querySelector('.emojionearea-editor') as HTMLInputElement).value;
+  this.content= $("#mText")[0].emojioneArea.getText(); 
+
   this.service.isTyping=false;
   if(this.content.trim()!=="")
   {
     console.log('teh message',this.content);
     this.contentemitter.emit(this.content);
   }
+  this.content= $("#mText")[0].emojioneArea.setText('');
   this.content="";
 }
-
 }

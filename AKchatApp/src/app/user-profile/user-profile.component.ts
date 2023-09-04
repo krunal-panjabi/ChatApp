@@ -134,14 +134,10 @@ export class UserProfileComponent  implements OnInit{
   
       reader.onload = (event: any) => {
         this.imageUrl = event.target.result;
-        this.empForm.get('imgstr')?.setValue(event.target.result); // Update form value
+        this.empForm.get('imgstr')?.setValue(event.target.result); 
       };
-  
       reader.readAsDataURL(this.file);
     }
-
-
-
 }
 // this.service.LoginData(this.userForm.value).subscribe({
       

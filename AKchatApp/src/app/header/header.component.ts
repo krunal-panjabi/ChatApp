@@ -10,11 +10,11 @@ import { UsersService } from '../users.service';
 })
 export class HeaderComponent implements OnInit {
   imageUrl: string = "/assets/img/upload.png";
-
+  
   constructor(public service: UsersService, private router: Router) { }
 
   ngOnInit(): void {
-
+    alert('header change');
      if (this.service.myName) {
 
       // this.updateImageUrl(); // Update imageUrl if myName is available

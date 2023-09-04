@@ -1,14 +1,18 @@
-<form #messageForm="ngForm"  autocomplete="off">
-    <div class="row">
-        <div class="col-9">
-            <input  type="text" [(ngModel)]="content" required name="content"  class="form-control" placeholder="send message"
-            (input)="onTyping()">
-        </div>
-        <div class="col-3">
-            <div class="d-grid">
-                <button [disabled]="!messageForm.valid" class="btn btn-dark btn-block" type="submit" (click)="sendMessage()">send</button>
+
+
+    <form #messageForm="ngForm"  autocomplete="off">
+        <div class="row">
+            <div class="col-9">
+                <input #messageEditor id="mText" type="text" [(ngModel)]="content" required name="content"  class="form-control" placeholder="send message"
+                (input)="onTyping()">
+            </div>
+           
+            <div class="col-2">
+                <div class="d-grid">
+                    <button  class="btn btn-dark btn-block" type="submit" (click)="sendMessage()">send</button>
+                </div>
             </div>
         </div>
-    </div>
+    
+    </form> 
 
-</form> 

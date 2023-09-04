@@ -148,8 +148,8 @@ export class UsersService {
     this.isGroupChat=false;
     this.intitializeloadprivatechats(toUser, this.myName).subscribe({
       next: (data) => {
-        console.log(data);
         this.privateMessages = data;
+        console.log("chat",this.privateMessages)
       },
       error: (error) => {
         console.error('error loading private chats', error);
@@ -217,14 +217,12 @@ export class UsersService {
     //  this.loadgrpchats(newMessage.grpname);
       this.grpmessages = [...this.grpmessages, newMessage];
     });
-
+  
     this.chatConnection.on('NewPrivateChatMessage',(newMessage:Message)=>{
-       this.privateMessages=[...this.privateMessages,newMessage];
-     
+       this.privateMessages=[...this.privateMessages,newMessage];     
     });
-
+    
     this.chatConnection.on('OpenPrivateChat', (newMessage: Message) => {
-    alert('for open');
     this.loadprivatechats(newMessage.from);
     this.typename=newMessage.from;
   //    this.privateMessages = [...this.privateMessages, newMessage];
@@ -284,12 +282,12 @@ export class UsersService {
     if(!this.privatetypeintiate)
     {
       this.privatetypeintiate=true;
-      return this.chatConnection?.invoke('SendTypingIndicator',name,this.myName).
-      catch(error => console.log(error));
+      return this.chatConnection?.invoke('SendTypingIndicator',name,this.myName)
+      .catch(error => console.log(error));
     }
     else{
-      return this.chatConnection?.invoke('SendTypingIndicator',name,this.myName).
-      catch(error => console.log(error));
+      return this.chatConnection?.invoke('SendTypingIndicator',name,this.myName)
+      .catch(error => console.log(error));
     }
   }
   closeTyping(name:string)
@@ -326,8 +324,9 @@ export class UsersService {
 
 
   async sendPrivateMessage(to: string, content: string) {
+    
     this.isGroupChat=false;
-   // const formattedTime = format(currentTime, 'MMM dd,HH:mm');
+    //const formattedTime = format(currentTime, 'MMM dd,HH:mm');
     const message: Message = {
       from: this.myName,
       content: content,
@@ -344,9 +343,8 @@ export class UsersService {
     if (!this.privateMessageInitiated) {
       this.privateMessageInitiated = true; //if they have started talking with each other
       return this.chatConnection?.invoke('CreatePrivateChat', message).then(() => {
-       
         this.loadprivatechats(to);
-      //  this.privateMessages = [...this.privateMessages, message];
+    
       })
         .catch(error => console.log(error));
     } else {
@@ -359,7 +357,7 @@ export class UsersService {
   }
   async closePrivateChatMesage(otherUser: string) {
     return this.chatConnection?.invoke('RemovePrivateChat', this.myName, otherUser)
-      .catch(error => console.log(error));
+    .catch(error => console.log(error));
   }
 
 }

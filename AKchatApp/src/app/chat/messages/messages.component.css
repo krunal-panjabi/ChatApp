@@ -1,4 +1,4 @@
-.date{
+/* .date{
     color:rgb(179 179 179);
     font-size: small;
 }
@@ -28,3 +28,75 @@
 .sender{
     color: black;
 }
+.d-none{
+    display: none;
+}
+.divcont{
+    z-index: 15;
+}
+.contentdiv{
+    z-index: 10;
+} */
+.date {
+    color: rgb(179, 179, 179);
+    font-size: small;
+  }
+  
+  .messagesFromOthers {
+    background-color: #b3bcff;
+    padding: 6px;
+    padding-inline: 10px;
+    border-radius: 22px;
+    justify-content: space-between;
+    width: fit-content;
+  }
+  
+  .messagesFromMe {
+    background-color: #dddddd;
+    padding: 6px;
+    padding-inline: 10px;
+    border-radius: 22px;
+    justify-content: space-between;
+    width: fit-content;
+  }
+  
+  .ticks {
+    mix-blend-mode: darken;
+  }
+  
+  .sender {
+    color: black;
+  }
+  
+  .d-none {
+    display: none;
+  }
+  
+  .divcont {
+    position: absolute;
+    right: -74px;
+    bottom: -45px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 15;
+  }
+  .opendiv{
+    z-index: 10;
+  }
+  .contentdiv {
+    z-index: 10;
+  }
+  .messages .contentdiv .opendiv{
+    margin-top: -20px;
+    position: relative;
+    left: 38px;
+    align-self: flex-end;
+  }
+  /* .messages .contentdiv button {
+    align-self: flex-end;
+    margin-top: -20px;
+  } */
+  

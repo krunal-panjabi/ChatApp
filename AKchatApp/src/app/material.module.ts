@@ -18,8 +18,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-
-
+import {MatDialogModule} from '@angular/material/dialog'
 
 
 @NgModule({
@@ -42,13 +41,9 @@ import { MatChipsModule } from '@angular/material/chips';
     MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
-    MatNativeDateModule
-    
-
-
-
-
-
+    MatNativeDateModule,
+    MatDialogModule
+  
   ]
 })
 export class MaterialModule { }

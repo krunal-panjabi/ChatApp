@@ -16,8 +16,7 @@ namespace AKchat.Hubs
             _userrepo = userrepo;
             _chatServices = chatServices;
         }
-        string currentuser;
-        int count = 50;
+      
         public override async Task OnConnectedAsync()
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, "ChatApp");
@@ -166,9 +165,12 @@ namespace AKchat.Hubs
         }
         public async Task SendTypingIndicator(string name,string myname)
         {
-           
+            if (_chatServices.IsUserOnline(name))
+            {
                 var toConnectionId = _chatServices.GetConnectionIdByUser(name);
                 await Clients.Client(toConnectionId).SendAsync("ReceiveTypingIndicator", myname);
+            }
+             
            
             //  await Clients.Client(toConnectionId).SendAsync("OpenPrivateChat", message);
         }

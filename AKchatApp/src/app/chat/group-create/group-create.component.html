@@ -2,12 +2,11 @@
     <h4 class="modal-title">toUser</h4>
     <button type="button" class="btn-close" (click)="activeModal.dismiss('Cross click')"></button>
 </div>
-
 <div class="modal-body">
     <div class="card border-secondary">
         <div class="d-flex justify-content-center mainBody">
             <div class="col-12 col-lg-5 form-width">
-                <main class="form-signin">
+                <main class="form-signin"> 
                     <form [formGroup]="groupForm" autocomplete="off" class="p-3 border">
                         <h4>Enter Group Name</h4>
                         <div class="form-floating mb-3">
@@ -20,25 +19,19 @@
                             <label for="offlineUsers">All Users :</label>
                             <div  *ngFor="let user of service.offlineUsers">
                             <div class="userlist" *ngIf="service.myName !== user.username">
-                                <label class="usercheck" >
+                                <label class="usercheck">
                                     <input class="ucheckbox" type="checkbox" name="offlineUsers"
-                                        (change)="updateSelectedUsers(user, $event)" />
+                                        (change)="updateSelectedUsers(user, $event)"/>
                                     {{ user.username }}
                                 </label>
                             </div>
                             </div>
                         </div>
-                       
-
-
                         <div class="d-grid mt-4 px-4">
                             <button (click)="getSelectedUsers()" class="btn btn-primary">Create Group</button>
                         </div>
-
-
                     </form>
                 </main>
             </div>
-
         </div>
     </div>

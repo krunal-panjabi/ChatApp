@@ -1,19 +1,26 @@
 <div style="overflow-y: auto;height: 400px;">
-    <div class="card-text d-flex mb-2" *ngFor="let message of messages"  [class.justify-content-between]="message.from !== service.myName"
+    <div class="card-text d-flex mb-2" *ngFor="let message of messages,let messageId=index"  [class.justify-content-between]="message.from !== service.myName"
     [class.justify-content-end]="message.from === service.myName">
-        <div class="d-flex messages" [class.messagesFromOthers]="message.from !== service.myName"
+        <div class="d-flex messages position-relative" [class.messagesFromOthers]="message.from !== service.myName"
             [class.messagesFromMe]="message.from === service.myName">
-            <div>
+            <div class="contentdiv">
                 <ng-container *ngIf="message.from !== service.myName">
                     <span class="text sender fw-bolder">{{ message.from }}: </span>
                 </ng-container>
-                <span class="ml-1">{{message.content}}</span>
+                <span class="ml-1 message-messageId">{{message.content}}</span>
+                <span (click)="togglediv(messageId)" *ngIf="message.from===service.myName" class=" dots"><img src="/assets/img/dots.png" class="opendiv" style="height:15px;width:10px"></span>
+                <!-- <button class="btn btn-primary opendiv" >:</button> -->
+                <div class="divcont d-flex flex-column" [class.d-none]="!messageDivVisibility[messageId]">
+                  <span class="text-primary">Delete</span>
+                  <span class="">like</span>
+                  <button class="border-0"  (click)="closediv(messageId)">Close</button>
+                </div>
                 <ng-container *ngIf="!this.service.isGroupChat; else groupChat">
-                    <img src="/assets/img/onetick.jpg" class="ticks" style="height: 15px; width: 15px;"
+                    <img src="/assets/img/onetick.jpg" class="ticks" style="height: 15px;width: 15px;position: relative;left: 9px;top: 11px;"
                         *ngIf="message.from === this.service.myName && message.isdelievered === 0 && message.isread === 0">
-                    <img src="/assets/img/dtick.png" class="ticks" style="height: 15px; width: 15px;"
+                    <img src="/assets/img/dtick.png" class="ticks" style="height: 15px;width: 15px;position: relative;left: 9px;top: 11px;"
                         *ngIf="message.from === this.service.myName && message.isdelievered === 1 && message.isread===0">
-                    <img src="/assets/img/bluedtick.png"class="ticks" style="height: 15px; width: 15px;"
+                    <img src="/assets/img/bluedtick.png"class="ticks" style="height: 15px;width: 15px;position: relative;left: 9px;top: 11px;"
                         *ngIf="message.from === this.service.myName && message.isread === 1">
                 </ng-container>
 
