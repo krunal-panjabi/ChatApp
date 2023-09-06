@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input , ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'src/app/message.service';
 import { Message } from 'src/app/Models/message';
@@ -10,12 +10,28 @@ import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css']
 })
-export class MessagesComponent {
+export class MessagesComponent implements AfterViewInit{
+  @ViewChild('messageContainer') messageContainer!: ElementRef;
+  private prevScrollHeight = 0;
 @Input() messages:Message[]=[];
+
+
+ngAfterViewInit() {
+  this.scrollToBottom();
+}
+
+scrollToBottom() {
+  const container = this.messageContainer.nativeElement;
+  container.scrollTop = container.scrollHeight - this.prevScrollHeight;
+  this.prevScrollHeight = container.scrollHeight;
+}
 // messageDivVisibility: { [key: number]: boolean } = {}; //for options div
 // messageDiv1Visibility: { [key: number]: boolean } = {}; //for heart
 // messageDiv2Visibility: { [key: number]: boolean } = {}; // for members
-constructor(public service:UsersService,private matdialog:MatDialog,public msgservice:MessageService){ 
+constructor(public service:UsersService,private matdialog:MatDialog,public msgservice:MessageService,){ 
+
+ 
+
 }
 closediv(mesaageId:number){
   this.msgservice.messageDivVisibility[mesaageId] = false;

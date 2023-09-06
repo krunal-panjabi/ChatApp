@@ -517,7 +517,8 @@ namespace dataRepository.Repository
                     {
                         caption = rdr["caption"].ToString(),
                         imgstr = rdr["imgstr"].ToString(),
-                        uploadedUser = rdr["uploadedUser"].ToString()
+                        uploadedUser = rdr["uploadedUser"].ToString(),
+                        galleryId = Convert.ToInt32(rdr["id"])
                     };
 
                     model.Add(gallery);

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UsersService } from '../users.service';
 import { GalleryData } from '../Models/galleryData';
 import { Router } from '@angular/router';
+import { data } from 'jquery';
 
 
 @Component({
@@ -11,9 +12,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./upload-gallery.component.css']
 })
 export class UploadGalleryComponent implements OnInit {
+  @ViewChild('galleryimg') galleryimg !:ElementRef ;
   galleryForm: FormGroup;
   currentUser: any;
   fileToUpload!: File;
+  imgg : string ='';
 
   constructor(private formBuilder: FormBuilder, private service: UsersService,private router:Router) {
     this.galleryForm = this.formBuilder.group({
@@ -42,21 +45,26 @@ export class UploadGalleryComponent implements OnInit {
 
 
   handleFileInput(event: any) {
-    event.preventDefault();
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0]; // Assuming only one file is selected
       this.convertToBase64(file);
     }
+    
+    // console.log(this.galleryForm.value);
   }
-
+  
   convertToBase64(file: File) {
     const reader = new FileReader();
     reader.onload = (e: any) => {
-      this.fileToUpload = e.target.result;
-      this.galleryForm.get('imgstr')?.setValue(e.target.result); // Set base64 string to form control
+      const base64String = e.target.result;
+      // Do something with the base64String, such as assigning it to a variable or form control
+      // For example, if you want to set it in a form control:
+      this.galleryForm.get('imgstr')?.setValue(base64String);
+      this.galleryimg.nativeElement.setAttribute('src',this.galleryForm.get('imgstr')?.value)
     };
     reader.readAsDataURL(file);
   }
+  
 
   onFormSubmit() {
     const formValue = this.galleryForm.value;
@@ -65,7 +73,8 @@ export class UploadGalleryComponent implements OnInit {
     const postData: GalleryData = {
       caption: formValue.caption,
       imgstr: formValue.imgstr,
-      uploadedUser: this.service.myName 
+      uploadedUser: this.service.myName ,
+      galleryId : null
     };
 
     console.log(postData);

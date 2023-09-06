@@ -8,7 +8,7 @@
 </div>
 
 <div style="overflow-y: auto;height: 400px;z-index: 1001;"  *ngIf="!service.isgeneral">
-    <div class="card-text d-flex mb-2" *ngFor="let message of messages,let messageId=index"
+    <div #messageContainer class="card-text d-flex mb-2" *ngFor="let message of messages,let messageId=index"
         [class.justify-content-between]="message.from !== service.myName"
         [class.justify-content-end]="message.from === service.myName">
         <div class="d-flex messages position-relative" [class.messagesFromOthers]="message.from !== service.myName"
@@ -26,41 +26,38 @@
                     <span *ngIf="message.messageLike===0" (click)="LikeMsg(message.messageid,messageId)"><i class="bi bi-suit-heart-fill" [class.colorheart]="msgservice.messageDiv1Visibility[messageId]"></i>like</span>
                     <span (click)="closediv(messageId)"><i class="bi bi-x-lg"></i>Close</span>
                 </div>
-                <span class="likelogo" *ngIf="message.from!==service.myName && message.messageLike===0" (click)="openDialogue(message.messageid)"><img src="assets/img/heart.jpg" style="height:15px;width:10px" [class.d-none]="!msgservice.messageDiv1Visibility[messageId]">
+
+
+                <div class="likelogodivmy" style="">
+                <span  class="likelogo"   *ngIf="message.from===service.myName && message.messageLike===0"  (click)="openDialogue(message.messageid)"><i class="bi bi-heart-fill" style="height:15px;width:10px;color: red;" [class.d-none]="!msgservice.messageDiv1Visibility[messageId]"></i>
                     <span>{{msgservice.messageDiv2Visibility[messageId]}}</span>
                 </span>
-                <span class="likelogo {{'heart-'+ message.messageid}}" *ngIf="message.from!==service.myName && message.messageLike===1" (click)="openDialogue(message.messageid)"><img src="assets/img/heart.jpg" style="height:15px;width:10px">
+                   <span  class="likelogo {{'heart-'+ message.messageid}}"  *ngIf="message.from===service.myName && message.messageLike===1"  (click)="openDialogue(message.messageid)"><i class="bi bi-heart-fill" style="height:15px;width:10px;color: red;"></i>
+                    <span class="d-none">{{msgservice.messageDiv2Visibility[messageId]}}</span>
+                  </span>
+                  <span class="likelogo text-primary"  *ngIf="message.from===service.myName">{{msgservice.messageDiv2Visibility[messageId]?.count}}</span> 
+                  </div>
+               
+               
+                  <span class="ml-1">{{message.content}}</span>
+
+
+
+                <div class="likelogodiv" style="">
+                <span class="likelogo" *ngIf="message.from!==service.myName && message.messageLike===0" (click)="openDialogue(message.messageid)"><i class="bi bi-heart-fill" style="height:15px;width:10px; color: red;" [class.d-none]="!msgservice.messageDiv1Visibility[messageId]"></i>
+                    <span>{{msgservice.messageDiv2Visibility[messageId]}}</span>
+                </span>
+                <span class="likelogo {{'heart-'+ message.messageid}}" *ngIf="message.from!==service.myName && message.messageLike===1" (click)="openDialogue(message.messageid)"><i class="bi bi-heart-fill" style="height:15px;width:10px;color: red;"></i>
                     <span class="d-none">{{msgservice.messageDiv2Visibility[messageId]}}</span>
                     
                 </span>
                 <span class="likelogo text-primary" *ngIf="message.from!==service.myName">{{msgservice.messageDiv2Visibility[messageId]?.count}}</span> 
-
-                <!-- <div *ngIf="message.from!==service.myName">
-                    <span class="likelogo" *ngIf="message.MessageLike ===0" (click)="openDialogue()"><img src="assets/img/heart.jpg" style="height:15px;width:10px" [class.d-none]="!messageDiv1Visibility[messageId]"></span>
-                </div> -->
-
-                <!-- <div class="memdiv d-flex flex-column" style="background-color: antiquewhite;" 
-                [class.d-none]="!messageDiv2Visibility[messageId]">
-                <div>
-                    <span> called by these peoples</span>
-                    <span (click)="closePdiv(messageId)" style="z-index:25">Close</span>
-                </div>
-                  
-               </div> -->
-               <!-- <div *ngIf="message.from===service.myName">
-                 <span  class="likelogo"  *ngIf="message.MessageLike===0"><img src="assets/img/heart.jpg" style="height:15px;width:10px" [class.d-none]="!messageDiv1Visibility[messageId]"></span>
-                 <span  class="likelogo"  *ngIf="message.MessageLike === 1"><img src="assets/img/heart.jpg" style="height:15px;width:10px" [class.d-none]="messageDiv1Visibility[messageId]"></span>
-               </div> -->
-               <span  class="likelogo"   *ngIf="message.from===service.myName && message.messageLike===0"  (click)="openDialogue(message.messageid)"><img src="assets/img/heart.jpg" style="height:15px;width:10px" [class.d-none]="!msgservice.messageDiv1Visibility[messageId]">
-                <span>{{msgservice.messageDiv2Visibility[messageId]}}</span>
-            </span>
-               <span  class="likelogo {{'heart-'+ message.messageid}}"  *ngIf="message.from===service.myName && message.messageLike===1"  (click)="openDialogue(message.messageid)"><img src="assets/img/heart.jpg" style="height:15px;width:10px">
-                <span class="d-none">{{msgservice.messageDiv2Visibility[messageId]}}</span>
-              </span>
-              <span class="likelogo text-primary"  *ngIf="message.from===service.myName">{{msgservice.messageDiv2Visibility[messageId]?.count}}</span> 
+                 </div>
+               
+              
 
 
-                <span class="ml-1">{{message.content}}</span>
+             
               
                 <!-- for other message -->
 

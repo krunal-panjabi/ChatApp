@@ -1,7 +1,11 @@
-<div class="dialogue-container"  *ngFor="let user of service.likemembers" style="z-index:1002;">
-    <span class="fw-bolder">People Who React</span>
-    <div class="d-flex justify-content-between">
+<div class="dialogue-container"   style="z-index:1002;">
+    <span class="fw-bolder me-3">People Who Reacted</span>
+    <span ><i class="bi bi-heart-fill open1div" style="height:35px;width:40px; color: red;"></i></span>
+    <hr>
+
+    <div class="d-flex" style="position:relative" *ngFor="let user of service.likemembers">
         <span class="text-primary">{{user.username}}</span>
-        <span><img src="assets/img/heart.jpg" class="open1div" style="height:35px;width:40px"></span>
+        <span style="position: absolute;right: 0px;"><i class="bi bi-heart-fill open1div" style="height:35px;width:40px; color: red;"></i></span>
+        <hr>
     </div>
 </div>
