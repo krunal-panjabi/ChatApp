@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
 import { GalleryData } from '../Models/galleryData';
+import { NonNullAssert } from '@angular/compiler';
 
 @Component({
   selector: 'app-photo-gallery',
@@ -9,8 +10,8 @@ import { GalleryData } from '../Models/galleryData';
   styleUrls: ['./photo-gallery.component.css']
 })
 export class PhotoGalleryComponent {
-
-  galleryData: GalleryData[] = [];
+  heartIconClass = 'bi bi-heart';
+    galleryData: GalleryData[] = [];
   constructor(public service: UsersService, private router: Router) { }
 
   ngOnInit(): void {
@@ -35,7 +36,15 @@ export class PhotoGalleryComponent {
  fetchGalleryData() {
   this.service.getGalleryData().subscribe(data => {
     this.galleryData = data;
+    console.log(data);
   });
 }
+
+
+toggleHeartClass(id:number|null) {
+  this.heartIconClass = this.heartIconClass === 'bi bi-heart' ? 'bi bi-heart-fill' : 'bi bi-heart';
+
+}
+
 
 }

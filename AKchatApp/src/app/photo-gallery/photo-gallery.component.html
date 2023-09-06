@@ -18,6 +18,7 @@
                             alt="">
 
                         <span class="navbar-brand ">{{ data.uploadedUser }}</span>
+                        <span class="navbar-brand ">{{ data.galleryId }}</span>
                     </div> <hr>
                     <img class="card-img-top" style="height: 300px;width: 550px;max-width: -webkit-fill-available;"
                     [src]="data.imgstr"
@@ -25,8 +26,8 @@
                         <hr>
                     <div class="card-body">
                         <p class="card-text" style="margin: 0px 0px 3px;">
-                            <!-- <i class="bi bi-heart" style="font-size: larger;"></i> <i
-                                class="bi bi-chat ms-1" style="font-size: larger;"></i> -->
+                          <button class="like" (click)="toggleHeartClass(data.galleryId)">  <i [class]="heartIconClass" style="font-size: larger;"></i> </button>
+                          <button class="like"><i class="bi bi-chat ms-1" style="font-size: larger;"></i> </button>
                             </p>
                                 <span><span style="font-weight: 600;">{{data.uploadedUser}}</span>&nbsp; {{data.caption}}</span>
                     </div>
