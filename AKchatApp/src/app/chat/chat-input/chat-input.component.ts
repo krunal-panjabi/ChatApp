@@ -26,7 +26,6 @@ onTyping() {
     this.service.startTyping(this.service.toUser);
   }
   else{
-    console.log('else block');
     this.service.closeTyping(this.service.toUser);
   }
 }

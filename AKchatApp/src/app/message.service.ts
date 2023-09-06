@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class MessageService {
   messageDivVisibility: { [key: number]: boolean } = {};
-  messageDiv1Visibility: { [key: number]: boolean } = {};
-  messageDiv2Visibility:{[key:number]: {count:number}}={};
+  messageDiv1Visibility: { [key: number]: boolean } = {};// for like iconin div that appears after dot
+  messageDiv2Visibility:{[key:number]: boolean}={};//for private chat like logo
   
     
   constructor() { }

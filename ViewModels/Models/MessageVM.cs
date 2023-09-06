@@ -22,6 +22,8 @@ namespace ViewModels.Models
         public int isgrpread { get; set; }
         public string? grpname { get; set; }
         public int? messageLike { get; set; }
+        public int? count { get; set; }
+        public string? likename { get; set; }
         //public int msgid { get; set;}
 
     }

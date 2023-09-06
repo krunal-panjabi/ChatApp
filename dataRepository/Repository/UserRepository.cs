@@ -335,7 +335,9 @@ namespace dataRepository.Repository
                         isread = Convert.ToInt32(rdr["isread"]),
                         isdelievered = Convert.ToInt32(rdr["delievered"]),
                         messageid = Convert.ToInt32(rdr["messageid"]),
-                        messageLike = Convert.ToInt32(rdr["MessageLike"])
+                        messageLike = Convert.ToInt32(rdr["MessageLike"]),
+                        count = Convert.ToInt32(rdr["count"]),
+                        likename = rdr["likename"].ToString()
                         //msgid = Convert.ToInt32(rdr["msgid"])
                     };
 

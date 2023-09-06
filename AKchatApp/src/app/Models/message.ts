@@ -8,5 +8,7 @@ export interface Message {
     isgrpread?:number;
     messageid?:number;
     messageLike?:number;
+    count:number;
+    likename?:string;
  //   grpname?:string;
   }

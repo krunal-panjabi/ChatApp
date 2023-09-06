@@ -134,6 +134,9 @@ namespace AKchat.Hubs
         public async Task ReceivePrivateMessage(MessageVM message)
         {
             message.isread = 1;
+            message.likename = "other";
+            message.messageLike = 0;
+            message.count = 0;
             _userrepo.storechat(message);
             message.time = DateTime.Now.ToString("MMM dd, HH:mm");
             string privateGroupName = GetPrivateGroupName(message.From, message.To);
@@ -174,21 +177,46 @@ namespace AKchat.Hubs
            
             //  await Clients.Client(toConnectionId).SendAsync("OpenPrivateChat", message);
         }
-        public async Task SendLikeRes(int msgid, string name, int like)
+        public async Task SendLikeRes(int msgid, string name, int like,int messageid,int count,string myname,string typename)
         {
-            if (_chatServices.IsUserOnline(name))
+            if(string.IsNullOrEmpty(name))
             {
-                var toConnectionId = _chatServices.GetConnectionIdByUser(name);
-                await Clients.Client(toConnectionId).SendAsync("ReceiveLikeRes", msgid, like);
+                if (_chatServices.IsUserOnline(typename))
+                {
+                    var toConnectionId = _chatServices.GetConnectionIdByUser(typename);
+                    await Clients.Client(toConnectionId).SendAsync("ReceiveLikeRes", msgid, like, messageid, count,typename);
+                }
             }
+            else
+            {
+                if (_chatServices.IsUserOnline(name))
+                {
+                    var toConnectionId = _chatServices.GetConnectionIdByUser(name);
+                    await Clients.Client(toConnectionId).SendAsync("ReceiveLikeRes", msgid, like, messageid, count, myname);
+                }
+            }
+           
         }
-        public async Task SendLikeResById(int msgid, string name, int like)
+        public async Task SendLikeResById(int msgid, string name, int like,string myname,string typename)
         {
-            if (_chatServices.IsUserOnline(name))
+            if(string.IsNullOrEmpty(name))
             {
-                var toConnectionId = _chatServices.GetConnectionIdByUser(name);
-                await Clients.Client(toConnectionId).SendAsync("ReceiveLikeResById", msgid, like);
+                if (_chatServices.IsUserOnline(typename))
+                {
+                    var toConnectionId = _chatServices.GetConnectionIdByUser(typename);
+                    await Clients.Client(toConnectionId).SendAsync("ReceiveLikeResById", msgid, like,typename);
+                }
             }
+            else
+            {
+                if (_chatServices.IsUserOnline(name))
+                {
+                    var toConnectionId = _chatServices.GetConnectionIdByUser(name);
+                    await Clients.Client(toConnectionId).SendAsync("ReceiveLikeResById", msgid, like, myname);
+                }
+
+            }
+            
         }
         public async Task SendClosingIndicator(string name)
         {
