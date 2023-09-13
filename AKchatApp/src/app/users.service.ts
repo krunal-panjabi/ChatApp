@@ -187,6 +187,7 @@ export class UsersService {
 
   loadprivatechats(toUser: string) {
     this.isGroupChat = false;
+    this.isgeneral=false;
     this.intitializeloadprivatechats(toUser, this.myName).subscribe({
       next: (data) => {
         this.privateMessages = data;
@@ -215,6 +216,7 @@ export class UsersService {
 
   loadgrpchats(gpname: string) {
     this.isGroupChat = true;
+    this.isgeneral=false;
     this.intitializeloadgrpchats(this.myName, gpname).subscribe({
       next: (data) => {
         this.grpmessages = data;
@@ -412,6 +414,7 @@ export class UsersService {
       catch(error => console.log(error));
   }
   async sendMessage(content: string) {
+    this.isgeneral=true;
     console.log("send message called");
     const message: Message = {
       from: this.myName,
@@ -426,6 +429,7 @@ export class UsersService {
 
   async sendGrpMessage(content: string, gname: string) {
     this.isGroupChat = true;
+    this.isgeneral=false;
     const message: groupmodel = {
       from: this.myName,
       content: content,
@@ -439,7 +443,7 @@ export class UsersService {
 
 
   async sendPrivateMessage(to: string, content: string) {
-
+    this.isgeneral=false;
     this.isGroupChat = false;
     //const formattedTime = format(currentTime, 'MMM dd,HH:mm');
     const message: Message = {

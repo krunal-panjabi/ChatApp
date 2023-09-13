@@ -63,6 +63,7 @@
                 <app-messages [messages]="service.messages"></app-messages>
             </div>
             <div class="card-footer">
+                <app-chat-input-general (contentemitter)="sendMessage($event)"></app-chat-input-general>
                 <!-- <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input> -->
             </div>
         </div>
