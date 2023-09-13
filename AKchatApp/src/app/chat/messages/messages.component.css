@@ -101,47 +101,10 @@
   padding-left: 4px;
   z-index: 15;
 }
-/* .likelogo{
-  position: relative;
-  top:10px; 
-}*/
-
 .likelogo{
-  /* position: relative;
-  top:12px;
-  left:14px; */
-
-
-}
-.likelogodiv{
   position: relative;
-    height: fit-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20px;
-    align-items: center;
-    top: 12px;
-    border-radius: 22px;
-    left: 14px;
-    background-color: rgb(255 171 171);
-    object-fit: contain;
+  top:3px;
 }
-.likelogodivmy{
-  position: relative;
-    height: fit-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20px;
-    align-items: center;
-    top: 12px;
-    border-radius: 22px;
-    right: 12px;
-    background-color: rgb(255 171 171);
-    object-fit: contain;
-}
-
 .memdiv{
   position: absolute;
   top:77px;
@@ -173,4 +136,31 @@
     align-self: flex-end;
     margin-top: -20px;
   } */
-  
+  .likelogodiv{
+    position: relative;
+      height: fit-content;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 38px;
+      align-items: center;
+      top: 12px;
+      border-radius: 22px;
+      left: 14px;
+      background-color: rgb(255 171 171);
+      object-fit: contain;
+  }
+  .likelogodivmy{
+    position: relative;
+      height: fit-content;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 38px;
+      align-items: center;
+      top: 12px;
+      border-radius: 22px;
+      right: 12px;
+      background-color: rgb(255 171 171);
+      object-fit: contain;
+  }

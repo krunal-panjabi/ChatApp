@@ -6,6 +6,7 @@ import { GroupCreateComponent } from '../group-create/group-create.component';
 import { PrivateChatsComponent } from '../private-chats/private-chats.component';
 import { GroupChatComponent } from '../group-chat/group-chat.component';
 import { Router } from '@angular/router';
+import { MessageService } from 'src/app/message.service';
 
 @Component({
   selector: 'app-chatpage',
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class ChatpageComponent implements OnInit,OnDestroy {
 
-  constructor(public service : UsersService,private modalService:NgbModal,private router:Router) { }
+  constructor(public service : UsersService,private modalService:NgbModal,private router:Router,public msgservice:MessageService) { }
   
  ngOnDestroy(): void{
    this.service.stopChatConnection();
@@ -47,8 +48,10 @@ export class ChatpageComponent implements OnInit,OnDestroy {
     return true;
   }
     openPrivateChat(toUser: string, image: string){
+      this.service.isGroupChat=false;
     this.service.toUser=toUser;
-    console.log("to user",this.service.toUser); 
+  this.msgservice.messageDiv1Visibility={};
+  this.msgservice.messageDiv2Visibility={};
    const modalRef=this.modalService.open(PrivateChatsComponent);
    modalRef.componentInstance.toUser=toUser;
    modalRef.componentInstance.image=image;
@@ -60,8 +63,12 @@ export class ChatpageComponent implements OnInit,OnDestroy {
     this.service.isTyping=false;
     this.router.navigateByUrl('/login');
   }
+
   openGroupChat(GroupName:string){
+    this.service.isGroupChat=true;
     const modalRef=this.modalService.open(GroupChatComponent);
+    this.msgservice.messageDiv1Visibility={};
+    this.msgservice.messageDiv2Visibility={};
     modalRef.componentInstance.GroupName=GroupName;
     this.service.loadgrpchats(GroupName);
     this.service.loadgrpmembers(GroupName).subscribe({

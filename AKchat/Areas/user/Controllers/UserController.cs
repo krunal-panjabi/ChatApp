@@ -111,6 +111,19 @@ namespace AKchat.Areas.user.Controllers
                 }
             }*/
         }
+        [HttpPost("DisLikemsgbyIdGrp")]
+        public IActionResult DisLikemsgbyIdGrp([FromBody] LikeVm model)
+        {
+            var i = _userrepo.DisLikeEntryGrp(model);
+            if (i == 0)
+            {
+                return Ok(false);
+            }
+            else
+            {
+                return Ok(true);
+            }
+        }
         [HttpPost("DisLikemsgbyId")]
         public IActionResult DisLikeMsgById([FromBody] LikeVm model)
         {
@@ -139,7 +152,23 @@ namespace AKchat.Areas.user.Controllers
 
 
         }
-        [HttpPost("LikemsgbyId")]
+        [HttpPost("LikemsgbyIdGrp")]
+        public IActionResult LikeMsgByIdGrp([FromBody] LikeVm model)
+        {
+            var i = _userrepo.LikeEntryGrp(model);
+            if(i==0)
+            {
+                return Ok(false);
+            }
+            else
+            {
+                return Ok(true);
+            }
+        }
+
+
+
+      [HttpPost("LikemsgbyId")]
         public IActionResult LikeMsgById([FromBody] LikeVm model)
         {
             var i = _userrepo.LikeEntry(model);
@@ -151,8 +180,8 @@ namespace AKchat.Areas.user.Controllers
             {
                 return Ok(true);
             }
-
         }
+      
         [HttpGet("FetchUserDetail")]
         public async Task<IActionResult> GetUserByprofile(string username)
         {
@@ -180,6 +209,22 @@ namespace AKchat.Areas.user.Controllers
             var users = _userrepo.GetAllUsers();
             return users;
         }
+        [HttpGet("GetLikeMembersGrp")]
+        public IActionResult GetLikeMmbersGrp(int msgid)
+        {
+            var members = _userrepo.GetLikeMembersGrp(msgid);
+            if(members!=null)
+            {
+                return Ok(members);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
+
         [HttpGet("GetLikeMembers")]
         public IActionResult GetLikeMmbers(int msgid)
         {

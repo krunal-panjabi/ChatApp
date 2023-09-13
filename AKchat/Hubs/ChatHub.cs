@@ -51,13 +51,13 @@ namespace AKchat.Hubs
         public async Task ReceiveGrpMessage(GroupMsgVm message)
         {
             _userrepo.storegroupchat(message);
-            MessageVM model = new MessageVM
+           /* MessageVM model = new MessageVM
             {
                 From = message.from,
                 Content = message.content,
                 time = DateTime.Now.ToString("MMM dd, HH:mm"),
-            };
-            await Clients.Group("ChatApp").SendAsync("NewGrpMessage", model);
+            };*/
+            await Clients.Group("ChatApp").SendAsync("NewGrpMessage", message.grpname);
             /* _userrepo.storegroupchat(message);
              string privateGroupName = message.grpname;
              await Groups.AddToGroupAsync(Context.ConnectionId, privateGroupName);

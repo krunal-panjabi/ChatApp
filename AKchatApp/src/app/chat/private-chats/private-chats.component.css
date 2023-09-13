@@ -29,7 +29,7 @@
     position: absolute;
     height: 420px;
     width: 420px;
-    z-index: 12;
+    z-index: 3;
     left: 40px;
     background-color: white;
     border: solid rgb(0, 0, 0) 2px;

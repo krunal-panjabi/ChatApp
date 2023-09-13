@@ -1,4 +1,4 @@
-import { Component, Input , ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'src/app/message.service';
 import { Message } from 'src/app/Models/message';
@@ -32,20 +32,38 @@ export class MessagesComponent {
     });
   }
   openDialogue(megid: any) {
-    this.service.getLikeMembers(megid).subscribe({
-      next: (data) => {
-        this.service.likemembers = data;
-        this.matdialog.open(DialogBodyComponent, {
-          width: '350px',
-          position: { top: '400px' },
-        })
-      },
-      error: (error) => {
-        if (error.status === 400) {
-          console.error("By refreshing the page you got disconnected");
+    if (this.service.isGroupChat){
+      this.service.getLikeMembersGrp(megid).subscribe({
+        next:(data)=>{
+         this.service.likemembers=data;
+         this.matdialog.open(DialogBodyComponent,{
+          width:'350px',
+          position:{top:'400px'},
+         })
+        },
+        error:(error)=>{
+
         }
-      }
-    });
+        
+      });
+    }
+    else{
+      this.service.getLikeMembers(megid).subscribe({
+        next: (data) => {
+          this.service.likemembers = data;
+          this.matdialog.open(DialogBodyComponent, {
+            width: '350px',
+            position: { top: '400px' },
+          })
+        },
+        error: (error) => {
+          if (error.status === 400) {
+            console.error("By refreshing the page you got disconnected");
+          }
+        }
+      });
+    }
+   
 
   }
   togglePdiv(mesaageId: number) {
@@ -73,60 +91,35 @@ export class MessagesComponent {
   }
 
 
-  LikeMsg(messageid: any, msgid: any,indexid:any) {
+  LikeMsg(messageid: any, msgid: any, indexid: any) {
     debugger;
-    let newValue: any;
-    if (this.msgservice.messageDiv1Visibility[msgid]) { //Here it will come only when there is no reaction from this user or from myName at time of only dislike
-      this.msgservice.messageDiv1Visibility[msgid] = false;
-      const spanClass = '.count-' + messageid;
-      const selectedSpan = document.querySelector(spanClass) as HTMLElement;
-      let likename = selectedSpan.getAttribute('likename');
-      if (selectedSpan) {
-        const currentValue = parseInt(selectedSpan.innerText);
-        if (currentValue === 1 && likename === this.service.myName) {
-          newValue = currentValue - 1;
-          selectedSpan.innerText = newValue.toString();
-          this.msgservice.messageDiv2Visibility[msgid] = false;
-        } else {
-          newValue = currentValue - 1;
-          selectedSpan.innerText = newValue.toString();
+    if (this.service.isGroupChat) {
+      let newValue: any;
+      if (this.msgservice.messageDiv1Visibility[msgid]) {// fro dislike purpose
+        this.msgservice.messageDiv1Visibility[msgid] = false;
+        const spanClass = '.count-' + messageid;
+        const selectedSpan = document.querySelector(spanClass) as HTMLElement;
+        const divClass = '.logodiv-' + messageid;
+        const selecteddiv = document.querySelector(divClass) as HTMLElement;
+       
+        let likename = selectedSpan.getAttribute('likename');
+        if (selectedSpan) {
+          const currentValue = parseInt(selectedSpan.innerText);
+          if (currentValue === 1 && likename === this.service.myName) {
+            newValue = currentValue - 1;
+            selectedSpan.innerText = newValue.toString();
+            selecteddiv.classList.add('d-none');
+            this.msgservice.messageDiv2Visibility[msgid] = false;
+          } else {
+            newValue = currentValue - 1;
+            selectedSpan.innerText = newValue.toString();
+          }
         }
-      }
 
-      //  this.msgservice.messageDiv2Visibility[msgid]=false;
-      this.service.dislikemessage(messageid, this.service.myName).subscribe({
-        next: (response) => {
-          this.service.SendLikeRes(msgid, 0, messageid, newValue);
-        },
-        error: (error) => {
-          console.error('Error loading private chats', error);
-
-        }
-      })
-      return;
-    }
-    else if (msgid === 0) //here it will come when the reaction is already donme
-    {
-      const spanClass = '.heart-' + messageid;
-      const selectedSpan = document.querySelector(spanClass) as HTMLElement; //if has d-none than like the message or else dislike the message
-
-      const spanClasscount = '.count-' + messageid;
-      const selectedSpancount = document.querySelector(spanClasscount) as HTMLElement;
-      const currentValue = parseInt(selectedSpancount.innerText);
-    
-      if(selectedSpancount.getAttribute('likename')===this.service.myName) //for disliking on same name
-      {
-        const value = currentValue - 1;
-        selectedSpancount.innerText = value.toString();
-        this.msgservice.messageDiv1Visibility[indexid]=true;
-        if(parseInt(selectedSpancount.innerText) === 0)
-        {
-          selectedSpan.classList.add('d-none');
-        }
-        selectedSpancount.setAttribute('likename', 'anonym');
-        this.service.dislikemessage(messageid, this.service.myName).subscribe({
+        //  this.msgservice.messageDiv2Visibility[msgid]=false;
+        this.service.dislikemessageGrp(messageid, this.service.myName).subscribe({
           next: (response) => {
-            this.service.SendLikeResBymsgid(messageid,0);
+
           },
           error: (error) => {
             console.error('Error loading private chats', error);
@@ -134,11 +127,162 @@ export class MessagesComponent {
           }
         })
       }
-      else{
-        if(selectedSpancount.getAttribute('likename')!==this.service.myName)
-          {
-           this.msgservice.messageDiv1Visibility[indexid]=true;
-           selectedSpancount.setAttribute('likename', this.service.myName);
+      else if (msgid === 0) {//when reaction is already done in chats
+        const spanClass = '.heart-' + messageid;
+        const selectedSpan = document.querySelector(spanClass) as HTMLElement;
+
+        const spanClasscount = '.count-' + messageid;
+        const selectedSpancount = document.querySelector(spanClasscount) as HTMLElement;
+        const currentValue = parseInt(selectedSpancount.innerText);
+
+        const divClass = '.logodiv-' + messageid;
+        const selecteddiv = document.querySelector(divClass) as HTMLElement;
+
+        if (selectedSpancount.getAttribute('likename') === this.service.myName) //for disliking on same name
+        {
+          const value = currentValue - 1;
+          selectedSpancount.innerText = value.toString();
+          this.msgservice.messageDiv1Visibility[indexid] = !this.msgservice.messageDiv1Visibility[indexid];
+          if (parseInt(selectedSpancount.innerText) === 0) {
+            selecteddiv.classList.add('d-none');
+            selectedSpan.classList.add('d-none');
+          }
+          selectedSpancount.setAttribute('likename', 'anonym');
+          this.service.dislikemessageGrp(messageid, this.service.myName).subscribe({
+            next: (response) => {
+
+            },
+            error: (error) => {
+              console.error('Error loading private chats', error);
+            }
+          })
+        }
+        else {
+          if (selectedSpancount.getAttribute('likename') !== this.service.myName) {
+            selecteddiv.classList.remove('d-none');
+            this.msgservice.messageDiv1Visibility[indexid] = !this.msgservice.messageDiv1Visibility[indexid];
+            selectedSpancount.setAttribute('likename', this.service.myName);
+          }
+          const value = currentValue + 1;
+          selectedSpancount.innerText = value.toString();
+          selectedSpan.classList.remove('d-none');
+          this.service.likemessageGrp(messageid, this.service.myName).subscribe({
+            next: (response) => {
+
+            },
+            error: (error) => {
+              console.error('Error loading private chats', error);
+            }
+          })
+        }
+
+      }
+      else { //here when there is no recation intially and for like purpose
+        const spanClass = '.count-' + messageid;
+        const selectedSpan = document.querySelector(spanClass) as HTMLElement;
+        const divClass = '.logodiv-' + messageid;
+        const selecteddiv = document.querySelector(divClass) as HTMLElement;
+        selecteddiv.classList.remove('d-none');
+        if (selectedSpan) {
+          const currentValue = parseInt(selectedSpan.innerText);
+          if (currentValue === 0) {
+            selectedSpan.innerText = '1';
+            newValue = 1;
+            selectedSpan.setAttribute('likename', this.service.myName);
+          } else {
+            newValue = currentValue + 1;
+            selectedSpan.innerText = newValue.toString();
+          }
+        }
+
+        this.msgservice.messageDiv1Visibility[msgid] = true;
+        this.msgservice.messageDiv2Visibility[msgid] = true;
+        // this.msgservice.messageDiv2Visibility[msgid]={count:0};
+
+        this.service.likemessageGrp(messageid, this.service.myName).subscribe({
+          next: (response) => {
+          },
+          error: (error) => {
+            console.error('Error loading private chats', error);
+
+          }
+        })
+      }
+    }
+
+
+    else {
+      let newValue: any;
+      if (this.msgservice.messageDiv1Visibility[msgid]) { //Here it will come only when there is no reaction from this user or from myName at time of only dislike
+        this.msgservice.messageDiv1Visibility[msgid] = false;
+        const spanClass = '.count-' + messageid;
+        const selectedSpan = document.querySelector(spanClass) as HTMLElement;
+        let likename = selectedSpan.getAttribute('likename');
+        const divClass = '.logodiv-' + messageid;
+        const selecteddiv = document.querySelector(divClass) as HTMLElement;
+        if (selectedSpan) {
+          const currentValue = parseInt(selectedSpan.innerText);
+          if (currentValue === 1 && likename === this.service.myName) {
+            newValue = currentValue - 1;
+            selectedSpan.innerText = newValue.toString();
+            this.msgservice.messageDiv2Visibility[msgid] = false;
+            selecteddiv.classList.add('d-none');
+          } else {
+            newValue = currentValue - 1;
+            selectedSpan.innerText = newValue.toString();
+          }
+        }
+
+        //  this.msgservice.messageDiv2Visibility[msgid]=false;
+        this.service.dislikemessage(messageid, this.service.myName).subscribe({
+          next: (response) => {
+            this.service.SendLikeRes(msgid, 0, messageid, newValue);
+          },
+          error: (error) => {
+            console.error('Error loading private chats', error);
+
+          }
+        })
+        return;
+      }
+      else if (msgid === 0) //here it will come when the reaction is already donme
+      {
+        const spanClass = '.heart-' + messageid;
+        const selectedSpan = document.querySelector(spanClass) as HTMLElement; //if has d-none than like the message or else dislike the message
+
+        const spanClasscount = '.count-' + messageid;
+        const selectedSpancount = document.querySelector(spanClasscount) as HTMLElement;
+
+        const divClass = '.logodiv-' + messageid;
+        const selecteddiv = document.querySelector(divClass) as HTMLElement;
+        
+        
+        const currentValue = parseInt(selectedSpancount.innerText);
+
+        if (selectedSpancount.getAttribute('likename') === this.service.myName) //for disliking on same name
+        {
+          const value = currentValue - 1;
+          selectedSpancount.innerText = value.toString();
+          this.msgservice.messageDiv1Visibility[indexid] = !this.msgservice.messageDiv1Visibility[indexid];
+          if (parseInt(selectedSpancount.innerText) === 0) {
+            selecteddiv.classList.add('d-none');
+            selectedSpan.classList.add('d-none');
+          }
+          selectedSpancount.setAttribute('likename', 'anonym');
+          this.service.dislikemessage(messageid, this.service.myName).subscribe({
+            next: (response) => {
+              this.service.SendLikeResBymsgid(messageid, 0);
+            },
+            error: (error) => {
+              console.error('Error loading private chats', error);
+            }
+          })
+        }
+        else {
+          if (selectedSpancount.getAttribute('likename') !== this.service.myName) {
+            selecteddiv.classList.remove('d-none');
+            this.msgservice.messageDiv1Visibility[indexid] = !this.msgservice.messageDiv1Visibility[indexid];
+            selectedSpancount.setAttribute('likename', this.service.myName);
           }
           const value = currentValue + 1;
           selectedSpancount.innerText = value.toString();
@@ -151,39 +295,44 @@ export class MessagesComponent {
               console.error('Error loading private chats', error);
             }
           })
-      }
-
-    }
-
-
-    else {  //Here it will come only when there is no reaction from this user or from myName at time of only like
-      const spanClass = '.count-' + messageid;
-      const selectedSpan = document.querySelector(spanClass) as HTMLElement;
-      if (selectedSpan) {
-        const currentValue = parseInt(selectedSpan.innerText);
-        if (currentValue === 0) {
-          selectedSpan.innerText = '1';
-          newValue = 1;
-          selectedSpan.setAttribute('likename', this.service.myName);
-        } else {
-          newValue = currentValue + 1;
-          selectedSpan.innerText = newValue.toString();
         }
       }
 
-      this.msgservice.messageDiv1Visibility[msgid] = true;
-      this.msgservice.messageDiv2Visibility[msgid] = true;
-      // this.msgservice.messageDiv2Visibility[msgid]={count:0};
 
-      this.service.likemessage(messageid, this.service.myName).subscribe({
-        next: (response) => {
-          this.service.SendLikeRes(msgid, 1, messageid, newValue);
-        },
-        error: (error) => {
-          console.error('Error loading private chats', error);
-
+      else {  //Here it will come only when there is no reaction from this user or from myName at time of only like
+        const spanClass = '.count-' + messageid;
+        const selectedSpan = document.querySelector(spanClass) as HTMLElement;
+       
+        const divClass = '.logodiv-' + messageid;
+        const selecteddiv = document.querySelector(divClass) as HTMLElement;
+        
+        selecteddiv.classList.remove('d-none');
+        if (selectedSpan) {
+          const currentValue = parseInt(selectedSpan.innerText);
+          if (currentValue === 0) {
+            selectedSpan.innerText = '1';
+            newValue = 1;
+            selectedSpan.setAttribute('likename', this.service.myName);
+          } else {
+            newValue = currentValue + 1;
+            selectedSpan.innerText = newValue.toString();
+          }
         }
-      })
+
+        this.msgservice.messageDiv1Visibility[msgid] = true;
+        this.msgservice.messageDiv2Visibility[msgid] = true;
+        // this.msgservice.messageDiv2Visibility[msgid]={count:0};
+
+        this.service.likemessage(messageid, this.service.myName).subscribe({
+          next: (response) => {
+            this.service.SendLikeRes(msgid, 1, messageid, newValue);
+          },
+          error: (error) => {
+            console.error('Error loading private chats', error);
+
+          }
+        })
+      }
     }
   }
 

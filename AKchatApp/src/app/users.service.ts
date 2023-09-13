@@ -79,6 +79,13 @@ export class UsersService {
     }
     return this.http.post(`${environment.apiUrl}User/DisLikemsgbyId`, likeentry)
   }
+  dislikemessageGrp(mesaageId: any, name: string) {
+    const likeentry = {
+      msgid: mesaageId,
+      name: name
+    }
+    return this.http.post(`${environment.apiUrl}User/DisLikemsgbyIdGrp`, likeentry)
+  }
   likemessage(mesaageId: any, name: string): Observable<any> {
     console.log('messageid in service', mesaageId);
     const likeentry = {
@@ -89,6 +96,13 @@ export class UsersService {
     // const params = new HttpParams().set("msgid", mesaageId);
     // const params = new HttpParams().set("msgid", mesaageId);
     return this.http.post(`${environment.apiUrl}User/LikemsgbyId`, likeentry)
+  }
+  likemessageGrp(mesaageId: any, name: string): Observable<any> {
+    const likeentry = {
+      msgid: mesaageId,
+      name: name
+    }
+    return this.http.post(`${environment.apiUrl}User/LikemsgbyIdGrp`, likeentry)
   }
 
   public LoginData(User: user): Observable<any> {
@@ -106,6 +120,11 @@ export class UsersService {
     formData.append('name', name);
     return this.http
       .post(endpoint, formData);
+  }
+  getLikeMembersGrp(msgid: any) {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    const params = new HttpParams().set("msgid", msgid);
+    return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetLikeMembersGrp`, { 'headers': headers, 'params': params });
   }
   getLikeMembers(msgid: any) {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
@@ -235,12 +254,13 @@ export class UsersService {
       this.messages = [...this.messages, newMessage];
     });
 
-    this.chatConnection.on('NewGrpMessage', (newMessage: Message) => {
-      this.grpmessages = [...this.grpmessages, newMessage];
+    this.chatConnection.on('NewGrpMessage', (gpname: any) => {
+      this.loadgrpchats(gpname);
+      // this.grpmessages = [...this.grpmessages, newMessage];
     });
 
     this.chatConnection.on('NewPrivateChatMessage', (newMessage: Message) => {
-      
+
       this.privateMessages = [...this.privateMessages, newMessage];
     });
 
@@ -262,17 +282,23 @@ export class UsersService {
     });
 
     this.chatConnection.on('ReceiveLikeRes', (msgid: any, like: any, messageid: any, count: any, name: any) => {
+      
       if (like === 1) {
         this.typename = name;
         this.msgservice.messageDiv2Visibility[msgid] = true;
         const spanClasscount = '.count-' + messageid;
         const selectedSpancount = document.querySelector(spanClasscount) as HTMLElement;
 
+        const spanClassdiv = '.logodiv-' + messageid;
+        const selecteddiv = document.querySelector(spanClassdiv) as HTMLElement;
+        selecteddiv.classList.remove('d-none');
         if (selectedSpancount) {
           const currentValue = parseInt(selectedSpancount.innerText);
           if (currentValue === 0) {
+
             selectedSpancount.innerText = '1';
           } else {
+
             const newValue = currentValue + 1;
             selectedSpancount.innerText = newValue.toString();
           }
@@ -280,6 +306,9 @@ export class UsersService {
       }
       else {
         this.typename = name;
+        const spanClassdiv = '.logodiv-' + messageid;
+        const selecteddiv = document.querySelector(spanClassdiv) as HTMLElement;
+
         const spanClasscount = '.count-' + messageid;
         const selectedSpancount = document.querySelector(spanClasscount) as HTMLElement;
         if (selectedSpancount) {
@@ -289,6 +318,7 @@ export class UsersService {
         }
         if (parseInt(selectedSpancount.innerText) === 0) {
           this.msgservice.messageDiv2Visibility[msgid] = false;
+          selecteddiv.classList.add('d-none');
         }
       }
     });
@@ -296,8 +326,9 @@ export class UsersService {
     this.chatConnection.on('ReceiveLikeResById', (msgid: any, like: any, name: any) => {
       const spanClasscount = '.count-' + msgid;
       const selectedSpancount = document.querySelector(spanClasscount) as HTMLElement;
-      if (like === 0) 
-      {
+      const spanClassdiv = '.logodiv-' + msgid;
+      const selecteddiv = document.querySelector(spanClassdiv) as HTMLElement;
+      if (like === 0) {
         if (selectedSpancount) {
           const currentValue = parseInt(selectedSpancount.innerText);
           const newValue = currentValue - 1;
@@ -307,12 +338,12 @@ export class UsersService {
         const spanClass = '.heart-' + msgid;
         const selectedSpan = document.querySelector(spanClass) as HTMLElement;
         if (parseInt(selectedSpancount.innerText) === 0) {
+          selecteddiv.classList.add('d-none');
           selectedSpan.classList.add('d-none');
         }
       }
 
-      else 
-      {
+      else {
         if (selectedSpancount) {
           const currentValue = parseInt(selectedSpancount.innerText);
           const newValue = currentValue + 1;

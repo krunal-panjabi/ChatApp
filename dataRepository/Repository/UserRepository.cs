@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using ViewModels.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.Identity.Client;
 
 namespace dataRepository.Repository
 {
@@ -33,11 +34,37 @@ namespace dataRepository.Repository
                 return i;
             }
         }
+        public int DisLikeEntryGrp(LikeVm model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("DisLikeEntryByUserGrp", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@msgid", model.msgid);
+                cmd.Parameters.AddWithValue("@name", model.name);
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+                return i;
+            }
+        }
         public int DisLikeEntry(LikeVm model)
         {
             using (SqlConnection con = new SqlConnection(connections))
             {
                 SqlCommand cmd = new SqlCommand("DisLikeEntryByUser", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@msgid", model.msgid);
+                cmd.Parameters.AddWithValue("@name", model.name);
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+                return i;
+            }
+        }
+        public int LikeEntryGrp(LikeVm model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("LikeEntryByUserGrp", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@msgid", model.msgid);
                 cmd.Parameters.AddWithValue("@name", model.name);
@@ -126,6 +153,29 @@ namespace dataRepository.Repository
                 }
                 return valid;
             }
+        }
+        public List<AllUsersVm> GetLikeMembersGrp(int msgid)
+        {
+            List<AllUsersVm> model = new List<AllUsersVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetAllLikeMembersForGrp", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@msgid", msgid);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    AllUsersVm names = new AllUsersVm
+                    {
+                        username = rdr["name"].ToString()
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
         }
         public List<AllUsersVm> GetLikeMembers(int msgid)
         {
@@ -369,6 +419,10 @@ namespace dataRepository.Repository
                             Content = rdr["message"].ToString(),
                             time = rdr["FormattedChatTime"].ToString(),
                             isgrpread = Convert.ToInt32(rdr["count"]),
+                            messageid = Convert.ToInt32(rdr["messageid"]),
+                            count = Convert.ToInt32(rdr["grpcount"]),
+                            likename = rdr["likename"].ToString(),
+                            messageLike = Convert.ToInt32(rdr["messagelike"])
                         };
 
                         model.Add(names);

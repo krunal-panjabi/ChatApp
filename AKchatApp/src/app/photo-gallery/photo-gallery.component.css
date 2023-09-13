@@ -9,19 +9,3 @@
 hr{
     margin: 10px 0px;
 }
-
-.like{
-    padding: 0px;
-    border: 0px;
-    background-color: transparent;
-}
-
-.comment{
-    padding: 0px;
-    border: 0px;
-    background-color: transparent;
-}
-
-.bi-heart-fill{
-    color: red;
-}
