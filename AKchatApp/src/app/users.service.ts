@@ -174,9 +174,6 @@ export class UsersService {
     const params = new HttpParams().set("username", name);
     return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
   }
-
-
-
   intitializeloadprivatechats(toUser: string, fromUser: string): Observable<Message[]> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     let params = new HttpParams()
@@ -227,6 +224,20 @@ export class UsersService {
       }
     });
   }
+
+  storeToken(tokenValue:string){
+  localStorage.setItem('token',tokenValue);
+  }
+  
+  getToken(){
+    return localStorage.getItem('token');
+  }
+
+  isLoggedIn():boolean{
+  return !!localStorage.getItem('token');
+  }
+
+
 
   createChatConnection() {
     this.chatConnection = new HubConnectionBuilder()
@@ -382,7 +393,6 @@ export class UsersService {
     return this.chatConnection?.invoke('AddUserConnectionId', this.myName)
       .catch(error => console.log(error));
   }
-
   async callbackend() {
     return this.chatConnection?.invoke('LoadGrpNames')
       .catch(error => console.log(error));

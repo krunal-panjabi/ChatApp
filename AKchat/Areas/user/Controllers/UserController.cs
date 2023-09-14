@@ -1,8 +1,13 @@
 ﻿using AKchat.Services;
 using dataRepository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using NuGet.ContentModel;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using ViewModels.Models;
 
 namespace AKchat.Areas.user.Controllers
@@ -28,8 +33,8 @@ namespace AKchat.Areas.user.Controllers
         public IActionResult Register([FromBody] UserVM model)//company register
         {
            
-            var i = _userrepo.registerrepo(model);
-            if (i > 0)
+            var count_value = _userrepo.registerrepo(model);
+            if (count_value > 0)
             {
                 return Ok(true);
             }
@@ -42,50 +47,47 @@ namespace AKchat.Areas.user.Controllers
         [HttpPost("UserLogin")]
         public IActionResult Login([FromBody] UserVM model)
         {
-            var i = _userrepo.loginrepo(model);
-            if(i == 0)
+            var valid_user = _userrepo.loginrepo(model);
+            if(valid_user == 0)
             {
                 if (_chatservices.AddUserToList(model))
                 {
-                    return Ok(true);
+                    string token = CreateJwt(model.username);
+                    var response = new { Token = token, Success = true };
+                    return Ok(response);
                 }
                 return Ok("Name in use");
             }
             return Ok(false);
         }
+        [Authorize]
         [HttpPost("uploadphoto")]
         public IActionResult uploadphoto()
         {
             var httpRequest = HttpContext.Request;
             var imageFile = httpRequest.Form.Files["Image"];
             string name = httpRequest.Form["name"].ToString();
-            string angpath = "\\assets\\img\\" + imageFile.FileName;
+            string angpath = Constants.ANGULAR_ABSOLUTE_PATH + imageFile.FileName;
             if (imageFile == null)
             {
                 return BadRequest("No image file uploaded.");
             }
-            if (imageFile != null)
+            else
             {
-                string addpath = "\\Assets\\UserProfile";
+                string addpath = Constants.WEBAPI_PATH;
                 var filePath = Directory.GetCurrentDirectory() + addpath + imageFile.FileName;
-                Console.WriteLine(filePath);
-
-                var filepathanguar = Path.Combine("D:\\ChatApp\\AKchatApp\\src\\assets\\img", imageFile.FileName);
-
-
+                var filepathanguar = Path.Combine(Constants.ANGULAR_RELATIVE_PATH, imageFile.FileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     imageFile.CopyTo(stream);
                 }
-
                 using (var stream = new FileStream(filepathanguar, FileMode.Create))
                 {
                     imageFile.CopyTo(stream);
                 }
-              
             }
-            var i = _userrepo.uploadphoto(angpath, name);
-            if (i > 0)
+            var count_value = _userrepo.uploadphoto(angpath, name);
+            if (count_value > 0)
             {
                 return Ok(true);
             }
@@ -93,29 +95,14 @@ namespace AKchat.Areas.user.Controllers
             {
                 return Ok(false);
             }
-            /*using (var memoryStream = new MemoryStream())
-            {
-                imageFile.CopyTo(memoryStream);
-                byte[] imageBytes = memoryStream.ToArray();
-
-                string base64String = Convert.ToBase64String(imageBytes);
-
-               var i=_userrepo.uploadphoto(base64String, name);
-                if (i > 0)
-                {
-                    return Ok(true);
-                }
-                else
-                {
-                    return Ok(false);
-                }
-            }*/
+           
         }
+        [Authorize]
         [HttpPost("DisLikemsgbyIdGrp")]
         public IActionResult DisLikemsgbyIdGrp([FromBody] LikeVm model)
         {
-            var i = _userrepo.DisLikeEntryGrp(model);
-            if (i == 0)
+            var count_value = _userrepo.DisLikeEntryGrp(model);
+            if (count_value == 0)
             {
                 return Ok(false);
             }
@@ -124,11 +111,12 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(true);
             }
         }
+        [Authorize]
         [HttpPost("DisLikemsgbyId")]
         public IActionResult DisLikeMsgById([FromBody] LikeVm model)
         {
-            var i = _userrepo.DisLikeEntry(model);
-            if (i == 0)
+            var count_value = _userrepo.DisLikeEntry(model);
+            if (count_value == 0)
             {
                 return Ok(false);
             }
@@ -137,11 +125,12 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(true);
             }
         }
+        [Authorize]
         [HttpPost("ProfileData")]
         public IActionResult profiledata([FromBody] ProfileVm model)
         {
-            var i = _userrepo.profiledata(model);
-              if(i>0)
+            var count_value = _userrepo.profiledata(model);
+              if(count_value > 0)
             {
                 return Ok(true);
             }
@@ -152,11 +141,12 @@ namespace AKchat.Areas.user.Controllers
 
 
         }
+        [Authorize]
         [HttpPost("LikemsgbyIdGrp")]
         public IActionResult LikeMsgByIdGrp([FromBody] LikeVm model)
         {
-            var i = _userrepo.LikeEntryGrp(model);
-            if(i==0)
+            var count_value = _userrepo.LikeEntryGrp(model);
+            if(count_value ==0)
             {
                 return Ok(false);
             }
@@ -167,12 +157,12 @@ namespace AKchat.Areas.user.Controllers
         }
 
 
-
-      [HttpPost("LikemsgbyId")]
+        [Authorize]
+        [HttpPost("LikemsgbyId")]
         public IActionResult LikeMsgById([FromBody] LikeVm model)
         {
-            var i = _userrepo.LikeEntry(model);
-            if (i == 0)
+            var count_value = _userrepo.LikeEntry(model);
+            if (count_value == 0)
             {
                 return Ok(false);
             }
@@ -181,7 +171,7 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(true);
             }
         }
-      
+        [Authorize]
         [HttpGet("FetchUserDetail")]
         public async Task<IActionResult> GetUserByprofile(string username)
         {
@@ -191,9 +181,9 @@ namespace AKchat.Areas.user.Controllers
         [HttpGet("CheckForName")]
         public IActionResult CheckForName(string username)
         {
-            var i = _userrepo.checkforname(username);
+            var valid_value = _userrepo.checkforname(username);
 
-            if (i == 0)
+            if (valid_value == 0)
             {
                 return Ok(false);
 
@@ -203,12 +193,14 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(true);
             }
         }
+        [Authorize]
         [HttpGet("GetOfflineUsers")]
         public List<AllUsersVm> GetAllUsers()
         {
             var users = _userrepo.GetAllUsers();
             return users;
         }
+        [Authorize]
         [HttpGet("GetLikeMembersGrp")]
         public IActionResult GetLikeMmbersGrp(int msgid)
         {
@@ -224,7 +216,7 @@ namespace AKchat.Areas.user.Controllers
         }
 
 
-
+        [Authorize]
         [HttpGet("GetLikeMembers")]
         public IActionResult GetLikeMmbers(int msgid)
         {
@@ -238,7 +230,7 @@ namespace AKchat.Areas.user.Controllers
                 return NotFound();
             }
         }
-
+        [Authorize]
         [HttpGet("GetGroups")]
         public IActionResult GetGroups(string username)
         {
@@ -256,21 +248,21 @@ namespace AKchat.Areas.user.Controllers
 
 
 
-
+        [Authorize]
         [HttpGet("LoadInitialPrivateChat")]
         public List<MessageVM> LoadInitialPrivateChat(string fromUser, string toUser)
         {
             var messages = _userrepo.loadprivatechat(fromUser, toUser);
             return messages;
         }
-
+        [Authorize]
         [HttpGet("LoadGrpMembers")]
         public List<AllUsersVm> LoadGrpMembers(string grpname)
         {
             var members = _userrepo.loadmembers(grpname);
             return members;
         }
-
+        [Authorize]
         [HttpGet("LoadInitialGroupChat")]
         public async Task<List<MessageVM>> LoadInitialGroupChat(string grpname,string name)
         {
@@ -278,13 +270,13 @@ namespace AKchat.Areas.user.Controllers
             return messages;
         }
 
-
+        [Authorize]
         [HttpPost("CreateGroup")]
         public IActionResult CreateGroup([FromBody] GroupVM model)//company register
         {
             
-            var i = _userrepo.creategroup(model.groupName,model.members);
-            if (i > 0)
+            var count_value = _userrepo.creategroup(model.groupName,model.members);
+            if (count_value > 0)
             {
                 return Ok(true);
             }
@@ -294,13 +286,13 @@ namespace AKchat.Areas.user.Controllers
             }
         }
 
-
+        [Authorize]
         [HttpPost("UploadGalleryData")]
         public IActionResult UploadGalleryData([FromBody] GalleryVm model)//company register
         {
 
-            var i = _userrepo.UploadGalleryData(model.caption, model.imgstr, model.uploadedUser);
-            if (i > 0)
+            var count_value = _userrepo.UploadGalleryData(model.caption, model.imgstr, model.uploadedUser);
+            if (count_value > 0)
             {
                 return Ok(true);
             }
@@ -310,7 +302,7 @@ namespace AKchat.Areas.user.Controllers
             }
         }
 
-
+        [Authorize]
         [HttpGet("GetGallery")]
         public List<GalleryVm> GetGallery()
         {
@@ -318,7 +310,26 @@ namespace AKchat.Areas.user.Controllers
             return gallery;
         }
 
+        private string CreateJwt(string name)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("veryverysceret.....");
+            var identity = new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name,$"{name}")
+            });
 
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = identity,
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = credentials
+            };
+            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
+            return jwtTokenHandler.WriteToken(token);
+        }
 
     }
 }

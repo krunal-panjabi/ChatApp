@@ -8,7 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterationPageComponent } from './registeration-page/registeration-page.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UsersService } from './users.service';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -17,6 +17,7 @@ import { MaterialModule } from './material.module';
 import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
 import { UploadGalleryComponent } from './upload-gallery/upload-gallery.component';
 import { NoConnectionComponent } from './no-connection/no-connection.component';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 //import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
@@ -44,7 +45,13 @@ import { NoConnectionComponent } from './no-connection/no-connection.component';
    // MatChipsModule
     
   ],
-   providers: [UsersService],
+   providers: [UsersService,
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:TokenInterceptor,
+      multi:true
+    }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

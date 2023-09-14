@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using ViewModels.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Identity.Client;
+using System.Reflection.Metadata;
 
 namespace dataRepository.Repository
 {
@@ -28,10 +29,10 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@name", model.username);
                 cmd.Parameters.AddWithValue("@password", model.password);
                 con.Open();
+                int value= cmd.ExecuteNonQuery();
+                return value;
 
-                int i = cmd.ExecuteNonQuery();
-
-                return i;
+               
             }
         }
         public int DisLikeEntryGrp(LikeVm model)
@@ -43,8 +44,8 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@msgid", model.msgid);
                 cmd.Parameters.AddWithValue("@name", model.name);
                 con.Open();
-                int i = cmd.ExecuteNonQuery();
-                return i;
+                int row_count = cmd.ExecuteNonQuery();
+                return row_count;
             }
         }
         public int DisLikeEntry(LikeVm model)
@@ -56,8 +57,8 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@msgid", model.msgid);
                 cmd.Parameters.AddWithValue("@name", model.name);
                 con.Open();
-                int i = cmd.ExecuteNonQuery();
-                return i;
+                int row_count = cmd.ExecuteNonQuery();
+                return row_count;
             }
         }
         public int LikeEntryGrp(LikeVm model)
@@ -69,8 +70,8 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@msgid", model.msgid);
                 cmd.Parameters.AddWithValue("@name", model.name);
                 con.Open();
-                int i = cmd.ExecuteNonQuery();
-                return i;
+                int row_count = cmd.ExecuteNonQuery();
+                return row_count;
             }
         }
         public int LikeEntry(LikeVm model)
@@ -82,8 +83,8 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@msgid", model.msgid);
                 cmd.Parameters.AddWithValue("@name", model.name);
                 con.Open();
-                int i = cmd.ExecuteNonQuery();
-                return i;
+                int row_count = cmd.ExecuteNonQuery();
+                return row_count;
             }
         }
         public void storechat(MessageVM model)
@@ -117,7 +118,7 @@ namespace dataRepository.Repository
         }
         public int checkforname(string name)
         {
-            int valid = 10;
+            int value = 10;
             using (SqlConnection con = new SqlConnection(connections))
             {
                 SqlCommand cmd = new SqlCommand("spCheckUsername", con);
@@ -129,9 +130,9 @@ namespace dataRepository.Repository
                 cmd.ExecuteNonQuery();
                 if (cmd.Parameters["@valid"].Value != DBNull.Value)
                 {
-                    valid = (int)cmd.Parameters["@valid"].Value;
+                    value = (int)cmd.Parameters["@valid"].Value;
                 }
-                return valid;
+                return value;
             }
         }
         public int loginrepo(UserVM model)
@@ -223,36 +224,7 @@ namespace dataRepository.Repository
             }
             return model;
         }
-        /* public async Task<ProfileVm> getuserbyprofile(string name)
-         {
-             List<ProfileVm> model = new List<ProfileVm>();
-             using (SqlConnection con = new SqlConnection(connections))
-             {
-                 SqlCommand cmd = new SqlCommand("selectuserbyprofile", con);
-                 cmd.CommandType = CommandType.StoredProcedure;
-                 cmd.Parameters.AddWithValue("@userName", name);
-                 con.Open();
-                 SqlDataReader rdr = cmd.ExecuteReader();
-                 while ( rdr.Read())
-                 {
-                     ProfileVm names = new ProfileVm
-                     {
-                         name = rdr["Name"].ToString(),
-                         email = rdr["Email"].ToString(),
-                         aboutme = rdr["aboutme"].ToString(),
-                         status = rdr["status"].ToString(),
-                         imgstr = rdr["imgstr"].ToString(),
-                         gender = rdr["gender"].ToString(),
-                         phonenumber = rdr["phonenumber"].ToString(),
-                         dob = rdr["dob"].ToString()
-                     };
-
-                     model.Add(names);
-                 }
-                 con.Close();
-             }
-             return model.FirstOrDefault();
-         }*/
+      
         public async Task<ProfileVm> GetUserByProfileAsync(string name)
         {
             List<ProfileVm> model = new List<ProfileVm>();
@@ -336,33 +308,7 @@ namespace dataRepository.Repository
             }
             return model;
         }
-       /* public List<MessageVM> loadprivatechat(string from, string to)
-        {
-            List<MessageVM> model = new List<MessageVM>();
-            using (SqlConnection con = new SqlConnection(connections))
-            {
-                SqlCommand cmd = new SqlCommand("loadprivatechat", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@fromname", from);
-                cmd.Parameters.AddWithValue("@toname", to);
-                con.Open();
-                SqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                {
-                    MessageVM names = new MessageVM
-                    {
-                        From = rdr["fromusername"].ToString(),
-                        To = rdr["tousername"].ToString(),
-                        Content = rdr["message"].ToString(),
-                        time = rdr["FormattedChatTime"].ToString()
-                    };
-
-                    model.Add(names);
-                }
-                con.Close();
-            }
-            return model;
-        }*/
+      
         public  List<MessageVM> loadprivatechat(string from ,string to)
         {
             List<MessageVM> model = new List<MessageVM>();
@@ -434,60 +380,7 @@ namespace dataRepository.Repository
             return model;
         }
 
-        /*public async Task<ProfileVm> GetUserByProfileAsync(string name)
-        {
-            List<ProfileVm> model = new List<ProfileVm>();
-
-            using (SqlConnection con = new SqlConnection(connections))
-            {
-                SqlCommand cmd = new SqlCommand("selectuserbyprofile", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@userName", name);
-
-                await con.OpenAsync();
-
-                using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
-                {
-                    while (await rdr.ReadAsync())
-                    {
-                        ProfileVm names = new ProfileVm
-                        {
-                            name = rdr["Name"].ToString(),
-                            email = rdr["Email"].ToString(),
-                            aboutme = rdr["aboutme"].ToString(),
-                            status = rdr["status"].ToString(),
-                            imgstr = rdr["imgstr"].ToString(),
-                            gender = rdr["gender"].ToString(),
-                            phonenumber = rdr["phonenumber"].ToString(),
-                            dob = rdr["dob"].ToString()
-                        };
-
-                        model.Add(names);
-                    }
-                }
-            }
-
-            return model.FirstOrDefault();
-        }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+       
         public int profiledata(ProfileVm model)
         {
             using (SqlConnection con = new SqlConnection(connections))
@@ -504,9 +397,9 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@email", model.email);
                 con.Open();
 
-                int i = cmd.ExecuteNonQuery();
+                int row_count = cmd.ExecuteNonQuery();
 
-                return i;
+                return row_count;
             }
         }
         public int uploadphoto(string photo,string name)
@@ -519,9 +412,9 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@imageSrc", photo);
                 con.Open();
 
-                int i = cmd.ExecuteNonQuery();
+                int row_count = cmd.ExecuteNonQuery();
 
-                return i;
+                return row_count;
             }
         }
         public int creategroup(string grpname , string members)
@@ -534,9 +427,9 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@grpname", grpname);
                 con.Open();
 
-                int i = cmd.ExecuteNonQuery();
+                int row_count = cmd.ExecuteNonQuery();
 
-                return i;
+                return row_count;
             }
         }
 
@@ -551,9 +444,9 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@uploadedUser", uploadedUser);
                 con.Open();
 
-                int i = cmd.ExecuteNonQuery();
+                int row_count = cmd.ExecuteNonQuery();
 
-                return i;
+                return row_count;
             }
         }
 

@@ -28,16 +28,14 @@ export class LoginPageComponent implements OnInit {
 
   submitForm(){
     this.submitted = true ;
-    
     if (this.userForm.valid) {
       this.service.LoginData(this.userForm.value).subscribe({
-      
         next: (response) => {
-          console.log("the response",response);
-          if(typeof(response)=='boolean'){
+          if(response){
             console.log(response);
+            console.log("the token",response.token);
             if(response)
-            {
+            { this.service.storeToken(response.token);
               this.service.getuserImage(this.userForm.get('username')?.value).subscribe({
                 next: (data: profile) => {
                   this.service.imageUrl = data.imgstr;

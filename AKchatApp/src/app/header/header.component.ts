@@ -56,6 +56,7 @@ extractedWord :string = '' ;
   }
 
   logout() {
+    localStorage.clear();
     this.service.myName = '';
     this.router.navigateByUrl('/login');
   }

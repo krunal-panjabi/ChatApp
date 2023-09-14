@@ -6,16 +6,17 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
 import { UploadGalleryComponent } from './upload-gallery/upload-gallery.component';
 import { NoConnectionComponent } from './no-connection/no-connection.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: LoginPageComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'register', component: RegisterationPageComponent },
-  { path: 'user-profile', component: UserProfileComponent },
-  { path: 'gallery', component: PhotoGalleryComponent },
-  { path: 'upload-gallery', component: UploadGalleryComponent },
-  { path: 'no-connection', component: NoConnectionComponent },
-  { path: 'chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule) }
+  { path: 'user-profile', component: UserProfileComponent,canActivate:[AuthGuard] },
+  { path: 'gallery', component: PhotoGalleryComponent,canActivate:[AuthGuard] },
+  { path: 'upload-gallery', component: UploadGalleryComponent,canActivate:[AuthGuard] },
+  { path: 'no-connection', component: NoConnectionComponent,canActivate:[AuthGuard]  },
+  { path: 'chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule),canActivate:[AuthGuard] }
 ];
 
 @NgModule({

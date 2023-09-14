@@ -49,10 +49,5 @@ export class PrivateChatsComponent implements OnInit, OnDestroy {
   toggleDivision() {
     this.divisionVisible = !this.divisionVisible;
   }
-
- 
-  
-
-
 }
 
