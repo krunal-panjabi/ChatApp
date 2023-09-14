@@ -1,31 +1,25 @@
-<div class="container mt-5 ">
-<div class="row">
-    <div class="col-lg-2">
-        
-    </div>
-</div>
+<div class="container-fluid mt-5 ">
+
 
 <div class="row mt-3 mainBody">
-    <div class="col-lg-3">
+    <div class="col-lg-2">
+        
         <div class="d-grid mb-2 cpbtn">
-            <button class="btn btn-danger btn-block hbutton" (click)="logout()" type="button" >Back To Home</button>
-        </div>
-        <div class="d-grid mb-2 cpbtn">
-            <button class="btn  btn-block cgroup" (click)="openGroupModal()"  type="button" >Create Group</button>
+            <button class="btn  btn-block cgroup" (click)="openGroupModal()"  type="button" ><i class="bi bi-people-fill" style="font-size: x-large;"></i> &nbsp;Create Group</button>
         </div>
         
         <div class="card user-list border-secondary mb-3">
 
 
-            <div class="card-header h3 text-muted text-center">Users</div>
+            <div class="card-header h3 text-center" style="background-color: rgb(25, 135, 84);color: white;">Users</div>
             <div class="card-body ">
                 <div class="row mt-1" *ngFor="let user of service.offlineUsers">
                     <div class="col">
                         <div class="d-grid">
                             <button type="button" 
                             [disabled]="user.username === service.myName"
-                            (click)="openPrivateChat(user.username,user.imgstr)"
-                            class="btn card-text btn-success d-flex justify-content-start users" ><img class="user-image me-2" [src]="user.imgstr ? user.imgstr : '/assets/img/profile.png'" alt="">
+                            (click)="openPrivateChat(user.username,user.imgstr,true)"
+                            class="btn card-text d-flex justify-content-start users" ><img class="user-image me-2" [src]="user.imgstr ? user.imgstr : '/assets/img/profile.png'" alt="">
                             {{user.username}}
                         <span *ngIf="user.username === service.myName"> (you)</span>  <span class="fw-bolder text-primary" *ngIf="user.username===service.username && service.isTyping">typing...</span> 
                             <span class="position-absolute pos_dot"    *ngIf="service.onlineUsers.includes(user.username)">
@@ -40,9 +34,9 @@
                 <div class="row mt-1" *ngFor="let grp of service.groups">
                     <div class="col">
                         <div class="d-grid">
-                            <button  (click)="openGroupChat(grp.groupname)" type="button" class="btn card-text btn-primary btn-group" >{{grp.groupname}}<span class="ms-2"> (Group)</span>
-                         
-                        </button>
+                            <button  (click)="openGroupChat(grp.groupname)" type="button" class="btn card-text  btn-group mt-1" >
+                                <i class="bi bi-people-fill ms-2" style="font-size: large;"></i> &nbsp; {{grp.groupname}} 
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -57,10 +51,11 @@
     </div>
 
     <div class="col-lg-8">
-        <div class="card border-secondary">
+        <div class="card border-secondary g-chat" style="height:749px;">
             <div class="card-header h3 text-muted text-center">General Chat</div>
-            <div class="card-body" style="min-height: 500px;">
-                <app-messages [messages]="service.messages"></app-messages>
+            <div class="card-body" style="min-height: 500px;background-color: white;">
+                <app-messages [messages]="service.messages" *ngIf="buttonWasClicked"></app-messages>
+                <app-private-chats *ngIf="!buttonWasClicked"></app-private-chats>
             </div>
             <div class="card-footer">
                 <app-chat-input-general (contentemitter)="sendMessage($event)"></app-chat-input-general>

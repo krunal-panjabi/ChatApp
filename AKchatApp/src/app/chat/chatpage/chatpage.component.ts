@@ -28,7 +28,6 @@ export class ChatpageComponent implements OnInit,OnDestroy {
 
     if (this.service.myName) {
 
-      // this.updateImageUrl(); // Update imageUrl if myName is available
       console.log(this.service.myName);
       
     }
@@ -86,18 +85,6 @@ export class ChatpageComponent implements OnInit,OnDestroy {
     modalRef.componentInstance;
   }
 
-
-  // customSort(userA: any, userB: any): number {
-  //   if (userA.username === this.service.myName) {
-  //     return -1; // userA comes first
-  //   } else if (userB.username === this.service.myName) {
-  //     return 1; // userB comes first
-  //   } else {
-  //     // Compare other users based on your criteria, if needed
-  //     // For example, you can compare usernames alphabetically
-  //     return userA.username.localeCompare(userB.username);
-  //   }
-  // }
 
 
 

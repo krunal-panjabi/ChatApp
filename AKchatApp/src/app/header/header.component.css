@@ -12,6 +12,11 @@
 
 }
 
+.gallery-btn{
+    background-color: transparent;
+    border: 0px;
+}
+
 button.dbtn:focus {
     appearance: none;
     -webkit-appearance: none;

@@ -27,20 +27,7 @@ extractedWord :string = '' ;
     }
   }
 
-  // updateImageUrl() {
-  //   this.service.getuserprofiledetail().subscribe({
-  //     next: (data: profile) => {
-  //     console.log(this.service.imageUrl),
-  //     alert("sfdsajg");
 
-  //       this.service.singleuser = data;
-  //       this.imageUrl = data.imgstr;
-  //     },
-  //     error: (error) => {
-  //       console.error('Error loading private chats', error);
-  //     }
-  //   });
-  // }
 
   profile() {
     this.service.getuserprofiledetail().subscribe({

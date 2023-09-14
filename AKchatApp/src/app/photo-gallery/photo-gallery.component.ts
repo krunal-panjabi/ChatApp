@@ -17,6 +17,7 @@ export class PhotoGalleryComponent {
 
     if (this.service.myName) {
 
+
      // this.updateImageUrl(); // Update imageUrl if myName is available
      console.log(this.service.myName);
      
@@ -33,9 +34,29 @@ export class PhotoGalleryComponent {
  }
 
  fetchGalleryData() {
-  this.service.getGalleryData().subscribe(data => {
+  this.service.getGalleryData(this.service.myName).subscribe(data => {
     this.galleryData = data;
   });
 }
+
+
+toggleHeartClass(id:any) {
+  const myName = this.service.myName;
+  this.service.sendGalleryData(id,myName).subscribe({
+    next:(data)=>{
+      this.fetchGalleryData();
+    },
+    error:(error)=>{
+      console.log('error ')
+    }
+  }
+  )
+
+
+
+
+
+}
+
 
 }

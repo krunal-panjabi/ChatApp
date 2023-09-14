@@ -62,7 +62,6 @@ export class LoginPageComponent implements OnInit {
         error: (error) => {
           this.userForm.setErrors({CheckUser:true});
           console.log('Error:', error);
-          // Perform error handling, such as displaying a user-friendly message
         },
       }
     )

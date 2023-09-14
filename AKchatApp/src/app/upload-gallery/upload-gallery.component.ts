@@ -42,18 +42,20 @@ export class UploadGalleryComponent implements OnInit {
 
 
   handleFileInput(event: any) {
-    event.preventDefault();
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0]; // Assuming only one file is selected
       this.convertToBase64(file);
     }
+    
   }
 
   convertToBase64(file: File) {
     const reader = new FileReader();
     reader.onload = (e: any) => {
-      this.fileToUpload = e.target.result;
-      this.galleryForm.get('imgstr')?.setValue(e.target.result); // Set base64 string to form control
+      const base64String = e.target.result;
+  
+      this.galleryForm.get('imgstr')?.setValue(base64String);
+      this.galleryimg.nativeElement.setAttribute('src',this.galleryForm.get('imgstr')?.value)
     };
     reader.readAsDataURL(file);
   }
@@ -65,7 +67,10 @@ export class UploadGalleryComponent implements OnInit {
     const postData: GalleryData = {
       caption: formValue.caption,
       imgstr: formValue.imgstr,
-      uploadedUser: this.service.myName 
+      uploadedUser: this.service.myName ,
+      galleryId : null,
+      likeCount : null,
+      currentUserLiked : null
     };
 
     console.log(postData);

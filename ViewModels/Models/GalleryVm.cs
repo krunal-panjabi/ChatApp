@@ -12,5 +12,7 @@ namespace ViewModels.Models
         public string caption { get; set; }
         public string imgstr { get; set; }
         public string uploadedUser { get; set; }
+        public int likeCount { get; set; }
+        public int currentUserLiked { get; set; }
     }
 }

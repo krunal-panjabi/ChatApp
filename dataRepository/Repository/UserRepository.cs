@@ -87,6 +87,23 @@ namespace dataRepository.Repository
                 return row_count;
             }
         }
+
+        public int likePost(likePostVm model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("LikePostByUser", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@myName", model.myName);
+                cmd.Parameters.AddWithValue("@id", model.id);
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+                return i;
+            }
+        }
+
+
+
         public void storechat(MessageVM model)
         {
             using (SqlConnection con = new SqlConnection(connections))
@@ -451,13 +468,16 @@ namespace dataRepository.Repository
         }
 
 
-        public List<GalleryVm> GetGalleryData()
+        public List<GalleryVm> GetGalleryData(string myName)
         {
             List<GalleryVm> model = new List<GalleryVm>();
             using (SqlConnection con = new SqlConnection(connections))
             {
                 SqlCommand cmd = new SqlCommand("GetGalleryData", con);
+
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@myName", myName);
+
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -467,7 +487,11 @@ namespace dataRepository.Repository
                         caption = rdr["caption"].ToString(),
                         imgstr = rdr["imgstr"].ToString(),
                         uploadedUser = rdr["uploadedUser"].ToString(),
-                        galleryId = Convert.ToInt32(rdr["id"])
+                        galleryId = Convert.ToInt32(rdr["id"]),
+                        likeCount = Convert.ToInt32(rdr["likes"]),
+                        currentUserLiked = Convert.ToInt32(rdr["currentUserLiked"]),
+
+
                     };
 
                     model.Add(gallery);

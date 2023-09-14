@@ -25,10 +25,13 @@ namespace dataRepository.Interface
         public int uploadphoto(string photo, string name);
         public Task<ProfileVm> GetUserByProfileAsync(string name);
         public int UploadGalleryData(string caption, string imgstr , string uploadedUser);
-        public List<GalleryVm> GetGalleryData();
+        public List<GalleryVm> GetGalleryData(string myName);
+
+       
         public int DisLikeEntryGrp(LikeVm model);
         public int DisLikeEntry(LikeVm model);
         public int LikeEntry(LikeVm model);
+        public int likePost(likePostVm model);
         public List<AllUsersVm> GetLikeMembers(int msgid);
         public int LikeEntryGrp(LikeVm model);
         public List<AllUsersVm> GetLikeMembersGrp(int msgid);
