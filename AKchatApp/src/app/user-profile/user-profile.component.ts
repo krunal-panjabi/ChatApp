@@ -14,10 +14,7 @@ export class UserProfileComponent  implements OnInit{
   imageUrl: string = "/assets/img/upload.png";
   fileToUpload!: File ;
   file!:File;
-  // userForm : FormGroup = new FormGroup({});
-  // submitted = false;
-  // selectedOption: string = '';
-  // Gender: string = '';
+
   empForm: FormGroup;
  
   ngOnInit(): void {
@@ -36,7 +33,7 @@ export class UserProfileComponent  implements OnInit{
 
     this.empForm.patchValue(this.service.singleuser);
     if (this.service.singleuser.imgstr === "") {
-      // Set a default image URL if imgstr is empty
+    
       this.imageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ"; // Replace with your actual default image URL
     } else {
       this.imageUrl = this.service.singleuser.imgstr;

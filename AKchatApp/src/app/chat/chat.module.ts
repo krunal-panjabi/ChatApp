@@ -12,7 +12,9 @@ import { PrivateChatsComponent } from './private-chats/private-chats.component';
 import { GroupChatComponent } from './group-chat/group-chat.component';
 import { DialogBodyComponent } from './dialog-body/dialog-body.component';
 import { ChatInputGeneralComponent } from './chat-input-general/chat-input-general.component';
-
+import { MaterialModule } from '../material.module';
+import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
+// import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,11 @@ import { ChatInputGeneralComponent } from './chat-input-general/chat-input-gener
     CommonModule,
     ChatRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule,
+    MatChipsModule,
+    // MatChatInputEvent
+    // ToastrModule
   ]
 })
 export class ChatModule { }

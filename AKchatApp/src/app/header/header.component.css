@@ -8,8 +8,19 @@
 } */
 .buttons{
    width:  -webkit-fill-available;
+}
+.msgdot{
+    background-color: #07f107;
+    width: 13px;
+    height: 13px;
+    top: 0px;
+    left: 8px;
+    font-size: small;
+}
 
-
+.gallery-btn{
+    background-color: transparent;
+    border: 0px;
 }
 
 button.dbtn:focus {

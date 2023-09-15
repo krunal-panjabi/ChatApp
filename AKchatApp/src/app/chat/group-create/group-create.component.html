@@ -14,8 +14,28 @@
                                 placeholder="Name">
                             <label for="Name">Group Name</label>
                         </div>
-                        <h4>Select Members</h4>
-                        <div class="form-group">
+                        <h4>Click here to select Group Members</h4>
+                        <div class="w-100">
+                        <mat-form-field class="example-chip-list w-100">
+                            <mat-label>Selected Users</mat-label>
+                            <mat-chip-list #chipList aria-label="User selection">
+                              <mat-chip *ngFor="let user of selectedUsers" (removed)="removeUser( user )">
+                                {{  user }}
+                                <button matChipRemove [attr.aria-label]="'remove ' + user">
+                                  <mat-icon>cancel</mat-icon>
+                                </button>
+                              </mat-chip>
+                            </mat-chip-list>
+                            <input placeholder="Add User..." #userInput [matChipInputFor]="chipList" 
+                              [matAutocomplete]="auto" (matChipInputTokenEnd)="addUser($event)"/>
+                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedUser($event)">
+                              <mat-option *ngFor="let user of service.offlineUsers" [value]=" user.username ">
+                                {{  user.username  }}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+                        </div>
+                        <!-- <div class="form-group">
                             <label for="offlineUsers">All Users :</label>
                             <div  *ngFor="let user of service.offlineUsers">
                             <div class="userlist" *ngIf="service.myName !== user.username">
@@ -26,7 +46,7 @@
                                 </label>
                             </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="d-grid mt-4 px-4">
                             <button (click)="getSelectedUsers()" class="btn btn-primary">Create Group</button>
                         </div>

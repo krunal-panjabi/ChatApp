@@ -17,14 +17,12 @@ export class PrivateChatsComponent implements OnInit, OnDestroy {
 
 
   constructor(public activeModal: NgbActiveModal, public service: UsersService,private router:Router) { 
-   // this.isOfflineUser = this.service.offlineUsers.some(user => user.username === this.toUser)
   }
 
   
   ngOnInit(): void {
     if (this.service.myName) {
 
-      // this.updateImageUrl(); // Update imageUrl if myName is available
       console.log(this.service.myName);
       
     }

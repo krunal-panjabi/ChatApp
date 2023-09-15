@@ -53,7 +53,8 @@ export class MessagesComponent {
           this.service.likemembers = data;
           this.matdialog.open(DialogBodyComponent, {
             width: '350px',
-            position: { top: '400px' },
+            position: { top: '100px',
+            left:'500px' },
           })
         },
         error: (error) => {

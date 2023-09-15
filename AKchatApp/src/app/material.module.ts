@@ -17,7 +17,7 @@ import { MatSortModule } from '@angular/material/sort';
  import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
+import {MatChipInput, MatChipInputEvent, MatChipList, MatChipsModule} from '@angular/material/chips';
 import {MatDialogModule} from '@angular/material/dialog'
 
 
@@ -42,8 +42,8 @@ import {MatDialogModule} from '@angular/material/dialog'
     MatChipsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatDialogModule
-  
+    MatDialogModule,
+
   ]
 })
 export class MaterialModule { }

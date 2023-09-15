@@ -1,5 +1,7 @@
-import { Component,OnInit} from '@angular/core';
+import { Component,OnInit,ElementRef, ViewChild, inject} from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { group } from 'src/app/Models/group';
@@ -53,11 +55,29 @@ export class GroupCreateComponent  {
       }
     }
   }
- 
+  addUser(event: MatChipInputEvent): void {
+    debugger;
+    const value = (event.value || '').trim();
+    if (value) {
+      this.selectedUsers.push(value);
+    }
+    console.log("the list",this.selectedUser);
+  }
+
+  removeUser(user: string): void {
+    debugger;
+    const index = this.selectedUsers.indexOf(user);
+    if (index >= 0) {
+      this.selectedUsers.splice(index, 1);
+    }
+    console.log("the list",this.selectedUser);
+  }
   
-  
+  selectedUser(event: MatAutocompleteSelectedEvent): void {
+    this.selectedUsers.push(event.option.viewValue);
+  }
   getSelectedUsers() {
-    this.selectedUsers.push(this.service.myName);
+   // this.selectedUsers.push(this.service.myName);
      this.allnames = this.selectedUsers.join(',');
       this.service.createGroup(this.grpname, this.allnames).subscribe(
         (response) => {

@@ -18,9 +18,7 @@
          
 }
 
-/* :host ::ng-deep .mat-form-field-wrapper {
-    padding: 0px;
-} */
+
 
 .content-with-border{
     border: solid #dbdbdb 1px;

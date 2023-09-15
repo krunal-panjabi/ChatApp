@@ -1,5 +1,7 @@
+
 .mainBody{
-    height: 700px;
+    height: 750px;
+    
 }
 .user-image{
     height: 30px;
@@ -8,4 +10,137 @@
 }
 hr{
     margin: 10px 0px;
+}
+
+.like{
+    padding: 0px;
+    border: 0px;
+    background-color: transparent;
+}
+
+.comment{
+    padding: 0px;
+    border: 0px;
+    background-color: transparent;
+}
+
+.bi-heart-fill{
+    color: red;
+}
+
+.gal-img{
+    
+    margin: 0px;
+}
+
+.posts{
+}
+
+.ubtn{
+    background-image: linear-gradient(to bottom right, #ff5f5f, yellow,pink,lightblue);
+    color: black;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+
+
+
+
+
+/* CSS */
+.ubtn {
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: black;
+  background:white ;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.ubtn:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-ubtn 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing-ubtn {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.ubtn:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.card{
+   
+    box-shadow: 0px 3px 13px 4px #d5d5d5;
+    border: 0px;
+}
+
+
+.upload-btn{
+    position: fixed;
+    top:63px;
+    right:6px;
+    z-index: 23;
+    width: fit-content;
 }

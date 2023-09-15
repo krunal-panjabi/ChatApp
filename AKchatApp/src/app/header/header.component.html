@@ -21,9 +21,13 @@
         <span class="navbar-brand mb-0 h1">Chat Application</span>
       </div>
       <div class="dropdown mb-0 d-flex">
+        <div style="display: flex;align-items: center;" class="position-relative">
+          <i class="bi bi-bell me-2" style="color: white; font-size: large;"></i>
+          <span class="border rounded-circle msgdot position-absolute justify-content-center align-items-center d-flex text-danger fw-bolder">{{service.countmsg}}</span>
+       </div>  
         <div>
-          <button class="btn btn-danger btn-sm me-3" type="button" [routerLink]="['/gallery']"><i
-              class="bi bi-images"></i> &nbsp; photo-gallery</button>
+          <button class="btn btn-danger btn-sm me-3 gallery-btn" type="button" [routerLink]="['/gallery']"><i
+              class="bi bi-images"></i></button>
         </div>
         <div>
           <img class="user-image me-2" [src]="this.service.imageUrl" alt="">

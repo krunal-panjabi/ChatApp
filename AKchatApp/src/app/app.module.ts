@@ -18,6 +18,8 @@ import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
 import { UploadGalleryComponent } from './upload-gallery/upload-gallery.component';
 import { NoConnectionComponent } from './no-connection/no-connection.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { ToastrModule } from 'ngx-toastr';
+import { MatChipsModule } from '@angular/material/chips';
 //import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
@@ -41,10 +43,11 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     FormsModule,
     MaterialModule,
     BrowserAnimationsModule,
-    
-   // MatChipsModule
+    ToastrModule.forRoot(),
+    // MatChipsModule
     
   ],
+  exports:[MatChipsModule],
    providers: [UsersService,
     {
       provide:HTTP_INTERCEPTORS,

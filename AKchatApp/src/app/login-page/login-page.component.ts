@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
 import { profile } from '../Models/profile';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login-page',
@@ -13,11 +14,12 @@ export class LoginPageComponent implements OnInit {
   userForm : FormGroup = new FormGroup({});
   submitted = false;
  
-  constructor(private formBuilder : FormBuilder ,private service : UsersService,private router:Router) { }
+  constructor(private formBuilder : FormBuilder ,private service : UsersService,private router:Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.userForm.reset();
     this.initializeForm();
+    localStorage.clear();
   }
   initializeForm(){
     this.userForm = this.formBuilder.group({
@@ -39,11 +41,15 @@ export class LoginPageComponent implements OnInit {
               this.service.getuserImage(this.userForm.get('username')?.value).subscribe({
                 next: (data: profile) => {
                   this.service.imageUrl = data.imgstr;
-                  console.log(this.service.imageUrl);
                 },
                 error: (error) => {
                   console.error('Error loading private chats', error);
                 }
+              });
+              this.toastr.success('Success', 'You are Loggedinnn',{
+                disableTimeOut:false,
+                closeButton:true,
+                progressBar:true
               });
               this.service.myName=this.userForm.get('username')?.value;
               this.router.navigateByUrl('/chat')
@@ -62,7 +68,6 @@ export class LoginPageComponent implements OnInit {
         error: (error) => {
           this.userForm.setErrors({CheckUser:true});
           console.log('Error:', error);
-          // Perform error handling, such as displaying a user-friendly message
         },
       }
     )

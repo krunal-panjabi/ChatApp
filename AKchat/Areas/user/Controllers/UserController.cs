@@ -265,6 +265,7 @@ namespace AKchat.Areas.user.Controllers
         [Authorize]
         [HttpGet("LoadInitialGroupChat")]
         public async Task<List<MessageVM>> LoadInitialGroupChat(string grpname,string name)
+
         {
             var messages =await _userrepo.loadgroupchat(grpname,name);
             return messages;
@@ -304,9 +305,9 @@ namespace AKchat.Areas.user.Controllers
 
         [Authorize]
         [HttpGet("GetGallery")]
-        public List<GalleryVm> GetGallery()
+        public List<GalleryVm> GetGallery(string myName)
         {
-            var gallery = _userrepo.GetGalleryData();
+            var gallery = _userrepo.GetGalleryData(myName);
             return gallery;
         }
 
@@ -330,6 +331,22 @@ namespace AKchat.Areas.user.Controllers
             var token = jwtTokenHandler.CreateToken(tokenDescriptor);
             return jwtTokenHandler.WriteToken(token);
         }
+
+        [HttpPost("likePost")]
+        public IActionResult likePost(likePostVm model)
+        {
+            var post = _userrepo.likePost(model);
+                 if (post > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
+
+
 
     }
 }

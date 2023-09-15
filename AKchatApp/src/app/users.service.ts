@@ -23,7 +23,9 @@ import { MessageService } from './message.service';
 export class UsersService {
   isgeneral: boolean = false;
   isGroupChat: boolean = false;
+  countmsg:any;
   isTyping: boolean = false;
+  count:any;
   username: string = '';
   toUser: string = '';
   myName: string = '';
@@ -59,17 +61,16 @@ export class UsersService {
     return this.http.post<Message[]>(`${environment.apiUrl}User/UploadGalleryData`, galleryData);
   }
 
-  getGalleryData(): Observable<GalleryData[]> {
-    return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery`);
+  getGalleryData(myName :string): Observable<GalleryData[]> {
+    return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
   }
 
-  // uploadGalleryData(data: GalleryData): Observable<any> {
-  //   return this.http.post(`${environment.apiUrl}User/UploadGalleryData`, data);
-  // }
-
+  
+  
   CheckName(username: string): Observable<any> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", username);
+    
     return this.http.get(`${environment.apiUrl}User/CheckForName`, { 'headers': headers, 'params': params })
   }
   dislikemessage(mesaageId: any, name: string): Observable<any> {
@@ -188,6 +189,8 @@ export class UsersService {
     this.intitializeloadprivatechats(toUser, this.myName).subscribe({
       next: (data) => {
         this.privateMessages = data;
+        this.count=this.privateMessages.length;
+        console.log("the count",this.count)
         console.log("chat", this.privateMessages)
       },
       error: (error) => {
@@ -373,13 +376,9 @@ export class UsersService {
       alert('close type');
       this.isTyping = false;
     });
-
-
-
     this.chatConnection.on('NewPrivateMessage', (newMessage: Message) => {
       this.privateMessages = [...this.privateMessages, newMessage];
     });
-
     this.chatConnection.on('ClosePrivateChat', () => {
       this.privateMessageInitiated = false;
       this.privateMessages = [];
