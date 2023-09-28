@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewChecked, Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'src/app/message.service';
 import { Message } from 'src/app/Models/message';
@@ -10,19 +10,63 @@ import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css']
 })
-export class MessagesComponent {
+export class MessagesComponent implements AfterViewChecked {
   @Input() messages: Message[] = [];
+  @Input() username: string | undefined;
+  @Input() scrollautomatic: any;
   // messageDivVisibility: { [key: number]: boolean } = {}; //for options div
   // messageDiv1Visibility: { [key: number]: boolean } = {}; //for heart
+  // ngOnInit() {
+  //   // Retrieve the messageIdToHighlight from the route state
+  //   const messageIdToHighlight = this.route.snapshot.state.messageIdToHighlight;
+  //   if (messageIdToHighlight) {
+  //     // Scroll to the message with the given ID and highlight it
+  //     const messageElement = document.getElementById(messageIdToHighlight);
+  //     if (messageElement) {
+  //       messageElement.classList.add('highlighted-message'); // Apply your CSS class for highlighting
+  //       messageElement.scrollIntoView({
+  //         behavior: 'smooth',
+  //         block: 'start',
+  //         inline: 'nearest'
+  //       });
+  //     }
+  //   }
+  // }
   // messageDiv2Visibility: { [key: number]: boolean } = {}; // for members
   constructor(public service: UsersService, private matdialog: MatDialog, public msgservice: MessageService) {
   }
+  ngOnInit(): void {
+
+  }
+  ngAfterViewChecked() {
+   
+      const messageIdToHighlight = this.username;
+
+      if (messageIdToHighlight) {
+        const spanClass = '.targetmsg-' + messageIdToHighlight;
+        const selectedSpan = document.querySelector(spanClass) as HTMLElement;
+
+        if (selectedSpan) {
+          selectedSpan.classList.add('highlighted-message');
+          selectedSpan.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          });
+         // this.scrollautomatic=false;
+        }
+      }
+    
+  }
+
+
+
+
   closediv(mesaageId: number) {
     this.msgservice.messageDivVisibility[mesaageId] = false;
   }
   togglediv(mesaageId: number) {
     if (this.msgservice.messageDivVisibility[mesaageId]) { this.msgservice.messageDivVisibility[mesaageId] = false; return; }
-
     this.msgservice.messageDivVisibility[mesaageId] = true;
     Object.keys(this.msgservice.messageDivVisibility).forEach(key => {
       const numerickey = parseInt(key);
@@ -32,29 +76,29 @@ export class MessagesComponent {
     });
   }
   openDialogue(megid: any) {
-    if (this.service.isGroupChat){
+    if (this.service.isGroupChat) {
       this.service.getLikeMembersGrp(megid).subscribe({
-        next:(data)=>{
-         this.service.likemembers=data;
-         this.matdialog.open(DialogBodyComponent,{
-          width:'350px',
-          position:{top:'400px'},
-         })
+        next: (data) => {
+          this.service.likemembers = data;
+          this.matdialog.open(DialogBodyComponent, {
+            width: '350px',
+            position: { top: '600px',left:'200px' },
+          })
         },
-        error:(error)=>{
-
+        error: (error) => {
         }
-        
       });
     }
-    else{
+    else {
       this.service.getLikeMembers(megid).subscribe({
         next: (data) => {
           this.service.likemembers = data;
           this.matdialog.open(DialogBodyComponent, {
             width: '350px',
-            position: { top: '100px',
-            left:'500px' },
+            position: {
+              top: '100px',
+              left: '500px'
+            },
           })
         },
         error: (error) => {
@@ -63,19 +107,14 @@ export class MessagesComponent {
           }
         }
       });
+      console.log("enter name");
+      console.log("enter the name");
+      console.log("enter hire name");
     }
-   
+
 
   }
-  togglePdiv(mesaageId: number) {
-    // this.messageDiv2Visibility[mesaageId]=!this.messageDiv2Visibility[mesaageId];
-    // Object.keys(this.messageDiv2Visibility).forEach(key=>{
-    //   const numerickey=parseInt(key);
-    // if(!isNaN(numerickey) && numerickey!==mesaageId){
-    //   this.messageDiv2Visibility[numerickey]=false;
-    // }
-    // });
-  }
+
   closePdiv(mesaageId: number) {
     // this.messageDiv2Visibility[mesaageId]=false;
   }
@@ -102,7 +141,7 @@ export class MessagesComponent {
         const selectedSpan = document.querySelector(spanClass) as HTMLElement;
         const divClass = '.logodiv-' + messageid;
         const selecteddiv = document.querySelector(divClass) as HTMLElement;
-       
+
         let likename = selectedSpan.getAttribute('likename');
         if (selectedSpan) {
           const currentValue = parseInt(selectedSpan.innerText);
@@ -169,7 +208,7 @@ export class MessagesComponent {
           selectedSpan.classList.remove('d-none');
           this.service.likemessageGrp(messageid, this.service.myName).subscribe({
             next: (response) => {
-
+              this.service.SendLikeResGrp();
             },
             error: (error) => {
               console.error('Error loading private chats', error);
@@ -202,6 +241,7 @@ export class MessagesComponent {
 
         this.service.likemessageGrp(messageid, this.service.myName).subscribe({
           next: (response) => {
+            this.service.SendLikeResGrp();
           },
           error: (error) => {
             console.error('Error loading private chats', error);
@@ -256,8 +296,8 @@ export class MessagesComponent {
 
         const divClass = '.logodiv-' + messageid;
         const selecteddiv = document.querySelector(divClass) as HTMLElement;
-        
-        
+
+
         const currentValue = parseInt(selectedSpancount.innerText);
 
         if (selectedSpancount.getAttribute('likename') === this.service.myName) //for disliking on same name
@@ -303,10 +343,10 @@ export class MessagesComponent {
       else {  //Here it will come only when there is no reaction from this user or from myName at time of only like
         const spanClass = '.count-' + messageid;
         const selectedSpan = document.querySelector(spanClass) as HTMLElement;
-       
+
         const divClass = '.logodiv-' + messageid;
         const selecteddiv = document.querySelector(divClass) as HTMLElement;
-        
+
         selecteddiv.classList.remove('d-none');
         if (selectedSpan) {
           const currentValue = parseInt(selectedSpan.innerText);

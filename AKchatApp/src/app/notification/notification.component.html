@@ -1,0 +1,52 @@
+<div class="dialogue-container" style="height: 300px;overflow-y: auto;">
+    <div class="ps-2 pe-2 pt-2 pb-2 text-white " 
+        style="border-bottom: 1px solid black;background-color: rgb(25, 135, 84);">Notifications</div>
+
+    <div class="d-flex pt-2 pb-2 ps-2 pe-2 {{'user-'+msg.id}}" *ngFor="let msg of service.notimsgs"
+     style="gap: 10px;padding-block: 5px;border-bottom: 1px solid lightgray;">
+       
+            <ng-container *ngIf="msg.status===1">
+                <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/mlogo.png'
+                        style="width:32px;height:28px;"></span>
+                <div class="d-flex flex-column" (click)="msg.usename && fortoggleprivatechat(msg.usename,msg.msgid)">
+                    <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                    <div class="text-black ">{{msg.content}}</div>
+                </div>
+                <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                        class="bi bi-x-circle"></i></span>
+            </ng-container>
+            <ng-container *ngIf="msg.status===2">
+                <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/grplogo.png'
+                        style="width:32px;height:28px;"></span>
+                <div class="d-flex flex-column" (click)="msg.usename && fortogglegrpchat(msg.usename,msg.msgid)">
+                    <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                    <div class="text-black">{{msg.content}}</div>
+                </div>
+                <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                        class="bi bi-x-circle"></i></span>
+            </ng-container>
+            <ng-container *ngIf="msg.status===3">
+                <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/heart.jpg'
+                        style="width:32px;height:28px;"></span>
+                <div class="d-flex flex-column" (click)="msg.usename && fortoggleprivatechat(msg.usename,msg.msgid)">
+                    <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                    <div class="text-black">{{msg.content}}</div>
+                </div>
+
+                <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                        class="bi bi-x-circle"></i></span>
+            </ng-container>
+            <ng-container *ngIf="msg.status===4">
+                <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/heart.jpg'
+                        style="width:32px;height:28px;"></span>
+                <div>
+                    <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                    <div class="text-black">{{msg.content}}</div>
+                </div>
+
+                <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                        class="bi bi-x-circle"></i></span>
+            </ng-container>
+       
+    </div>
+</div>

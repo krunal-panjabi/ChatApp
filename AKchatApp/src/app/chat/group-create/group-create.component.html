@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-center mainBody">
             <div class="col-12 col-lg-5 form-width">
                 <main class="form-signin"> 
-                    <form [formGroup]="groupForm" autocomplete="off" class="p-3 border">
+                    <form id="groupForm" [formGroup]="groupForm" autocomplete="off" class="p-3 border">
                         <h4>Enter Group Name</h4>
                         <div class="form-floating mb-3">
                             <input formControlName="username" [(ngModel)]="grpname" type="text" class="form-control"
@@ -20,7 +20,7 @@
                             <mat-label>Selected Users</mat-label>
                             <mat-chip-list #chipList aria-label="User selection">
                               <mat-chip *ngFor="let user of selectedUsers" (removed)="removeUser( user )">
-                                {{  user }}
+                                {{user}}
                                 <button matChipRemove [attr.aria-label]="'remove ' + user">
                                   <mat-icon>cancel</mat-icon>
                                 </button>
@@ -29,7 +29,7 @@
                             <input placeholder="Add User..." #userInput [matChipInputFor]="chipList" 
                               [matAutocomplete]="auto" (matChipInputTokenEnd)="addUser($event)"/>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedUser($event)">
-                              <mat-option *ngFor="let user of service.offlineUsers" [value]=" user.username ">
+                              <mat-option *ngFor="let user of service.offlineUsers" [value]=" user.username">
                                 {{  user.username  }}
                               </mat-option>
                             </mat-autocomplete>

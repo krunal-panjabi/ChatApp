@@ -82,6 +82,7 @@ namespace dataRepository.Repository
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@msgid", model.msgid);
                 cmd.Parameters.AddWithValue("@name", model.name);
+                cmd.Parameters.AddWithValue("@toname", model.toname);
                 con.Open();
                 int row_count = cmd.ExecuteNonQuery();
                 return row_count;
@@ -195,6 +196,46 @@ namespace dataRepository.Repository
             }
             return model;
         }
+        public int DeleteNotiMsg(int msgid)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("removenotimsg", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@msgid", msgid);
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+                return i;
+            }
+        }
+        public List<NotiMsgVm> GetNotimsgs(string username)
+        {
+            List<NotiMsgVm> model=new List<NotiMsgVm>();
+            using(SqlConnection con=new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetNotiMsgs", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@name", username);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    NotiMsgVm names = new NotiMsgVm
+                    {
+                        content = rdr["Message"].ToString(),
+                        status= Convert.ToInt32(rdr["status"]),
+                        name = rdr["name"].ToString(),
+                        id = Convert.ToInt32(rdr["id"]),
+                        msgid = Convert.ToInt32(rdr["msgid"]),
+                        usename = rdr["usename"].ToString()
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
+        }
         public List<AllUsersVm> GetLikeMembers(int msgid)
         {
             List<AllUsersVm> model = new List<AllUsersVm>();
@@ -218,13 +259,37 @@ namespace dataRepository.Repository
             }
             return model;
         }
-        public List<AllUsersVm> GetAllUsers()
+        public List<AllUsersVm> GetAllOfflineUsers()
+        {
+            List<AllUsersVm> model = new List<AllUsersVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetAllUsersOffline", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    AllUsersVm names = new AllUsersVm
+                    {
+                        username = rdr["name"].ToString(),
+                        imgstr = rdr["image"].ToString()
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
+        }
+        public List<AllUsersVm> GetAllUsers(string username)
         {
             List<AllUsersVm> model = new List<AllUsersVm>();
             using (SqlConnection con = new SqlConnection(connections))
             {
                 SqlCommand cmd = new SqlCommand("GetAllUsers", con);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@name", username);
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -397,7 +462,6 @@ namespace dataRepository.Repository
             return model;
         }
 
-       
         public int profiledata(ProfileVm model)
         {
             using (SqlConnection con = new SqlConnection(connections))
@@ -427,6 +491,21 @@ namespace dataRepository.Repository
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@userName", name);
                 cmd.Parameters.AddWithValue("@imageSrc", photo);
+                con.Open();
+
+                int row_count = cmd.ExecuteNonQuery();
+
+                return row_count;
+            }
+        }
+        public int selectedusers(string userlist,string name)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("UsersForChat_copy", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userlist", userlist);
+                cmd.Parameters.AddWithValue("@name", name);
                 con.Open();
 
                 int row_count = cmd.ExecuteNonQuery();
@@ -490,10 +569,7 @@ namespace dataRepository.Repository
                         galleryId = Convert.ToInt32(rdr["id"]),
                         likeCount = Convert.ToInt32(rdr["likes"]),
                         currentUserLiked = Convert.ToInt32(rdr["currentUserLiked"]),
-
-
                     };
-
                     model.Add(gallery);
                 }
                 con.Close();

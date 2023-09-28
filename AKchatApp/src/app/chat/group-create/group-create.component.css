@@ -55,3 +55,6 @@
     color: white;
     /* Other styling for the text */
   }
+  .cdk-overlay-pane{
+    top:auto !important;
+}

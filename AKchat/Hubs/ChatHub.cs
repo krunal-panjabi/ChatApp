@@ -8,7 +8,7 @@ using ViewModels.Models;
 namespace AKchat.Hubs
 {
     public class ChatHub : Hub
-    {
+    { 
         private readonly IUserRepository _userrepo;
         private readonly ChatServices _chatServices;
         public ChatHub(ChatServices chatServices,IUserRepository userrepo)
@@ -51,39 +51,49 @@ namespace AKchat.Hubs
         public async Task ReceiveGrpMessage(GroupMsgVm message)
         {
             _userrepo.storegroupchat(message);
-           /* MessageVM model = new MessageVM
-            {
-                From = message.from,
-                Content = message.content,
-                time = DateTime.Now.ToString("MMM dd, HH:mm"),
-            };*/
             await Clients.Group("ChatApp").SendAsync("NewGrpMessage", message.grpname);
-            /* _userrepo.storegroupchat(message);
-             string privateGroupName = message.grpname;
-             await Groups.AddToGroupAsync(Context.ConnectionId, privateGroupName);
-             string[] namearr = message.username.Split(',');
-             foreach(string item in namearr)
-             {
-                 if (_chatServices.IsUserOnline(item))
+            string privateGroupName = message.grpname;
+            string[] namearr = message.userlist.Split(',');
+            foreach (string item in namearr)
+            {
+                if (_chatServices.IsUserOnline(item))
+                {
+                    var toConnectionId = _chatServices.GetConnectionIdByUser(item);
+                    await Groups.AddToGroupAsync(toConnectionId, privateGroupName);
+                }
+            }
+                await Clients.Group(privateGroupName).SendAsync("NotificationGrp", message.grpname);
+                /* _userrepo.storegroupchat(message);
+                 * 
+                 *  string privateGroupName = GetPrivateGroupName(message.From, message.To);
+            await Clients.Group(privateGroupName).SendAsync("NewPrivateMessage", message);
+                 * 
+                 * 
+                 string privateGroupName = message.grpname;
+                 await Groups.AddToGroupAsync(Context.ConnectionId, privateGroupName);
+                 string[] namearr = message.username.Split(',');
+                 foreach(string item in namearr)
                  {
-                     var toConnectionId = _chatServices.GetConnectionIdByUser(item);
-                     await Groups.AddToGroupAsync(toConnectionId, privateGroupName);
-                     MessageVM model = new MessageVM
+                     if (_chatServices.IsUserOnline(item))
                      {
-                         From = message.from,
-                         Content = message.content,
-                         time = DateTime.Now.ToString("MMM dd, HH:mm"),
-                         grpname=message.grpname
-                     };
-                     await Clients.Group(privateGroupName).SendAsync("NewGrpMessage", model);
-                 }
-             }*/
+                         var toConnectionId = _chatServices.GetConnectionIdByUser(item);
+                         await Groups.AddToGroupAsync(toConnectionId, privateGroupName);
+                         MessageVM model = new MessageVM
+                         {
+                             From = message.from,
+                             Content = message.content,
+                             time = DateTime.Now.ToString("MMM dd, HH:mm"),
+                             grpname=message.grpname
+                         };
+                         await Clients.Group(privateGroupName).SendAsync("NewGrpMessage", model);
+                     }
+                 }*/
 
 
-            //   await Clients.Group("ChatApp").SendAsync("NewGrpMessage", model);
-        }
+                //   await Clients.Group("ChatApp").SendAsync("NewGrpMessage", model);
+            }
 
-        public async Task CreatePrivateChat(MessageVM message)
+            public async Task CreatePrivateChat(MessageVM message)
         {
          
             string privateGroupName = GetPrivateGroupName(message.From, message.To);
@@ -133,7 +143,17 @@ namespace AKchat.Hubs
         }
         public async Task ReceivePrivateMessage(MessageVM message)
         {
-            message.isread = 1;
+            if (_chatServices.IsUserOnline(message.To))
+            {
+                message.isread = 1;
+                var toConnectionId = _chatServices.GetConnectionIdByUser(message.To);
+                await Clients.Client(toConnectionId).SendAsync("NotificationCount", message);
+            }
+            else
+            {
+                message.isread = 0;
+            }
+              
             message.likename = "other";
             message.messageLike = 0;
             message.count = 0;
@@ -141,6 +161,7 @@ namespace AKchat.Hubs
             message.time = DateTime.Now.ToString("MMM dd, HH:mm");
             string privateGroupName = GetPrivateGroupName(message.From, message.To);
             await Clients.Group(privateGroupName).SendAsync("NewPrivateMessage", message);
+            
         }
 
         public async Task RemovePrivateChat(string from, string to)
@@ -176,6 +197,20 @@ namespace AKchat.Hubs
              
            
             //  await Clients.Client(toConnectionId).SendAsync("OpenPrivateChat", message);
+        }
+        public async Task SendLikeResGrp(string userlist)
+        {
+            string privateGroupName = "randomgrp";
+            string[] namearr = userlist.Split(',');
+            foreach (string item in namearr)
+            {
+                if (_chatServices.IsUserOnline(item))
+                {
+                    var toConnectionId = _chatServices.GetConnectionIdByUser(item);
+                    await Groups.AddToGroupAsync(toConnectionId, privateGroupName);
+                }
+            }
+            await Clients.Group(privateGroupName).SendAsync("SendLikeResGrp", userlist);
         }
         public async Task SendLikeRes(int msgid, string name, int like,int messageid,int count,string myname,string typename)
         {

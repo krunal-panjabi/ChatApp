@@ -10,9 +10,9 @@
    width:  -webkit-fill-available;
 }
 .msgdot{
-    background-color: #07f107;
-    width: 13px;
-    height: 13px;
+    background-color: #ffc107;
+    width: 19px;
+    height: 14px;
     top: 0px;
     left: 8px;
     font-size: small;
@@ -48,4 +48,8 @@ button.dbtn:focus {
 
     hr{
         color: white;
+    }
+    .no-padding{
+        padding-left: 0;
+  padding-right: 0;
     }

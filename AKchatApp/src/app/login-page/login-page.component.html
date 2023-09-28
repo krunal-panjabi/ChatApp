@@ -15,6 +15,9 @@
                 <div *ngIf="userForm.errors?.['CheckUser']" class="alert alert-danger">
                     UserName taken
                 </div>
+                <div *ngIf="userForm.errors?.['servererror']" class="alert alert-danger">
+                    Server Error 
+                </div>
                 <h4>Choose your name</h4>
                 <div class="form-floating mb-3">
                     <input formControlName="username" type="text" class="form-control" placeholder="Name" 

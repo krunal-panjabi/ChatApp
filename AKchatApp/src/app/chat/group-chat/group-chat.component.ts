@@ -9,6 +9,7 @@ import { UsersService } from 'src/app/users.service';
 })
 export class GroupChatComponent {
   @Input() GroupName='';
+  @Input() msgid = '';
   constructor(public activeModal:NgbActiveModal,public service:UsersService){}
 
   ngOnDestroy(): void {

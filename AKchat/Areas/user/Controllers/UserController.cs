@@ -9,6 +9,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ViewModels.Models;
+using Microsoft.AspNetCore.Http;
+using Swashbuckle.AspNetCore.Annotations;
+using NuGet.Configuration;
+
 
 namespace AKchat.Areas.user.Controllers
 {
@@ -61,6 +65,10 @@ namespace AKchat.Areas.user.Controllers
             return Ok(false);
         }
         [Authorize]
+        [SwaggerOperation(Summary = "Upload Image")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Store the path")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "You are not authenticated.")]
+
         [HttpPost("uploadphoto")]
         public IActionResult uploadphoto()
         {
@@ -97,6 +105,13 @@ namespace AKchat.Areas.user.Controllers
             }
            
         }
+       
+        /// <summary>
+        /// For disling purpose in Grp chat
+        /// </summary>
+        /// <response code="401">You are not authorized</response>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Authorize]
         [HttpPost("DisLikemsgbyIdGrp")]
         public IActionResult DisLikemsgbyIdGrp([FromBody] LikeVm model)
@@ -111,6 +126,12 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(true);
             }
         }
+        /// <summary>
+        /// For disling purpose in private chat
+        /// </summary>
+        /// <response code="401">You are not authorized</response>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Authorize]
         [HttpPost("DisLikemsgbyId")]
         public IActionResult DisLikeMsgById([FromBody] LikeVm model)
@@ -142,6 +163,8 @@ namespace AKchat.Areas.user.Controllers
 
         }
         [Authorize]
+        [SwaggerOperation(Summary = "For liking grp msg")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "You are not authenticated.")]
         [HttpPost("LikemsgbyIdGrp")]
         public IActionResult LikeMsgByIdGrp([FromBody] LikeVm model)
         {
@@ -155,9 +178,11 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(true);
             }
         }
-
+        
 
         [Authorize]
+        [SwaggerOperation(Summary = "For like msg")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "You are not authenticated.")]
         [HttpPost("LikemsgbyId")]
         public IActionResult LikeMsgById([FromBody] LikeVm model)
         {
@@ -194,10 +219,20 @@ namespace AKchat.Areas.user.Controllers
             }
         }
         [Authorize]
-        [HttpGet("GetOfflineUsers")]
-        public List<AllUsersVm> GetAllUsers()
+        [HttpGet("GetAllOfflineUsers")]
+
+        public List<AllUsersVm> GetAllOfflineUsers()
         {
-            var users = _userrepo.GetAllUsers();
+            var users = _userrepo.GetAllOfflineUsers();
+            return users;
+        }
+
+
+        [Authorize]
+        [HttpGet("GetOfflineUsers")]
+        public List<AllUsersVm> GetAllUsers(string username)
+        {
+            var users = _userrepo.GetAllUsers(username);
             return users;
         }
         [Authorize]
@@ -214,7 +249,34 @@ namespace AKchat.Areas.user.Controllers
                 return NotFound();
             }
         }
+        [Authorize]
+        [HttpGet("DeleteNotiMsg")]
+        public IActionResult DeleteNotiMsg(int msgid)
+        {
+            var count_value = _userrepo.DeleteNotiMsg(msgid);
+            if(count_value>0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
+        [HttpGet("GetNotiMsg")]
+        public IActionResult GetNotificationMessages(string username)
+        {
+            var messages=_userrepo.GetNotimsgs(username);
+            if (messages != null)
+            {
+                return Ok(messages);
+            }
+            else
+            {
+                return NotFound();
+            }
 
+        }
 
         [Authorize]
         [HttpGet("GetLikeMembers")]
@@ -246,7 +308,23 @@ namespace AKchat.Areas.user.Controllers
             }
         }
 
-
+        [Authorize]
+        [HttpPost("SelectedUsers")]
+        public IActionResult SelectedUsers([FromBody] Dictionary<string,string> data)
+        {
+            string userlist = data["userlist"];
+            string name = data["name"];
+      
+            var count_value = _userrepo.selectedusers(userlist, name);
+            if (count_value > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
 
         [Authorize]
         [HttpGet("LoadInitialPrivateChat")]

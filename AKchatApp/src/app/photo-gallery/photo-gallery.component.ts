@@ -42,17 +42,7 @@ export class PhotoGalleryComponent {
 
 toggleHeartClass(id:any) {
   const myName = this.service.myName;
-  this.service.sendGalleryData(id,myName).subscribe({
-    next:(data)=>{
-      this.fetchGalleryData();
-    },
-    error:(error)=>{
-      console.log('error ')
-    }
-  }
-  )
-
-
+ 
 
 
 

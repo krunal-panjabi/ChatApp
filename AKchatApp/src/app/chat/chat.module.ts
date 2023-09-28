@@ -14,6 +14,8 @@ import { DialogBodyComponent } from './dialog-body/dialog-body.component';
 import { ChatInputGeneralComponent } from './chat-input-general/chat-input-general.component';
 import { MaterialModule } from '../material.module';
 import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -35,6 +37,9 @@ import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
     ReactiveFormsModule,
     MaterialModule,
     MatChipsModule,
+    MatSelectModule,
+    MatIconModule
+
     // MatChatInputEvent
     // ToastrModule
   ]

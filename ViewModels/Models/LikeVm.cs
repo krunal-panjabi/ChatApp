@@ -10,5 +10,6 @@ namespace ViewModels.Models
     {
         public int? msgid { get; set; }
         public string? name { get; set; }
+        public string? toname { get; set; }
     }
 }

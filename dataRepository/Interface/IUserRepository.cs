@@ -14,7 +14,8 @@ namespace dataRepository.Interface
         public int creategroup(string grpname,string members);
         public int checkforname(string name);
         public int loginrepo(UserVM model);
-        public List<AllUsersVm> GetAllUsers();
+        public List<AllUsersVm> GetAllOfflineUsers();
+        public List<AllUsersVm> GetAllUsers(string username);
         public void storechat(MessageVM model);
         public List<MessageVM> loadprivatechat(string from, string to);
         public List<AllGroupsVm> GetAllGroupsName(string username);
@@ -26,8 +27,8 @@ namespace dataRepository.Interface
         public Task<ProfileVm> GetUserByProfileAsync(string name);
         public int UploadGalleryData(string caption, string imgstr , string uploadedUser);
         public List<GalleryVm> GetGalleryData(string myName);
-
-       
+        public List<NotiMsgVm> GetNotimsgs(string username);
+        public int DeleteNotiMsg(int msgid);
         public int DisLikeEntryGrp(LikeVm model);
         public int DisLikeEntry(LikeVm model);
         public int LikeEntry(LikeVm model);
@@ -35,5 +36,6 @@ namespace dataRepository.Interface
         public List<AllUsersVm> GetLikeMembers(int msgid);
         public int LikeEntryGrp(LikeVm model);
         public List<AllUsersVm> GetLikeMembersGrp(int msgid);
+        public int selectedusers(string userlist, string name);
     }
 }

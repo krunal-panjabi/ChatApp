@@ -12,7 +12,7 @@
       <div class="card users-card">
           <div class="card-header"><h3>Messages</h3></div>
           <div class="card-body card-messages">
-          <app-messages [messages]="service.grpmessages"></app-messages>  
+          <app-messages [messages]="service.grpmessages" [username]="msgid"></app-messages>  
      </div>
      <div class="card-footer">
       <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input>

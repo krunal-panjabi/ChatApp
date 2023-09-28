@@ -38,6 +38,17 @@ export class LoginPageComponent implements OnInit {
             console.log("the token",response.token);
             if(response)
             { this.service.storeToken(response.token);
+              this.service.myName=this.userForm.get('username')?.value;
+              this.service.getNotificationMsg().subscribe({
+                next:(data)=>{
+                  this.service.notimsgs = data;
+                  this.service.countmsg=this.service.notimsgs.length;
+                  console.log("the count",this.service.countmsg)
+                },
+                error: (error) => {
+                  console.error('Error loading private chats', error);
+                }
+              });
               this.service.getuserImage(this.userForm.get('username')?.value).subscribe({
                 next: (data: profile) => {
                   this.service.imageUrl = data.imgstr;
@@ -46,14 +57,15 @@ export class LoginPageComponent implements OnInit {
                   console.error('Error loading private chats', error);
                 }
               });
+           
               this.toastr.success('Success', 'You are Loggedinnn',{
                 disableTimeOut:false,
                 closeButton:true,
                 progressBar:true
               });
-              this.service.myName=this.userForm.get('username')?.value;
+            
               this.router.navigateByUrl('/chat')
-            }
+            }                                                                          
             else
             {
               this.userForm.setErrors({InvalidUser:true})
@@ -66,7 +78,7 @@ export class LoginPageComponent implements OnInit {
           },
        
         error: (error) => {
-          this.userForm.setErrors({CheckUser:true});
+          this.userForm.setErrors({servererror:true});
           console.log('Error:', error);
         },
       }

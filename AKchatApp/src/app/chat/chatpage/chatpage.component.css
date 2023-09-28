@@ -74,3 +74,9 @@
     justify-content: center;
     color:white
 }
+.mat-form-field{
+    display: block !important;
+}
+/* .cdk-overlay-pane{
+    top:500px !important;
+} */

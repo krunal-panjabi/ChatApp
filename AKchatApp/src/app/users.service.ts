@@ -16,6 +16,7 @@ import { groupmodel } from './Models/groupmodel';
 import { profile } from './Models/profile';
 import { GalleryData } from './Models/galleryData';
 import { MessageService } from './message.service';
+import { notimsg } from './Models/NotiMsg';
 
 @Injectable(
   // providedIn: 'root'
@@ -23,12 +24,12 @@ import { MessageService } from './message.service';
 export class UsersService {
   isgeneral: boolean = false;
   isGroupChat: boolean = false;
-  countmsg:any;
+  countmsg:number=0;
   isTyping: boolean = false;
   count:any;
   username: string = '';
-  toUser: string = '';
-  myName: string = '';
+  toUser: string = '';    
+  myName: string = '';      
   typename: string = '';
   imageUrl: string = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ";
   onlineUsers: string[] = [];
@@ -38,6 +39,7 @@ export class UsersService {
   likemembers: OfflineUsers[] = [];
   groups: groupname[] = [];
   messages: Message[] = [];
+  notimsgs:notimsg[]=[];
   grpmessages: Message[] = [];
   private chatConnection?: HubConnection;
   privateMessages: Message[] = [];
@@ -50,7 +52,7 @@ export class UsersService {
     return this.http.post(`${environment.apiUrl}User/Register`, User);
   }
 
-
+  
   createGroup(grpname: string, members: string): Observable<any> {
     const group = { groupName: grpname, members: members }
     return this.http.post<Message[]>(`${environment.apiUrl}User/CreateGroup`, group);
@@ -76,7 +78,8 @@ export class UsersService {
   dislikemessage(mesaageId: any, name: string): Observable<any> {
     const likeentry = {
       msgid: mesaageId,
-      name: name
+      name: name,
+      
     }
     return this.http.post(`${environment.apiUrl}User/DisLikemsgbyId`, likeentry)
   }
@@ -91,7 +94,8 @@ export class UsersService {
     console.log('messageid in service', mesaageId);
     const likeentry = {
       msgid: mesaageId,
-      name: name
+      name: name,
+      toname:this.toUser
     }
     // const headers = new HttpHeaders({ 'content-type': 'application/json' });
     // const params = new HttpParams().set("msgid", mesaageId);
@@ -132,19 +136,33 @@ export class UsersService {
     const params = new HttpParams().set("msgid", msgid);
     return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetLikeMembers`, { 'headers': headers, 'params': params });
   }
+  deletenotimsg(msgid:any){
+      const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    const params = new HttpParams().set("msgid", msgid);
+    return this.http.get(`${environment.apiUrl}User/DeleteNotiMsg`, { 'headers': headers, 'params': params });
+  }
+
+  getNotificationMsg(){
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    const params = new HttpParams().set("username", this.myName);
+    return this.http.get<notimsg[]>(`${environment.apiUrl}User/GetNotiMsg`, { 'headers': headers, 'params': params });
+  }
   getAllUsers() {
-    return this.http
-      .get<OfflineUsers[]>(
-        `${environment.apiUrl}User/GetOfflineUsers`
-      )
-      .subscribe({
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    const params = new HttpParams().set("username", this.myName);
+    return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetOfflineUsers`, { 'headers': headers, 'params': params }).subscribe({
         next: (data) => {
           this.offlineUsers = data;
-          console.log('offlineUser');
-
           console.log(this.offlineUsers);
         },
       });
+  }
+
+  getAllUserNames()
+  {
+    return this.http
+      .get<OfflineUsers[]>(`${environment.apiUrl}User/GetAllOfflineUsers`)
+    
   }
 
   getAllGroups(username: string) {
@@ -175,6 +193,14 @@ export class UsersService {
     const params = new HttpParams().set("username", name);
     return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
   }
+  SelectedUsers(users:string){
+    alert('called');
+    const data={
+      userlist:users,
+      name:this.myName
+    }
+    return this.http.post(`${environment.apiUrl}User/SelectedUsers`,data);
+  }
   intitializeloadprivatechats(toUser: string, fromUser: string): Observable<Message[]> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     let params = new HttpParams()
@@ -189,7 +215,7 @@ export class UsersService {
     this.intitializeloadprivatechats(toUser, this.myName).subscribe({
       next: (data) => {
         this.privateMessages = data;
-        this.count=this.privateMessages.length;
+      //  this.count=this.privateMessages.length;
         console.log("the count",this.count)
         console.log("chat", this.privateMessages)
       },
@@ -282,12 +308,21 @@ export class UsersService {
 
     this.chatConnection.on('OpenPrivateChat', (newMessage: Message) => {
       this.loadprivatechats(newMessage.from);
+      this.countmsg=this.countmsg+1;
       this.typename = newMessage.from;
       this.privateMessageInitiated = true;
       const modalRef = this.modalService.open(PrivateChatsComponent);
       modalRef.componentInstance.toUser = newMessage.from;
     });
-
+    this.chatConnection.on('NotificationCount',(newMessage:Message)=>{
+      this.countmsg=this.countmsg+1;
+    });
+   this.chatConnection.on('NotificationGrp',(name:string)=>{
+    this.countmsg=this.countmsg+1;
+   })
+   this.chatConnection.on('SendLikeResGrp',(name:string)=>{
+    this.countmsg=this.countmsg+1;
+   })
     this.chatConnection.on('ReceiveTypingIndicator', (name: string) => {
       this.privatetypeintiate = true;
       this.isTyping = true;
@@ -300,21 +335,19 @@ export class UsersService {
     this.chatConnection.on('ReceiveLikeRes', (msgid: any, like: any, messageid: any, count: any, name: any) => {
       
       if (like === 1) {
+        this.countmsg=this.countmsg+1;
         this.typename = name;
         this.msgservice.messageDiv2Visibility[msgid] = true;
         const spanClasscount = '.count-' + messageid;
         const selectedSpancount = document.querySelector(spanClasscount) as HTMLElement;
-
         const spanClassdiv = '.logodiv-' + messageid;
         const selecteddiv = document.querySelector(spanClassdiv) as HTMLElement;
         selecteddiv.classList.remove('d-none');
         if (selectedSpancount) {
           const currentValue = parseInt(selectedSpancount.innerText);
           if (currentValue === 0) {
-
             selectedSpancount.innerText = '1';
           } else {
-
             const newValue = currentValue + 1;
             selectedSpancount.innerText = newValue.toString();
           }
@@ -404,6 +437,13 @@ export class UsersService {
     return this.chatConnection?.invoke('SendLikeResById', msgid, this.toUser, like, this.myName, this.typename)
       .catch(error => console.log(error));
   }
+  async SendLikeResGrp(){
+    alert('hii');
+    const userlist=this.grpmembers.filter(user=>user.username!==this.myName).map(user=>user.username).join(',');
+    return this.chatConnection?.invoke('SendLikeResGrp',userlist)
+    .catch(error => console.log(error));
+    
+  }
   startTyping(name: string) {
     if (!name || name.trim() === '') {
       name = this.typename;
@@ -439,17 +479,17 @@ export class UsersService {
   async sendGrpMessage(content: string, gname: string) {
     this.isGroupChat = true;
     this.isgeneral=false;
+    const userList = this.grpmembers.filter(user=>user.username!==this.myName).map(user => user.username).join(',');
     const message: groupmodel = {
       from: this.myName,
       content: content,
       grpname: gname,
+      userlist:userList
     };
-
+    console.log("the list",userList);
     return this.chatConnection?.invoke('ReceiveGrpMessage', message)
       .catch(error => console.log(error));
   }
-
-
 
   async sendPrivateMessage(to: string, content: string) {
     this.isgeneral=false;

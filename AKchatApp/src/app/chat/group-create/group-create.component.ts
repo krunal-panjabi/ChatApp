@@ -4,6 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { map, startWith } from 'rxjs';
 import { group } from 'src/app/Models/group';
 import { UsersService } from 'src/app/users.service';
 
@@ -26,6 +27,8 @@ export class GroupCreateComponent  {
       username: [''],
       members: this.formBuilder.array([]),
     });
+
+  
   }
 
   get membersArray(): FormArray {

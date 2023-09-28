@@ -1,69 +1,134 @@
 <div class="container-fluid mt-5 ">
 
 
-<div class="row mt-3 mainBody">
-    <div class="col-lg-2">
-        
-        <div class="d-grid mb-2 cpbtn">
-            <button class="btn  btn-block cgroup" (click)="openGroupModal()"  type="button" ><i class="bi bi-people-fill" style="font-size: x-large;"></i> &nbsp;Create Group</button>
-        </div>
-        
-        <div class="card user-list border-secondary mb-3">
+    <div class="row mt-3 mainBody">
+        <div class="col-lg-2  ">
+
+            <div class="d-grid mb-2 cpbtn">
+                <button class="btn  btn-block cgroup" (click)="openGroupModal()" type="button"><i
+                        class="bi bi-people-fill" style="font-size: x-large;"></i> &nbsp;Create Group</button>
+            </div>
 
 
-            <div class="card-header h3 text-center" style="background-color: rgb(25, 135, 84);color: white;">Users</div>
-            <div class="card-body ">
-                <div class="row mt-1" *ngFor="let user of service.offlineUsers">
-                    <div class="col">
-                        <div class="d-grid">
-                            <button type="button" 
-                            [disabled]="user.username === service.myName"
-                            (click)="openPrivateChat(user.username,user.imgstr,true)"
-                            class="btn card-text d-flex justify-content-start users" ><img class="user-image me-2" [src]="user.imgstr ? user.imgstr : '/assets/img/profile.png'" alt="">
-                            {{user.username}}
-                        <span *ngIf="user.username === service.myName"> (you)</span>  <span class="fw-bolder text-primary" *ngIf="user.username===service.username && service.isTyping">typing...</span> 
-                            <span class="position-absolute pos_dot"    *ngIf="service.onlineUsers.includes(user.username)">
-                            <div class="onlinesign"></div>
-                         </span>
-                        </button>
+            <div class="card user-list border-secondary mb-3">
+
+
+                <div class="card-header h3 text-center" style="background-color: rgb(25, 135, 84);color: white;">Users
+                </div>
+                <div class="card-body ">
+                    <ng-container *ngIf="service.offlineUsers.length>0;else noofflineuser">
+                        <div class="row mt-1" *ngFor="let user of service.offlineUsers">
+                            <div class="col">
+                                <div class="d-grid">
+                                    <button type="button" [disabled]="user.username === service.myName"
+                                        (click)="openPrivateChat(user.username,user.imgstr)"
+                                        class="btn card-text d-flex justify-content-start users"><img
+                                            class="user-image me-2"
+                                            [src]="user.imgstr ? user.imgstr : '/assets/img/profile.png'" alt="">
+                                        {{user.username}}
+                                        <span *ngIf="user.username === service.myName"> (you)</span> <span
+                                            class="fw-bolder text-primary"
+                                            *ngIf="user.username===service.username && service.isTyping">typing...</span>
+                                        <span class="position-absolute pos_dot"
+                                            *ngIf="service.onlineUsers.includes(user.username)">
+                                            <div class="onlinesign"></div>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #noofflineuser>
+                    <span>Please Select Users You want to Chat with</span>
+                    </ng-template>
+                    <!-- for groups -->
+                    <div class="row mt-1" *ngFor="let grp of service.groups">
+                        <div class="col">
+                            <div class="d-grid">
+                                <button (click)="openGroupChat(grp.groupname)" type="button"
+                                    class="btn card-text  btn-group mt-1">
+                                    <i class="bi bi-people-fill ms-2" style="font-size: large;"></i> &nbsp;
+                                    {{grp.groupname}}
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    <!-- for groups ends -->
+
+
+
+
                 </div>
-                
-                        <!-- for groups -->
-                <div class="row mt-1" *ngFor="let grp of service.groups">
-                    <div class="col">
-                        <div class="d-grid">
-                            <button  (click)="openGroupChat(grp.groupname)" type="button" class="btn card-text  btn-group mt-1" >
-                                <i class="bi bi-people-fill ms-2" style="font-size: large;"></i> &nbsp; {{grp.groupname}} 
-                            </button>
-                        </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-8 ">
+            <div class="card border-secondary g-chat" style="height:749px;">
+                <div class="card-header h3 text-muted text-center">General Chat</div>
+                <div class="card-body" style="min-height: 500px;background-color: white;">
+                    <app-messages [messages]="service.messages"></app-messages>
+
+                </div>
+                <div class="card-footer">
+                    <app-chat-input-general (contentemitter)="sendMessage($event)"></app-chat-input-general>
+                    <!-- <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-2 ">
+            <div class="pt-2 pb-2 ps-1 pe-1 text-center mb-2" style="background-color: rgb(25, 135, 84); color: white;  border: 2px 2px 2px 2px;   margin-left: auto;
+            border-radius: 10px 10px 10px 10px;">
+                Please Select User You want to Chat
+            </div>
+            <mat-form-field>
+                <mat-label>Click here to select:</mat-label>
+
+                <mat-select-trigger>
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let user of userControl.value" [removable]="true"
+                            (removed)="onCatRemoved(user)" color="accent" selected>
+                            {{ user }}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                </mat-select-trigger>
+                <mat-select class="forbox" [formControl]="userControl" multiple placeholder="Add User...">
+                    <div class="d-flex align-items-center p-2">
+                        <span class="ms-2"><i class="bi bi-search"></i></span>
+                        <input class="ps-2 mt-1 mb-1 border-bottom" style="width: fit-content"
+                            placeholder="Write here name " matInput [formControl]="userctrl"
+                            (input)="onSearchInputChange()" />
                     </div>
-                </div>
-                        <!-- for groups ends -->
 
-                
+                    <ng-container *ngIf="filteredlist.length > 0; else nouser">
+                        <ng-container style="top:200px" *ngFor="let user of filteredlist">
+                            <mat-option *ngIf="user!==service.myName" [value]="user">
+                                {{user}}
+                            </mat-option>
+                        </ng-container>
+                    </ng-container>
+                    <ng-template #nouser>
+                        <div class="p-2">
+                            No result for <span class="fw-bolder"> {{userctrl.value}}</span> found
+                        </div>
 
+                    </ng-template>
+                </mat-select>
+            </mat-form-field>
 
-            </div>
-
+            <button class="text-black bg-warning w-100 ps-1 pe-1 border-0" style="border-radius:5px 5px 5px 5px"
+                (click)="onSaveButtonClick()">Selected Users</button>
         </div>
-    </div>
 
-    <div class="col-lg-8">
-        <div class="card border-secondary g-chat" style="height:749px;">
-            <div class="card-header h3 text-muted text-center">General Chat</div>
-            <div class="card-body" style="min-height: 500px;background-color: white;">
-                <app-messages [messages]="service.messages" *ngIf="buttonWasClicked"></app-messages>
-                <app-private-chats *ngIf="!buttonWasClicked"></app-private-chats>
-            </div>
-            <div class="card-footer">
-                <app-chat-input-general (contentemitter)="sendMessage($event)"></app-chat-input-general>
-                <!-- <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input> -->
-            </div>
-        </div>
     </div>
 
 </div>
-
-</div>
+<!-- <ng-container *ngFor="let user of service.offlineUsers">
+    <ng-container *ngIf="user.username !== service.myName">
+      <mat-option [value]="user.username">
+        {{ user.username }}
+      </mat-option>
+    </ng-container>
+  </ng-container> -->

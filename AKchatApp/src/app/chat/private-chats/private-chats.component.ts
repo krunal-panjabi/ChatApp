@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 export class PrivateChatsComponent implements OnInit, OnDestroy {
   @Input() toUser = '';
   @Input() image='';
+  @Input() msgid = '';
+  @Input() scrollautomatic: any;
   divisionVisible: boolean = false;
 
 
@@ -21,9 +23,11 @@ export class PrivateChatsComponent implements OnInit, OnDestroy {
 
   
   ngOnInit(): void {
+
+    console.log("User name",this.toUser);
     if (this.service.myName) {
 
-      console.log(this.service.myName);
+      console.log("the name",this.service.myName);
       
     }
     else{

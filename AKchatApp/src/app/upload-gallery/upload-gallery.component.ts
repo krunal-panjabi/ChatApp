@@ -55,7 +55,7 @@ export class UploadGalleryComponent implements OnInit {
       const base64String = e.target.result;
   
       this.galleryForm.get('imgstr')?.setValue(base64String);
-      this.galleryimg.nativeElement.setAttribute('src',this.galleryForm.get('imgstr')?.value)
+  
     };
     reader.readAsDataURL(file);
   }

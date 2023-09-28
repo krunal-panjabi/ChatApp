@@ -7,5 +7,16 @@ import { UsersService } from 'src/app/users.service';
   styleUrls: ['./dialog-body.component.css']
 })
 export class DialogBodyComponent {
+  flag:boolean=false;
   constructor(public service:UsersService){}
+  toggle(name:string){
+    debugger;
+    const divClass = '.user-' + name;
+    const selecteddiv = document.querySelector(divClass) as HTMLElement;
+    selecteddiv.classList.add('d-none');
+  }
+  togglediv()
+  {
+    this.flag=!this.flag;
+  }
 }

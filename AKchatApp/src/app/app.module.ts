@@ -20,6 +20,7 @@ import { NoConnectionComponent } from './no-connection/no-connection.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { MatChipsModule } from '@angular/material/chips';
+import { NotificationComponent } from './notification/notification.component';
 //import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
@@ -32,7 +33,8 @@ import { MatChipsModule } from '@angular/material/chips';
     UploadGalleryComponent,
     UserProfileComponent,
     PhotoGalleryComponent,
-    NoConnectionComponent
+    NoConnectionComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,

@@ -38,9 +38,6 @@ export class UserProfileComponent  implements OnInit{
     } else {
       this.imageUrl = this.service.singleuser.imgstr;
     }  
-  
-  
-  
   }
 
   constructor(private formBuilder : FormBuilder,private service : UsersService , private router: Router) { 
@@ -96,11 +93,9 @@ export class UserProfileComponent  implements OnInit{
     }
   }
 
-
     handleFileInput(event: any) {
       let reader = new FileReader();
       this.file = event.target.files[0];
-  
       reader.onload = (event: any) => {
         this.imageUrl = event.target.result;
         this.empForm.get('imgstr')?.setValue(event.target.result); 

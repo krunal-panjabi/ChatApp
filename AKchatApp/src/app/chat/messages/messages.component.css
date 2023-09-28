@@ -164,3 +164,9 @@
       background-color: rgb(255 171 171);
       object-fit: contain;
   }
+
+  .highlighted-message {
+    background-color: yellow; 
+    border: 2px solid red;   
+  }
+  

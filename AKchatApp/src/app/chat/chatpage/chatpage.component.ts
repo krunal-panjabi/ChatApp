@@ -7,6 +7,8 @@ import { PrivateChatsComponent } from '../private-chats/private-chats.component'
 import { GroupChatComponent } from '../group-chat/group-chat.component';
 import { Router } from '@angular/router';
 import { MessageService } from 'src/app/message.service';
+import { FormControl } from '@angular/forms';
+import { startWith } from 'rxjs';
 
 @Component({
   selector: 'app-chatpage',
@@ -14,22 +16,58 @@ import { MessageService } from 'src/app/message.service';
   styleUrls: ['./chatpage.component.css']
 })
 export class ChatpageComponent implements OnInit,OnDestroy {
+  userControl:FormControl<string[] | null> = new FormControl([]);
+  userslist:string[]=[];
+  userctrl = new FormControl('');
+  filteredlist:string[]=[];
+  constructor(public service : UsersService,private modalService:NgbModal,private router:Router,public msgservice:MessageService) { 
+    // this.userctrl.valueChanges.pi((searchText: string) => {
+    //   // Filter the userslist based on the searchText
+    //   this.userslist = this.userslist.filter((user) =>
+    //     user.toLowerCase().includes(searchText.toLowerCase())
+    //   );
+    // });
 
-  constructor(public service : UsersService,private modalService:NgbModal,private router:Router,public msgservice:MessageService) { }
+    // this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+    //   startWith(null),
+    //   map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+    // );
+  }
+  onSearchInputChange(){
   
+    const searchterm=(this.userctrl.value?? '').toLowerCase();
+    this.filteredlist=this.userslist.filter(user=>user.toLowerCase().includes(searchterm));
+  }
  ngOnDestroy(): void{
    this.service.stopChatConnection();
  }
+ onCatRemoved(cat: string) {
+  const categories = this.userControl.value as string[];
+  this.removeFirst(categories, cat);
+  this.userControl.setValue(categories); // To trigger change detection
+}
+private removeFirst(array: string[], toRemove: string): void {
 
+  const index = array.indexOf(toRemove);
+  if (index !== -1) {
+    array.splice(index, 1);
+  }
+}
   ngOnInit():void{
     this.service.getAllUsers();
     this.service.getAllGroups(this.service.myName);
     this.service.createChatConnection();
+  
 
+    this.service.getAllUserNames().subscribe({
+      next:(data)=>{
+        this.userslist=data.filter(user=>user.username!==this.service.myName).map(user=>user.username);
+        this.filteredlist=this.userslist;
+      }
+    })
     if (this.service.myName) {
 
       console.log(this.service.myName);
-      
     }
     else{
      setTimeout(() => {
@@ -39,16 +77,35 @@ export class ChatpageComponent implements OnInit,OnDestroy {
        }, 3000);
      }, 0);
     }
+    // this.userslist=this.service.offlineUsers.filter(user=>user.username!==this.service.myName).map(user=>user.username);
+    // console.log("users for search list",this.userslist);
   }
+  
   sendMessage(content:string){
     this.service.sendMessage(content);
+  }
+  onSaveButtonClick()
+  {
+    const categories = this.userControl.value as string[];
+    const selectedNames = categories.join(',');
+    if(selectedNames.length>0)
+    {
+       this.service.SelectedUsers(selectedNames).subscribe({
+         next:(data)=>{
+          this.service.getAllUsers();
+         }
+       })
+    }
+  
   }
   isUserAuthenticated(){
     return true;
   }
+
     openPrivateChat(toUser: string, image: string){
-      this.service.isGroupChat=false;
-    this.service.toUser=toUser;
+  this.service.isGroupChat=false;
+  this.service.isgeneral=false;
+  this.service.toUser=toUser;
   this.msgservice.messageDiv1Visibility={};
   this.msgservice.messageDiv2Visibility={};
    const modalRef=this.modalService.open(PrivateChatsComponent);
@@ -64,6 +121,7 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   }
 
   openGroupChat(GroupName:string){
+    this.service.isgeneral=false;
     this.service.isGroupChat=true;
     const modalRef=this.modalService.open(GroupChatComponent);
     this.msgservice.messageDiv1Visibility={};

@@ -12,8 +12,34 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     z-index: 1500;
     position: relative;
 } */
+
 .cdk-global-overlay-wrapper, 
 .cdk-overlay-container, 
 .cdk-overlay-connected-position-bounding-box {
     z-index: 9999!important;
+}
+.custom-dialog-container .mat-dialog-container {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  /* position: absolute; */
+}
+.modal-dialog {
+    width: 118% !important;
+  }
+  .modal-content{
+    width:118% !important;
+  }
+  mat-select.forbox .cdk-overlay-pane{
+    top: 150px !important;
+}
+.mat-select-value{
+    opacity: 0;
+}
+.mat-select-placeholder{
+    margin-bottom:10px;
+}
+.mat-chip.mat-standard-chip.mat-chip-selected.mat-accent {
+    background-color: rgb(25, 135, 84) ;
 }
