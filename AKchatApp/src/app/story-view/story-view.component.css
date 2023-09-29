@@ -1,0 +1,25 @@
+@keyframes example {
+    from {background-color: red;}
+    to {background-color: yellow;}
+  }
+
+  #progressBar {
+    width: 100%;
+    /* margin: 5px auto; */
+    height: 5px;
+    background-color: #39ff49;
+  }
+  
+  #progressBar div {
+    height: 100%;
+    text-align: left;
+    padding: 0 5px;
+    line-height: 5px; /* same as #progressBar height if we want text middle aligned */
+    width: 0;
+    background-color: white;
+    box-sizing: border-box;
+    transition: width 2s linear;
+  }
+  
+  /* Do not take in account */
+  html{padding-top:30px}a.solink{position:fixed;top:0;width:100%;text-align:center;background:#f3f5f6;color:#cfd6d9;border:1px solid #cfd6d9;line-height:30px;text-decoration:none;transition:all .3s;z-index:999}a.solink::first-letter{text-transform:capitalize}a.solink:hover{color:#428bca}

@@ -15,8 +15,10 @@ import { groupname } from './Models/groupname';
 import { groupmodel } from './Models/groupmodel';
 import { profile } from './Models/profile';
 import { GalleryData } from './Models/galleryData';
+import { AllStories } from './Models/allStories';
 import { MessageService } from './message.service';
 import { notimsg } from './Models/NotiMsg';
+import { StoryView } from './Models/storyView';
 
 @Injectable(
   // providedIn: 'root'
@@ -34,6 +36,7 @@ export class UsersService {
   imageUrl: string = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ";
   onlineUsers: string[] = [];
   offlineUsers: OfflineUsers[] = [];
+  allStories: AllStories[] = [];
   singleuser!: profile;
   grpmembers: OfflineUsers[] = [];
   likemembers: OfflineUsers[] = [];
@@ -63,11 +66,47 @@ export class UsersService {
     return this.http.post<Message[]>(`${environment.apiUrl}User/UploadGalleryData`, galleryData);
   }
 
+  
   getGalleryData(myName :string): Observable<GalleryData[]> {
     return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
   }
-
   
+  uploadStoryData(caption: string, imgstr: string, uploadedUser: string): Observable<any> {
+    const storyData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
+    return this.http.post(`${environment.apiUrl}User/UploadStoryData`, storyData);
+  }
+
+  getStoryData(): Observable<StoryView[]> {
+    return this.http.get<StoryView[]>(`${environment.apiUrl}User/GetStory`);
+    // .subscribe({
+    //     next: (data) => {
+    //       this.allStories = data;
+    //     },
+    //   });
+  }
+  
+  // storyOfUser(userId: any): Observable<any> {
+  //   const data = {
+  //     userId: userId,
+    
+  //   };
+  //   return this.http.post(`${environment.apiUrl}User/StoryOfUser`,data);
+  // }
+
+  storyOfUser(userId: any): Observable<AllStories> {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    const params = new HttpParams().set("userId", userId);
+    
+    return this.http.get<AllStories>(`${environment.apiUrl}User/StoryOfUser`, { 'headers': headers, 'params': params })
+  }
+
+
+
+
+
+
+
+
   
   CheckName(username: string): Observable<any> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
@@ -258,6 +297,19 @@ export class UsersService {
   localStorage.setItem('token',tokenValue);
   }
   
+  
+
+
+  sendGalleryData(id: any, myName: string): Observable<any> {
+    const data = {
+      id: id,
+      myName: myName
+    };
+    return this.http.post(`${environment.apiUrl}User/likePost`, data);
+  }
+
+
+
   getToken(){
     return localStorage.getItem('token');
   }

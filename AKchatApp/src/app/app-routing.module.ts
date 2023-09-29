@@ -7,6 +7,7 @@ import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
 import { UploadGalleryComponent } from './upload-gallery/upload-gallery.component';
 import { NoConnectionComponent } from './no-connection/no-connection.component';
 import { AuthGuard } from './guards/auth.guard';
+// import { StoryComponent } from './story/story.component';
 
 const routes: Routes = [
   { path: '', component: LoginPageComponent },

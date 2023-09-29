@@ -69,6 +69,7 @@ private removeFirst(array: string[], toRemove: string): void {
 
       console.log(this.service.myName);
     }
+    
     else{
      setTimeout(() => {
        this.router.navigateByUrl('/no-connection');

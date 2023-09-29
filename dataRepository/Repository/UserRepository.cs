@@ -11,6 +11,7 @@ using ViewModels.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Identity.Client;
 using System.Reflection.Metadata;
+using System.Runtime.Intrinsics.Arm;
 
 namespace dataRepository.Repository
 {
@@ -545,6 +546,103 @@ namespace dataRepository.Repository
                 return row_count;
             }
         }
+
+
+        public int UploadStoryData(string caption, string imgstr, string uploadedUser)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("UploadStoryData", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@caption", caption);
+                cmd.Parameters.AddWithValue("@imgstr", imgstr);
+                cmd.Parameters.AddWithValue("@uploadedUser", uploadedUser);
+                con.Open();
+
+                int row_count = cmd.ExecuteNonQuery();
+
+                return row_count;
+            }
+        }
+
+
+        public List<AllStoryVm> GetStory()
+        {
+            List<AllStoryVm> model = new List<AllStoryVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetStory", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    AllStoryVm names = new AllStoryVm
+                    {
+                        uploadedUser = rdr["uploadedUser"].ToString(),
+                        userimg = rdr["image"].ToString(),
+                        userid = Convert.ToInt32(rdr["id"])
+                        //Convert.ToInt32(rdr["id"]),
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
+        }
+
+
+
+
+
+
+        public StoryVm StoryOfUser(int userId)
+        {
+            StoryVm model = new StoryVm();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("StoryOfUser", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userId", userId);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                //cmd.ExecuteNonQuery();
+
+                while (rdr.Read())
+                {
+                  StoryVm model1 = new StoryVm
+                    {
+                        uploadedUser = rdr["uploadedUser"].ToString(),
+                        userimg = rdr["image"].ToString(),
+                        imgstr = rdr["imgstr"].ToString(),
+                        caption = rdr["caption"].ToString(),
+                        //Convert.ToInt32(rdr["id"]),
+                    };
+                    model = model1;
+                  
+                }
+                con.Close();
+            }
+            return model;
+        }
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         public List<GalleryVm> GetGalleryData(string myName)

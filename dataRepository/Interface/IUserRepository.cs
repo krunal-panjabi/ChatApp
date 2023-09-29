@@ -26,9 +26,14 @@ namespace dataRepository.Interface
         public int uploadphoto(string photo, string name);
         public Task<ProfileVm> GetUserByProfileAsync(string name);
         public int UploadGalleryData(string caption, string imgstr , string uploadedUser);
+        public int UploadStoryData(string caption, string imgstr , string uploadedUser);
         public List<GalleryVm> GetGalleryData(string myName);
         public List<NotiMsgVm> GetNotimsgs(string username);
         public int DeleteNotiMsg(int msgid);
+        public List<AllStoryVm> GetStory();
+        public StoryVm StoryOfUser(int userId);
+
+
         public int DisLikeEntryGrp(LikeVm model);
         public int DisLikeEntry(LikeVm model);
         public int LikeEntry(LikeVm model);
