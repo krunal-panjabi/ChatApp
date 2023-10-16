@@ -55,6 +55,7 @@ private removeFirst(array: string[], toRemove: string): void {
 }
   ngOnInit():void{
     this.service.getAllUsers();
+    // alert(this.service.getAllUsers);
     this.service.getAllGroups(this.service.myName);
     this.service.createChatConnection();
   

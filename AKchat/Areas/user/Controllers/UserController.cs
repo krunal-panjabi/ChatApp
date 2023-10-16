@@ -381,8 +381,29 @@ namespace AKchat.Areas.user.Controllers
             }
         }
 
+        [HttpPost("postComment")]
+        public IActionResult postComment([FromBody] PostComments model)//company register
+        {
+
+            var count_value = _userrepo.postComment(model);
+            if (count_value > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
 
 
+        //[Authorize]
+        [HttpGet("GetPostComments")]
+        public List<PostComments> GetPostComments(int postId)
+        {
+            var comments = _userrepo.GetPostComments(postId);
+            return comments;
+        }
 
 
 
@@ -447,6 +468,20 @@ namespace AKchat.Areas.user.Controllers
             return story;
         }
 
+
+        [HttpPost("deleteStory")]
+        public IActionResult deleteStory([FromBody]int userid)
+        {
+            var post = _userrepo.deleteStory(userid);
+            if (post > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
 
 
 

@@ -31,10 +31,11 @@ hr{
 .gal-img{
     
     margin: 0px;
+    background-image: linear-gradient(#ff9292, #f5f56d, #008500);
+    overflow-y: scroll;
 }
 
-.posts{
-}
+
 
 .ubtn{
     background-image: linear-gradient(to bottom right, #ff5f5f, yellow,pink,lightblue);
@@ -144,3 +145,13 @@ hr{
     z-index: 23;
     width: fit-content;
 }
+
+/* .outerBody{position: relative;
+  padding: 50px;
+  background-image: linear-gradient(#ff9292, #f5f56d, #008500);
+    height:  88vh;
+  width: fit-content;
+  overflow-y: scroll;
+
+} */
+

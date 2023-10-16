@@ -227,7 +227,7 @@ namespace dataRepository.Repository
                         status= Convert.ToInt32(rdr["status"]),
                         name = rdr["name"].ToString(),
                         id = Convert.ToInt32(rdr["id"]),
-                        msgid = Convert.ToInt32(rdr["msgid"]),
+                        msgid =rdr["msgid"]!=DBNull.Value? Convert.ToInt32(rdr["msgid"]):00,
                         usename = rdr["usename"].ToString()
                     };
 
@@ -288,7 +288,7 @@ namespace dataRepository.Repository
             List<AllUsersVm> model = new List<AllUsersVm>();
             using (SqlConnection con = new SqlConnection(connections))
             {
-                SqlCommand cmd = new SqlCommand("GetAllUsers", con);
+                SqlCommand cmd = new SqlCommand("GetAllUsers_copy", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@name", username);
                 con.Open();
@@ -548,6 +548,53 @@ namespace dataRepository.Repository
         }
 
 
+        public int postComment(PostComments model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("postComments", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@comment", model.comment);
+                cmd.Parameters.AddWithValue("@commenter", model.commenter);
+                cmd.Parameters.AddWithValue("@postId", model.postId);
+                con.Open();
+
+                int row_count = cmd.ExecuteNonQuery();
+
+                return row_count;
+            }
+        }
+
+
+        public List<PostComments> GetPostComments(int postId)
+        {
+            List<PostComments> model = new List<PostComments>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetPostComments", con);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@postId", postId);
+
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    PostComments comments = new PostComments
+                    {
+                        comment = rdr["comment"].ToString(),
+                        commenter = rdr["commenter"].ToString(),
+                      
+                    };
+                    model.Add(comments);
+                }
+                con.Close();
+            }
+            return model;
+        }
+
+
+
         public int UploadStoryData(string caption, string imgstr, string uploadedUser)
         {
             using (SqlConnection con = new SqlConnection(connections))
@@ -626,8 +673,20 @@ namespace dataRepository.Repository
             }
             return model;
         }
-        
 
+
+        public int deleteStory(int userid)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("deleteStory", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userid", userid);
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+                return i;
+            }
+        }
 
 
 

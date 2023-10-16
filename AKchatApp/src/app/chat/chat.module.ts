@@ -20,7 +20,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { StoryComponent } from '../story/story.component';
 import { StoryViewComponent } from '../story-view/story-view.component';
 import { StoryUploadComponent } from '../story-upload/story-upload.component';
-import { MaterialModule } from '../material.module';
+import { PostCommentComponent } from '../post-comment/post-comment.component';
+
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { MaterialModule } from '../material.module';
     DialogBodyComponent,
     ChatInputGeneralComponent,
     StoryComponent,
+    PostCommentComponent,
     StoryUploadComponent,
     StoryViewComponent
   ],

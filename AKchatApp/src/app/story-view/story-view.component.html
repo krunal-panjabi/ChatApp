@@ -7,7 +7,7 @@
 
 
 
-    <div class="d-flex justify-content-center mb-2">
+    <div class="abhi d-flex justify-content-center mb-2">
         <!-- <img style="width: 100%;height: 644px;" src="{{storydata.imgstr}}" alt=""> -->
     
     
@@ -26,35 +26,134 @@
           </div> -->
 
 
+          <!-- <div *ngFor="let element of elements" class="carousel-item">
+            <img style="width: 100px; height: 544px;" [src]="element" class="d-block w-10" alt="not found">
+          
+      </div> -->
+      <!-- <div id="carouselExampleControls" style="height:400px;width:400px" class="abhi1 carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+         
 
 
-          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner" style="width: 100%;height: 544px;">
-              <div class="carousel-item active">
-                <img style="width: 100%;height: 544px;" src="{{storydata.imgstr}}" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item">
-                <img style="width: 100%;height: 544px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIo8JvX8GztcxTVf3XPGKaArNJbYMpMKJ3Hg&usqp=CAU" class="d-block w-100" alt="...">
-              </div>
-              <!-- <div class="carousel-item">
-                <img src="..." class="d-block w-100" alt="...">
-              </div> -->
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
+          
+
+          <div *ngFor="let element of newElements" class="carousel-item">
+            <img style="width: auto; height: 544px;" [src]="element" class=" w-10" alt="not found">
+          </div>
+          <div class="carousel-item">
+            <img style="width: auto; height: 544px;" src="https://ik.imagekit.io/freshman/base64_0FQBjgSlJVSv.png" class="d-block w-10" alt="not found">
           </div>
 
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div> -->
+          
+
+
+
+      <!-- WORKIN BUT WITH SCROLL BAR -->
+
+
+      <!-- <div id="carouselExampleControls" style="height: 400px; width: 400px;" class="abhi1 carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          
+          
+          <ng-container *ngFor="let element of newElements; let i = index" [class.carousel-item]="i === 0" [class.active]="i === 0">
+          <div class="" >
+            <img style="width: auto; height: 544px;" [src]="element" class="w-100" alt="not found">
+          </div>
+          </ng-container>
+
+
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div> -->
+
+
+
+
+<!-- working but shows images inline -->
+
+
+
+      <!-- <div class="slideshow-container" *ngFor="let element of newElements; let i = index"> -->
+
+        <!-- <div class="mySlides fade"> -->
+          <!-- <div class="numbertext">1 / 3</div>
+          <img src="img_nature_wide.jpg" style="width:100%">
+          <div class="text">Caption Text</div>
+        </div> -->
+        
+        <!-- <div class="mySlides fade">
+          <div class="numbertext">2 / 3</div>
+          <img src="img_snow_wide.jpg" style="width:100%">
+          <div class="text">Caption Two</div>
+        </div> -->
+
+         <!-- <ng-container class="mySlides fade" >
+            <div class="" >
+              <img style="width: auto; height: 544px;" [src]="element" class="w-100" alt="not found">
+            </div>
+        </ng-container>
+        
+       
+        
+        </div>
+        <br>
+        
+        <div style="text-align:center">
+          <span class="dot"></span> 
+          <span class="dot"></span> 
+          <span class="dot"></span> 
+        </div> -->
+      
+
+<!-- new inline -->
+
+        <!-- <div id="carousel-slider" *ngFor="let element of newElements">
+            <div>
+                <img style="width:100%; height:100%;" [src]="element" class="d-block w-100" alt="not found">
+            </div>
+          
+        </div> -->
 
 
 
 
 
+        <div class="slider">
+            <div>
+              <div (click)="goToPrevious()" id="restartButton" class="leftArrow" style="color: black;">❰</div>
+              <div (click)="goToNext()" class="rightArrow" style="color: black;">❱</div>
+            </div>
+            <div style="width: 740px; height: 544px;"
+              class="slide"
+              [ngStyle]="{ 'background-image': getCurrentSlideUrl() }"
+            ></div>
+            <!-- <div class="dotsContainer mt-5">
+              <div
+                *ngFor="let slide of newElements; let slideIndex = index"
+                class="dot"
+                (click)="goToSlide(slideIndex)"
+              >
+                ●
+              </div>
+            </div> -->
+          </div>
 
 
 
@@ -67,8 +166,8 @@
     
     </div>
     <div class="d-flex justify-content-center align-items-center">
-<div class="m-0 b-0 p-0" style="background-color: black;width: 100%;height: 30px;opacity: 0.6;position: absolute;bottom: 20px;"></div>
-        <div class="text-center" style="position: absolute;bottom: 20px;"><p style="margin-bottom: 0px;color: rgb(0, 0, 0);font-weight: 400;color: white;font-weight: 400;font-size: larger;" class="mb-1">{{storydata.caption}}</p></div>
+        <div class="m-0 b-0 p-0" style="background-color: black;width: 100%;height: 30px;opacity: 0.6;position: absolute;bottom: 20px;"></div>
+        <div class="text-center" style="position: absolute;bottom: 25px;"><p style="margin-bottom: 0px;color: rgb(0, 0, 0);font-weight: 400;color: white;font-weight: 400;font-size: larger;" class="mb-1">{{storydata.caption}}</p></div>
     </div>
     
 </div>
@@ -85,4 +184,17 @@
 };
 
 progress(600, 600, $('#progressBar'));
+</script> -->
+
+
+<!-- <script>
+    $("#carousel-slider").slick({
+    arrows: false,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 1500,
+    mobileFirst: true
+});
 </script> -->

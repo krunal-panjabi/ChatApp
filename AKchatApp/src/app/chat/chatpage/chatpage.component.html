@@ -54,36 +54,6 @@
                         </div>
                     </div>
                     <!-- for groups ends -->
-            <div class="card-header h3 text-center" style="background-color: rgb(25, 135, 84);color: white;">Users</div>
-            <div class="card-body ">
-                <div class="row mt-1" *ngFor="let user of service.offlineUsers">
-                    <div class="col">
-                        <div class="d-grid">
-                            <button type="button" 
-                            [disabled]="user.username === service.myName"
-                            (click)="openPrivateChat(user.username,user.imgstr)"
-                            class="btn card-text d-flex justify-content-start users" ><img class="user-image me-2" [src]="user.imgstr ? user.imgstr : '/assets/img/profile.png'" alt="">
-                            {{user.username}}
-                        <span *ngIf="user.username === service.myName"> (you)</span>  <span class="fw-bolder text-primary" *ngIf="user.username===service.username && service.isTyping">typing...</span> 
-                            <span class="position-absolute pos_dot"    *ngIf="service.onlineUsers.includes(user.username)">
-                            <div class="onlinesign"></div>
-                         </span>
-                        </button>
-                        </div>
-                    </div>
-                </div>
-                
-                        <!-- for groups -->
-                <div class="row mt-1" *ngFor="let grp of service.groups">
-                    <div class="col">
-                        <div class="d-grid">
-                            <button  (click)="openGroupChat(grp.groupname)" type="button" class="btn card-text  btn-group mt-1" >
-                                <i class="bi bi-people-fill ms-2" style="font-size: large;"></i> &nbsp; {{grp.groupname}} 
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                        <!-- for groups ends -->
 
 
 
@@ -150,9 +120,12 @@
 
             <button class="text-black bg-warning w-100 ps-1 pe-1 border-0" style="border-radius:5px 5px 5px 5px"
                 (click)="onSaveButtonClick()">Selected Users</button>
+                <app-story></app-story>
         </div>
-
     </div>
+
+
+   
 
 </div>
 <!-- <ng-container *ngFor="let user of service.offlineUsers">

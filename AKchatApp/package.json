@@ -29,9 +29,10 @@
     "emojionearea": "^3.4.2",
     "jquery": "^3.7.0",
     "ngx-toastr": "^15.2.2",
-    "ng-angular-popup": "^0.4.7",
+ 
     "rxjs": "~7.5.0",
     "save": "^2.9.0",
+    "slick-carousel": "^1.8.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },

@@ -21,6 +21,7 @@
     ],
   })
   export class StoryComponent {
+    storyuser: any;
     // allStories: AllStories[] = [];
     constructor(public dialog: MatDialog, public service: UsersService, private router: Router) { }
 
@@ -29,7 +30,9 @@
 
       this.service.getStoryData().subscribe(data => {
         this.service.allStories = data;
-        console.log(this.service.myName);
+
+
+        console.log("story"+this.service.myName);
         console.log(this.service.allStories);
       });
     }
@@ -50,6 +53,18 @@
       });
     }
 
+    deleteStory(userid : number){
+      alert(userid);
+      this.service.deleteMyStory(userid).subscribe({
+        next:()=>{
+          this.ngOnInit();
+        }
+      
+    })
+    }
+
+
+
     bb( userId: any,enterAnimationDuration: string, exitAnimationDuration: string) {
 
 
@@ -58,23 +73,19 @@
 
       this.service.storyOfUser(userId).subscribe({
         next: (res) => {
-          console.log(res);
-          
+          console.log('response for image',res);
+          // const elements: string[] = res.imgstr.split(',data');
+          //  const count=this.service.storyOfUser(userId)..length;
             const dialogRef = this.dialog.open(StoryViewComponent, {
               width: '1000px',
               height: '700px',
               panelClass: 'custom-dialog-panel',
               data:{res}
-              // enterAnimationDuration,
-              // exitAnimationDuration,
-    
+  
             });
             const removalTimeout = setTimeout(() => {
               dialogRef.close(); // Close the dialog
-            }, 6000);
-        
-          
-
+            }, 10000);
         },
         error: () => {
           console.log('error ')
@@ -84,6 +95,18 @@
 
 
     }
+
+
+isMyStory(storyuser: string): boolean {
+  if(this.storyuser == this.service.myName){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+
 
 
     ngOnDestroy(): void {

@@ -19,6 +19,8 @@ import { AllStories } from './Models/allStories';
 import { MessageService } from './message.service';
 import { notimsg } from './Models/NotiMsg';
 import { StoryView } from './Models/storyView';
+import { PostComments } from './Models/postComments';
+
 
 @Injectable(
   // providedIn: 'root'
@@ -30,8 +32,8 @@ export class UsersService {
   isTyping: boolean = false;
   count:any;
   username: string = '';
-  toUser: string = '';    
-  myName: string = '';      
+  toUser: string = '';
+  myName: string = '';
   typename: string = '';
   imageUrl: string = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ";
   onlineUsers: string[] = [];
@@ -55,7 +57,7 @@ export class UsersService {
     return this.http.post(`${environment.apiUrl}User/Register`, User);
   }
 
-  
+
   createGroup(grpname: string, members: string): Observable<any> {
     const group = { groupName: grpname, members: members }
     return this.http.post<Message[]>(`${environment.apiUrl}User/CreateGroup`, group);
@@ -66,23 +68,33 @@ export class UsersService {
     return this.http.post<Message[]>(`${environment.apiUrl}User/UploadGalleryData`, galleryData);
   }
 
+
+  public uploadPostComment(postComments: PostComments): Observable<any> {
+    // postComments.username = this.myName;
+    // alert("service "+postComments);
+    return this.http.post(`${environment.apiUrl}User/postComment`, postComments);
+  }
+
+  getPostComments(postId :number): Observable<PostComments[]> {
+    // alert("hi called"+postId);
+
+    return this.http.get<PostComments[]>(`${environment.apiUrl}User/GetPostComments?postId=`+postId);
+  }
+
+
   
   getGalleryData(myName :string): Observable<GalleryData[]> {
     return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
   }
   
-  uploadStoryData(caption: string, imgstr: string, uploadedUser: string): Observable<any> {
+  uploadStoryData(caption: string, imgstr: string [], uploadedUser: string): Observable<any> {
     const storyData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
     return this.http.post(`${environment.apiUrl}User/UploadStoryData`, storyData);
   }
 
   getStoryData(): Observable<StoryView[]> {
     return this.http.get<StoryView[]>(`${environment.apiUrl}User/GetStory`);
-    // .subscribe({
-    //     next: (data) => {
-    //       this.allStories = data;
-    //     },
-    //   });
+  
   }
   
   // storyOfUser(userId: any): Observable<any> {
@@ -100,6 +112,11 @@ export class UsersService {
     return this.http.get<AllStories>(`${environment.apiUrl}User/StoryOfUser`, { 'headers': headers, 'params': params })
   }
 
+  deleteMyStory(userid: number): Observable<any> {
+  
+    alert("gerjg"+ userid);
+    return this.http.post(`${environment.apiUrl}User/deleteStory`, userid);
+  }
 
 
 
@@ -117,8 +134,7 @@ export class UsersService {
   dislikemessage(mesaageId: any, name: string): Observable<any> {
     const likeentry = {
       msgid: mesaageId,
-      name: name,
-      
+      name: name
     }
     return this.http.post(`${environment.apiUrl}User/DisLikemsgbyId`, likeentry)
   }
@@ -133,8 +149,7 @@ export class UsersService {
     console.log('messageid in service', mesaageId);
     const likeentry = {
       msgid: mesaageId,
-      name: name,
-      toname:this.toUser
+      name: name
     }
     // const headers = new HttpHeaders({ 'content-type': 'application/json' });
     // const params = new HttpParams().set("msgid", mesaageId);
@@ -189,10 +204,16 @@ export class UsersService {
   getAllUsers() {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", this.myName);
-    return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetOfflineUsers`, { 'headers': headers, 'params': params }).subscribe({
+    return this.http
+      .get<OfflineUsers[]>(
+        `${environment.apiUrl}User/GetOfflineUsers`,{'headers': headers, 'params' : params}
+      )
+      .subscribe({
         next: (data) => {
           this.offlineUsers = data;
-          console.log(this.offlineUsers);
+          // console.log('offlineUser');
+
+          // console.log(this.offlineUsers);
         },
       });
   }
@@ -254,8 +275,6 @@ export class UsersService {
     this.intitializeloadprivatechats(toUser, this.myName).subscribe({
       next: (data) => {
         this.privateMessages = data;
-      //  this.count=this.privateMessages.length;
-        console.log("the count",this.count)
         console.log("chat", this.privateMessages)
       },
       error: (error) => {
@@ -307,6 +326,10 @@ export class UsersService {
     };
     return this.http.post(`${environment.apiUrl}User/likePost`, data);
   }
+
+
+
+
 
 
 
@@ -366,15 +389,7 @@ export class UsersService {
       const modalRef = this.modalService.open(PrivateChatsComponent);
       modalRef.componentInstance.toUser = newMessage.from;
     });
-    this.chatConnection.on('NotificationCount',(newMessage:Message)=>{
-      this.countmsg=this.countmsg+1;
-    });
-   this.chatConnection.on('NotificationGrp',(name:string)=>{
-    this.countmsg=this.countmsg+1;
-   })
-   this.chatConnection.on('SendLikeResGrp',(name:string)=>{
-    this.countmsg=this.countmsg+1;
-   })
+
     this.chatConnection.on('ReceiveTypingIndicator', (name: string) => {
       this.privatetypeintiate = true;
       this.isTyping = true;
@@ -392,14 +407,17 @@ export class UsersService {
         this.msgservice.messageDiv2Visibility[msgid] = true;
         const spanClasscount = '.count-' + messageid;
         const selectedSpancount = document.querySelector(spanClasscount) as HTMLElement;
+
         const spanClassdiv = '.logodiv-' + messageid;
         const selecteddiv = document.querySelector(spanClassdiv) as HTMLElement;
         selecteddiv.classList.remove('d-none');
         if (selectedSpancount) {
           const currentValue = parseInt(selectedSpancount.innerText);
           if (currentValue === 0) {
+
             selectedSpancount.innerText = '1';
           } else {
+
             const newValue = currentValue + 1;
             selectedSpancount.innerText = newValue.toString();
           }
@@ -461,9 +479,13 @@ export class UsersService {
       alert('close type');
       this.isTyping = false;
     });
+
+
+
     this.chatConnection.on('NewPrivateMessage', (newMessage: Message) => {
       this.privateMessages = [...this.privateMessages, newMessage];
     });
+
     this.chatConnection.on('ClosePrivateChat', () => {
       this.privateMessageInitiated = false;
       this.privateMessages = [];
@@ -538,10 +560,12 @@ export class UsersService {
       grpname: gname,
       userlist:userList
     };
-    console.log("the list",userList);
+
     return this.chatConnection?.invoke('ReceiveGrpMessage', message)
       .catch(error => console.log(error));
   }
+
+
 
   async sendPrivateMessage(to: string, content: string) {
     this.isgeneral=false;
