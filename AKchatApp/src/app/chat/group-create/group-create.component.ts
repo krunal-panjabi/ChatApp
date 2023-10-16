@@ -21,7 +21,7 @@ export class GroupCreateComponent  {
   groupForm : FormGroup = new FormGroup({});
   allnames:string='';
   group:group | undefined;
-
+  userslist:string[]=[];
   constructor(public activeModal: NgbActiveModal, private formBuilder : FormBuilder,public service : UsersService ) {
     this.groupForm = this.formBuilder.group({
       username: [''],
@@ -42,8 +42,12 @@ export class GroupCreateComponent  {
     this.service.offlineUsers.forEach((user) => {
       this.membersArray.push(new FormControl(false)); // Initialize unchecked
     });
-   
-    this.service.getAllUsers();
+    this.service.getAllUserNames().subscribe({
+      next:(data)=>{
+        this.userslist=data.filter(user=>user.username!==this.service.myName).map(user=>user.username);
+      }
+    })
+   // this.service.getAllUsers();
    
   }
   updateSelectedUsers(user: any, event: Event) {
@@ -80,19 +84,29 @@ export class GroupCreateComponent  {
     this.selectedUsers.push(event.option.viewValue);
   }
   getSelectedUsers() {
-   // this.selectedUsers.push(this.service.myName);
+    this.selectedUsers.push(this.service.myName);
      this.allnames = this.selectedUsers.join(',');
       this.service.createGroup(this.grpname, this.allnames).subscribe(
         (response) => {
           console.log('Group created:', response);
           this.activeModal.close('Group created successfully');
-          this.service.getAllGroups(this.service.myName);
+          this.service.getAllGroups(this.service.myName).subscribe({
+            next: (data) => {
+              this.service.groups = data;
+              this.service.groupnamelist=this.service.groups;
+            },
+            error: (error) => {
+              if (error.status === 400) {
+                console.error("By refreshing the page you got disconnected");
+              }
+            }
+          });
         },
         (error) => {
           console.error('Error creating group:', error);
         }
       );
-      this.service.getAllGroups(this.service.myName);
+      //this.service.getAllGroups(this.service.myName);
       this.service.callbackend();
     }
   }

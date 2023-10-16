@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'src/app/message.service';
 import { FormControl } from '@angular/forms';
 import { startWith } from 'rxjs';
+import { groupname } from 'src/app/Models/groupname';
 
 @Component({
   selector: 'app-chatpage',
@@ -19,7 +20,10 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   userControl:FormControl<string[] | null> = new FormControl([]);
   userslist:string[]=[];
   userctrl = new FormControl('');
+  searchctrl=new FormControl('');
   filteredlist:string[]=[];
+  
+  
   constructor(public service : UsersService,private modalService:NgbModal,private router:Router,public msgservice:MessageService) { 
     // this.userctrl.valueChanges.pi((searchText: string) => {
     //   // Filter the userslist based on the searchText
@@ -32,6 +36,11 @@ export class ChatpageComponent implements OnInit,OnDestroy {
     //   startWith(null),
     //   map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
     // );
+  }
+  onSearchInputChange1(){
+   const searchterm=(this.searchctrl.value?? '').toLocaleLowerCase();
+  this.service.usernamelist=this.service.offlineUsers.filter(user=>user.username.toLowerCase().includes(searchterm));
+  this.service.groupnamelist=this.service.groups.filter(grp=>grp.groupname.toLowerCase().includes(searchterm));
   }
   onSearchInputChange(){
   
@@ -54,11 +63,25 @@ private removeFirst(array: string[], toRemove: string): void {
   }
 }
   ngOnInit():void{
-    this.service.getAllUsers();
-    this.service.getAllGroups(this.service.myName);
+    this.service.getAllUsers().subscribe({
+      next:(data)=>{
+        this.service.offlineUsers=data;
+        this.service.usernamelist=this.service.offlineUsers;
+      }
+    })
+    this.service.getAllGroups(this.service.myName).subscribe({
+      next: (data) => {
+        this.service.groups = data;
+        this.service.groupnamelist=this.service.groups;
+      },
+      error: (error) => {
+        if (error.status === 400) {
+          console.error("By refreshing the page you got disconnected");
+        }
+      }
+    });
     this.service.createChatConnection();
-  
-
+    
     this.service.getAllUserNames().subscribe({
       next:(data)=>{
         this.userslist=data.filter(user=>user.username!==this.service.myName).map(user=>user.username);
@@ -66,17 +89,16 @@ private removeFirst(array: string[], toRemove: string): void {
       }
     })
     if (this.service.myName) {
-
       console.log(this.service.myName);
     }
-    else{
-     setTimeout(() => {
-       this.router.navigateByUrl('/no-connection');
-       setTimeout(() => {
-         this.router.navigateByUrl('/login');
-       }, 3000);
-     }, 0);
-    }
+    // else{
+    //  setTimeout(() => {
+    //    this.router.navigateByUrl('/no-connection');
+    //    setTimeout(() => {
+    //      this.router.navigateByUrl('/login');
+    //    }, 3000);
+    //  }, 0);
+    // }
     // this.userslist=this.service.offlineUsers.filter(user=>user.username!==this.service.myName).map(user=>user.username);
     // console.log("users for search list",this.userslist);
   }
@@ -92,7 +114,8 @@ private removeFirst(array: string[], toRemove: string): void {
     {
        this.service.SelectedUsers(selectedNames).subscribe({
          next:(data)=>{
-          this.service.getAllUsers();
+          this.service.requestnoti(selectedNames);
+        //  this.service.getAllUsers();
          }
        })
     }
@@ -123,6 +146,7 @@ private removeFirst(array: string[], toRemove: string): void {
   openGroupChat(GroupName:string){
     this.service.isgeneral=false;
     this.service.isGroupChat=true;
+    this.service.globalgpname=GroupName;
     const modalRef=this.modalService.open(GroupChatComponent);
     this.msgservice.messageDiv1Visibility={};
     this.msgservice.messageDiv2Visibility={};

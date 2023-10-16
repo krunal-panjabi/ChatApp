@@ -14,5 +14,6 @@ namespace ViewModels.Models
         public int? id { get; set; }
         public int? msgid { get; set; }
         public string? usename { get; set; }
+        public int? answer { get; set; }
     }
 }

@@ -10,5 +10,6 @@ export interface Message {
     messageLike?:number;
     count:number;
     likename?:string;
+    type?:number;
  //   grpname?:string;
   }

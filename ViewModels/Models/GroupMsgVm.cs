@@ -12,6 +12,7 @@ namespace ViewModels.Models
         public string grpname { get; set; }
         public string from { get; set; }
         public string? userlist { get; set; }
+        public int? type { get; set; }
       //  public string[]? username { get; set; }
     }
 }

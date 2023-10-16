@@ -67,3 +67,11 @@
     height: fit-content;
 }
 
+@media screen and (max-width:769px){
+  .div1{
+    flex-direction: column !important;
+  }
+  .half-size{
+    width: 100% !important;
+  }
+}

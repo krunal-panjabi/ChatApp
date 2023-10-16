@@ -29,6 +29,7 @@ export class UsersService {
   count:any;
   username: string = '';
   toUser: string = '';    
+  globalgpname:string='';
   myName: string = '';      
   typename: string = '';
   imageUrl: string = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ";
@@ -43,8 +44,14 @@ export class UsersService {
   grpmessages: Message[] = [];
   private chatConnection?: HubConnection;
   privateMessages: Message[] = [];
+  usernamelist:OfflineUsers[]=[];
+  groupnamelist:groupname[]=[];
+  preview:string[]=[];
   privateMessageInitiated = false;
+  grpMessageInitiated=false;
   privatetypeintiate = false;
+  grptypeintiate=false;
+  forimagetoggle=false;
   readonly url = "https://localhost:7239/"
   constructor(private http: HttpClient, private modalService: NgbModal, public msgservice: MessageService) { }
 
@@ -110,6 +117,14 @@ export class UsersService {
     return this.http.post(`${environment.apiUrl}User/LikemsgbyIdGrp`, likeentry)
   }
 
+  public deletemsg(mesgid:any){
+    const data={
+      msgid:mesgid,
+      toname:this.toUser
+    }
+    return this.http.post(`${environment.apiUrl}User/DeleteById`, data);
+  }
+
   public LoginData(User: user): Observable<any> {
 
     return this.http.post(`${environment.apiUrl}User/UserLogin`, User);
@@ -147,15 +162,21 @@ export class UsersService {
     const params = new HttpParams().set("username", this.myName);
     return this.http.get<notimsg[]>(`${environment.apiUrl}User/GetNotiMsg`, { 'headers': headers, 'params': params });
   }
+  // getAllUsers() {
+  //   const headers = new HttpHeaders({ 'content-type': 'application/json' });
+  //   const params = new HttpParams().set("username", this.myName);
+  //   return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetOfflineUsers`, { 'headers': headers, 'params': params }).subscribe({
+  //       next: (data) => {
+  //         this.offlineUsers = data;
+  //         console.log(this.offlineUsers);
+  //       },
+  //     });
+  // }
   getAllUsers() {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", this.myName);
-    return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetOfflineUsers`, { 'headers': headers, 'params': params }).subscribe({
-        next: (data) => {
-          this.offlineUsers = data;
-          console.log(this.offlineUsers);
-        },
-      });
+    return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetOfflineUsers`, { 'headers': headers, 'params': params });
+       
   }
 
   getAllUserNames()
@@ -165,36 +186,60 @@ export class UsersService {
     
   }
 
+  // getAllGroups(username: string) {
+
+  //   const headers = new HttpHeaders({ 'content-type': 'application/json' });
+  //   const params = new HttpParams().set("username", username);
+  //   return this.http.get<groupname[]>(`${environment.apiUrl}User/GetGroups`, { 'headers': headers, 'params': params }).subscribe({
+  //     next: (data) => {
+  //       console.log("groupnames", data);
+  //       this.groups = data;
+  //       console.log("group", this.groups);
+  //     },
+  //     error: (error) => {
+  //       if (error.status === 400) {
+  //         console.error("By refreshing the page you got disconnected");
+  //       }
+  //     }
+  //   });
+  // }
   getAllGroups(username: string) {
 
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", username);
-    return this.http.get<groupname[]>(`${environment.apiUrl}User/GetGroups`, { 'headers': headers, 'params': params }).subscribe({
-      next: (data) => {
-        console.log("groupnames", data);
-        this.groups = data;
-        console.log("group", this.groups);
-      },
-      error: (error) => {
-        if (error.status === 400) {
-          console.error("By refreshing the page you got disconnected");
-        }
-      }
-    });
+    return this.http.get<groupname[]>(`${environment.apiUrl}User/GetGroups`, { 'headers': headers, 'params': params });
   }
-
   public getuserprofiledetail(): Observable<profile> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", this.myName);
     return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
   }
+
   public getuserImage(name: string): Observable<profile> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", name);
     return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
   }
+  Declined(name:string,msgid:any)
+  {
+    const data={
+      myname:this.myName,
+      toname:name,
+      msgid:msgid
+    }
+    return this.http.post(`${environment.apiUrl}User/DeclineReq`,data);
+  }
+  Accepted(name:string,msgid:any)
+  {
+    const data={
+      myname:this.myName,
+      toname:name,
+      msgid:msgid
+    }
+    return this.http.post(`${environment.apiUrl}User/AcceptReq`,data);
+  }
   SelectedUsers(users:string){
-    alert('called');
+    
     const data={
       userlist:users,
       name:this.myName
@@ -288,7 +333,17 @@ export class UsersService {
     });
 
     this.chatConnection.on('CallForLoadGrpNames', () => {
-      this.getAllGroups(this.myName);
+      this.getAllGroups(this.myName).subscribe({
+        next: (data) => {
+          this.groups = data;
+          this.groupnamelist=this.groups;
+        },
+        error: (error) => {
+          if (error.status === 400) {
+            console.error("By refreshing the page you got disconnected");
+          }
+        }
+      });;
     });
 
     this.chatConnection.on('NewMessage', (newMessage: Message) => {
@@ -302,7 +357,7 @@ export class UsersService {
     });
 
     this.chatConnection.on('NewPrivateChatMessage', (newMessage: Message) => {
-
+      // this.loadprivatechats(newMessage.from);
       this.privateMessages = [...this.privateMessages, newMessage];
     });
 
@@ -320,10 +375,30 @@ export class UsersService {
    this.chatConnection.on('NotificationGrp',(name:string)=>{
     this.countmsg=this.countmsg+1;
    })
-   this.chatConnection.on('SendLikeResGrp',(name:string)=>{
+   this.chatConnection.on('SendDisLikeResGrp',(name:string,gpname:string)=>{
+    this.loadgrpchats(gpname);
+   })
+   this.chatConnection.on('SendLikeResGrp',(name:string,gpname:string)=>{
+    this.loadgrpchats(gpname);
+    this.countmsg=this.countmsg+1;
+   })
+   this.chatConnection.on('SendNotiRequest',(name:string)=>{
+    this.countmsg=this.countmsg+1;
+   })
+   this.chatConnection.on('AcceptUser',(name:string)=>{
+    this.countmsg=this.countmsg+1;
+    this.getAllUsers().subscribe({
+      next:(data)=>{
+        this.offlineUsers=data;
+        this.usernamelist=this.offlineUsers;
+      }
+    });
+   })
+   this.chatConnection.on('DeclineUser',(name:string)=>{
     this.countmsg=this.countmsg+1;
    })
     this.chatConnection.on('ReceiveTypingIndicator', (name: string) => {
+      console.log('the name',name);
       this.privatetypeintiate = true;
       this.isTyping = true;
       this.username = name;
@@ -331,6 +406,14 @@ export class UsersService {
         this.isTyping = false;
       }, 4000);
     });
+    this.chatConnection.on('ReceiveTypingIndicatorGrp',(name:string)=>{
+      this.grptypeintiate = true;
+      this.isTyping = true;
+      this.username = name;
+      setTimeout(() => {
+        this.isTyping = false;
+      }, 4000);
+    })
 
     this.chatConnection.on('ReceiveLikeRes', (msgid: any, like: any, messageid: any, count: any, name: any) => {
       
@@ -371,6 +454,13 @@ export class UsersService {
         }
       }
     });
+    this.chatConnection.on('DeleteMsgById',(msgid:any,name:any)=>{
+      this.privateMessages=this.privateMessages.filter(msg=>msg.messageid!==msgid);
+      // const spanClass = '.msgdel-' + msgid;
+      // const selectedSpan = document.querySelector(spanClass) as HTMLElement;
+      // selectedSpan.classList.add('d-none');
+    })
+    
 
     this.chatConnection.on('ReceiveLikeResById', (msgid: any, like: any, name: any) => {
       const spanClasscount = '.count-' + msgid;
@@ -409,6 +499,9 @@ export class UsersService {
       alert('close type');
       this.isTyping = false;
     });
+    this.chatConnection.on('ReceiveCloseTypingIndicatorGrp',(name:string)=>{
+      this.isTyping = false;
+    })
     this.chatConnection.on('NewPrivateMessage', (newMessage: Message) => {
       this.privateMessages = [...this.privateMessages, newMessage];
     });
@@ -418,6 +511,10 @@ export class UsersService {
       this.modalService.dismissAll();
     });
   }
+
+
+
+  
   stopChatConnection() {
     this.chatConnection?.stop().catch(error => console.log(error));
   }
@@ -426,7 +523,8 @@ export class UsersService {
       .catch(error => console.log(error));
   }
   async callbackend() {
-    return this.chatConnection?.invoke('LoadGrpNames')
+    const userlist=this.grpmembers.filter(user=>user.username!==this.myName).map(user=>user.username).join(',');
+    return this.chatConnection?.invoke('LoadGrpNames',userlist)
       .catch(error => console.log(error));
   }
   async SendLikeRes(msgid: any, like: any, messageid: any, newValue: any) {
@@ -438,11 +536,20 @@ export class UsersService {
       .catch(error => console.log(error));
   }
   async SendLikeResGrp(){
-    alert('hii');
     const userlist=this.grpmembers.filter(user=>user.username!==this.myName).map(user=>user.username).join(',');
-    return this.chatConnection?.invoke('SendLikeResGrp',userlist)
+    return this.chatConnection?.invoke('SendLikeResGrp',userlist,this.globalgpname)
     .catch(error => console.log(error));
     
+  }
+  async SendDisLikeResGrp()
+  {
+    const userlist=this.grpmembers.filter(user=>user.username!==this.myName).map(user=>user.username).join(',');
+    return this.chatConnection?.invoke('SendDisLikeResGrp',userlist,this.globalgpname)
+    .catch(error => console.log(error));
+  }
+  async DeleteMsgById(msgid:any){
+    return this.chatConnection?.invoke('DeleteMsgById',msgid,this.toUser)
+    .catch(error => console.log(error));
   }
   startTyping(name: string) {
     if (!name || name.trim() === '') {
@@ -458,8 +565,27 @@ export class UsersService {
         .catch(error => console.log(error));
     }
   }
+  startTypingGrp(){
+    const userList = this.grpmembers.filter(user=>user.username!==this.myName).map(user => user.username).join(',');
+
+    if (!this.grptypeintiate) {
+      this.grptypeintiate = true;
+      return this.chatConnection?.invoke('SendTypingIndicatorGrp', this.myName,userList)
+        .catch(error => console.log(error));
+    }
+    else {
+      return this.chatConnection?.invoke('SendTypingIndicatorGrp', this.myName,userList)
+        .catch(error => console.log(error));
+    }
+  }
   closeTyping(name: string) {
     return this.chatConnection?.invoke('SendClosingIndicator', name).
+      catch(error => console.log(error));
+  }
+  closeTypingGrp(){
+    const userList = this.grpmembers.filter(user=>user.username!==this.myName).map(user => user.username).join(',');
+
+    return this.chatConnection?.invoke('SendClosingIndicatorGrp',userList).
       catch(error => console.log(error));
   }
   async sendMessage(content: string) {
@@ -475,27 +601,50 @@ export class UsersService {
       .catch(error => console.log(error));
   }
 
-
+  async requestnoti(names:string)
+  {
+    return this.chatConnection?.invoke('SendReqNoti',names)
+    .catch(error => console.log(error)); 
+  }
+  async acceptrequest(name:string)
+  {
+    return this.chatConnection?.invoke('SendAcceptNoti',name)
+    .catch(error => console.log(error)); 
+  }
+  async declinerequest(name:string)
+  {
+    return this.chatConnection?.invoke('SendDeclineNoti',name)
+    .catch(error => console.log(error)); 
+  }
   async sendGrpMessage(content: string, gname: string) {
     this.isGroupChat = true;
     this.isgeneral=false;
     const userList = this.grpmembers.filter(user=>user.username!==this.myName).map(user => user.username).join(',');
+
     const message: groupmodel = {
       from: this.myName,
       content: content,
       grpname: gname,
       userlist:userList
     };
-    console.log("the list",userList);
-    return this.chatConnection?.invoke('ReceiveGrpMessage', message)
-      .catch(error => console.log(error));
+    if(this.forimagetoggle){
+   message.type=1;
+   this.forimagetoggle=false;
+    }else{
+ message.type=0;
+    }
+    return this.chatConnection?.invoke('ReceiveGrpMessage', message).then(()=>{
+      this.loadgrpchats(gname);
+    }).catch(error => console.log(error));
+   
   }
 
   async sendPrivateMessage(to: string, content: string) {
     this.isgeneral=false;
     this.isGroupChat = false;
+    var message:Message;
     //const formattedTime = format(currentTime, 'MMM dd,HH:mm');
-    const message: Message = {
+    message = {
       from: this.myName,
       content: content,
       to: to,
@@ -509,11 +658,16 @@ export class UsersService {
       message.isdelievered = 0;
       message.isread = 0;
     }
+    if(this.forimagetoggle){
+      message.type=1;
+      this.forimagetoggle = false;
+    }else{
+      message.type=0;
+    }
     if (!this.privateMessageInitiated) {
       this.privateMessageInitiated = true; //if they have started talking with each other
       return this.chatConnection?.invoke('CreatePrivateChat', message).then(() => {
         this.loadprivatechats(to);
-
       })
         .catch(error => console.log(error));
     } else {

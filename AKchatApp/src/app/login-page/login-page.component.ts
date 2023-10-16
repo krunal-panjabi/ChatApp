@@ -34,9 +34,7 @@ export class LoginPageComponent implements OnInit {
       this.service.LoginData(this.userForm.value).subscribe({
         next: (response) => {
           if(response){
-            console.log(response);
-            console.log("the token",response.token);
-            if(response)
+            if(response.message==="Valid")
             { this.service.storeToken(response.token);
               this.service.myName=this.userForm.get('username')?.value;
               this.service.getNotificationMsg().subscribe({
@@ -56,14 +54,12 @@ export class LoginPageComponent implements OnInit {
                 error: (error) => {
                   console.error('Error loading private chats', error);
                 }
-              });
-           
+              });    
               this.toastr.success('Success', 'You are Loggedinnn',{
                 disableTimeOut:false,
                 closeButton:true,
                 progressBar:true
-              });
-            
+              });   
               this.router.navigateByUrl('/chat')
             }                                                                          
             else
@@ -74,9 +70,7 @@ export class LoginPageComponent implements OnInit {
           else{
             this.userForm.setErrors({CheckUser:true})
           }
-         
           },
-       
         error: (error) => {
           this.userForm.setErrors({servererror:true});
           console.log('Error:', error);

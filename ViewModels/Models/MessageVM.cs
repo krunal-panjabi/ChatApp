@@ -24,6 +24,7 @@ namespace ViewModels.Models
         public int? messageLike { get; set; }
         public int? count { get; set; }
         public string? likename { get; set; }
+        public int? type { get; set; }
         //public int msgid { get; set;}
 
     }

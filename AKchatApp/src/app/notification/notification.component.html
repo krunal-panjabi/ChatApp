@@ -1,52 +1,103 @@
 <div class="dialogue-container" style="height: 300px;overflow-y: auto;">
-    <div class="ps-2 pe-2 pt-2 pb-2 text-white " 
+    <div class="ps-2 pe-2 pt-2 pb-2 text-white "
         style="border-bottom: 1px solid black;background-color: rgb(25, 135, 84);">Notifications</div>
 
     <div class="d-flex pt-2 pb-2 ps-2 pe-2 {{'user-'+msg.id}}" *ngFor="let msg of service.notimsgs"
-     style="gap: 10px;padding-block: 5px;border-bottom: 1px solid lightgray;">
-       
-            <ng-container *ngIf="msg.status===1">
-                <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/mlogo.png'
-                        style="width:32px;height:28px;"></span>
-                <div class="d-flex flex-column" (click)="msg.usename && fortoggleprivatechat(msg.usename,msg.msgid)">
-                    <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
-                    <div class="text-black ">{{msg.content}}</div>
-                </div>
-                <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
-                        class="bi bi-x-circle"></i></span>
-            </ng-container>
-            <ng-container *ngIf="msg.status===2">
-                <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/grplogo.png'
-                        style="width:32px;height:28px;"></span>
-                <div class="d-flex flex-column" (click)="msg.usename && fortogglegrpchat(msg.usename,msg.msgid)">
-                    <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
-                    <div class="text-black">{{msg.content}}</div>
-                </div>
-                <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
-                        class="bi bi-x-circle"></i></span>
-            </ng-container>
-            <ng-container *ngIf="msg.status===3">
-                <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/heart.jpg'
-                        style="width:32px;height:28px;"></span>
-                <div class="d-flex flex-column" (click)="msg.usename && fortoggleprivatechat(msg.usename,msg.msgid)">
-                    <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
-                    <div class="text-black">{{msg.content}}</div>
-                </div>
+        style="gap: 10px;padding-block: 5px;border-bottom: 1px solid lightgray;">
 
-                <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
-                        class="bi bi-x-circle"></i></span>
-            </ng-container>
-            <ng-container *ngIf="msg.status===4">
-                <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/heart.jpg'
-                        style="width:32px;height:28px;"></span>
-                <div>
-                    <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
-                    <div class="text-black">{{msg.content}}</div>
-                </div>
+        <ng-container *ngIf="msg.status===1">
+            <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/mlogo.png'
+                    style="width:32px;height:28px;"></span>
+            <div class="d-flex flex-column" (click)="msg.usename && fortoggleprivatechat(msg.usename,msg.msgid)">
+                <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                <div class="text-black ">{{msg.content}}</div>
+            </div>
+            <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                    class="bi bi-x-circle"></i></span>
+        </ng-container>
+        <ng-container *ngIf="msg.status===2">
+            <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/grplogo.png'
+                    style="width:32px;height:28px;"></span>
+            <div class="d-flex flex-column" (click)="msg.usename && fortogglegrpchat(msg.usename,msg.msgid)">
+                <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                <div class="text-black">{{msg.content}}</div>
+            </div>
+            <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                    class="bi bi-x-circle"></i></span>
+        </ng-container>
+        <ng-container *ngIf="msg.status===3">
+            <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/heart.jpg'
+                    style="width:32px;height:28px;"></span>
+            <div class="d-flex flex-column" (click)="msg.usename && fortoggleprivatechat(msg.usename,msg.msgid)">
+                <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                <div class="text-black">{{msg.content}}</div>
+            </div>
 
-                <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
-                        class="bi bi-x-circle"></i></span>
-            </ng-container>
-       
+            <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                    class="bi bi-x-circle"></i></span>
+        </ng-container>
+        <ng-container *ngIf="msg.status===4">
+            <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/heart.jpg'
+                    style="width:32px;height:28px;"></span>
+            <div>
+                <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                <div class="text-black">{{msg.content}}</div>
+            </div>
+
+            <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                    class="bi bi-x-circle"></i></span>
+        </ng-container>
+
+        <ng-container *ngIf="msg.status===5">
+            <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/freqs.png'
+                    style="width:32px;height:28px;"></span>
+            <div class="d-flex flex-column">
+                <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                <div class="text-black">{{msg.content}}</div>
+                <div class="d-flex justify-content-center {{'notimessage-'+ msg.id}}" *ngIf="msg.answer===0">
+                    <button class="ms-1 me-1 btn btn-success ps-2 pe-2" style="width: fit-content;height: 25px;padding: 0px;" (click)="msg.usename && AcceptReq(msg.usename,msg.id)">Accept</button>
+                    <button class="ms-1 me-1 btn btn-danger ps-2 pe-2"  style="width: fit-content;height: 25px;padding: 0px;" (click)="msg.usename && RejectReq(msg.usename,msg.id)">Reject</button>
+                </div>
+                <div class="d-flex  text-success justify-content-center" *ngIf="msg.answer===1">
+                    <span>You Accept Request</span>
+                </div>
+                <div class="d-flex  text-danger justify-content-center" *ngIf="msg.answer===2">
+                    <span>You Declined Request</span>
+                </div>
+                <div class="d-flex d-none text-success justify-content-center {{'acceptmessage-'+ msg.id}}">
+                    <span>You Accept Request</span>
+                </div>
+                <div class="d-flex d-none text-danger justify-content-center {{'declinemessage-'+ msg.id}}">
+                    <span>You Declined Request</span>
+                </div>
+            </div>
+
+            <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                    class="bi bi-x-circle"></i></span>
+        </ng-container>
+        
+        <ng-container *ngIf="msg.status===6">
+            <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/accept.png'
+                    style="width:32px;height:28px;"></span>
+            <div>
+                <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                <div class="text-black">{{msg.content}}</div>
+            </div>
+
+            <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                    class="bi bi-x-circle"></i></span>
+        </ng-container>
+        <ng-container *ngIf="msg.status===7">
+            <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/cancel.png'
+                    style="width:32px;height:28px;"></span>
+            <div>
+                <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                <div class="text-black">{{msg.content}}</div>
+            </div>
+
+            <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                    class="bi bi-x-circle"></i></span>
+        </ng-container>
+
     </div>
 </div>

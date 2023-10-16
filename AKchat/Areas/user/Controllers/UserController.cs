@@ -12,6 +12,7 @@ using ViewModels.Models;
 using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Annotations;
 using NuGet.Configuration;
+using NuGet.Common;
 
 
 namespace AKchat.Areas.user.Controllers
@@ -30,7 +31,7 @@ namespace AKchat.Areas.user.Controllers
             _userrepo = userrepo;
             _chatservices=chatservices;
             _configuration = configuration;
-
+         
         }
 
         [HttpPost("Register")]
@@ -57,12 +58,13 @@ namespace AKchat.Areas.user.Controllers
                 if (_chatservices.AddUserToList(model))
                 {
                     string token = CreateJwt(model.username);
-                    var response = new { Token = token, Success = true };
+                    var response = new { Token = token, Success = true,message="Valid" };
                     return Ok(response);
                 }
                 return Ok("Name in use");
             }
-            return Ok(false);
+            var invalid_response = new { message = "Invalid" };
+            return Ok(invalid_response);
         }
         [Authorize]
         [SwaggerOperation(Summary = "Upload Image")]
@@ -211,7 +213,6 @@ namespace AKchat.Areas.user.Controllers
             if (valid_value == 0)
             {
                 return Ok(false);
-
             }
             else
             {
@@ -294,9 +295,9 @@ namespace AKchat.Areas.user.Controllers
         }
         [Authorize]
         [HttpGet("GetGroups")]
-        public IActionResult GetGroups(string username)
+        public async Task<IActionResult> GetGroups(string username)
         {
-            var grpnames = _userrepo.GetAllGroupsName(username);
+            var grpnames =await _userrepo.GetAllGroupsName(username);
 
             if (grpnames != null)
             {
@@ -305,6 +306,52 @@ namespace AKchat.Areas.user.Controllers
             else
             {
                 return NotFound(); 
+            }
+        }
+        [Authorize]
+        [HttpPost("DeclineReq")]
+        public IActionResult DeclineReq([FromBody] ResponseVm model)
+        {
+            var count_value = _userrepo.declinerequest(model);
+            if (count_value > 0)
+            {
+                return Ok(true);
+
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
+
+
+        [Authorize]
+        [HttpPost("AcceptReq")]
+        public IActionResult AcceptReq([FromBody] ResponseVm model)
+        {
+            var count_value = _userrepo.acceptrequest(model);
+            if(count_value>0) {
+                return Ok(true);
+
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
+
+        [Authorize]
+        [HttpPost("DeleteById")]
+        public IActionResult DeleteById([FromBody] ResponseVm model)
+        {
+            var count_value = _userrepo.deletemessage(model);
+            if(count_value > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
             }
         }
 
@@ -328,9 +375,9 @@ namespace AKchat.Areas.user.Controllers
 
         [Authorize]
         [HttpGet("LoadInitialPrivateChat")]
-        public List<MessageVM> LoadInitialPrivateChat(string fromUser, string toUser)
+        public async  Task<List<MessageVM>> LoadInitialPrivateChat(string fromUser, string toUser)
         {
-            var messages = _userrepo.loadprivatechat(fromUser, toUser);
+            var messages =await _userrepo.loadprivatechat(fromUser, toUser);
             return messages;
         }
         [Authorize]
@@ -343,7 +390,6 @@ namespace AKchat.Areas.user.Controllers
         [Authorize]
         [HttpGet("LoadInitialGroupChat")]
         public async Task<List<MessageVM>> LoadInitialGroupChat(string grpname,string name)
-
         {
             var messages =await _userrepo.loadgroupchat(grpname,name);
             return messages;

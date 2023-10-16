@@ -1,0 +1,24 @@
+.inputimg{
+    width:36px;
+    height:36px;
+}
+
+@media screen and (max-width:454px){
+  .btndiv{
+    padding: 0px !important;
+  }
+}
+
+
+
+@media screen and (max-width:610px){
+    .inputimg{
+        width:27px;
+        height:27px;
+    }
+    .senbtn{
+        padding:3px !important;
+        height:30x !important;
+    }
+}
+

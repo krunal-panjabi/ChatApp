@@ -3,18 +3,39 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 </div>
 <div class="d-flex ms-3"> <span class="text-danger fw-bolder"> Members : </span>
-    <div class="ms-2 fw-bolder"  *ngFor="let user of service.grpmembers">
+    <div class="ms-2 fw-bolder" *ngFor="let user of service.grpmembers">
         {{user.username}},
-     </div>
+    </div>
 </div>
 
-  <div class="modal-body">
-      <div class="card users-card">
-          <div class="card-header"><h3>Messages</h3></div>
-          <div class="card-body card-messages">
-          <app-messages [messages]="service.grpmessages" [username]="msgid"></app-messages>  
-     </div>
-     <div class="card-footer">
-      <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input>
-  </div>  
-  </div>
+<div class="modal-body">
+    <div class="card users-card">
+        <div class="card-header">
+            <h3>Messages</h3>
+        </div>
+        <div class="card-body card-messages">
+            <app-messages [messages]="service.grpmessages" [username]="msgid"></app-messages>
+            <div *ngIf="service.isTyping">
+                <span class="fw-bolder text-primary">{{service.username}}</span><span><img src="/assets/img/indityp.gif"
+                        style="mix-blend-mode: multiply;height:25px;width:60px"></span>
+            </div>
+        </div>
+        <div class="position-relative d-flex" *ngIf="service.forimagetoggle"
+            style="border:1px solid black;border-radius: 19px 19px 2px 2px;height:82px;background-color: #D4F1F4;">
+            <span class="position-absolute" style="right: 0px;"><i (click)="forimagediv()" class="bi bi-x-circle"
+                    style="font-size: 30px;"></i></span>
+            <span *ngIf="service.preview.length===0"
+                style="    position: absolute;font-weight: 800;font-size: 20px;left: 140px;top: 22px;">
+                PLease Select Any Image
+            </span>
+            <div class="position-relative" *ngFor="let preview of service.preview">
+                <span class="position-absolute" style="left: 78px;" (click)="imageremove()"><img
+                        src="/assets/img/cancel.png" style="width:18px;height:15px"></span>
+                <img [src]="preview" class="rounded p-2" width="100" height="80px">
+            </div>
+
+        </div>
+        <div class="card-footer">
+            <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input>
+        </div>
+    </div>

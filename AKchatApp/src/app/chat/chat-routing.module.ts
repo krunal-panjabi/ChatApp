@@ -7,7 +7,6 @@ import { ChatpageComponent } from './chatpage/chatpage.component';
 const routes: Routes = [
   {
     path: '', component: ChatpageComponent,
-    
   }
 ];
 @NgModule({

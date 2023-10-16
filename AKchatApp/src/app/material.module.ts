@@ -12,14 +12,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';         
  import { MatDatepickerModule } from '@angular/material/datepicker';
  import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatChipInput, MatChipInputEvent, MatChipList, MatChipsModule} from '@angular/material/chips';
-import {MatDialogModule} from '@angular/material/dialog'
-
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [],
@@ -43,7 +43,7 @@ import {MatDialogModule} from '@angular/material/dialog'
     MatDatepickerModule,
     MatNativeDateModule,
     MatDialogModule,
-
+    MatTabsModule
   ]
 })
 export class MaterialModule { }

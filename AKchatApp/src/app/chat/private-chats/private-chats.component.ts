@@ -21,7 +21,11 @@ export class PrivateChatsComponent implements OnInit, OnDestroy {
   constructor(public activeModal: NgbActiveModal, public service: UsersService,private router:Router) { 
   }
 
-  
+  forimagediv()
+  {
+    this.service.preview=[];
+    this.service.forimagetoggle=false;
+  }
   ngOnInit(): void {
 
     console.log("User name",this.toUser);
@@ -42,14 +46,20 @@ export class PrivateChatsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.service.closePrivateChatMesage(this.toUser);
+    this.service.forimagetoggle=false;
+    this.service.preview=[];
   }
 
   sendMessage(content: string) {
+
     this.service.sendPrivateMessage(this.toUser, content);
   }
 
   toggleDivision() {
     this.divisionVisible = !this.divisionVisible;
+  }
+  imageremove(){
+    this.service.preview=[];
   }
 }
 

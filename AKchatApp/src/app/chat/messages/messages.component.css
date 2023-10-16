@@ -46,7 +46,7 @@
   background-color: #b3bcff;
   padding: 6px;
   padding-inline: 10px;
-  border-radius: 22px;
+  border-radius: 7px;
   justify-content: space-between;
   width: fit-content;
   margin-left: 18px;
@@ -56,7 +56,7 @@
   background-color: #dddddd;
   padding: 6px;
   padding-inline: 10px;
-  border-radius: 22px;
+  border-radius: 7px;
   justify-content: space-between;
   width: fit-content;
  
@@ -79,14 +79,36 @@
 }
 .div1cont {
   position: absolute;
-  left: -8px;
-  bottom: -58px;
+  left: -25px;
+    bottom: -26px;
   background-color: #FFF;
   border: 1px solid #ccc;
   padding: 5px;
   border-radius: 5px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 15;
+}
+.contimg{
+  position: absolute !important;
+  left: -25px !important;
+  bottom: 99px !important;
+  background-color: #FFF !important;
+  border: 1px solid #ccc !important;
+  padding: 5px !important;
+  border-radius: 5px !important;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1) !important;
+  z-index: 15 !important;
+}
+.contimg1{
+  position: absolute !important;
+  right: -82px !important;
+    bottom: 57px !important;
+  background-color: #FFF !important;
+  border: 1px solid #ccc !important;
+  padding: 5px !important;
+  border-radius: 5px !important;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1) !important;
+  z-index: 15 !important;
 }
 .divcont {
   position: absolute;
@@ -119,54 +141,137 @@
   position: relative;
 }
 .messages .contentdiv .opendiv{
-  margin-top: -20px;
+  margin-top: -28px;
   position: relative;
-  left: 38px;
+  left: 52px;
   align-self: flex-end;
 }
 .open1div{
   z-index: 10;
 }
 .messages .contentdiv .open1div{
-  margin-top: -23px;
-  position: relative;
-  right: 59px;
+  /* margin-top: -23px; */
+  position: absolute;
+  left: -17px;
+  top: -5px;
 }
   /* .messages .contentdiv button {
     align-self: flex-end;
     margin-top: -20px;
   } */
   .likelogodiv{
-    position: relative;
+    position: absolute;
       height: fit-content;
       display: flex;
       justify-content: center;
       align-items: center;
       width: 38px;
       align-items: center;
-      top: 12px;
+      bottom: -20px;
       border-radius: 22px;
-      left: 14px;
+      right: -10px;
       background-color: rgb(255 171 171);
       object-fit: contain;
   }
   .likelogodivmy{
-    position: relative;
-      height: fit-content;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 38px;
-      align-items: center;
-      top: 12px;
-      border-radius: 22px;
-      right: 12px;
-      background-color: rgb(255 171 171);
-      object-fit: contain;
+    position: absolute;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 38px;
+    align-items: center;
+    bottom: -18px;
+    border-radius: 22px;
+    left: -24px;
+    background-color: rgb(255 171 171);
+    object-fit: contain;
   }
 
   .highlighted-message {
-    background-color: yellow; 
-    border: 2px solid red;   
+    background-color: rgb(79 189 138); 
+    border: 2px solid white;   
   }
   
+  .right {
+    position: relative;
+    text-align: right;
+   
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    float: right;
+    right: 20px;
+  }
+  
+  .right::before {
+    content: '';
+    position: absolute;
+    visibility: visible;
+    top: -1px;
+    right: -10px;
+    border: 10px solid transparent;
+    border-top: 10px solid #ccc;
+  }
+  
+  .right::after {
+    content: '';
+    position: absolute;
+    visibility: visible;
+    top: 0px;
+    right: -8px;
+    border: 10px solid transparent;
+    clear: both;
+  }
+  
+
+  .right1 {
+    position: relative;
+   
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid #b3bcff;
+    float: right;
+   
+  }
+  .right1::before {
+    content: '';
+    position: absolute;
+    visibility: visible;
+    top: -1px;
+    left: -10px;
+    border: 10px solid transparent;
+    border-top: 10px solid #b3bcff;
+  }
+  
+  
+  .right1::after {
+    content: '';
+    position: absolute;
+    visibility: visible;
+    top: 0px;
+    left: -8px;
+    border: 10px solid transparent;
+    clear: both;
+  }
+
+  @media screen and (max-width:737px){
+    .msgstructure{
+      flex-direction: column !important;
+     align-items: start !important;
+     margin-left: 17px !important;
+    }
+    .msgstructure1{
+      flex-direction: column !important;
+      margin-right: 5px !important;
+    }
+    .messagesFromMe{
+      margin-left: auto !important;
+    }
+    .datemsg{
+      margin-right: 3px !important;
+    }
+    .datemsg1{
+      margin-left: 3px !important;
+    }
+}

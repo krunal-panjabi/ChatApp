@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GroupChatComponent } from '../chat/group-chat/group-chat.component';
 import { PrivateChatsComponent } from '../chat/private-chats/private-chats.component';
@@ -11,8 +12,9 @@ import { UsersService } from '../users.service';
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.css']
 })
+
 export class NotificationComponent {
-constructor(public service:UsersService,public msgservice:MessageService,private modalService:NgbModal,private dialogRef: MatDialogRef<NotificationComponent>){}
+constructor(public service:UsersService,public msgservice:MessageService,private modalService:NgbModal, private router: Router,private dialogRef: MatDialogRef<NotificationComponent>){}
 toggle(msg:any){
   const divClass = '.user-' + msg;
   const selecteddiv = document.querySelector(divClass) as HTMLElement;
@@ -25,7 +27,7 @@ toggle(msg:any){
 }
 
 fortoggleprivatechat(name:string,msgid:any){
-  debugger;
+  this.router.navigateByUrl('/chat');
   this.service.isGroupChat=false;
   this.service.isgeneral=false;
   this.service.toUser=name;
@@ -39,6 +41,7 @@ fortoggleprivatechat(name:string,msgid:any){
   this.dialogRef.close();
 }
 fortogglegrpchat(name:string,msgid:any){
+  this.router.navigateByUrl('/chat');
   this.service.isgeneral=false;
   this.service.isGroupChat=true;
   this.service.loadgrpchats(name);
@@ -56,6 +59,56 @@ fortogglegrpchat(name:string,msgid:any){
   modalRef.componentInstance.GroupName=name;
   modalRef.componentInstance.msgid=msgid;
   this.dialogRef.close();
+}
+AcceptReq(name:string,msgid:any)
+{
+  debugger;
+  const divClass = '.notimessage-' + msgid;
+  const selecteddiv = document.querySelector(divClass) as HTMLElement;
+
+  const divClass1 = '.acceptmessage-' + msgid;
+  const selecteddiv1 = document.querySelector(divClass1) as HTMLElement;
+  
+  selecteddiv.classList.add('d-none');
+  selecteddiv1.classList.remove('d-none');
+
+  this.service.Accepted(name,msgid).subscribe({
+    next:(data)=>{
+      this.service.acceptrequest(name);
+      this.service.getAllUsers().subscribe({
+        next:(data)=>{
+          this.service.offlineUsers=data;
+          this.service.usernamelist=data;
+        }
+     
+      });
+      
+    }
+  })
+}
+RejectReq(name:string,msgid:any)
+{
+  const divClass = '.notimessage-' + msgid;
+  const selecteddiv = document.querySelector(divClass) as HTMLElement;
+
+  const divClass1 = '.declinemessage-' + msgid;
+  const selecteddiv1 = document.querySelector(divClass1) as HTMLElement;
+  
+  selecteddiv.classList.add('d-none');
+  selecteddiv1.classList.remove('d-none');
+
+  this.service.Declined(name,msgid).subscribe({
+    next:(data)=>{
+      this.service.declinerequest(name);
+      this.service.getAllUsers().subscribe({
+        next:(data)=>{
+          this.service.offlineUsers=data;
+          this.service.usernamelist=this.service.offlineUsers;
+        }
+      });
+      
+    }
+  })
 }
 // openGroupChat(GroupName:string){
 //   this.service.isgeneral=false;

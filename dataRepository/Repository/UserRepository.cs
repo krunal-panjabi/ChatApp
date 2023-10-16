@@ -6,7 +6,6 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using ViewModels.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Identity.Client;
@@ -17,8 +16,6 @@ namespace dataRepository.Repository
     public class UserRepository : IUserRepository
     {
         public string connections = "server=192.168.2.59\\SQL2019;Database=AKchat;User Id=sa;Password=Tatva@123;Encrypt=False";
-       
-
         public int registerrepo(UserVM model)
         {
             using (SqlConnection con = new SqlConnection(connections))
@@ -31,8 +28,6 @@ namespace dataRepository.Repository
                 con.Open();
                 int value= cmd.ExecuteNonQuery();
                 return value;
-
-               
             }
         }
         public int DisLikeEntryGrp(LikeVm model)
@@ -116,6 +111,7 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@message", model.Content);
                 cmd.Parameters.AddWithValue("@isread", model.isread);
                 cmd.Parameters.AddWithValue("@isdeliever", model.isdelievered);
+                cmd.Parameters.AddWithValue("@type", model.type);
                 con.Open();
                 int i = cmd.ExecuteNonQuery();
             }
@@ -129,6 +125,7 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@fromname", model.from);
                 cmd.Parameters.AddWithValue("@grpname", model.grpname);
                 cmd.Parameters.AddWithValue("@message", model.content);
+                cmd.Parameters.AddWithValue("@type", model.type);
                 con.Open();
                 int i = cmd.ExecuteNonQuery();
             }
@@ -221,13 +218,14 @@ namespace dataRepository.Repository
                 while (rdr.Read())
                 {
                     NotiMsgVm names = new NotiMsgVm
-                    {
-                        content = rdr["Message"].ToString(),
+                    { //rdr["stocks"] != DBNull.Value ? Convert.ToInt64(rdr["stocks"]) : 0,
+                        content =  rdr["Message"].ToString(),
                         status= Convert.ToInt32(rdr["status"]),
                         name = rdr["name"].ToString(),
                         id = Convert.ToInt32(rdr["id"]),
-                        msgid = Convert.ToInt32(rdr["msgid"]),
-                        usename = rdr["usename"].ToString()
+                        msgid = rdr["msgid"]!= DBNull.Value?Convert.ToInt32(rdr["msgid"]): 00,
+                        usename = rdr["usename"].ToString(),
+                        answer = Convert.ToInt32(rdr["asnwer"])
                     };
 
                     model.Add(names);
@@ -287,7 +285,7 @@ namespace dataRepository.Repository
             List<AllUsersVm> model = new List<AllUsersVm>();
             using (SqlConnection con = new SqlConnection(connections))
             {
-                SqlCommand cmd = new SqlCommand("GetAllUsers", con);
+                SqlCommand cmd = new SqlCommand("GetAllUsers_copy", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@name", username);
                 con.Open();
@@ -367,7 +365,7 @@ namespace dataRepository.Repository
             return model;
 
         }
-        public List<AllGroupsVm> GetAllGroupsName(string username)
+        public async Task<List<AllGroupsVm>> GetAllGroupsName(string username)
         {
             List<AllGroupsVm> model = new List<AllGroupsVm>();
             using (SqlConnection con = new SqlConnection(connections))
@@ -375,23 +373,27 @@ namespace dataRepository.Repository
                 SqlCommand cmd = new SqlCommand("FetchGrpNamesByUser", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@name", username);
-                con.Open();
-                SqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
+                await con.OpenAsync();
+               // SqlDataReader rdr =await cmd.ExecuteReaderAsync();
+                using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                 {
-                    AllGroupsVm names = new AllGroupsVm
+                    while (await rdr.ReadAsync())
                     {
-                        groupname = rdr["GrpName"].ToString()
-                    };
+                        AllGroupsVm names = new AllGroupsVm
+                        {
+                            groupname = rdr["GrpName"].ToString()
+                        };
 
-                    model.Add(names);
+                        model.Add(names);
+                    }
                 }
-                con.Close();
+                    
+                
             }
             return model;
         }
       
-        public  List<MessageVM> loadprivatechat(string from ,string to)
+        public async Task<List<MessageVM>> loadprivatechat(string from ,string to)
         {
             List<MessageVM> model = new List<MessageVM>();
             using (SqlConnection con = new SqlConnection(connections))
@@ -400,29 +402,31 @@ namespace dataRepository.Repository
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@fromname", from);
                 cmd.Parameters.AddWithValue("@toname", to);
-                con.Open();
-                SqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
+               await con.OpenAsync();
+               using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                 {
-                    MessageVM names = new MessageVM
+                    while (await rdr.ReadAsync())
                     {
-                        From = rdr["fromusername"].ToString(),
-                        To = rdr["tousername"].ToString(),
-                        Content = rdr["message"].ToString(),
-                        time = rdr["FormattedChatTime"].ToString(),
-                        isread = Convert.ToInt32(rdr["isread"]),
-                        isdelievered = Convert.ToInt32(rdr["delievered"]),
-                        messageid = Convert.ToInt32(rdr["messageid"]),
-                        messageLike = Convert.ToInt32(rdr["MessageLike"]),
-                        count = Convert.ToInt32(rdr["count"]),
-                        likename = rdr["likename"].ToString()
-                        //msgid = Convert.ToInt32(rdr["msgid"])
-                    };
+                        MessageVM names = new MessageVM
+                        {
+                            From = rdr["fromusername"].ToString(),
+                            To = rdr["tousername"].ToString(),
+                            Content = rdr["message"].ToString(),
+                            time = rdr["FormattedChatTime"].ToString(),
+                            isread = Convert.ToInt32(rdr["isread"]),
+                            isdelievered = Convert.ToInt32(rdr["delievered"]),
+                            messageid = Convert.ToInt32(rdr["messageid"]),
+                            messageLike = Convert.ToInt32(rdr["MessageLike"]),
+                            count = Convert.ToInt32(rdr["count"]),
+                            likename = rdr["likename"].ToString(),
+                            type = Convert.ToInt32(rdr["msgtype"])
+                            //msgid = Convert.ToInt32(rdr["msgid"])
+                        };
 
-                    model.Add(names);
+                        model.Add(names);
+                    }
+                    con.Close();
                 }
-                con.Close();
-           
             }
             return model;
         }
@@ -450,7 +454,9 @@ namespace dataRepository.Repository
                             messageid = Convert.ToInt32(rdr["messageid"]),
                             count = Convert.ToInt32(rdr["grpcount"]),
                             likename = rdr["likename"].ToString(),
-                            messageLike = Convert.ToInt32(rdr["messagelike"])
+                            messageLike = Convert.ToInt32(rdr["messagelike"]),
+                            type =rdr["msgtype"] != DBNull.Value? Convert.ToInt32(rdr["msgtype"]):0
+                           // rdr["msgid"] != DBNull.Value ? Convert.ToInt32(rdr["msgid"]) : 00,
                         };
 
                         model.Add(names);
@@ -461,7 +467,21 @@ namespace dataRepository.Repository
             }
             return model;
         }
+        public int deletemessage(ResponseVm model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("DeleteMessageById", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@msgid", model.msgid);
+                
+                con.Open();
 
+                int row_count = cmd.ExecuteNonQuery();
+
+                return row_count;
+            }
+        }
         public int profiledata(ProfileVm model)
         {
             using (SqlConnection con = new SqlConnection(connections))
@@ -491,6 +511,38 @@ namespace dataRepository.Repository
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@userName", name);
                 cmd.Parameters.AddWithValue("@imageSrc", photo);
+                con.Open();
+
+                int row_count = cmd.ExecuteNonQuery();
+
+                return row_count;
+            }
+        }
+        public int declinerequest(ResponseVm model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("DeclinedResponse", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@myname", model.myname);
+                cmd.Parameters.AddWithValue("@toname", model.toname);
+                cmd.Parameters.AddWithValue("@msgid", model.msgid);
+                con.Open();
+
+                int row_count = cmd.ExecuteNonQuery();
+
+                return row_count;
+            }
+        }
+        public int acceptrequest(ResponseVm model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("AcceptedResponse", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@myname", model.myname);
+                cmd.Parameters.AddWithValue("@toname", model.toname);
+                cmd.Parameters.AddWithValue("@msgid", model.msgid);
                 con.Open();
 
                 int row_count = cmd.ExecuteNonQuery();

@@ -1,4 +1,6 @@
-
+:root{
+    --main-color: #07f107;
+}
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -26,10 +28,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   /* position: absolute; */
 }
 .modal-dialog {
-    width: 118% !important;
+    width: 85% !important;
+    max-width: 683px !important;
   }
   .modal-content{
-    width:118% !important;
+    width:100% !important;
+    max-width: 683px !important;
   }
   mat-select.forbox .cdk-overlay-pane{
     top: 150px !important;
@@ -43,3 +47,56 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-chip.mat-standard-chip.mat-chip-selected.mat-accent {
     background-color: rgb(25, 135, 84) ;
 }
+.mat-tab-labels{
+    justify-content: space-between !important;
+}
+.mat-ink-bar{
+    margin-bottom: 10px !important;
+}
+
+/* Customize the scrollbar track */
+::-webkit-scrollbar{
+    width: 12px; 
+  }
+  
+  ::-webkit-scrollbar-track{
+    background-color: white; 
+  }
+  
+  
+  ::-webkit-scrollbar-thumb{
+    background-color: grey; 
+    border-radius: 6px; 
+    border: 3px solid white; 
+  }
+  
+ 
+  ::-webkit-scrollbar-thumb:hover{
+    background-color: rgb(0, 92, 50); 
+  }
+  @media screen and (max-width: 576px) {
+    .modal-content{
+        margin: auto !important;
+      }
+      .modal-dialog{
+        margin-inline:auto !important ;
+      }
+  }
+  /* @media screen and (max-width: 720px) {
+    .modal-content{
+        width: 127% !important;
+        margin-left: -74px !important;
+      }
+  }
+  @media screen and (max-width: 845px) {
+    .modal-content{
+        width: 128% !important;
+        margin-left: -88px !important;
+      }
+  }
+  @media screen and (max-width: 986px) {
+    .modal-content{
+        width: 128% !important;
+        margin-left: -63px !important;
+      }
+  } */

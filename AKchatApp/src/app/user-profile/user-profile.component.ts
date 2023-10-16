@@ -72,7 +72,12 @@ export class UserProfileComponent  implements OnInit{
         }
       });
 
-      this.service.getAllUsers();
+      this.service.getAllUsers().subscribe({
+        next:(data)=>{
+          this.service.offlineUsers=data;
+          this.service.usernamelist=this.service.offlineUsers;
+        }
+      });
       this.service.myName = this.empForm.get('name')?.value;
 
       this.service.uploadfile(this.file, this.service.myName).subscribe(

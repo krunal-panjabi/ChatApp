@@ -7,10 +7,22 @@
                 (input)="onTyping()">
             </div>
            
-            <div class="col-2">
-                <div class="d-grid">
-                    <button  class="btn btn-dark btn-block" type="submit" (click)="sendMessage()">send</button>
+            <div class="col-2 btndiv d-flex">
+                <div class="d-grid me-2">
+                    <button  class="btn btn-dark btn-block senbtn" type="submit" (click)="sendMessage()">send</button>
                 </div>
+                <div>
+                    <label for="image"> <img class="inputimg" src='/assets/img/upload.png' ></label>
+                    <input id="image" class="d-none" type="file" (change)="onselect($event)" style="opacity: 0;"/>
+                </div>
+                <!-- <div class="position-relative">
+                    <div class="position-absolute" >
+                       
+                    </div>
+                    <div class="position-absolute">
+                        <input type="file" (change)="onselect($event)" style="opacity: 0;"/>
+                    </div>
+                </div> -->
             </div>
         </div>
     

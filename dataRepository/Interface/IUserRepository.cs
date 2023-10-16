@@ -17,8 +17,8 @@ namespace dataRepository.Interface
         public List<AllUsersVm> GetAllOfflineUsers();
         public List<AllUsersVm> GetAllUsers(string username);
         public void storechat(MessageVM model);
-        public List<MessageVM> loadprivatechat(string from, string to);
-        public List<AllGroupsVm> GetAllGroupsName(string username);
+        public Task<List<MessageVM>> loadprivatechat(string from, string to);
+        public Task<List<AllGroupsVm>> GetAllGroupsName(string username);
         public void storegroupchat(GroupMsgVm model);
         public Task<List<MessageVM>> loadgroupchat(string grpname, string name);
         public List<AllUsersVm> loadmembers(string gpname);
@@ -37,5 +37,10 @@ namespace dataRepository.Interface
         public int LikeEntryGrp(LikeVm model);
         public List<AllUsersVm> GetLikeMembersGrp(int msgid);
         public int selectedusers(string userlist, string name);
+        public int acceptrequest(ResponseVm model);
+        public int declinerequest(ResponseVm model);
+        public int deletemessage(ResponseVm model);
+
+
     }
 }

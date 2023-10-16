@@ -1,3 +1,4 @@
+
 .mainBody{
     height: 700px;
 }
@@ -7,7 +8,7 @@
 .onlinesign{
     height: 10px;
     width: 10px;
-    background: #07f107;
+    background: var(--main-color);
     border-radius: 25px;
 }
 
@@ -25,10 +26,13 @@
     border: solid gray 1px;
     border-radius: 8px;
 }
+.card-body{
+    overflow-y: auto;
+}
 
 .user-list{
     height: 700px;
-    overflow-y: auto;
+ 
     border:0px;
     box-shadow: 3px 3px 13px -3px #888888;
 
@@ -37,6 +41,7 @@
 .g-chat{
     border:0px;
     box-shadow: 3px 3px 13px -3px #888888;
+    height:749px;
 }
 .btn-group{
     padding: 5px;
@@ -80,3 +85,27 @@
 /* .cdk-overlay-pane{
     top:500px !important;
 } */
+@media screen and (max-width: 461px) {
+   .usertag{
+    font-size: 18px;
+    margin-top: auto;
+    margin-bottom: auto;
+   }
+   .cgroup{
+    font-size: 13px;
+   }
+  }
+@media screen and (max-width: 1020px) {
+    .mainBody {
+      display: none !important;
+    }
+    .tabsbody{
+        display: block !important;
+    }
+    .g1-chat{
+        height: 661px;
+        width: 90%;
+        margin: auto;
+        margin-top: 7px;
+    }
+  }

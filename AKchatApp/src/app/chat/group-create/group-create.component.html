@@ -29,8 +29,8 @@
                             <input placeholder="Add User..." #userInput [matChipInputFor]="chipList" 
                               [matAutocomplete]="auto" (matChipInputTokenEnd)="addUser($event)"/>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedUser($event)">
-                              <mat-option *ngFor="let user of service.offlineUsers" [value]=" user.username">
-                                {{  user.username  }}
+                              <mat-option *ngFor="let user of userslist" [value]=" user">
+                                {{user}}
                               </mat-option>
                             </mat-autocomplete>
                           </mat-form-field>

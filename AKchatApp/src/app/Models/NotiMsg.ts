@@ -5,4 +5,5 @@ export interface notimsg{
     id?:number;
     msgid?:number;
     usename?:string;
+    answer?:number;
 }
