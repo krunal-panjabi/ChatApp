@@ -21,6 +21,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { MatChipsModule } from '@angular/material/chips';
 import { NotificationComponent } from './notification/notification.component';
+import { PostCommentComponent } from './post-comment/post-comment.component';
+// import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
 //import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
@@ -34,8 +36,8 @@ import { NotificationComponent } from './notification/notification.component';
     UserProfileComponent,
     PhotoGalleryComponent,
     NoConnectionComponent,
-    NotificationComponent
-  ],
+    NotificationComponent,
+      ],
   imports: [
     BrowserModule,
     AppRoutingModule,

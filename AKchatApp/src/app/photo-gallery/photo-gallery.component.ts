@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
 import { GalleryData } from '../Models/galleryData';
+import { MatDialog } from '@angular/material/dialog';
+import { NotificationComponent } from '../notification/notification.component';
+import { PostCommentComponent } from '../post-comment/post-comment.component';
+
 
 @Component({
   selector: 'app-photo-gallery',
@@ -11,7 +15,7 @@ import { GalleryData } from '../Models/galleryData';
 export class PhotoGalleryComponent {
 
   galleryData: GalleryData[] = [];
-  constructor(public service: UsersService, private router: Router) { }
+  constructor(public service: UsersService, private router: Router,private matdialog: MatDialog) { }
 
   ngOnInit(): void {
 
@@ -41,11 +45,29 @@ export class PhotoGalleryComponent {
 
 
 toggleHeartClass(id:any) {
-  const myName = this.service.myName;
+  // const myName = this.service.myName;
  
+  const myName = this.service.myName;
+  this.service.sendGalleryData(id,myName).subscribe({
+    next:(data)=>{
+      this.fetchGalleryData();
+    },
+    error:(error)=>{
+      console.log('error ')
+    }
 
 
+})
+}
 
+comment(postId : any){
+  this.matdialog.open(PostCommentComponent,{
+    width:'500px',  
+    height : '400px',   
+    // position:{top:'48px',right:'50px', },
+    panelClass: 'custom-dialog-container',
+    data:{postId}
+   })
 }
 
 

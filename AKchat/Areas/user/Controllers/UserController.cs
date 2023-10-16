@@ -427,6 +427,32 @@ namespace AKchat.Areas.user.Controllers
             }
         }
 
+        [HttpPost("postComment")]
+        public IActionResult postComment([FromBody] PostComments model)//company register
+        {
+
+            var count_value = _userrepo.postComment(model);
+            if (count_value > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
+
+
+        //[Authorize]
+        [HttpGet("GetPostComments")]
+        public List<PostComments> GetPostComments(int postId)
+        {
+            var comments = _userrepo.GetPostComments(postId);
+            return comments;
+        }
+
+
+
         [Authorize]
         [HttpGet("GetGallery")]
         public List<GalleryVm> GetGallery(string myName)
@@ -434,6 +460,84 @@ namespace AKchat.Areas.user.Controllers
             var gallery = _userrepo.GetGalleryData(myName);
             return gallery;
         }
+
+        [Authorize]
+        [HttpPost("UploadStoryData")]
+        public IActionResult UploadStoryData([FromBody] StoryVm model)//company register
+        {
+
+            var count_value = _userrepo.UploadStoryData(model.caption, model.imgstr, model.uploadedUser);
+            if (count_value > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
+
+
+        [Authorize]
+        [HttpGet("GetStory")]
+        public List<AllStoryVm> GetStory()
+        {
+            var story = _userrepo.GetStory();
+            return story;
+        }
+
+
+
+        //[HttpGet("StoryOfUser")]
+        //public IActionResult StoryOfUser(StoryVm model)
+        //{
+        //    var post = _userrepo.StoryOfUser(model);
+        //    if (post > 0)
+        //    {
+        //        return Ok(true);
+        //    }
+        //    else
+        //    {
+        //        return Ok(false);
+        //    }
+        //}
+
+
+
+
+
+        [HttpGet("StoryOfUser")]
+        public StoryVm  StoryOfUser(int userId)
+        {
+             var story = _userrepo.StoryOfUser(userId);
+
+            return story;
+        }
+
+
+        [HttpPost("deleteStory")]
+        public IActionResult deleteStory([FromBody]int userid)
+        {
+            var post = _userrepo.deleteStory(userid);
+            if (post > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
 
         private string CreateJwt(string name)
         {

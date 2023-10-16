@@ -17,6 +17,11 @@ import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 // import { ToastrModule } from 'ngx-toastr';
+import { StoryComponent } from '../story/story.component';
+import { StoryViewComponent } from '../story-view/story-view.component';
+import { StoryUploadComponent } from '../story-upload/story-upload.component';
+import { PostCommentComponent } from '../post-comment/post-comment.component';
+
 
 @NgModule({
   declarations: [
@@ -28,7 +33,11 @@ import { MatIconModule } from '@angular/material/icon';
     GroupCreateComponent,
     GroupChatComponent,
     DialogBodyComponent,
-    ChatInputGeneralComponent
+    ChatInputGeneralComponent,
+    StoryComponent,
+    PostCommentComponent,
+    StoryUploadComponent,
+    StoryViewComponent
   ],
   imports: [
     CommonModule,
