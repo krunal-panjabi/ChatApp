@@ -88,6 +88,9 @@ export class UsersService {
     return this.http.get<PostComments[]>(`${environment.apiUrl}User/GetPostComments?postId=`+postId);
   }
 
+  
+
+
 
   
   getGalleryData(myName :string): Observable<GalleryData[]> {
@@ -583,11 +586,42 @@ export class UsersService {
       this.privateMessages = [];
       this.modalService.dismissAll();
     });
+
+
+    // this.chatConnection.on('LiveStory',()=>{
+    //   this.getPostComments();
+    // })
+
+
+     this.chatConnection.on('LiveStory',()=>{
+      alert("updatestory")
+      //  this.getStoryData();
+      this.getStoryData().subscribe(data => {
+        this.allStories = data;
+
+        alert("hahaha"+this.allStories);
+      });
+     })
+
+
+
+
   }
 
 
 
-  
+  // async CommentLive(){
+  //   return this.chatConnection?.invoke('CommentLive')
+  //   .catch(error => console.log(error));
+  // }
+
+
+  async LiveStory(){
+       return this.chatConnection?.invoke('LiveStory')
+       .catch(error => console.log(error));
+     }
+
+
   stopChatConnection() {
     this.chatConnection?.stop().catch(error => console.log(error));
   }

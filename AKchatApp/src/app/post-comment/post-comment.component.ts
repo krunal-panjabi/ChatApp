@@ -60,6 +60,8 @@ export class PostCommentComponent implements OnInit{
         console.log(response);
         this.commentForm.reset();
         this.getComments();
+        // this.service.CommentLive();
+
       },
       error: (error) => {
         console.log(error);

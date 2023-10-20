@@ -12,12 +12,13 @@
 }
 
 .addstory{
-    position: absolute;
-    right: 5px;
+    /* position: absolute;
+    right: 5px; */
     width: fit-content;
     padding: 0px;
     border-radius: 50%;
     border: 0px;
+    background: transparent;
 }
 
 .tr{

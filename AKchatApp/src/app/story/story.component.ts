@@ -58,6 +58,8 @@
       this.service.deleteMyStory(userid).subscribe({
         next:()=>{
           this.ngOnInit();
+          this.service.LiveStory();
+
         }
       
     })

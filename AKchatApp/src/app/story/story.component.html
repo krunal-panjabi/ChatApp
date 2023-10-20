@@ -1,44 +1,86 @@
-<div class="story mt-2" style="height:600px;">
-    <div class=" stitle" ><p style="font-size: x-large;font-weight: 500;margin: 0px;">Stories</p></div>
-    <div class="d-flex align-items-center" style="height:50px;background-color: rgb(238, 238, 238);position: relative;">
-    
-        <div class="ms-3" style="height: 40px;width: 40px;border-radius: 50%;background-color: brown;"></div>
-        <p class="m-0 ms-2">My Story</p>
-        <button class="addstory" type="button"  (click)="openDialog('300ms', '150ms')"><i class="bi bi-plus-circle" style="font-size: x-large;"></i></button>
+<div class="story mt-2" style="height: 600px">
+  <div class="stitle" style="display: flex;justify-content: space-around;">
+    <p style="font-size: x-large; font-weight: 500; margin: 0px">Stories</p>
+    <button class="addstory" type="button" (click)="openDialog('300ms', '150ms')">
+      <i class="bi bi-plus-circle" style="font-size: x-large; color: white;"></i>
+    </button>
+  </div>
+  <div class="d-flex align-items-center" *ngFor="let story of service.allStories"
+    style="background-color: rgb(238, 238, 238);position: relative;">
+
+    <div *ngIf="story.uploadedUser == service.myName"
+      style="display: flex;justify-content: space-between;align-items: center;height: 50px;">
+
+
+      <button class="d-flex align-items-center" style="
+          width: -webkit-fill-available;
+          background-color: transparent;
+          border: 0px;
+        " (click)="bb(story.userid, '300ms', '150ms')">
+        <div class="ms-3" style="
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            background-color: white;
+            border: solid red 4px;
+          ">
+          <img style="height: 33px; width: 33px; border-radius: 50%"
+            [src]="story.userimg ? story.userimg : '/assets/img/profile.png'" alt="" />
+        </div>
+        <p class="m-0 ms-2" *ngIf="story.uploadedUser == service.myName">
+          My Story
+        </p>
+      </button>
+
+      <div class="ms-2" *ngIf="story.uploadedUser == service.myName">
+        <button style="background-color: transparent; border: 0px" class="m-0 b-0 p-0"
+          (click)="deleteStory(story.userid)">
+          <i class="bi bi-trash3-fill me-1 text-danger"></i>
+        </button>
+      </div>
+
+      <!-- <button class="addstory" type="button" (click)="openDialog('300ms', '150ms')">
+        <i class="bi bi-plus-circle" style="font-size: x-large"></i>
+      </button> -->
+
     </div>
-    <ng-container  *ngFor="let story of service.allStories" >
-    <div class="d-flex align-items-center mt-3" style="height:50px;" *ngIf="story.uploadedUser !== service.myName">
-        <button class="d-flex align-items-center" style="width: -webkit-fill-available;background-color: transparent;border: 0px;" (click)="bb(story.userid,'300ms', '150ms')">
-        <div class="ms-3" style="height: 40px;width: 40px;border-radius: 50%;background-color: white;border: solid rgb(100, 255, 100) 4px;">
-            <img style="height: 33px;width: 33px;border-radius: 50%;" [src]="story.userimg ? story.userimg : '/assets/img/profile.png'" alt="">
+
+
+
+  </div>
+  <ng-container *ngFor="let story of service.allStories">
+    <div class="d-flex align-items-center mt-3" style="height: 50px" *ngIf="story.uploadedUser !== service.myName">
+      <button class="d-flex align-items-center" style="
+          width: -webkit-fill-available;
+          background-color: transparent;
+          border: 0px;
+        " (click)="bb(story.userid, '300ms', '150ms')">
+        <div class="ms-3" style="
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            background-color: white;
+            border: solid rgb(100, 255, 100) 4px;
+          ">
+          <img style="height: 33px; width: 33px; border-radius: 50%"
+            [src]="story.userimg ? story.userimg : '/assets/img/profile.png'" alt="" />
         </div>
-        <p class="m-0 ms-2" *ngIf="story.uploadedUser !== service.myName">{{story.uploadedUser}}</p>
-          </button>
+        <p class="m-0 ms-2" *ngIf="story.uploadedUser !== service.myName">
+          {{ story.uploadedUser }}
+        </p>
+      </button>
 
-          <!-- <ng-container *ngIf="story.uploadedUser !== service.myName">
-          <button style="background-color: red;border: 0px;" class="m-0 b-0 p-0"   (click)="deleteStory(story.userid)"><i class="bi bi-trash3-fill text-primary" ></i></button>
-        </ng-container> -->
+      <div *ngIf="isMyStory(story.uploadedUser)">
+        <button style="background-color: transparent; border: 0px" class="m-0 b-0 p-0"
+          (click)="deleteStory(story.userid)">
+          <i class="bi bi-trash3-fill me-1 text-danger"></i>
+        </button>
+      </div>
 
-
-        
-        <div *ngIf= isMyStory(story.uploadedUser)>
-            <button style="background-color: transparent; border: 0px;" class="m-0 b-0 p-0" (click)="deleteStory(story.userid)">
-              <i class="bi bi-trash3-fill me-1 text-danger"></i>
-            </button>
-        </div>
-          
-
-
-          <!-- <div>{{story.userid}}</div> -->
-          <!-- <div>{{service.myName}}</div>
-          <div>{{story.uploadedUser}}</div> -->
-
-          <hr>
-        </div>
-    </ng-container>
-    <!-- <hr class="p-0 m-0"> -->
-
-
+      <hr />
+    </div>
+  </ng-container>
+  <!-- <hr class="p-0 m-0"> -->
 </div>
 
-                                            <!-- modal -->
+<!-- modal -->
