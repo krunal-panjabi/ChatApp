@@ -7,12 +7,14 @@ import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
 import { UploadGalleryComponent } from './upload-gallery/upload-gallery.component';
 import { NoConnectionComponent } from './no-connection/no-connection.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 // import { StoryComponent } from './story/story.component';
 
 const routes: Routes = [
   { path: '', component: LoginPageComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'register', component: RegisterationPageComponent },
+  { path: 'forget-password', component: ForgetPasswordComponent },
   { path: 'user-profile', component: UserProfileComponent,canActivate:[AuthGuard] },
   { path: 'gallery', component: PhotoGalleryComponent,canActivate:[AuthGuard] },
   { path: 'upload-gallery', component: UploadGalleryComponent,canActivate:[AuthGuard] },

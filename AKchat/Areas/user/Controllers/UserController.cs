@@ -407,6 +407,29 @@ namespace AKchat.Areas.user.Controllers
             }
         }
 
+
+
+    
+        [HttpPost("sendOtp")]
+        public IActionResult sendOtp([FromBody] string toemail)//company register
+        {
+
+            return null;
+
+            //var count_value = _userrepo.creategroup(email,);
+            //if (count_value > 0)
+            //{
+            //    return Ok(true);
+            //}
+            //else
+            //{
+            //    return Ok(false);
+            //}
+        }
+
+
+
+
         [Authorize]
         [HttpPost("UploadGalleryData")]
         public IActionResult UploadGalleryData([FromBody] GalleryVm model)//company register

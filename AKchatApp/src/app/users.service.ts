@@ -132,6 +132,15 @@ getStoryData(): Observable<StoryView[]> {
     // alert("gerjg"+ userid);
     return this.http.post(`${environment.apiUrl}User/deleteStory`, userid);
   }
+
+
+  forgetPassword(email: string): Observable<any> {
+    const toemail=email
+    return this.http.post(`${environment.apiUrl}User/sendOtp`, toemail);
+  }
+
+
+
  
   CheckName(username: string): Observable<any> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
