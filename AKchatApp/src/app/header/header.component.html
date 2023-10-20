@@ -1,9 +1,15 @@
 <nav class="navbar navbar-dark" [ngClass]="service.defaulttheme">
   <div class="row container-fluid" *ngIf="!service.myName">
-    <div class="col-7 d-flex justify-content-end"> <span class="navbar-brand mb-0 h1">Chat Application</span></div>
-    <div class="col-5 d-flex justify-content-end">
-      <a class="btn btn-danger mx-1 " (click)="logout()">Home</a>
+
+    <div class="col-7 d-flex" style="justify-content: space-between;">
+      <span class="text-center navbar-brand mb-0" style="font-family: cursive;color: white; font-size: x-large;">AK
+        <span style="color: yellow;">Chat</span>
+      </span>
+      <span class="navbar-brand mb-0 h1">Chat Application</span>
     </div>
+    <!-- <div class="col-5 d-flex justify-content-end">
+      <a class="btn btn-danger mx-1 " (click)="logout()">Home</a>
+    </div> -->
   </div>
 
 
@@ -13,7 +19,7 @@
     <div class="col-2 col-sm-4 col-md-6">
       <div *ngIf="!isChatRoute && extractedWord !== 'chat'">
         <button class="btn btn-warning btn-sm" type="button" [routerLink]="['/chat']"><i class="bi bi-arrow-left"></i>
-        <span class="d-none d-sm-inline-flex">  &nbsp; Back to Chat</span>
+          <span class="d-none d-sm-inline-flex"> &nbsp; Back to Chat</span>
         </button>
       </div>
     </div>
@@ -64,7 +70,7 @@
           </span>
         </div>
       </div>
-   
+
       <div class="body togglebody d-none">
         <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
         <label for="openSidebarMenu" class="sidebarIconToggle">
@@ -92,7 +98,7 @@
           </div>
         </div>
       </div>
-   
+
     </div>
   </div>
 
