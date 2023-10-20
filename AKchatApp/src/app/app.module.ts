@@ -22,6 +22,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { MatChipsModule } from '@angular/material/chips';
 import { NotificationComponent } from './notification/notification.component';
 import { PostCommentComponent } from './post-comment/post-comment.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 // import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
 //import { MatChipsModule } from '@angular/material/chips';
 
@@ -37,6 +38,7 @@ import { PostCommentComponent } from './post-comment/post-comment.component';
     PhotoGalleryComponent,
     NoConnectionComponent,
     NotificationComponent,
+    ForgetPasswordComponent
       ],
   imports: [
     BrowserModule,
