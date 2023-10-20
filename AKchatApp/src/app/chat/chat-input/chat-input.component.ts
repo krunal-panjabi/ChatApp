@@ -55,26 +55,10 @@ export class ChatInputComponent implements OnInit, OnDestroy, AfterViewInit, OnC
   }
 
   ngOnDestroy(): void {
-    // $('#mText').emojioneArea({
-    //   pickerPosition:'right',
-    //   destroy:true
-    // });
-
   }
   ngOnChanges(changes: SimpleChanges): void {
-    // if(this.content.trim()!="")
-    // {
-    //   this.onTyping();
-    // }
   }
   ngAfterViewInit(): void {
-    //   const mytext=this.el.nativeElement.querySelector('#mText');
-    // $(mytext).emojioneArea({
-    //   pickerPosition:'right'
-    // })
-    // $(this.messageEditor.nativeElement).emojioneArea({
-    //   pickerPosition:'right'
-    // })
   }
 
   ngOnInit(): void {

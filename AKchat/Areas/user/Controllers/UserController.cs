@@ -221,14 +221,11 @@ namespace AKchat.Areas.user.Controllers
         }
         [Authorize]
         [HttpGet("GetAllOfflineUsers")]
-
         public List<AllUsersVm> GetAllOfflineUsers()
         {
             var users = _userrepo.GetAllOfflineUsers();
             return users;
         }
-
-
         [Authorize]
         [HttpGet("GetOfflineUsers")]
         public List<AllUsersVm> GetAllUsers(string username)
@@ -278,7 +275,6 @@ namespace AKchat.Areas.user.Controllers
             }
 
         }
-
         [Authorize]
         [HttpGet("GetLikeMembers")]
         public IActionResult GetLikeMmbers(int msgid)
@@ -451,8 +447,6 @@ namespace AKchat.Areas.user.Controllers
             return comments;
         }
 
-
-
         [Authorize]
         [HttpGet("GetGallery")]
         public List<GalleryVm> GetGallery(string myName)
@@ -465,7 +459,6 @@ namespace AKchat.Areas.user.Controllers
         [HttpPost("UploadStoryData")]
         public IActionResult UploadStoryData([FromBody] StoryVm model)//company register
         {
-
             var count_value = _userrepo.UploadStoryData(model.caption, model.imgstr, model.uploadedUser);
             if (count_value > 0)
             {

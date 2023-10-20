@@ -12,7 +12,6 @@
                                 style="font-size: x-large;color: white;"></i></div>
                     </div>
                 </div>
-
                 <div class="div1 d-flex justify-content-between">
                     <mat-card-content class="d-flex flex-column half-size">
                         <label>Name</label>
@@ -29,8 +28,6 @@
                         </mat-form-field>
                     </mat-card-content>
                 </div>
-
-
                 <div class="div1 d-flex justify-content-between">
                     <mat-card-content class="d-flex flex-column mb-4 content-with-border half-size">
                         <div class="d-flex">
@@ -42,7 +39,6 @@
                             </mat-radio-group>
                         </div>
                     </mat-card-content>
-
                     <mat-card-content class="d-flex flex-column content-with-border half-size">
                         <div class="d-flex">
                             <label>Status :</label>
@@ -50,26 +46,20 @@
                                 <mat-radio-button class="ms-4" value="Single">Single</mat-radio-button>
                                 <mat-radio-button class="ms-4" value="Married">Married</mat-radio-button>
                                 <mat-radio-button class="ms-4" value="Prefer Not To Say">Prefer Not To
-                                    Say</mat-radio-button>
+                                    Say
+                                </mat-radio-button>
                             </mat-radio-group>
                         </div>
-
                     </mat-card-content>
                 </div>
-
                 <div class="div1 d-flex justify-content-between">
-
                     <mat-card-content class="d-flex flex-column half-size">
                         <label>Phone Number</label>
                         <mat-form-field appearance="outline">
-
                             <mat-label>Phone Number</mat-label>
                             <input matInput formControlName="phonenumber">
                         </mat-form-field>
-
                     </mat-card-content>
-
-
                     <mat-form-field class="date half-size">
                         <div>
                             <label>Choose Your Birth date :</label>
@@ -79,9 +69,7 @@
                         <mat-datepicker-toggle class="date-toggle" matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
-
                 </div>
-
                 <mat-card-content class="d-flex flex-column">
                     <label>About me</label>
                     <mat-form-field appearance="outline">
@@ -89,10 +77,7 @@
                         <mat-label>About Me</mat-label>
                         <input matInput formControlName="aboutme">
                     </mat-form-field>
-
                 </mat-card-content>
-
-
                 <mat-card-content class="d-flex justify-content-center">
                     <button mat-raised-button color="primary" class="w-50" type="submit">Save</button>
                 </mat-card-content>
@@ -101,3 +86,5 @@
         </form>
     </div>
 </div>
+
+  

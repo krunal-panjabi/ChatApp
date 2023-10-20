@@ -108,3 +108,7 @@ export class UserProfileComponent  implements OnInit{
       reader.readAsDataURL(this.file);
     }
 }
+
+
+
+

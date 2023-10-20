@@ -70,7 +70,7 @@ namespace AKchat.Hubs
 
         }
 
-public async Task CreatePrivateChat(MessageVM message)
+        public async Task CreatePrivateChat(MessageVM message)
         {
          
             string privateGroupName = GetPrivateGroupName(message.From, message.To);
@@ -122,7 +122,6 @@ public async Task CreatePrivateChat(MessageVM message)
             {
                 message.isread = 0;
             }
-              
             message.likename = "other";
             message.messageLike = 0;
             message.count = 0;
@@ -130,7 +129,6 @@ public async Task CreatePrivateChat(MessageVM message)
             message.time = DateTime.Now.ToString("MMM dd, HH:mm");
             string privateGroupName = GetPrivateGroupName(message.From, message.To);
             await Clients.Group(privateGroupName).SendAsync("NewPrivateMessage", message);
-            
         }
 
         public async Task RemovePrivateChat(string from, string to)

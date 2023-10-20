@@ -5,11 +5,11 @@
         <div class="col-lg-2  ">
 
             <div class="d-grid mb-2 cpbtn">
-                <button class="btn  btn-block cgroup" (click)="openGroupModal()" type="button"><i
+                <button [ngClass]="service.defaulttheme" class="btn  btn-block cgroup" (click)="openGroupModal()" type="button"><i
                         class="bi bi-people-fill" style="font-size: x-large;"></i> &nbsp;Create Group</button>
             </div>
             <div class="card user-list border-secondary mb-3">
-                <div class="card-header h3 text-center" style="background-color: rgb(25, 135, 84);color: white;">Users
+                <div class="card-header h3 text-center" [ngClass]="service.defaulttheme" style="color: white;">Users
                 </div>
                 <div class="d-flex align-items-center py-2">
                     <span class="ms-2 pe-2"><i class="bi bi-search"></i></span>
@@ -78,7 +78,7 @@
         </div>
 
         <div class="col-lg-2 ">
-            <div class="pt-2 pb-2 ps-1 pe-1 text-center mb-2" style="background-color: rgb(25, 135, 84); color: white;  border: 2px 2px 2px 2px;   margin-left: auto;
+            <div class="pt-2 pb-2 ps-1 pe-1 text-center mb-2" [ngClass]="service.defaulttheme" style="color: white;  border: 2px 2px 2px 2px;   margin-left: auto;
             border-radius: 10px 10px 10px 10px;">
                 Please Select User You want to Chat
             </div>
@@ -130,13 +130,12 @@
         <mat-tab label="Chats">
             <div class="d-flex justify-content-between p-3 my-3">
                 <div class="w-100 one">
-                    <div class="pt-2 pb-2 ps-1 pe-1 text-center mb-2" style="background-color: rgb(25, 135, 84); color: white;  border: 2px 2px 2px 2px;   margin-left: auto;
+                    <div class="pt-2 pb-2 ps-1 pe-1 text-center mb-2" [ngClass]="service.defaulttheme" style="color: white;  border: 2px 2px 2px 2px;   margin-left: auto;
                         border-radius: 10px 10px 10px 10px;">
                         Please Select User You want to Chat
                     </div>
                     <mat-form-field>
                         <mat-label>Click here to select:</mat-label>
-
                         <mat-select-trigger>
                             <mat-chip-list>
                                 <mat-chip *ngFor="let user of userControl.value" [removable]="true"
@@ -181,7 +180,7 @@
 
             </div>
             <div class="card user-list border-secondary mb-3">
-                <div class="row card-header h3 text-center" style="background-color: rgb(25, 135, 84);color: white;">
+                <div class="row card-header h3 text-center" [ngClass]="service.defaulttheme" style="color: white;">
                     <div class="col-5 col-sm-5"></div>
                     <div class="d-flex col-7 col-sm-7">
                         <span class="usertag">Users</span>

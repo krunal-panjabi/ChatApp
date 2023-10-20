@@ -1,6 +1,6 @@
 <div class="dialogue-container" style="height: 300px;overflow-y: auto;">
     <div class="ps-2 pe-2 pt-2 pb-2 text-white "
-        style="border-bottom: 1px solid black;background-color: rgb(25, 135, 84);">Notifications</div>
+        style="border-bottom: 1px solid black;" [ngClass]="service.defaulttheme">Notifications</div>
 
     <div class="d-flex pt-2 pb-2 ps-2 pe-2 {{'user-'+msg.id}}" *ngFor="let msg of service.notimsgs"
         style="gap: 10px;padding-block: 5px;border-bottom: 1px solid lightgray;">

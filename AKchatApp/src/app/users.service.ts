@@ -57,61 +57,64 @@ export class UsersService {
   privatetypeintiate = false;
   grptypeintiate=false;
   forimagetoggle=false;
+  defaulttheme='headergreen';
   readonly url = "https://localhost:7239/"
   constructor(private http: HttpClient, private modalService: NgbModal, public msgservice: MessageService) { }
 
-  public postData(User: user): Observable<any> {
-    return this.http.post(`${environment.apiUrl}User/Register`, User);
-  }
 
+toggletheme(color:string){
+ // this.defaulttheme=this.defaulttheme==='headergreen'?'headerpurple':'headergreen';
+ this.defaulttheme=color;
+}
 
-  createGroup(grpname: string, members: string): Observable<any> {
-    const group = { groupName: grpname, members: members }
-    return this.http.post<Message[]>(`${environment.apiUrl}User/CreateGroup`, group);
-  }
+getcurrenttheme(){
+  return this.defaulttheme;
+}
 
-  uploadGalleryData(caption: string, imgstr: string, uploadedUser: string): Observable<any> {
-    const galleryData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
-    return this.http.post<Message[]>(`${environment.apiUrl}User/UploadGalleryData`, galleryData);
-  }
+public postData(User: user): Observable<any> {
+  return this.http.post(`${environment.apiUrl}User/Register`, User);
+}
 
+createGroup(grpname: string, members: string): Observable<any> {
+  const group = { groupName: grpname, members: members }
+  return this.http.post<Message[]>(`${environment.apiUrl}User/CreateGroup`, group);
+}
 
-  public uploadPostComment(postComments: PostComments): Observable<any> {
-    // postComments.username = this.myName;
-    // alert("service "+postComments);
-    return this.http.post(`${environment.apiUrl}User/postComment`, postComments);
-  }
+uploadGalleryData(caption: string, imgstr: string, uploadedUser: string): Observable<any> {
+  const galleryData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
+  return this.http.post<Message[]>(`${environment.apiUrl}User/UploadGalleryData`, galleryData);
+}
 
-  getPostComments(postId :number): Observable<PostComments[]> {
-    // alert("hi called"+postId);
+public uploadPostComment(postComments: PostComments): Observable<any> {
+  // postComments.username = this.myName;
+  // alert("service "+postComments);
+return this.http.post(`${environment.apiUrl}User/postComment`, postComments);
+}
 
-    return this.http.get<PostComments[]>(`${environment.apiUrl}User/GetPostComments?postId=`+postId);
-  }
+getPostComments(postId :number): Observable<PostComments[]> {
+  return this.http.get<PostComments[]>(`${environment.apiUrl}User/GetPostComments?postId=`+postId);
+}
 
+getGalleryData(myName :string): Observable<GalleryData[]> {
+  return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
+}
 
-  
-  getGalleryData(myName :string): Observable<GalleryData[]> {
-    return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
-  }
-  
-  uploadStoryData(caption: string, imgstr: string [], uploadedUser: string): Observable<any> {
-    const storyData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
-    return this.http.post(`${environment.apiUrl}User/UploadStoryData`, storyData);
-  }
+uploadStoryData(caption: string, imgstr: string [], uploadedUser: string): Observable<any> {
+  const storyData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
+  return this.http.post(`${environment.apiUrl}User/UploadStoryData`, storyData);
+}
 
-  getStoryData(): Observable<StoryView[]> {
-    return this.http.get<StoryView[]>(`${environment.apiUrl}User/GetStory`);
-  
-  }
+getStoryData(): Observable<StoryView[]> {
+  return this.http.get<StoryView[]>(`${environment.apiUrl}User/GetStory`);
+}
   
   // storyOfUser(userId: any): Observable<any> {
   //   const data = {
   //     userId: userId,
-    
   //   };
   //   return this.http.post(`${environment.apiUrl}User/StoryOfUser`,data);
   // }
-
+  
   storyOfUser(userId: any): Observable<AllStories> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("userId", userId);
@@ -124,14 +127,7 @@ export class UsersService {
     alert("gerjg"+ userid);
     return this.http.post(`${environment.apiUrl}User/deleteStory`, userid);
   }
-
-
-
-
-
-
-
-  
+ 
   CheckName(username: string): Observable<any> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", username);
@@ -145,6 +141,7 @@ export class UsersService {
     }
     return this.http.post(`${environment.apiUrl}User/DisLikemsgbyId`, likeentry)
   }
+
   dislikemessageGrp(mesaageId: any, name: string) {
     const likeentry = {
       msgid: mesaageId,
@@ -152,17 +149,19 @@ export class UsersService {
     }
     return this.http.post(`${environment.apiUrl}User/DisLikemsgbyIdGrp`, likeentry)
   }
-  likemessage(mesaageId: any, name: string): Observable<any> {
-    console.log('messageid in service', mesaageId);
+
+  likemessage(mesaageId: any, name: string): Observable<any> {  
     const likeentry = {
       msgid: mesaageId,
-      name: name
+      name: name,
+      toname:this.toUser
     }
     // const headers = new HttpHeaders({ 'content-type': 'application/json' });
     // const params = new HttpParams().set("msgid", mesaageId);
     // const params = new HttpParams().set("msgid", mesaageId);
     return this.http.post(`${environment.apiUrl}User/LikemsgbyId`, likeentry)
   }
+
   likemessageGrp(mesaageId: any, name: string): Observable<any> {
     const likeentry = {
       msgid: mesaageId,
@@ -329,6 +328,8 @@ export class UsersService {
     return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/LoadGrpMembers`, { 'headers': headers, 'params': params });
   }
 
+
+  
   intitializeloadgrpchats(name: string, gpname: string): Observable<Message[]> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     let params = new HttpParams()
@@ -459,6 +460,7 @@ export class UsersService {
     this.getAllUsers().subscribe({
       next:(data)=>{
         this.offlineUsers=data;
+        console.log("the users",this.offlineUsers);
         this.usernamelist=this.offlineUsers;
       }
     });
@@ -568,7 +570,6 @@ export class UsersService {
     });
 
     this.chatConnection.on('ReceiveCloseTypingIndicator', (name: string) => {
-      alert('close type');
       this.isTyping = false;
     });
     this.chatConnection.on('ReceiveCloseTypingIndicatorGrp',(name:string)=>{

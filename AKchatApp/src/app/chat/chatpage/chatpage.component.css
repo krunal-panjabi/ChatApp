@@ -13,7 +13,7 @@
 }
 
 .cgroup{
-    background-color: yellow;
+   
     color: black;
     font-weight: 500;
 }
@@ -72,7 +72,7 @@
 }
 
 .cgroup{
-    background-color: rgb(25, 135, 84);
+    /* background-color: rgb(25, 135, 84); */
     padding: 0px;
     display: flex;
     align-items: center;

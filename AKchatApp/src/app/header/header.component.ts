@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   imageUrl: string = "/assets/img/upload.png";
 isChatRoute: boolean = false;
 extractedWord :string = '' ;
+isGreenActive: boolean = true;
 
   constructor(public service: UsersService, private router: Router, private route: ActivatedRoute,private matdialog: MatDialog) { }
 
@@ -29,7 +30,11 @@ extractedWord :string = '' ;
       
     }
   }
-
+  
+  toggleDivColors(color:any) {
+    this.isGreenActive = !this.isGreenActive;
+    this.service.toggletheme(color);
+  }
 
 
   profile() {

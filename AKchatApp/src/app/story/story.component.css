@@ -5,7 +5,7 @@
     overflow-y: auto;
 }
 .stitle{
-    width: auto; height: 50px;color: white; background-color:rgb(25, 135, 84);; border-radius: 25px 25px 0px 0px;
+    width: auto; height: 50px;color: white; border-radius: 25px 25px 0px 0px;
     display: flex;
     justify-content: center;
     align-items: center;

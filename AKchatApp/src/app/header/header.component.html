@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark bg-success">
+<nav class="navbar navbar-dark" [ngClass]="service.defaulttheme">
   <div class="row container-fluid" *ngIf="!service.myName">
     <div class="col-7 d-flex justify-content-end"> <span class="navbar-brand mb-0 h1">Chat Application</span></div>
     <div class="col-5 d-flex justify-content-end">
@@ -21,7 +21,15 @@
       <div>
         <span class="navbar-brand mb-0 h1">Chat Application</span>
       </div>
+
       <div class="dropdown mb-0 d-flex">
+
+        <div class="d-flex me-2">
+          <div class="p-1"  [class.defaultgreen]="isGreenActive" [class.bg-white]="!isGreenActive" (click)="toggleDivColors('headergreen')" style="margin:auto;">green</div>
+          <div class="p-1"  [class.defaultpurple]="!isGreenActive" [class.bg-white]="isGreenActive" (click)="toggleDivColors('headerpurple')" style="margin:auto;">purple</div>
+        </div>
+
+
         <div style="display: flex;align-items: center;" class="position-relative" (click)="openNotiDialogue()">
           <i class="bi bi-bell me-2" style="color: white; font-size: 22px;"></i>
           <span
@@ -64,16 +72,21 @@
           <div class="spinner horizontal"></div>
           <div class="spinner diagonal part-2"></div>
         </label>
-        <div id="sidebarMenu">
-          <div class="main-content-wrapper">
-            <div class="d-flex justify-content-center">
+        <div id="sidebarMenu" style="margin:0;padding: 0;">
+          <div class="main-content-wrapper"  style="margin:0;padding: 0;background-color: transparent;">
+            <div [ngClass]="service.defaulttheme" class="d-flex justify-content-center">
               <span><img class="me-2" style="width:20px;height:20px" [src]="this.service.imageUrl" alt=""></span>
               <span><a (click)="profile()">User Profile</a></span>
             </div>
           
-            <div class="d-flex justify-content-center">
+            <div [ngClass]="service.defaulttheme" class="d-flex justify-content-center">
               <span><img class="me-2" style="width:20px;height:20px" src='/assets/img/logo.jpg' alt=""></span>
               <span style="margin-right: 23px;"><a (click)="logout()">LogOut</a></span>
+            </div>
+
+            <div [ngClass]="service.defaulttheme" class="d-flex justify-content-center p-1">
+              <div class="p-1 text-black"  [class.defaultgreen]="isGreenActive" [class.bg-white]="!isGreenActive" (click)="toggleDivColors('headergreen')" >green</div>
+              <div class="p-1 text-black"  [class.defaultpurple]="!isGreenActive" [class.bg-white]="isGreenActive" (click)="toggleDivColors('headerpurple')">purple</div>
             </div>
 
           </div>

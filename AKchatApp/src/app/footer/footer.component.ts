@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-footer',
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
 export class FooterComponent {
 
   currentYear :number = new Date().getFullYear();
-  constructor() { }
+  constructor(public service: UsersService) { }
 
   ngOnInit(): void {
   }

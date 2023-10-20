@@ -31,7 +31,7 @@ namespace dataRepository.Repository
                 return value;
             }
         }
-        public int DisLikeEntryGrp(LikeVm model)
+        public int DisLikeEntryGrp(LikeVm model) 
         {
             using (SqlConnection con = new SqlConnection(connections))
             {
@@ -98,9 +98,6 @@ namespace dataRepository.Repository
                 return i;
             }
         }
-
-
-
         public void storechat(MessageVM model)
         {
             using (SqlConnection con = new SqlConnection(connections))
@@ -423,7 +420,6 @@ namespace dataRepository.Repository
                             type = Convert.ToInt32(rdr["msgtype"])
                             //msgid = Convert.ToInt32(rdr["msgid"])
                         };
-
                         model.Add(names);
                     }
                     con.Close();
@@ -636,7 +632,6 @@ namespace dataRepository.Repository
                     {
                         comment = rdr["comment"].ToString(),
                         commenter = rdr["commenter"].ToString(),
-                      
                     };
                     model.Add(comments);
                 }
@@ -644,9 +639,6 @@ namespace dataRepository.Repository
             }
             return model;
         }
-
-
-
         public int UploadStoryData(string caption, string imgstr, string uploadedUser)
         {
             using (SqlConnection con = new SqlConnection(connections))
