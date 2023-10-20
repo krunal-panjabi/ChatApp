@@ -4,49 +4,61 @@
 <div class="text-center mt-3"><h2 class="text-secondary">Register to use this app</h2></div>
 
 <div class="d-flex justify-content-center mt-5 mainBody">
-    <div class="col-12 col-lg-5">
-        <main class="form-signin">
+    <div class="" style="width:350px;">
+        <main class="form-signin" style="box-shadow: 7px 7px 10px #b7b7b7;">
             <form [formGroup]="userForm"(ngSubmit)="submitForm()" autocomplete="off" class="p-3 border">
-                <h4>Choose your name</h4>
-                <div class="form-floating mb-3">
-                    <input formControlName="username" type="text" class="form-control" placeholder="Name" 
-                    [class.is-invalid]="submitted && userForm.get('username')?.errors"  (focusout)="validateName($event)">
-                    <label for="Name">Name</label>
-                    <span class="text-danger" *ngIf="submitted && userForm.get('username')?.hasError('required')">
-                        Please choose a name
-                    </span>
-                    <span class="text-danger" *ngIf="userForm.get('username')?.invalid">
-                        {{ userForm.get('username')?.errors?.['message'] }}
-                    </span>
-                    <span class="text-danger" *ngIf="submitted && userForm.get('name')?.hasError('maxlength')||
-                    userForm.get('name')?.hasError('minlength')">
-                        Your name must be atleast 3 , and maximum 15 characters
-                    </span>
+                <p class="mb-3 mt-3 text-center" style=" color: grey;">Register a new membership</p>
 
+                <div class="mb-3 d-flex" style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
+                    <i class="bi bi-person-fill"
+                    style="font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"></i>
+                    <input formControlName="username" type="text" style="border: 0px;" class="form-control" placeholder="Name" 
+                    [class.is-invalid]="submitted && userForm.get('username')?.errors"  (focusout)="validateName($event)">
+                    
+                </div>
+                <span class="text-danger" *ngIf="submitted && userForm.get('username')?.hasError('required')">
+                    Please choose a name
+                </span>
+                <span class="text-danger" *ngIf="userForm.get('username')?.invalid">
+                    {{ userForm.get('username')?.errors?.['message'] }}
+                </span>
+                <span class="text-danger" *ngIf="submitted && userForm.get('name')?.hasError('maxlength')||
+                userForm.get('name')?.hasError('minlength')">
+                    Your name must be atleast 3 , and maximum 15 characters
+                </span>
+
+                <div class="mb-3 d-flex" style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
+                    <i class="bi bi-envelope" style="font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"></i>
+                    <input formControlName="email" type="text" class="form-control " style="border: 0px;"
+                    placeholder="Email" [class.is-invalid]="submitted && userForm.get('email')?.errors">
                 </div>
 
+                <span class="text-danger" *ngIf="submitted && userForm.get('email')?.hasError('required')">
+                    Please enter email
+                </span>
 
-                <h4>Enter Password</h4>
+                <span class="text-danger" *ngIf="submitted && userForm.get('email')?.hasError('invalidEmail')">
+                    Not a valid email
+                  </span>
 
-                <div class="form-floating mb-3">
-
-                <input formControlName="password" type="password" class="form-control" placeholder="Password" 
+                <div class="d-flex mb-3" style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
+                    <i class="bi bi-key-fill"
+                    style="font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"></i>
+                <input formControlName="password" type="password" style="border: 0px;" class="form-control" placeholder="Password" 
                 [class.is-invalid]="submitted && userForm.get('password')?.errors">
-                <label for="Password">Password</label>
+                </div>
+
                 <span class="text-danger" *ngIf="submitted && userForm.get('password')?.hasError('required')">
                     Please enter password
                 </span>
-                </div>
 
-              
-
-                <div class="d-grid mt-4 px-4">
+                <div class="d-grid mt-4">
                     <button class="btn btn-primary" type="submit">Register</button>
                 </div>
 
                 <div class="d-flex justify-content-center mt-3">
                     <p class="haveAccount">Already have an account?</p>
-                    <button class="btn btn-secondary btn-sm " [routerLink]="['/']">Log In</button >
+                    <a style="text-decoration: none;" [routerLink]="['/']">Log In</a >
                 
                 </div>
             </form>

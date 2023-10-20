@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
 
@@ -21,6 +21,7 @@ export class RegisterationPageComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       username : ['' ,[Validators.required,Validators.minLength(3),Validators.maxLength(15)]],
       password : ['' ,[Validators.required]],
+      email:['',[Validators.required,this.validateEmail]]
     })
   }
 
@@ -34,7 +35,15 @@ export class RegisterationPageComponent implements OnInit {
       }
     })
   }
+  validateEmail(control: AbstractControl) {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
+    if (control.value && !emailPattern.test(control.value)) {
+      return { invalidEmail: true };
+    }
+
+    return null;
+  }
   submitForm(){
     this.submitted = true ;
 

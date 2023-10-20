@@ -14,7 +14,6 @@
             <form [formGroup]="userForm" (ngSubmit)="submitForm()" autocomplete="off" class="p-3 border">
                 <p class="mb-3 mt-3 text-center" style=" color: grey;">Sign in to enter the chat</p>
 
-
                 <div *ngIf="userForm.errors?.['InvalidUser']" class="alert alert-danger">
                     Invalid Credentials
                 </div>
@@ -31,18 +30,16 @@
                     <input formControlName="username" type="text" class="form-control " style="border: 0px;"
                         placeholder="Name" [class.is-invalid]="submitted && userForm.get('name')?.errors">
                     <!-- <label for="Name">Name</label> -->
-                    <span class="text-danger" *ngIf="submitted && userForm.get('username')?.hasError('required')">
-                        Please choose a name
-                    </span>
-
-                    <span class="text-danger" *ngIf="submitted && userForm.get('username')?.hasError('maxlength')||
-                    userForm.get('username')?.hasError('minlength')">
-                        Your name must be atleast 3 , and maximum 15 characters
-                    </span>
-
-
-
+                  
                 </div>
+                <span class="text-danger" *ngIf="submitted && userForm.get('username')?.hasError('required')">
+                    Please choose a name
+                </span>
+
+                <span class="text-danger" *ngIf="submitted && userForm.get('username')?.hasError('maxlength')||
+                userForm.get('username')?.hasError('minlength')">
+                    Your name must be atleast 3 , and maximum 15 characters
+                </span>
 
 
                 <!-- <h4>Enter Password</h4> -->
@@ -53,10 +50,10 @@
                     <input formControlName="password" type="password" style="border: 0px;" class="form-control"
                         placeholder="Password" [class.is-invalid]="submitted && userForm.get('password')?.errors">
                     <!-- <label for="Password">Password</label> -->
-                    <span class="text-danger" *ngIf="submitted && userForm.get('password')?.hasError('required')">
-                        Please enter password
-                    </span>
                 </div>
+                <span class="text-danger" *ngIf="submitted && userForm.get('password')?.hasError('required')">
+                    Please enter password
+                </span>
 
 
 
@@ -66,14 +63,12 @@
                 <div class="d-flex justify-content-center mt-3">
                     <p class="noAccount">Don't have an account?</p>
                     <a class="" style="text-decoration: none;" [routerLink]="['/register']">Create an account</a>
-
                 </div>
 
                 <div class="d-flex justify-content-center mt-3">
                     <!-- <p class="noAccount">Don't have an account?</p> -->
                     <a class="" style="text-decoration: none;color: red;" [routerLink]="['/register']">Forgot
                         Password ?</a>
-
                 </div>
 
 
