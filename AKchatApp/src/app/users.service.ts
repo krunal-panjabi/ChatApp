@@ -95,14 +95,19 @@ getPostComments(postId :number): Observable<PostComments[]> {
   return this.http.get<PostComments[]>(`${environment.apiUrl}User/GetPostComments?postId=`+postId);
 }
 
-getGalleryData(myName :string): Observable<GalleryData[]> {
-  return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
-}
+  
 
-uploadStoryData(caption: string, imgstr: string [], uploadedUser: string): Observable<any> {
-  const storyData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
-  return this.http.post(`${environment.apiUrl}User/UploadStoryData`, storyData);
-}
+
+
+  
+  getGalleryData(myName :string): Observable<GalleryData[]> {
+    return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
+  }
+  
+  uploadStoryData(caption: string, imgstr: string [], uploadedUser: string): Observable<any> {
+    const storyData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
+    return this.http.post(`${environment.apiUrl}User/UploadStoryData`, storyData);
+  }
 
 getStoryData(): Observable<StoryView[]> {
   return this.http.get<StoryView[]>(`${environment.apiUrl}User/GetStory`);
@@ -124,7 +129,7 @@ getStoryData(): Observable<StoryView[]> {
 
   deleteMyStory(userid: number): Observable<any> {
   
-    alert("gerjg"+ userid);
+    // alert("gerjg"+ userid);
     return this.http.post(`${environment.apiUrl}User/deleteStory`, userid);
   }
  
@@ -584,11 +589,42 @@ getStoryData(): Observable<StoryView[]> {
       this.privateMessages = [];
       this.modalService.dismissAll();
     });
+
+
+    // this.chatConnection.on('LiveStory',()=>{
+    //   this.getPostComments();
+    // })
+
+
+     this.chatConnection.on('LiveStory',()=>{
+      // alert("updatestory")
+      //  this.getStoryData();
+      this.getStoryData().subscribe(data => {
+        this.allStories = data;
+
+        // alert("hahaha"+this.allStories);
+      });
+     })
+
+
+
+
   }
 
 
 
-  
+  // async CommentLive(){
+  //   return this.chatConnection?.invoke('CommentLive')
+  //   .catch(error => console.log(error));
+  // }
+
+
+  async LiveStory(){
+       return this.chatConnection?.invoke('LiveStory')
+       .catch(error => console.log(error));
+     }
+
+
   stopChatConnection() {
     this.chatConnection?.stop().catch(error => console.log(error));
   }

@@ -20,6 +20,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatChipInput, MatChipInputEvent, MatChipList, MatChipsModule} from '@angular/material/chips';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [],
@@ -43,7 +44,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatDatepickerModule,
     MatNativeDateModule,
     MatDialogModule,
-    MatTabsModule
+    MatTabsModule,
+    MatStepperModule
   ]
 })
 export class MaterialModule { }

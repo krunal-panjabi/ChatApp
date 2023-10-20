@@ -54,10 +54,12 @@
     }
 
     deleteStory(userid : number){
-      alert(userid);
+      // alert(userid);
       this.service.deleteMyStory(userid).subscribe({
         next:()=>{
           this.ngOnInit();
+          this.service.LiveStory();
+
         }
       
     })
@@ -114,6 +116,6 @@ isMyStory(storyuser: string): boolean {
       this.service.allStories=[];
     }
     open() {
-      alert("hello");
+      // alert("hello");
     }
   }

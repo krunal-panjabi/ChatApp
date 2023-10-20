@@ -64,6 +64,7 @@ comment(postId : any){
   this.matdialog.open(PostCommentComponent,{
     width:'500px',  
     height : '400px',   
+    
     // position:{top:'48px',right:'50px', },
     panelClass: 'custom-dialog-container',
     data:{postId}

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
 import { profile } from '../Models/profile';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-user-profile',
@@ -10,6 +11,8 @@ import { profile } from '../Models/profile';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent  implements OnInit{
+  @ViewChild('button2') button2!: ElementRef;
+  @ViewChild('stepper') stepper!: MatStepper;
   currentUser: any;
   imageUrl: string = "/assets/img/upload.png";
   fileToUpload!: File ;
@@ -56,12 +59,19 @@ export class UserProfileComponent  implements OnInit{
 
 
   onFormSubmit() {
+    // this.button2.nativeElement.click();
     if (this.empForm.valid) {
       // Update image preview
       this.imageUrl = this.empForm.get('imgstr')?.value;
 
       // Update service image
       this.service.imageUrl = this.empForm.get('imgstr')?.value;
+
+
+      // Programmatically trigger a click on button2
+      // this.button2.nativeElement.click();
+
+
 
       this.service.postFile(this.empForm.value).subscribe({
         next: (response) => {
@@ -96,6 +106,8 @@ export class UserProfileComponent  implements OnInit{
         }
       });
     }
+
+   
   }
 
     handleFileInput(event: any) {
@@ -106,6 +118,14 @@ export class UserProfileComponent  implements OnInit{
         this.empForm.get('imgstr')?.setValue(event.target.result); 
       };
       reader.readAsDataURL(this.file);
+    }
+
+    abc(){
+      // alert("dsf")
+    }
+    button1()
+    {
+      this.stepper.next();
     }
 }
 

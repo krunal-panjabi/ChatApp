@@ -156,7 +156,9 @@ export class StoryUploadComponent  {
             this.service.getStoryData().subscribe({
               next:(data)=>{
                 this.service.allStories=data;
+                this.service.LiveStory();
               },
+
             })
            });
           //  this.service.getStoryData().subscribe(data => {

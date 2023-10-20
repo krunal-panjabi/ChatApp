@@ -1,6 +1,7 @@
 ﻿using AKchat.Services;
 using dataRepository.Interface;
 using Humanizer;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text.RegularExpressions;
@@ -302,6 +303,30 @@ namespace AKchat.Hubs
             }
             await Clients.Group(privateGroupName).SendAsync("ReceiveCloseTypingIndicatorGrp", userlist);
         }
-       
+
+
+
+        public async Task LiveStory()
+        {
+            string privateGroupName = "randomgrp";
+            string[] namearr = _chatServices.GetOnlineUsers();
+
+            foreach (string item in namearr)
+            {
+               
+                
+                    var toConnectionId = _chatServices.GetConnectionIdByUser(item);
+                    await Groups.AddToGroupAsync(toConnectionId, privateGroupName);
+                
+            }
+
+            await Clients.Group(privateGroupName).SendAsync("LiveStory");
+
+
+        }
+
+
+
+
     }
 }
