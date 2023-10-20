@@ -124,7 +124,7 @@ export class UsersService {
 
   deleteMyStory(userid: number): Observable<any> {
   
-    alert("gerjg"+ userid);
+    // alert("gerjg"+ userid);
     return this.http.post(`${environment.apiUrl}User/deleteStory`, userid);
   }
 
@@ -571,7 +571,7 @@ export class UsersService {
     });
 
     this.chatConnection.on('ReceiveCloseTypingIndicator', (name: string) => {
-      alert('close type');
+      // alert('close type');
       this.isTyping = false;
     });
     this.chatConnection.on('ReceiveCloseTypingIndicatorGrp',(name:string)=>{
@@ -594,12 +594,12 @@ export class UsersService {
 
 
      this.chatConnection.on('LiveStory',()=>{
-      alert("updatestory")
+      // alert("updatestory")
       //  this.getStoryData();
       this.getStoryData().subscribe(data => {
         this.allStories = data;
 
-        alert("hahaha"+this.allStories);
+        // alert("hahaha"+this.allStories);
       });
      })
 

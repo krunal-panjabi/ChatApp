@@ -121,7 +121,7 @@ export class UserProfileComponent  implements OnInit{
     }
 
     abc(){
-      alert("dsf")
+      // alert("dsf")
     }
     button1()
     {

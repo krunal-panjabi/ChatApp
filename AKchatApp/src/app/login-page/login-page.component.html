@@ -1,14 +1,20 @@
 <div class="text-center mt-5">
-    <h1>Let's Get You Connected And <span class="text-danger"> Chat</span> With Other <span class="text-info"> People</span></h1>
+    <h1>Let's Get You Connected And <span class="text-danger"> Chat</span> With Other <span class="text-info">
+            People</span></h1>
 </div>
 
-<div class="text-center mt-3"><h2 class="text-secondary">Log-in to use this app</h2></div>
+<div class="text-center mt-3">
+    <h2 class="text-secondary">Log-in to use this app</h2>
+</div>
 
 
 <div class="d-flex justify-content-center mt-5 mainBody">
-    <div class="col-12 col-lg-5">
-        <main class="form-signin">
-            <form [formGroup]="userForm"(ngSubmit)="submitForm()" autocomplete="off" class="p-3 border">
+    <div class="" style="width: 350px;">
+        <main class="form-signin" style="box-shadow: 7px 7px 10px #b7b7b7;">
+            <form [formGroup]="userForm" (ngSubmit)="submitForm()" autocomplete="off" class="p-3 border">
+                <p class="mb-3 mt-3 text-center" style=" color: grey;">Sign in to enter the chat</p>
+
+
                 <div *ngIf="userForm.errors?.['InvalidUser']" class="alert alert-danger">
                     Invalid Credentials
                 </div>
@@ -16,13 +22,15 @@
                     UserName taken
                 </div>
                 <div *ngIf="userForm.errors?.['servererror']" class="alert alert-danger">
-                    Server Error 
+                    Server Error
                 </div>
-                <h4>Choose your name</h4>
-                <div class="form-floating mb-3">
-                    <input formControlName="username" type="text" class="form-control" placeholder="Name" 
-                    [class.is-invalid]="submitted && userForm.get('name')?.errors">
-                    <label for="Name">Name</label>
+                <!-- <h4>Choose your name</h4> -->
+                <div class=" mb-3 d-flex" style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
+                    <i class="bi bi-person-fill"
+                        style="font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"></i>
+                    <input formControlName="username" type="text" class="form-control " style="border: 0px;"
+                        placeholder="Name" [class.is-invalid]="submitted && userForm.get('name')?.errors">
+                    <!-- <label for="Name">Name</label> -->
                     <span class="text-danger" *ngIf="submitted && userForm.get('username')?.hasError('required')">
                         Please choose a name
                     </span>
@@ -32,32 +40,33 @@
                         Your name must be atleast 3 , and maximum 15 characters
                     </span>
 
-                   
+
 
                 </div>
 
 
-                <h4>Enter Password</h4>
+                <!-- <h4>Enter Password</h4> -->
 
-                <div class="form-floating mb-3">
-
-                <input formControlName="password" type="password" class="form-control" placeholder="Password" 
-                [class.is-invalid]="submitted && userForm.get('password')?.errors">
-                <label for="Password">Password</label>
-                <span class="text-danger" *ngIf="submitted && userForm.get('password')?.hasError('required')">
-                    Please enter password
-                </span>
+                <div class=" mb-3 d-flex" style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
+                    <i class="bi bi-key-fill"
+                        style="font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"></i>
+                    <input formControlName="password" type="password" style="border: 0px;" class="form-control"
+                        placeholder="Password" [class.is-invalid]="submitted && userForm.get('password')?.errors">
+                    <!-- <label for="Password">Password</label> -->
+                    <span class="text-danger" *ngIf="submitted && userForm.get('password')?.hasError('required')">
+                        Please enter password
+                    </span>
                 </div>
 
-          
 
-                <div class="d-grid mt-4 px-4">
+
+                <div class="d-grid mt-4 ">
                     <button class="btn btn-warning" type="submit">Log In</button>
                 </div>
                 <div class="d-flex justify-content-center mt-3">
                     <p class="noAccount">Don't have an account?</p>
-                    <button class="btn btn-primary btn-sm" [routerLink]="['/register']">Register</button >
-                
+                    <a class="" style="text-decoration: none;" [routerLink]="['/register']">Create an account</a>
+
                 </div>
             </form>
 
