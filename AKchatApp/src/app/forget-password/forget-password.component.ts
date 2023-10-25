@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class ForgetPasswordComponent {
   
   forget : FormGroup = new FormGroup({});
+  toemail:string ='';
 
 
 constructor( private formBuilder : FormBuilder ,private service : UsersService,private router:Router) {
@@ -29,8 +30,12 @@ submitForm(){
 
 
   if(this.forget.valid){
-    this.service.forgetPassword(this.forget.get("email")?.value).subscribe(data =>{
+    this.router.navigateByUrl('/confirmPassword');
+    this.toemail=this.forget.get("email")?.value;
+    this.service.forgetPassword(this.toemail).subscribe(data =>{
 
+   
+   
     });
       }
 
