@@ -501,6 +501,43 @@ namespace dataRepository.Repository
                 return row_count;
             }
         }
+
+
+        public int otpSend(ForgetVm model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("otpSend", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@otp", model.otp);
+                cmd.Parameters.AddWithValue("@email", model.email);
+               
+                con.Open();
+
+                int row_count = cmd.ExecuteNonQuery();
+
+                return row_count;
+            }
+        }
+
+        public int newpassword(NewPasswordVM model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("Resetpassword", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@otp", model.otp);
+                cmd.Parameters.AddWithValue("@newPassword", model.newPassword);
+
+                con.Open();
+
+                int row_count = cmd.ExecuteNonQuery();
+
+                return row_count;
+            }
+        }
+
+
         public int uploadphoto(string photo,string name)
         {
             using (SqlConnection con = new SqlConnection(connections))

@@ -13,7 +13,8 @@ using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Annotations;
 using NuGet.Configuration;
 using NuGet.Common;
-
+using System.Net.Mail;
+using System.Net;
 
 namespace AKchat.Areas.user.Controllers
 {
@@ -409,13 +410,68 @@ namespace AKchat.Areas.user.Controllers
 
 
 
-    
+        private string GenerateOTP()
+        {
+            Random random = new Random();
+            return random.Next(1000, 9999).ToString();
+        }
+
+
         [HttpPost("sendOtp")]
-        public IActionResult sendOtp([FromBody] string toemail)//company register
+        public IActionResult sendOtp([FromBody] ForgetVm model)//company register
+        {
+            string email = model.email;
+            string OTP = GenerateOTP();
+            model = new ForgetVm();
+            
+            model.otp = OTP;
+            model.email = email;
+
+            //return Ok(model);
+
+            var count_value = _userrepo.otpSend(model);
+            if (count_value > 0)
+            {
+                var fromAddress = new MailAddress("pankru2002@gmail.com", "Krunamissionanjabi");
+                var toAddress = new MailAddress(model.email);
+                var subject = "Password reset request";
+                var body = $"Hi,<br /><br />this is your one time password:<br /><br /><a href='{OTP}'>{OTP}</a>";
+                var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = true
+                };
+                var smtpClient = new SmtpClient("smtp.gmail.com", 587)
+                {
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential("pankru2002@gmail.com", "iumtuyfqrdpwsfcq"),
+                    EnableSsl = true
+                };
+                smtpClient.Send(message);
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
+
+
+        
+        [HttpPost("NewPassword")]
+        public IActionResult NewPassword([FromBody] NewPasswordVM model)//company register
         {
 
-            return null;
-
+            var count_value = _userrepo.newpassword(model);
+            if (count_value > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
         }
 
 

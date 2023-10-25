@@ -23,6 +23,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { NotificationComponent } from './notification/notification.component';
 import { PostCommentComponent } from './post-comment/post-comment.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ConfirmPasswordComponent } from './confirm-password/confirm-password.component';
 // import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
 //import { MatChipsModule } from '@angular/material/chips';
 
@@ -38,7 +39,8 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
     PhotoGalleryComponent,
     NoConnectionComponent,
     NotificationComponent,
-    ForgetPasswordComponent
+    ForgetPasswordComponent,
+    ConfirmPasswordComponent
       ],
   imports: [
     BrowserModule,

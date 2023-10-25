@@ -23,6 +23,8 @@ namespace dataRepository.Interface
         public Task<List<MessageVM>> loadgroupchat(string grpname, string name);
         public List<AllUsersVm> loadmembers(string gpname);
         public int profiledata(ProfileVm model);
+        public int otpSend(ForgetVm model);
+        public int newpassword(NewPasswordVM model);
         public int uploadphoto(string photo, string name);
         public Task<ProfileVm> GetUserByProfileAsync(string name);
         public int UploadGalleryData(string caption, string imgstr , string uploadedUser);

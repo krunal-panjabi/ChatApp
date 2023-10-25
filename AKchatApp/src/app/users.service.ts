@@ -135,9 +135,22 @@ getStoryData(): Observable<StoryView[]> {
   }
  
 
-  forgetPassword(email: string): Observable<any> {
-    const toemail=email
+  forgetPassword(emailstr: string): Observable<any> {
+    const toemail={
+      email:emailstr
+    };
+    
     return this.http.post(`${environment.apiUrl}User/sendOtp`, toemail);
+  }
+
+  newPassword(otp: string,newPassword : string): Observable<any> {
+    const newPass={
+      otp:otp,
+      newPassword : newPassword
+    };
+    alert(newPass);
+    
+    return this.http.post(`${environment.apiUrl}User/NewPassword`, newPass);
   }
 
 
