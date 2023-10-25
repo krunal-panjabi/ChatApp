@@ -16,21 +16,21 @@
 
   <!-- after login header -->
   <div class="container-fluid d-flex" *ngIf="service.myName">
-    <div class="col-2 col-sm-4 col-md-6">
+    <div class="col-2 col-sm-4 col-md-5">
       <div *ngIf="!isChatRoute && extractedWord !== 'chat'">
         <button class="btn btn-warning btn-sm" type="button" [routerLink]="['/chat']"><i class="bi bi-arrow-left"></i>
           <span class="d-none d-sm-inline-flex"> &nbsp; Back to Chat</span>
         </button>
       </div>
     </div>
-    <div class="col-8 col-sm-7 col-md-6 d-flex justify-content-between header">
+    <div class="col-8 col-sm-7 col-md-7 d-flex justify-content-between header">
       <div>
-        <span class="navbar-brand mb-0 h1">Chat Application</span>
+        <span class="navbar-brand mb-0 h1" style="font-size: 28px;">Chat Application</span>
       </div>
 
       <div class="dropdown mb-0 d-flex">
 
-        <div class="d-flex me-2">
+        <div class="d-flex me-2" style="display: none !important;">
           <div class="p-1"  [class.defaultgreen]="isGreenActive" [class.bg-white]="!isGreenActive" (click)="toggleDivColors('headergreen')" style="margin:auto;">green</div>
           <div class="p-1"  [class.defaultpurple]="!isGreenActive" [class.bg-white]="isGreenActive" (click)="toggleDivColors('headerpurple')" style="margin:auto;">purple</div>
         </div>

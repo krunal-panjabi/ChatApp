@@ -73,7 +73,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-ink-bar{
     margin-bottom: 10px !important;
 }
-
+.emojionearea.emojionearea-inline{
+  border-radius: 23px !important;
+}
 /* Customize the scrollbar track */
 ::-webkit-scrollbar{
     width: 12px; 

@@ -24,3 +24,11 @@
 .tr{
     display: none;
 }
+.storytitle{
+    font-size: x-large; font-weight: 500; margin: 0px
+}
+@media screen and (max-width: 1229px) {
+  .storytitle{
+    font-size: large;
+  }
+  }

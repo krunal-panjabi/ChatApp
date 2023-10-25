@@ -63,6 +63,7 @@ export class UsersService {
 
 
 toggletheme(color:string){
+  
  // this.defaulttheme=this.defaulttheme==='headergreen'?'headerpurple':'headergreen';
  this.defaulttheme=color;
 }
@@ -100,14 +101,14 @@ getPostComments(postId :number): Observable<PostComments[]> {
 
 
   
-  getGalleryData(myName :string): Observable<GalleryData[]> {
-    return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
-  }
-  
-  uploadStoryData(caption: string, imgstr: string [], uploadedUser: string): Observable<any> {
-    const storyData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
-    return this.http.post(`${environment.apiUrl}User/UploadStoryData`, storyData);
-  }
+getGalleryData(myName :string): Observable<GalleryData[]> {
+  return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
+}
+
+uploadStoryData(caption: string, imgstr: string [], uploadedUser: string): Observable<any> {
+  const storyData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
+  return this.http.post(`${environment.apiUrl}User/UploadStoryData`, storyData);
+}
 
 getStoryData(): Observable<StoryView[]> {
   return this.http.get<StoryView[]>(`${environment.apiUrl}User/GetStory`);
@@ -132,7 +133,7 @@ getStoryData(): Observable<StoryView[]> {
     // alert("gerjg"+ userid);
     return this.http.post(`${environment.apiUrl}User/deleteStory`, userid);
   }
-
+ 
 
   forgetPassword(email: string): Observable<any> {
     const toemail=email
@@ -633,7 +634,7 @@ getStoryData(): Observable<StoryView[]> {
        .catch(error => console.log(error));
      }
 
-
+  
   stopChatConnection() {
     this.chatConnection?.stop().catch(error => console.log(error));
   }

@@ -416,15 +416,6 @@ namespace AKchat.Areas.user.Controllers
 
             return null;
 
-            //var count_value = _userrepo.creategroup(email,);
-            //if (count_value > 0)
-            //{
-            //    return Ok(true);
-            //}
-            //else
-            //{
-            //    return Ok(false);
-            //}
         }
 
 
