@@ -143,16 +143,24 @@ getStoryData(): Observable<StoryView[]> {
     return this.http.post(`${environment.apiUrl}User/sendOtp`, toemail);
   }
 
-  newPassword(otp: string,newPassword : string): Observable<any> {
+  newPassword(email: any,newPassword : string): Observable<any> {
     const newPass={
-      otp:otp,
+      otp:email,
       newPassword : newPassword
     };
-    alert(newPass);
+    alert(newPass.otp);
+    console.log("the object",newPass);
     
     return this.http.post(`${environment.apiUrl}User/NewPassword`, newPass);
   }
 
+  SendOtp(otp: string): Observable<any> {
+    
+    const otp1={
+      otp:otp
+    }
+    return this.http.post(`${environment.apiUrl}User/CheckOtp`, otp1);
+  }
 
 
  

@@ -16,7 +16,7 @@ export class ConfirmPasswordComponent {
 
   constructor(private formBuilder: FormBuilder, private service: UsersService, private router: Router) {
     this.newPass = this.formBuilder.group({
-      otp: ['', Validators.required], // Add required validation
+      // otp: ['', Validators.required], // Add required validation
       newPassword: ['', Validators.required], // Add required validation
       confirmPassword: ['', Validators.required] // Add required validation
     }, { validators: this.passwordsMatchValidator }); // Add a custom validator
@@ -24,7 +24,7 @@ export class ConfirmPasswordComponent {
 
   ngOnInit(): void {
     this.newPass.reset();
-    localStorage.clear();
+    // localStorage.clear();
   }
   
   submitForm(){
@@ -34,9 +34,11 @@ export class ConfirmPasswordComponent {
   
   
     if(this.newPass.valid){
-      this.otp=this.newPass.get("otp")?.value;
+      // this.otp=this.newPass.get("otp")?.value;
       this.newPassword=this.newPass.get("newPassword")?.value;
-      this.service.newPassword(this.otp,this.newPassword).subscribe(data =>{
+      const email=localStorage.getItem('email');
+      console.log("email",email);
+      this.service.newPassword(email,this.newPassword).subscribe(data =>{
         this.router.navigateByUrl('/login')
   
      

@@ -149,6 +149,25 @@ namespace dataRepository.Repository
                 return value;
             }
         }
+        public int CheckOtp(string otp)
+        {
+            int value=10;
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("ValidOTP", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@inputOTP", otp);
+                cmd.Parameters.Add("@result", SqlDbType.Int).Direction = ParameterDirection.Output;
+                con.Open();
+
+                cmd.ExecuteNonQuery();
+                if (cmd.Parameters["@result"].Value != DBNull.Value)
+                {
+                    value = (int)cmd.Parameters["@result"].Value;
+                }
+                return value;
+            }
+        }
         public int loginrepo(UserVM model)
         {
             int valid = 10;
@@ -505,20 +524,30 @@ namespace dataRepository.Repository
 
         public int otpSend(ForgetVm model)
         {
+            int value = 10;
             using (SqlConnection con = new SqlConnection(connections))
             {
                 SqlCommand cmd = new SqlCommand("otpSend", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@otp", model.otp);
                 cmd.Parameters.AddWithValue("@email", model.email);
-               
+                cmd.Parameters.Add("@result", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                 con.Open();
 
                 int row_count = cmd.ExecuteNonQuery();
+                if (cmd.Parameters["@result"].Value != DBNull.Value)
+                {
+                    value = (int)cmd.Parameters["@result"].Value;
+                }
+                return value;
 
-                return row_count;
             }
         }
+
+
+       
+
 
         public int newpassword(NewPasswordVM model)
         {

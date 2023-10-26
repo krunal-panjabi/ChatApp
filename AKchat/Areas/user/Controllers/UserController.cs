@@ -15,6 +15,7 @@ using NuGet.Configuration;
 using NuGet.Common;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AKchat.Areas.user.Controllers
 {
@@ -419,7 +420,7 @@ namespace AKchat.Areas.user.Controllers
 
         [HttpPost("sendOtp")]
         public IActionResult sendOtp([FromBody] ForgetVm model)//company register
-        {
+         {
             string email = model.email;
             string OTP = GenerateOTP();
             model = new ForgetVm();
@@ -453,12 +454,37 @@ namespace AKchat.Areas.user.Controllers
             }
             else
             {
-                return Ok(false);
+                return Ok(new { result = "NoUser" });
             }
         }
 
 
-        
+
+        [HttpPost("CheckOtp")]
+        public IActionResult CheckOtp([FromBody] ForgetVm model)
+        {
+            var count_value = _userrepo.CheckOtp(model.otp);
+
+            if (count_value == 0)
+            {
+                return Ok(new { result = "success" });
+            }
+            else if (count_value == 1)
+            {
+                return Ok(new { result = "timeout" });
+            }
+            else if (count_value == 2)
+            {
+                return Ok(new { result = "wrong" });
+            }
+
+            // In case no condition is met, return a generic response
+            return Ok(new { result = "unknown" });
+        }
+
+
+
+
         [HttpPost("NewPassword")]
         public IActionResult NewPassword([FromBody] NewPasswordVM model)//company register
         {
