@@ -28,6 +28,7 @@
 }
 .card-body{
     overflow-y: auto;
+    background-color:#f8f8f8 ;
 }
 .card-header{
     font-size: 21px;
@@ -68,11 +69,6 @@
 }
 .grptitle{
     font-size: 21px;
-}
-
-
-.card-body{
-    background-color:#f8f8f8 ;
 }
 
 .cgroup{

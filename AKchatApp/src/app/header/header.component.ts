@@ -5,6 +5,7 @@ import { UsersService } from '../users.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationComponent } from '../notification/notification.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -16,26 +17,41 @@ export class HeaderComponent implements OnInit {
 isChatRoute: boolean = false;
 extractedWord :string = '' ;
 isGreenActive: boolean = true;
+userctrl = new FormControl('');
+filteredlist:string[]=[];
+userlist:string[]=[];
+// searchVisible: boolean = false;
+
+isDropdownVisible = false;
+
 
   constructor(public service: UsersService, private router: Router, private route: ActivatedRoute,private matdialog: MatDialog) { }
 
   ngOnInit(): void {
 
     this.extractedWord = this.route.snapshot.paramMap.get('chat') as string;
-   
-     if (this.service.myName) {
-
-      // this.updateImageUrl(); // Update imageUrl if myName is available
-      console.log(this.service.myName);
-      
-    }
+    this.userlist=this.service.offlineUsers.filter(user=>user.username!==this.service.myName).map(user=>user.username);
+    // alert(this.userlist);
+    console.log("")
+    this.filteredlist=this.userlist
   }
   
   toggleDivColors(color:any) {
     this.isGreenActive = !this.isGreenActive;
     this.service.toggletheme(color);
   }
-
+  onUserSearch(){
+    const userValue = this.userctrl.value;
+    if (userValue && userValue.trim().length > 0) {
+      this.service.isdivvalid = true;
+      const searchterm = (userValue ?? '').toLowerCase();
+      this.service.searchfilteredlist = this.service.searchuserlist.filter(user => user.username.toLowerCase().includes(searchterm));
+    }
+    else{
+      this.service.isdivvalid=false;
+    }
+    }
+  
 
   profile() {
     this.service.getuserprofiledetail().subscribe({
@@ -55,6 +71,62 @@ isGreenActive: boolean = true;
     this.service.myName = '';
     this.router.navigateByUrl('/login');
   }
+ 
+
+
+
+
+  search(){
+    alert("fg")
+  }
+
+  toggleDropdown() {
+    this.isDropdownVisible = !this.isDropdownVisible;
+  }
+
+  filterFunction() {
+    const input = document.getElementById('myInput') as HTMLInputElement;
+    const filter = input.value.toUpperCase();
+    const dropdownContent = document.getElementById('myDropdown');
+  
+    if (dropdownContent) {
+      const links = dropdownContent.getElementsByTagName('a');
+  
+      for (let i = 0; i < links.length; i++) {
+        const txtValue = links[i].textContent || links[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          links[i].style.display = '';
+        } else {
+          links[i].style.display = 'none';
+        }
+      }
+    }
+  }
+
+  // filterFunction() {
+  //   const input = document.getElementById('myInput') as HTMLInputElement;
+  //   const filter = input.value.toUpperCase();
+  //   const dropdownContent = document.getElementById('myDropdown');
+  //   const links = dropdownContent.getElementsByTagName('a');
+    
+  //   for (let i = 0; i < links.length; i++) {
+  //     const txtValue = links[i].textContent || links[i].innerText;
+  //     if (txtValue.toUpperCase().indexOf(filter) > -1) {
+  //       links[i].style.display = '';
+  //     } else {
+  //       links[i].style.display = 'none';
+  //     }
+  //   }
+  // }
+
+
+
+
+
+
+
+
+
   
   openNotiDialogue(){
     this.service.countmsg=0;

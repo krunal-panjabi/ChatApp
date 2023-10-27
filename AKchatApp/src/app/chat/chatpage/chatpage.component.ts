@@ -86,6 +86,8 @@ private removeFirst(array: string[], toRemove: string): void {
       next:(data)=>{
         this.userslist=data.filter(user=>user.username!==this.service.myName).map(user=>user.username);
         this.filteredlist=this.userslist;
+        this.service.searchuserlist=  data;
+        this.service.searchfilteredlist=data;
       }
     })
     if (this.service.myName) {

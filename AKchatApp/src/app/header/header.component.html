@@ -31,9 +31,63 @@
       <div class="dropdown mb-0 d-flex">
 
         <div class="d-flex me-2" style="display: none !important;">
-          <div class="p-1"  [class.defaultgreen]="isGreenActive" [class.bg-white]="!isGreenActive" (click)="toggleDivColors('headergreen')" style="margin:auto;">green</div>
-          <div class="p-1"  [class.defaultpurple]="!isGreenActive" [class.bg-white]="isGreenActive" (click)="toggleDivColors('headerpurple')" style="margin:auto;">purple</div>
+          <div class="p-1" [class.defaultgreen]="isGreenActive" [class.bg-white]="!isGreenActive"
+            (click)="toggleDivColors('headergreen')" style="margin:auto;">green</div>
+          <div class="p-1" [class.defaultpurple]="!isGreenActive" [class.bg-white]="isGreenActive"
+            (click)="toggleDivColors('headerpurple')" style="margin:auto;">purple</div>
         </div>
+
+
+        <!-- <div style="display: flex;align-items: center;" class="position-relative me-3" (click)="search()">
+          <i class="bi bi-search me-2" style="color: white; font-size: 22px;"></i>
+       
+        </div> -->
+
+        <!-- <div class="dropdown" style="margin: auto;">
+          <button (click)="toggleDropdown()" class="dropbtn" style="padding: 0px;background-color: transparent;"> <i
+              class="bi bi-search me-2" style="color: white; font-size: 22px;"></i></button>
+          <div id="myDropdown" class="dropdown-content" [ngClass]="{'show': isDropdownVisible}">
+            <input type="text" placeholder="Search.." id="myInput" (keyup)="filterFunction()">
+        
+          </div>
+        </div> -->
+
+
+
+        <div class="dropdown" style="margin: auto;">
+          <button (click)="toggleDropdown()" class="dropbtn"
+            style="padding: 0px;background-color: transparent;position: relative;z-index: 2;">
+            <i class="bi bi-search me-2"
+              style="color: rgb(175, 175, 175); font-size: 22px;-webkit-text-stroke: 1px;"></i>
+          </button>
+          <div id="myDropdown" style="border: 0px;" class="dropdown-content" [ngClass]="{'show': isDropdownVisible}">
+            <div class="input-container" style="padding: 0px;">
+              <input type="text" placeholder="Search.." id="myInput" [formControl]="userctrl" (input)="onUserSearch()"
+                style="position: absolute;
+              right: 40px;
+              bottom: 0px;
+              height: 20px;">
+            </div>
+          </div>
+        </div>
+        <!-- 
+        <div class="dropdown" style="margin: auto;">
+          <button (click)="toggleDropdown()" class="dropbtn"
+            style="padding: 0px;background-color: transparent;position: relative;z-index: 2;">
+            <i class="bi bi-search me-2"
+              style="color: rgb(175, 175, 175); font-size: 22px;-webkit-text-stroke: 1px;"></i>
+          </button>
+          <div id="myDropdown" class="dropdown-content" [ngClass]="{'show': isDropdownVisible}">
+            <div class="input-container">
+              <input type="text" placeholder="Search.." id="myInput" (keyup)="filterFunction()" class="search-input">
+            </div>
+          </div>
+        </div> -->
+
+
+
+
+
 
 
         <div style="display: flex;align-items: center;" class="position-relative" (click)="openNotiDialogue()">
@@ -79,20 +133,22 @@
           <div class="spinner diagonal part-2"></div>
         </label>
         <div id="sidebarMenu" style="margin:0;padding: 0;">
-          <div class="main-content-wrapper"  style="margin:0;padding: 0;background-color: transparent;">
+          <div class="main-content-wrapper" style="margin:0;padding: 0;background-color: transparent;">
             <div [ngClass]="service.defaulttheme" class="d-flex justify-content-center">
               <span><img class="me-2" style="width:20px;height:20px" [src]="this.service.imageUrl" alt=""></span>
               <span><a (click)="profile()">User Profile</a></span>
             </div>
-          
+
             <div [ngClass]="service.defaulttheme" class="d-flex justify-content-center">
               <span><img class="me-2" style="width:20px;height:20px" src='/assets/img/logo.jpg' alt=""></span>
               <span style="margin-right: 23px;"><a (click)="logout()">LogOut</a></span>
             </div>
 
             <div [ngClass]="service.defaulttheme" class="d-flex justify-content-center p-1">
-              <div class="p-1 text-black"  [class.defaultgreen]="isGreenActive" [class.bg-white]="!isGreenActive" (click)="toggleDivColors('headergreen')" >green</div>
-              <div class="p-1 text-black"  [class.defaultpurple]="!isGreenActive" [class.bg-white]="isGreenActive" (click)="toggleDivColors('headerpurple')">purple</div>
+              <div class="p-1 text-black" [class.defaultgreen]="isGreenActive" [class.bg-white]="!isGreenActive"
+                (click)="toggleDivColors('headergreen')">green</div>
+              <div class="p-1 text-black" [class.defaultpurple]="!isGreenActive" [class.bg-white]="isGreenActive"
+                (click)="toggleDivColors('headerpurple')">purple</div>
             </div>
 
           </div>

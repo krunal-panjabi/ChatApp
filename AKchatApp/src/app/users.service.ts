@@ -50,6 +50,8 @@ export class UsersService {
   private chatConnection?: HubConnection;
   privateMessages: Message[] = [];
   usernamelist:OfflineUsers[]=[];
+  searchuserlist:OfflineUsers[]=[];
+  searchfilteredlist:OfflineUsers[]=[];
   groupnamelist:groupname[]=[];
   preview:string[]=[];
   privateMessageInitiated = false;
@@ -58,6 +60,7 @@ export class UsersService {
   grptypeintiate=false;
   forimagetoggle=false;
   defaulttheme='headergreen';
+  isdivvalid=false;
   readonly url = "https://localhost:7239/"
   constructor(private http: HttpClient, private modalService: NgbModal, public msgservice: MessageService) { }
 
