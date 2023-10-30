@@ -8,7 +8,7 @@ namespace ViewModels.Models
 {
     public class NewPasswordVM
     {
-        public string otp { get; set; }
-        public string newPassword { get; set; }
+        public string? otp { get; set; }
+        public string? newPassword { get; set; }
     }
 }

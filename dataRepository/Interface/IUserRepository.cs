@@ -25,12 +25,12 @@ namespace dataRepository.Interface
         public int profiledata(ProfileVm model);
         public int otpSend(ForgetVm model);
         public int newpassword(NewPasswordVM model);
+        public int CheckOtp(string otp);
         public int uploadphoto(string photo, string name);
         public Task<ProfileVm> GetUserByProfileAsync(string name);
         public int UploadGalleryData(string caption, string imgstr , string uploadedUser);
         public int postComment(PostComments model);
         public List<PostComments> GetPostComments(int postId);
-
 
         public int UploadStoryData(string caption, string imgstr , string uploadedUser);
         public List<GalleryVm> GetGalleryData(string myName);

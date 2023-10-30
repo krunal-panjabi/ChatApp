@@ -8,7 +8,7 @@ namespace ViewModels.Models
 {
     public class ForgetVm
     {
-        public string email { get; set;}
+        public string? email { get; set;}
         public string? otp { get; set; }
     }
 }

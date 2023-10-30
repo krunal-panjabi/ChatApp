@@ -1,0 +1,49 @@
+<div class="d-flex justify-content-center mt-5 mainBody">
+    <div class="" style="width: 350px;">
+        <main class="form-signin" style="box-shadow: 7px 7px 10px #b7b7b7;">
+            <form [formGroup]="otpForm" (ngSubmit)="submitForm()" autocomplete="off" class="p-3 border">
+                <p class="mb-3 mt-3 text-center" style=" color: grey;">Enter your Email here</p>
+
+                <div *ngIf="otpForm.errors?.['Invalidotp']" class="alert alert-danger">
+                    Invalid Otp
+                </div>
+                <div *ngIf="otpForm.errors?.['timeout']" class="alert alert-danger">
+                    timeout please resend otp
+                </div>
+                <!-- <h4>Choose your name</h4> -->
+                <div class=" mb-3 d-flex" style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
+                    <i class="bi bi-person-fill"
+                        style="font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"></i>
+
+                    <!-- <input style="padding: 0px;" matInput formControlName="email"> -->
+                    <input formControlName="otp" name="otp" type="text" class="form-control " style="border: 0px;"
+                        placeholder="Enter your OTP">
+
+                </div>
+
+
+                <div *ngIf="otpForm.hasError('passwordsNotMatch')">
+                    <p class="text-danger">New password and confirm password must be same</p>
+                </div>
+
+
+                <div class="d-grid mt-4" [class.d-none]="!showResendButton">
+                    <button class="btn btn-primary" [routerLink]="['/forget-password']">Resend OTP</button>
+                </div>
+                <div class="d-grid mt-4 ">
+                    <button class="btn btn-warning" type="submit">Confirm OTP</button>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <p class="noAccount">Go back to</p>
+                    <a class="" style="text-decoration: none;" [routerLink]="['/login']">Login</a>
+
+                </div>
+
+
+
+
+            </form>
+
+        </main>
+    </div>
+</div>

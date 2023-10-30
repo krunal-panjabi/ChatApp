@@ -79,6 +79,64 @@
             </div> -->
             <app-story></app-story>
         </div>
+                    <app-chat-input-general (contentemitter)="sendMessage($event)"></app-chat-input-general> -->
+            <!-- <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input> -->
+            <!-- </div>
+            </div> -->
+
+
+
+            <!-- <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="p-5"
+                style="background-color: rgb(185, 185, 185); width: 65%; position: absolute; height: 78vh; overflow-y: auto; display: flex; flex-wrap: wrap; justify-content: space-between; padding: 10px;">
+
+                <div *ngIf="service.isdivvalid" class="row">
+                    <div *ngFor="let user of service.searchfilteredlist" class="col-4 mb-3"
+                        style="flex: 0 0 calc(33.3333% - 20px); background-color: rgb(201, 201, 201);">
+
+                        <div class="card me-2 mb-2"
+                            style="width: 190px;height: 190px;border-radius: 50%; display: flex;justify-content: center;">
+                            <img style="width: 190px;height: 190px;border-radius: 50%;" class="card-img-top"
+                                [src]="user.imgstr || 'src/assets/img/pizza.png'" alt="">
+
+                        </div>
+                        <div class="card-body text-center" style="background-color: rgb(201, 201, 201);">
+                            <p class="card-text">{{user.username}}</p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+        </div>
 
         <div class="col-lg-2 ">
             <div class="pt-2 pb-2 ps-1 pe-1 text-center mb-2 sidechat" [ngClass]="service.defaulttheme">
@@ -190,7 +248,8 @@
                             <div class="" style="margin-left: auto;">
                                 <button class="btn  btn-block cgroup" (click)="openGroupModal()" type="button"
                                     style="padding-top: 3px;padding-bottom: 3px;"><i class="bi bi-people-fill"
-                                        style="font-size: 24px;"></i> &nbsp;<span class="sec1_crtgrp">Create Group</span>
+                                        style="font-size: 24px;"></i> &nbsp;<span class="sec1_crtgrp">Create
+                                        Group</span>
                                 </button>
                             </div>
                         </div>

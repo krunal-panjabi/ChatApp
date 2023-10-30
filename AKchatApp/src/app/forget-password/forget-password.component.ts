@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
 
@@ -12,28 +12,39 @@ export class ForgetPasswordComponent {
   
   forget : FormGroup = new FormGroup({});
   toemail:string ='';
+  submitted= false;
 
 
 constructor( private formBuilder : FormBuilder ,private service : UsersService,private router:Router) {
   this.forget = this.formBuilder.group({
-    email: ''
+    email: ['', Validators.required]
   });
 }
 
 ngOnInit(): void {
   this.forget.reset();
-  localStorage.clear();
+ 
 }
 
+
 submitForm(){
-  alert(this.forget.get("email")?.value);
-
-
+  this.submitted=true;
+  // alert(this.forget.get("email")?.value);
   if(this.forget.valid){
-    this.router.navigateByUrl('/confirmPassword');
+    // this.router.navigateByUrl('/otp-send');
     this.toemail=this.forget.get("email")?.value;
-    this.service.forgetPassword(this.toemail).subscribe(data =>{
+    this.service.forgetPassword(this.toemail).subscribe({
+      next:(response)=>{
+         console.log("response", response);
+        if (response.result === 'NoUser') {
+          this.forget.setErrors({ NoUser: true });        } 
+          else{
+            localStorage.setItem('email',this.toemail);
+            console.log("the email",localStorage.getItem('email'));
+            this.router.navigateByUrl('/otp-send');
 
+          }
+      }
    
    
     });
