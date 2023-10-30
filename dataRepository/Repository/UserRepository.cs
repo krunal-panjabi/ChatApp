@@ -695,13 +695,14 @@ namespace dataRepository.Repository
         }
 
 
-        public List<AllStoryVm> GetStory()
+        public List<AllStoryVm> GetStory(string username)
         {
             List<AllStoryVm> model = new List<AllStoryVm>();
             using (SqlConnection con = new SqlConnection(connections))
             {
-                SqlCommand cmd = new SqlCommand("GetStory", con);
+                SqlCommand cmd = new SqlCommand("GetStory_copy", con);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@inputname", username);
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())

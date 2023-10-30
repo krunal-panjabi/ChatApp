@@ -58,6 +58,7 @@ export class UsersService {
   grptypeintiate=false;
   forimagetoggle=false;
   defaulttheme='headergreen';
+  isButtonVisisble=false;
   readonly url = "https://localhost:7239/"
   constructor(private http: HttpClient, private modalService: NgbModal, public msgservice: MessageService) { }
 
@@ -111,7 +112,9 @@ uploadStoryData(caption: string, imgstr: string [], uploadedUser: string): Obser
 }
 
 getStoryData(): Observable<StoryView[]> {
-  return this.http.get<StoryView[]>(`${environment.apiUrl}User/GetStory`);
+  const headers = new HttpHeaders({ 'content-type': 'application/json' });
+  const params = new HttpParams().set("username", this.myName);
+  return this.http.get<StoryView[]>(`${environment.apiUrl}User/GetStory`, { 'headers': headers, 'params': params });
 }
   
   // storyOfUser(userId: any): Observable<any> {
@@ -394,12 +397,6 @@ getStoryData(): Observable<StoryView[]> {
     };
     return this.http.post(`${environment.apiUrl}User/likePost`, data);
   }
-
-
-
-
-
-
 
   getToken(){
     return localStorage.getItem('token');

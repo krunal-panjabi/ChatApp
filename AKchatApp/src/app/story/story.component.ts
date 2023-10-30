@@ -22,18 +22,14 @@
   })
   export class StoryComponent {
     storyuser: any;
+    public isMyNameIncluded =false;
+  
     // allStories: AllStories[] = [];
     constructor(public dialog: MatDialog, public service: UsersService, private router: Router) { }
-
-
     ngOnInit(): void {
-
       this.service.getStoryData().subscribe(data => {
         this.service.allStories = data;
-
-
-        console.log("story"+this.service.myName);
-        console.log(this.service.allStories);
+        this.isMyNameIncluded = this.service.allStories.some(story => story.uploadedUser.includes(this.service.myName));
       });
     }
     openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
@@ -47,7 +43,9 @@
         if (result && result.submitted) {
           // Refresh the data in StoryComponent after the form is submitted
           this.service.getStoryData().subscribe((data) => {
+            this.isMyNameIncluded=true;
             this.service.allStories = data;
+            
           });
         }
       });

@@ -44,6 +44,10 @@ export class UserProfileComponent  implements OnInit{
   }
 
   constructor(private formBuilder : FormBuilder,private service : UsersService , private router: Router) { 
+    if(window.location.pathname !== "/chat")
+    {
+      service.isButtonVisisble=true;
+    }
     this.empForm = this.formBuilder.group({
       name: '',
       email: '',

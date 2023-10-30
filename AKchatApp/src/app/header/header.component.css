@@ -166,7 +166,9 @@ input[type=checkbox] {
     box-sizing: border-box;
     float: left;
 }
-
+.maintitle{
+    font-size: 28px;
+}
 .diagonal.part-2 {
     transition: all 0.3s;
     box-sizing: border-box;
@@ -194,50 +196,6 @@ input[type=checkbox]:checked~.sidebarIconToggle>.diagonal.part-2 {
     transform: rotate(-135deg);
     margin-top: -9px;
 }
-@media screen and (max-width:450px){
-    .main-content-wrapper >*{
-        width:32% !important;
-    }
-    #sidebarMenu{
-        left:65% !important;
-    }
-}
-@media screen and (max-width:485px){
-    .bellnoti{
-        display: block !important;
-    }
-}
-@media screen and (max-width: 520px) {
-    .bellicon{
-      margin-right: 60px !important;
-    }
-  }
-@media screen and (max-width: 560px) {
-    .bellicon{
-      margin-right: 45px !important;
-    }
-  }
-@media screen and (max-width: 580px) {
-  .bellicon{
-    margin-right: 22px;
-  }
-}
-@media screen and (max-width:600px){
-    .main-content-wrapper >*{
-        width:27%;
-    }
-    #sidebarMenu{
-        left:70%;
-    }
-}
-@media screen and (max-width:940px) {
-    .togglebody {
-        display: block !important;
-    }
-    .bellicon{
-        display: block !important;
-    }
-}
 @media screen and (max-width: 950px) {
     .sidebarIconToggle {
         display: block;
@@ -248,4 +206,72 @@ input[type=checkbox]:checked~.sidebarIconToggle>.diagonal.part-2 {
     }
 
 }
+@media screen and (max-width:940px) {
+    .togglebody {
+        display: block !important;
+    }
+    .bellicon{
+        display: block !important;
+    }
+}
+@media screen and (max-width: 650px) {
+    .maintitle{
+        font-size: 26px;
+    }
+}
+@media screen and (max-width:600px){
+    .main-content-wrapper >*{
+        width:27%;
+    }
+    #sidebarMenu{
+        left:70%;
+    }
+}
+@media screen and (max-width: 580px) {
+    .bellicon{
+      margin-right: 22px;
+    }
+  }
+  @media screen and (max-width: 560px) {
+    .bellicon{
+      margin-right: 45px !important;
+    }
+    .maintitle{
+        font-size: 23px;
+    }
+  }
+  @media screen and (max-width: 520px) {
+    .bellicon{
+      margin-right: 60px !important;
+    }
+  }
+  @media screen and (max-width:485px){
+    .bellnoti{
+        display: block !important;
+    }
+}
+@media screen and (max-width:450px){
+    .main-content-wrapper >*{
+        width:32% !important;
+    }
+    #sidebarMenu{
+        left:65% !important;
+    }
+    .maintitle{
+        font-size: 20px;
+    }
+}
+@media screen and (max-width:390px){
+    .maintitle{
+        font-size: 18px;
+    }
+}
+
+
+
+
+
+
+
+
 

@@ -103,8 +103,12 @@
     display: block !important;
 }
 .section1{
-    width: 96%;
+    width: 93%;
     margin-inline: auto;
+}
+.section3{
+    width:93%;
+    margin-inline:auto;
 }
 .sec1_grp{
     padding-top: 5px;
@@ -113,17 +117,18 @@
 /* .cdk-overlay-pane{
     top:500px !important;
 } */
-@media screen and (max-width: 461px) {
-   .usertag{
-    font-size: 18px;
-    margin-top: auto;
-    margin-bottom: auto;
-   }
-   .cgroup{
-    font-size: 13px;
-   }
+@media screen  and (max-width:1229px)  {
+    .grptitle{
+        font-size: 16px;
+    }
+    .card-header{
+        font-size: 17px;
+    }
+    .sidechat{
+        font-size: 14px;
+    }
   }
-@media screen and (max-width: 1020px) {
+  @media screen and (max-width: 1020px) {
     .mainBody {
       display: none !important;
     }
@@ -143,14 +148,44 @@
         font-size: 22px;
     }
   }
-  @media screen  and (max-width:1229px)  {
-    .grptitle{
-        font-size: 16px;
+  @media screen and (max-width: 650px) {
+    .usertag{
+     font-size: 22px;
+    }
+    .sec1_crtgrp{
+     font-size: 19px;
+    }
+ }
+ @media screen and (max-width: 512px) {
+    .usertag{
+        font-size: 21px;
+    }
+    .sec1_crtgrp{
+      font-size: 16px;
     }
     .card-header{
-        font-size: 17px;
+        padding: 0px;
     }
-    .sidechat{
+   }
+
+@media screen and (max-width: 461px) {
+   .usertag{
+    font-size: 18px;
+    margin-top: auto;
+    margin-bottom: auto;
+   }
+   .cgroup{
+    font-size: 13px;
+   }
+  }
+  @media screen and (max-width: 390px) {
+    .usertag{
+        font-size: 18px;
+    }
+    .sec1_crtgrp{
         font-size: 14px;
     }
-  }
+   }
+ 
+
+

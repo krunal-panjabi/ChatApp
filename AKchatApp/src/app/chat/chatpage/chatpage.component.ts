@@ -10,6 +10,7 @@ import { MessageService } from 'src/app/message.service';
 import { FormControl } from '@angular/forms';
 import { startWith } from 'rxjs';
 import { groupname } from 'src/app/Models/groupname';
+import { clippingParents } from '@popperjs/core';
 
 @Component({
   selector: 'app-chatpage',
@@ -25,17 +26,12 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   
   
   constructor(public service : UsersService,private modalService:NgbModal,private router:Router,public msgservice:MessageService) { 
-    // this.userctrl.valueChanges.pi((searchText: string) => {
-    //   // Filter the userslist based on the searchText
-    //   this.userslist = this.userslist.filter((user) =>
-    //     user.toLowerCase().includes(searchText.toLowerCase())
-    //   );
-    // });
-
-    // this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-    //   startWith(null),
-    //   map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
-    // );
+    //var absUrl= $location.absUrl();
+    console.log('ChatComponent constructor called');
+    if(window.location.pathname === "/chat")
+    {
+      service.isButtonVisisble=false;
+    }
   }
   onSearchInputChange1(){
    const searchterm=(this.searchctrl.value?? '').toLocaleLowerCase();

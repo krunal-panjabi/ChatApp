@@ -1,4 +1,123 @@
-<div class="story mt-2" style="height: 600px">
+<div class="story horizonbody" style="height: 193px">
+  <div class="stitle"
+    style="display: flex;justify-content: space-around;background-color: rgb(25, 135, 84);position: relative;">
+    <p class="storytitle">Stories</p>
+  </div>
+  <div class="formaindiv d-flex">
+    <div *ngIf="!isMyNameIncluded" class="position-relative userdiv d-flex align-items-center"style="display: flex;justify-content: space-between;align-items: center;">
+      <button class="addstory" type="button" (click)="openDialog('300ms', '150ms')"
+      style="position: absolute;right: 7px;top: 70px;overflow: hidden;">
+      <i class="bi bi-plus-circle" style="font-size: xx-large; color: white;background-color: rgb(25, 135, 84);"></i>
+       </button>
+        <button class="d-flex flex-column align-items-center" style="width: -webkit-fill-available;background-color: transparent;border: 0px;">
+          <div class="ms-3 mb-1" style="width: 94%;border-radius: 50%;background-color: white;box-shadow: 9px 0px 15px -2px #625b5b;border: solid lightgrey 4px;">
+            <img style="height: 88px; width: 97%; border-radius: 50%;" [src]="service.imageUrl" alt="" />
+          </div>
+          <p class="mt-1 m-0 ms-2 fw-bolder" *ngIf="!isMyNameIncluded" style="font-size: 16px;">
+            My Story
+          </p>
+        </button>
+    </div>
+
+
+    <div class="d-flex loopdiv" *ngFor="let story of service.allStories">
+      <div *ngIf="story.uploadedUser === service.myName" class="position-relative userdiv d-flex align-items-center"
+        style="display: flex;justify-content: space-between;align-items: center;">
+
+        <button class="addstory" type="button" (click)="openDialog('300ms', '150ms')"
+      style="position: absolute;right: 7px;top: 70px;overflow: hidden;">
+      <i class="bi bi-plus-circle" style="font-size: xx-large; color: white;background-color: rgb(25, 135, 84);"></i>
+       </button>
+        <button class="d-flex flex-column align-items-center" style="
+            width: -webkit-fill-available;
+            background-color: transparent;
+            border: 0px;
+          " (click)="bb(story.userid, '300ms', '150ms')">
+          <div class="ms-3 mb-1" style="width: 94%;border-radius: 50%;background-color: white;box-shadow: 9px 0px 15px -2px #625b5b;border: solid red 4px;">
+            <img style="    height: 88px; width: 97%; border-radius: 50%;"
+              [src]="story.userimg ? story.userimg : '/assets/img/profile.png'" alt="" />
+          </div>
+          <p class="mt-1 m-0 ms-2 fw-bolder" *ngIf="story.uploadedUser === service.myName" style="font-size: 16px;">
+            My Story
+          </p>
+        </button>
+
+        <!-- <div class="ms-2" style="position: absolute;right: 17px;" *ngIf="story.uploadedUser == service.myName">
+          <button style="background-color: transparent; border: 0px" class="m-0 b-0 p-0"
+            (click)="deleteStory(story.userid)">
+            <i class="bi bi-trash3-fill me-1 text-danger"></i>
+          </button>
+        </div> -->
+
+        <!-- <button class="addstory" type="button" (click)="openDialog('300ms', '150ms')">
+          <i class="bi bi-plus-circle" style="font-size: x-large"></i>
+        </button> -->
+
+      </div>
+
+      <div class="d-flex align-items-center nonuserdiv"  *ngIf="story.uploadedUser !== service.myName">
+        <button class="d-flex me-2 flex-column align-items-center" style="
+            width: -webkit-fill-available;
+            background-color: transparent;
+            border: 0px;
+          " (click)="bb(story.userid, '300ms', '150ms')">
+          <div class="ms-3" style="width: 87%;border-radius: 50%;background-color: white;border: solid rgb(100, 255, 100) 4px;box-shadow: 9px 0px 15px -2px #625b5b;">
+            <img style="height: 88px;width: 97%;border-radius: 50%;"
+              [src]="story.userimg ? story.userimg : '/assets/img/profile.png'" alt="" />
+          </div>
+          <p class="fw-bolder m-0 ms-2 mt-1 " *ngIf="story.uploadedUser !== service.myName" style="font-size: 18px;">
+            {{ story.uploadedUser }}
+          </p>
+        </button>
+
+        <div *ngIf="isMyStory(story.uploadedUser)">
+          <button style="background-color: transparent; border: 0px" class="m-0 b-0 p-0"
+            (click)="deleteStory(story.userid)">
+            <i class="bi bi-trash3-fill me-1 text-danger"></i>
+          </button>
+        </div>
+
+        <hr />
+      </div>
+    </div>
+  </div>
+  <!-- <ng-container *ngFor="let story of service.allStories">
+    <div class="d-flex align-items-center mt-3" style="height: 50px" *ngIf="story.uploadedUser !== service.myName">
+      <button class="d-flex align-items-center" style="
+          width: -webkit-fill-available;
+          background-color: transparent;
+          border: 0px;
+        " (click)="bb(story.userid, '300ms', '150ms')">
+        <div class="ms-3" style="
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            background-color: white;
+            border: solid rgb(100, 255, 100) 4px;
+          ">
+          <img style="height: 33px; width: 33px; border-radius: 50%"
+            [src]="story.userimg ? story.userimg : '/assets/img/profile.png'" alt="" />
+        </div>
+        <p class="m-0 ms-2" *ngIf="story.uploadedUser !== service.myName">
+          {{ story.uploadedUser }}
+        </p>
+      </button>
+
+      <div *ngIf="isMyStory(story.uploadedUser)">
+        <button style="background-color: transparent; border: 0px" class="m-0 b-0 p-0"
+          (click)="deleteStory(story.userid)">
+          <i class="bi bi-trash3-fill me-1 text-danger"></i>
+        </button>
+      </div>
+
+      <hr />
+    </div>
+  </ng-container> -->
+  <!-- <hr class="p-0 m-0"> -->
+</div>
+
+<!-- modal -->
+<div class="story mt-2 verticalbody d-none" style="height: 600px">
   <div class="stitle" style="display: flex;justify-content: space-around;background-color: rgb(25, 135, 84);position: relative;">
     <p class="storytitle">Stories</p>
     <button class="addstory" type="button" (click)="openDialog('300ms', '150ms')" style="position: absolute;right: 17px;">
@@ -32,12 +151,12 @@
         </p>
       </button>
 
-      <div class="ms-2" *ngIf="story.uploadedUser == service.myName">
+      <!-- <div class="ms-2" *ngIf="story.uploadedUser == service.myName">
         <button style="background-color: transparent; border: 0px" class="m-0 b-0 p-0"
           (click)="deleteStory(story.userid)">
           <i class="bi bi-trash3-fill me-1 text-danger"></i>
         </button>
-      </div>
+      </div> -->
 
       <!-- <button class="addstory" type="button" (click)="openDialog('300ms', '150ms')">
         <i class="bi bi-plus-circle" style="font-size: x-large"></i>

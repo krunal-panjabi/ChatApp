@@ -139,7 +139,7 @@ namespace AKchat.Areas.user.Controllers
         [HttpPost("DisLikemsgbyId")]
         public IActionResult DisLikeMsgById([FromBody] LikeVm model)
         {
-            var count_value = _userrepo.DisLikeEntry(model);
+           var count_value = _userrepo.DisLikeEntry(model);
             if (count_value == 0)
             {
                 return Ok(false);
@@ -179,7 +179,7 @@ namespace AKchat.Areas.user.Controllers
             else
             {
                 return Ok(true);
-            }
+           }
         }
         
 
@@ -218,7 +218,7 @@ namespace AKchat.Areas.user.Controllers
             else
             {
                 return Ok(true);
-            }
+           }
         }
         [Authorize]
         [HttpGet("GetAllOfflineUsers")]
@@ -256,7 +256,7 @@ namespace AKchat.Areas.user.Controllers
             if(count_value>0)
             {
                 return Ok(true);
-            }
+           }
             else
             {
                 return Ok(false);
@@ -543,9 +543,9 @@ namespace AKchat.Areas.user.Controllers
 
         [Authorize]
         [HttpGet("GetStory")]
-        public List<AllStoryVm> GetStory()
+        public List<AllStoryVm> GetStory(string username)
         {
-            var story = _userrepo.GetStory();
+            var story = _userrepo.GetStory(username);
             return story;
         }
 

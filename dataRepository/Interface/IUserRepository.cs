@@ -36,7 +36,7 @@ namespace dataRepository.Interface
         public List<GalleryVm> GetGalleryData(string myName);
         public List<NotiMsgVm> GetNotimsgs(string username);
         public int DeleteNotiMsg(int msgid);
-        public List<AllStoryVm> GetStory();
+        public List<AllStoryVm> GetStory(string username);
         public StoryVm StoryOfUser(int userId);
         public int deleteStory(int userid);
 

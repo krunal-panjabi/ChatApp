@@ -9,6 +9,10 @@
 .headergreen{
  background-color: rgb(25, 135, 84);
 }
+.mat-card-content{
+  width:46% !important;
+  margin-inline: auto !important;
+}
 .headerpurple{
 background-color:#3f51b5 ;
 }
@@ -50,6 +54,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .modal-dialog {
     width: 85% !important;
     max-width: 683px !important;
+  }
+  .mat-dialog-container{
+    height: 700px;
+    padding: 0px !important;
+    border-radius: 17px !important;
   }
   .modal-content{
     width:100% !important;

@@ -21,14 +21,6 @@ isGreenActive: boolean = true;
 
   ngOnInit(): void {
 
-    this.extractedWord = this.route.snapshot.paramMap.get('chat') as string;
-   
-     if (this.service.myName) {
-
-      // this.updateImageUrl(); // Update imageUrl if myName is available
-      console.log(this.service.myName);
-      
-    }
   }
   
   toggleDivColors(color:any) {

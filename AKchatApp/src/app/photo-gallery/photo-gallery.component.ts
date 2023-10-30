@@ -15,7 +15,12 @@ import { PostCommentComponent } from '../post-comment/post-comment.component';
 export class PhotoGalleryComponent {
 
   galleryData: GalleryData[] = [];
-  constructor(public service: UsersService, private router: Router,private matdialog: MatDialog) { }
+  constructor(public service: UsersService, private router: Router,private matdialog: MatDialog) {
+    if(window.location.pathname !== "/chat")
+    {
+      service.isButtonVisisble=true;
+    }
+   }
 
   ngOnInit(): void {
 
