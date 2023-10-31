@@ -2,5 +2,6 @@ export interface OfflineUsers
 {
 username: string,
 imgstr:string,
+status?:number,
 
 }

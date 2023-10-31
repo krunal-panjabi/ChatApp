@@ -223,11 +223,26 @@ namespace AKchat.Areas.user.Controllers
         }
         [Authorize]
         [HttpGet("GetAllOfflineUsers")]
-        public List<AllUsersVm> GetAllOfflineUsers()
+        public List<AllUsersVm> GetAllOfflineUsers(string username)
         {
-            var users = _userrepo.GetAllOfflineUsers();
+            var users = _userrepo.GetAllOfflineUsers(username);
             return users;
         }
+
+
+        //[Authorize]
+        //[HttpGet("FetchUserDetail")]
+        //public async Task<IActionResult> GetUserByprofile(string username)
+        //{
+        //    var user = await _userrepo.GetUserByProfileAsync(username);
+        //    return Ok(user);
+        //}
+
+
+
+
+
+
         [Authorize]
         [HttpGet("GetOfflineUsers")]
         public List<AllUsersVm> GetAllUsers(string username)

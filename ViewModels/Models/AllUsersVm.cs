@@ -10,6 +10,7 @@ namespace ViewModels.Models
     {
         public string username { get; set; }
         public string imgstr { get; set; }
+        public int? status { get; set; }
 
     }
 }
