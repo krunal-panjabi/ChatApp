@@ -533,8 +533,6 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(false);
             }
         }
-
-
         //[Authorize]
         [HttpGet("GetPostComments")]
         public List<PostComments> GetPostComments(int postId)

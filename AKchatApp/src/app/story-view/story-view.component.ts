@@ -16,13 +16,7 @@ import * as $ from 'jquery';
 export class StoryViewComponent {
   Story: StoryView []=[];   
   slideIndex = 0;            
-
-
   currentIndex: number = 0;      
-  
-  
-
-
   // _abc: string[] = [];
   storydata:any=this.data['res'];
   elements: string[] = this.storydata.imgstr.split(',data');

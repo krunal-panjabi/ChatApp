@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
@@ -6,13 +6,13 @@ import { GalleryData } from '../Models/galleryData';
 import { StoryData } from '../Models/storyData';
 import { AllStories } from '../Models/allStories';
 import { MatDialogRef } from '@angular/material/dialog';
-
+declare var $: any;
 @Component({
   selector: 'app-story-upload',
   templateUrl: './story-upload.component.html',
   styleUrls: ['./story-upload.component.css']
 })
-export class StoryUploadComponent  {
+export class StoryUploadComponent implements OnInit {
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('galleryimg') galleryimg !:ElementRef ;
   urls = new Array<string>();
@@ -20,7 +20,8 @@ export class StoryUploadComponent  {
   previews: string[] = [];
   isslider=false;
   isbutton=false;
-  slideIndex = 0;            
+  slideIndex = 0;      
+  content: string='';      
 
 
   currentIndex: number = 0;      
@@ -31,6 +32,14 @@ export class StoryUploadComponent  {
       caption: '',
       imgstr: []
     });
+  }
+  ngOnInit(): void {
+    $('#mTexts').emojioneArea({
+      pickerPosition:'right'
+    });
+   $(document).on('input','.emojionearea-editor',()=>{
+    
+   });
   }
 
 
@@ -95,9 +104,9 @@ export class StoryUploadComponent  {
   }
 
   detectFiles(event: any) {
-    alert('called');
-    this.previews = [];
-   
+    if(this.previews.length<1){
+      this.previews = [];
+    }
     this.selectedFiles = event.target.files;
     if (this.selectedFiles && this.selectedFiles[0]) {
       const numberOfFiles = this.selectedFiles.length;
@@ -136,11 +145,17 @@ export class StoryUploadComponent  {
     };
     reader.readAsDataURL(file);
   }
-
+  sendMessage(contentmsg: string) {
+          this.content=contentmsg;
+          this.onFormSubmit();
+  }
   onFormSubmit() {
+    alert('here');
     const imgstr = this.previews.join(',');
+    const caption= this.content;
     // Set the imgstr value in the form control
     this.storyForm.get('imgstr')?.setValue(imgstr);
+    this.storyForm.get('caption')?.setValue(caption);
     const formValue = this.storyForm.value;
 
     console.log(formValue);

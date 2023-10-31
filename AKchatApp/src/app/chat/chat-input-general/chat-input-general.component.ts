@@ -17,7 +17,7 @@ export class ChatInputGeneralComponent {
   }
   ngOnInit(): void {
     $('#mTexts').emojioneArea({
-      pickerPosition:'right'
+      pickerPosition:'top'
     });
    $(document).on('input','.emojionearea-editor',()=>{
     

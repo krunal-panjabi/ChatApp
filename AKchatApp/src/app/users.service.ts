@@ -271,7 +271,6 @@ getStoryData(): Observable<StoryView[]> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", this.myName);
     return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetOfflineUsers`, { 'headers': headers, 'params': params });
-       
   }
 
   getAllUserNames()

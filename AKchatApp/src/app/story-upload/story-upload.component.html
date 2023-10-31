@@ -5,7 +5,7 @@
     <div class="d-flex flex-column" *ngIf="!isslider"
         style="width: 60%;position: absolute;margin-top: 45%;margin-left: 22%;">
         <img style="height: 127px;" src='/assets/img/imagevidelogo.jpg'>
-        <button class="btn btn-success" style="width: 60%; margin-inline: auto;" (click)="selectimage()">Select from
+        <button class="btn btn-primary" style="width: 60%; margin-inline: auto;" (click)="selectimage()">Select from
             Computer</button>
         <input #fileInput class="image-input" type="file" multiple (change)="detectFiles($event)"
             style="display: none;">
@@ -18,20 +18,31 @@
             <div (click)="goToNext()" class="rightArrow">
                 <span>❱</span>
             </div>
-
         </div>
         <div style="width: 100%;height: 400px;" class="slide image-preview">
             <img [src]="getCurrentSlideUrl()" alt="Slide Image" style="width: 100%;height: 400px;">
             <span class="remove-icon" (click)="removeCurrentImage()">X</span>
         </div>
         <div class="dotsContainer">
-            <div *ngFor="let slide of previews; let slideIndex = index" class="dot" (click)="goToSlide(slideIndex)">
+            <div *ngFor="let slide of previews; let slideIndex = index" class="dot" (click)="goToSlide(slideIndex)"
+                [ngClass]="{'active': slideIndex === currentIndex}">
                 ●
             </div>
         </div>
     </div>
     <div *ngIf="isslider">
-        <form [formGroup]="storyForm" (ngSubmit)="onFormSubmit()">
+        <div style="display: flex;position: absolute;top: 71%;">
+            <div>
+                <h3 style="margin-left: 19px;font-size: 24px;">Caption :</h3>
+            </div>
+            <div style="position:absolute;left:474%" (click)="selectimage()">
+                <img src="/assets/img/upload.png" style="width:30px;height: 30px;">
+            </div>
+            <input #fileInput class="image-input" type="file" multiple (change)="detectFiles($event)"
+                style="display: none;">
+        </div>
+        <app-chat-input-general (contentemitter)="sendMessage($event)"></app-chat-input-general>
+        <!-- <form [formGroup]="storyForm" (ngSubmit)="onFormSubmit()">
             <mat-card>
 
                 <div class="d-flex justify-content-center">
@@ -52,7 +63,7 @@
                     <button mat-raised-button color="primary" class="" style="width: 101%;" type="submit">Save</button>
                 </mat-card-content>
             </mat-card>
-        </form>
+        </form> -->
     </div>
 
 
