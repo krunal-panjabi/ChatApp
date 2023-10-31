@@ -275,13 +275,14 @@ namespace dataRepository.Repository
             }
             return model;
         }
-        public List<AllUsersVm> GetAllOfflineUsers()
+        public List<AllUsersVm> GetAllOfflineUsers(string username)
         {
             List<AllUsersVm> model = new List<AllUsersVm>();
             using (SqlConnection con = new SqlConnection(connections))
             {
-                SqlCommand cmd = new SqlCommand("GetAllUsersOffline", con);
+                SqlCommand cmd = new SqlCommand("GetAllUsersOffline_copy", con);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@currentname", username);
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -289,7 +290,8 @@ namespace dataRepository.Repository
                     AllUsersVm names = new AllUsersVm
                     {
                         username = rdr["name"].ToString(),
-                        imgstr = rdr["image"].ToString()
+                        imgstr = rdr["image"].ToString(),
+                        status = Convert.ToInt32(rdr["count"]),
                     };
 
                     model.Add(names);
@@ -298,6 +300,47 @@ namespace dataRepository.Repository
             }
             return model;
         }
+
+
+        //public async Task<ProfileVm> GetUserByProfileAsync(string name)
+        //{
+        //    List<ProfileVm> model = new List<ProfileVm>();
+
+        //    using (SqlConnection con = new SqlConnection(connections))
+        //    {
+        //        SqlCommand cmd = new SqlCommand("selectuserbyprofile", con);
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Parameters.AddWithValue("@userName", name);
+
+        //        await con.OpenAsync();
+
+        //        using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+        //        {
+        //            while (await rdr.ReadAsync())
+        //            {
+        //                ProfileVm names = new ProfileVm
+        //                {
+        //                    name = rdr["Name"].ToString(),
+        //                    email = rdr["Email"].ToString(),
+        //                    aboutme = rdr["aboutme"].ToString(),
+        //                    status = rdr["status"].ToString(),
+        //                    imgstr = rdr["imgstr"].ToString(),
+        //                    gender = rdr["gender"].ToString(),
+        //                    phonenumber = rdr["phonenumber"].ToString(),
+        //                    dob = Convert.ToDateTime(rdr["dob"])
+        //                };
+
+        //                model.Add(names);
+        //            }
+        //        }
+        //    }
+
+        //    return model.FirstOrDefault();
+        //}
+
+
+
+
         public List<AllUsersVm> GetAllUsers(string username)
         {
             List<AllUsersVm> model = new List<AllUsersVm>();

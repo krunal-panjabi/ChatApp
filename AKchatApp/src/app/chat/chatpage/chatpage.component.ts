@@ -12,6 +12,11 @@ import { startWith } from 'rxjs';
 import { groupname } from 'src/app/Models/groupname';
 import { clippingParents } from '@popperjs/core';
 
+interface UserWithIcon extends OfflineUsers {
+  iconClass: string;
+  iconChanged: boolean;
+}
+
 @Component({
   selector: 'app-chatpage',
   templateUrl: './chatpage.component.html',
@@ -23,8 +28,14 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   userctrl = new FormControl('');
   searchctrl=new FormControl('');
   filteredlist:string[]=[];
+  // userslist1: UserWithIcon[] = [];
+
+  iconClass = 'bi bi-person-fill-add'; // Initial icon class
+  iconChanged = false;
+
+ 
   
-  
+  grid = true;
   constructor(public service : UsersService,private modalService:NgbModal,private router:Router,public msgservice:MessageService) { 
     //var absUrl= $location.absUrl();
     console.log('ChatComponent constructor called');
@@ -38,11 +49,14 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   this.service.usernamelist=this.service.offlineUsers.filter(user=>user.username.toLowerCase().includes(searchterm));
   this.service.groupnamelist=this.service.groups.filter(grp=>grp.groupname.toLowerCase().includes(searchterm));
   }
-  onSearchInputChange(){
+  // onSearchInputChange(){
   
-    const searchterm=(this.userctrl.value?? '').toLowerCase();
-    this.filteredlist=this.userslist.filter(user=>user.toLowerCase().includes(searchterm));
-  }
+  //   const searchterm=(this.userctrl.value?? '').toLowerCase();
+  //   this.filteredlist=this.userslist.filter(user=>user.toLowerCase().includes(searchterm));
+  // }
+
+
+
  ngOnDestroy(): void{
    this.service.stopChatConnection();
  }
@@ -81,9 +95,11 @@ private removeFirst(array: string[], toRemove: string): void {
     this.service.getAllUserNames().subscribe({
       next:(data)=>{
         this.userslist=data.filter(user=>user.username!==this.service.myName).map(user=>user.username);
+       
         this.filteredlist=this.userslist;
-        this.service.searchuserlist=  data;
-        this.service.searchfilteredlist=data;
+        this.service.searchuserlist=  data.filter(user => user.username !== this.service.myName);
+        this.service.searchfilteredlist=data.filter(user => user.username !== this.service.myName);
+        // console.log(this.service.searchfilteredlist.);
       }
     })
     if (this.service.myName) {
@@ -104,21 +120,61 @@ private removeFirst(array: string[], toRemove: string): void {
   sendMessage(content:string){
     this.service.sendMessage(content);
   }
-  onSaveButtonClick()
-  {
-    const categories = this.userControl.value as string[];
-    const selectedNames = categories.join(',');
-    if(selectedNames.length>0)
-    {
-       this.service.SelectedUsers(selectedNames).subscribe({
-         next:(data)=>{
-          this.service.requestnoti(selectedNames);
-        //  this.service.getAllUsers();
-         }
-       })
-    }
+  // onSaveButtonClick()
+  // {
+  //   const categories = this.userControl.value as string[];
+  //   const selectedNames = categories.join(',');
+  //   if(selectedNames.length>0)
+  //   {
+  //      this.service.SelectedUsers(selectedNames).subscribe({
+  //        next:(data)=>{
+  //         this.service.requestnoti(selectedNames);
+  //       //  this.service.getAllUsers();
+  //        }
+  //      })
+  //   }
   
+  // }
+
+  // requestUser(username :any)
+  // {
+  
+    
+  //      this.service.SelectedUsers(username).subscribe({
+  //        next:(data)=>{
+  //         this.service.requestnoti(username);
+  //         this.iconClass = 'bi bi-check';
+  //         this.iconChanged = true;
+  //       //  this.service.getAllUsers();
+  //        }
+  //      })
+
+    
+  
+  // }
+
+
+  requestUser(username: string) {
+    alert("clicked noww");
+    // Find the user by username and update the request status
+    // const user = this.userslist1.find(user => user.username === username);
+    // if (user) {
+      console.log()
+      this.service.SelectedUsers(username).subscribe({
+        next: (data) => {
+          alert(data);
+          this.service.requestnoti(username);
+        //   user.iconClass = 'bi bi-check'; 
+        //   user.iconChanged = true;
+         }
+      });
+    // }
   }
+
+
+
+
+
   isUserAuthenticated(){
     return true;
   }

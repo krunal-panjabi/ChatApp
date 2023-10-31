@@ -14,7 +14,7 @@ namespace dataRepository.Interface
         public int creategroup(string grpname,string members);
         public int checkforname(string name);
         public int loginrepo(UserVM model);
-        public List<AllUsersVm> GetAllOfflineUsers();
+        public List<AllUsersVm> GetAllOfflineUsers(string username);
         public List<AllUsersVm> GetAllUsers(string username);
         public void storechat(MessageVM model);
         public Task<List<MessageVM>> loadprivatechat(string from, string to);

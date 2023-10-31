@@ -275,10 +275,19 @@ getStoryData(): Observable<StoryView[]> {
 
   getAllUserNames()
   {
-    return this.http
-      .get<OfflineUsers[]>(`${environment.apiUrl}User/GetAllOfflineUsers`)
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+   const params = new HttpParams().set("username", this.myName);
+
+    return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetAllOfflineUsers`, { 'headers': headers, 'params': params })
     
   }
+
+
+  // public getuserprofiledetail(): Observable<profile> {
+  //   const headers = new HttpHeaders({ 'content-type': 'application/json' });
+  //   const params = new HttpParams().set("username", this.myName);
+  //   return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
+  // }
 
   // getAllGroups(username: string) {
 
@@ -333,7 +342,7 @@ getStoryData(): Observable<StoryView[]> {
     return this.http.post(`${environment.apiUrl}User/AcceptReq`,data);
   }
   SelectedUsers(users:string){
-    
+    alert("huuu");
     const data={
       userlist:users,
       name:this.myName
