@@ -1,0 +1,10 @@
+<div class="mt-2 text-center" style="font-size: x-large;">Mutual Friends</div>
+<div class="ms-3 mt-3" *ngFor="let user of namedata; let i = index">
+    <div class=" d-flex">
+        <span class="me-2"><img style="width:20px;height:20px;border-radius:50%"
+                [src]="imagedata[i] ?? '/assets/img/profile.png'"></span>
+        <!-- Display the name -->
+        <span>{{ user }}</span> <!-- Display the image -->
+    </div>
+
+</div>
