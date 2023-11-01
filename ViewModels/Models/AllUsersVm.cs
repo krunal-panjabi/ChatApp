@@ -12,5 +12,9 @@ namespace ViewModels.Models
         public string imgstr { get; set; }
         public int? status { get; set; }
 
+        public string? mutualimages { get; set; }
+
+        public string? mutualnames { get;set; }
+
     }
 }

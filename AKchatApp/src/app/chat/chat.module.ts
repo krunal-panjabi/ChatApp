@@ -21,6 +21,7 @@ import { StoryComponent } from '../story/story.component';
 import { StoryViewComponent } from '../story-view/story-view.component';
 import { StoryUploadComponent } from '../story-upload/story-upload.component';
 import { PostCommentComponent } from '../post-comment/post-comment.component';
+import { MutualFriendListComponent } from '../mutual-friend-list/mutual-friend-list.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { PostCommentComponent } from '../post-comment/post-comment.component';
     StoryComponent,
     PostCommentComponent,
     StoryUploadComponent,
-    StoryViewComponent
+    StoryViewComponent,
+    MutualFriendListComponent
   ],
   imports: [
     CommonModule,

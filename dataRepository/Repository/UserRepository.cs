@@ -292,6 +292,8 @@ namespace dataRepository.Repository
                         username = rdr["name"].ToString(),
                         imgstr = rdr["image"].ToString(),
                         status = Convert.ToInt32(rdr["count"]),
+                        mutualimages = rdr["MutualImages"].ToString(),
+                        mutualnames = rdr["MutualNames"].ToString()
                     };
 
                     model.Add(names);

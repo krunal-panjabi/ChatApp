@@ -11,6 +11,8 @@ import { FormControl } from '@angular/forms';
 import { startWith } from 'rxjs';
 import { groupname } from 'src/app/Models/groupname';
 import { clippingParents } from '@popperjs/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MutualFriendListComponent } from 'src/app/mutual-friend-list/mutual-friend-list.component';
 
 interface UserWithIcon extends OfflineUsers {
   iconClass: string;
@@ -36,7 +38,7 @@ export class ChatpageComponent implements OnInit,OnDestroy {
  
   
   grid = true;
-  constructor(public service : UsersService,private modalService:NgbModal,private router:Router,public msgservice:MessageService) { 
+  constructor(public service : UsersService,private modalService:NgbModal,private router:Router,public msgservice:MessageService,public dialog:MatDialog) { 
     //var absUrl= $location.absUrl();
     console.log('ChatComponent constructor called');
     if(window.location.pathname === "/chat")
@@ -44,6 +46,39 @@ export class ChatpageComponent implements OnInit,OnDestroy {
       service.isButtonVisisble=false;
     }
   }
+
+
+
+  openDialog(name:any): void {
+    alert(name);
+    const filteredUsers = this.service.searchfilteredlist.filter(user => user.username === name);
+    console.log("user data",filteredUsers);
+    const imgArray = filteredUsers.map(user => user.mutualarr);
+    const friendNamesArray = filteredUsers.map(user => user.mutualfriends);
+    
+
+    const dialogRef = this.dialog.open(MutualFriendListComponent, {
+      width: '250px',
+      height: '250px',
+      data: { mutualarr: imgArray[0], mutualfriendnames: friendNamesArray[0] }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
   onSearchInputChange1(){
    const searchterm=(this.searchctrl.value?? '').toLocaleLowerCase();
   this.service.usernamelist=this.service.offlineUsers.filter(user=>user.username.toLowerCase().includes(searchterm));
@@ -94,11 +129,26 @@ private removeFirst(array: string[], toRemove: string): void {
     
     this.service.getAllUserNames().subscribe({
       next:(data)=>{
+        data.forEach(user=>{
+           const imgAry=user.mutualimages?.split(',');
+           const friendsarr=user.mutualnames?.split(',');
+           const newUser={
+             username:user.username,
+             status:user.status,
+             mutualimages:user.mutualimages,
+             imgstr:user.imgstr,
+             mutualarr:imgAry,
+             mutualfriends:friendsarr
+           }
+
+           this.service.searchfilteredlist.push(newUser);
+           this.service.searchuserlist.push(newUser);
+        });
         this.userslist=data.filter(user=>user.username!==this.service.myName).map(user=>user.username);
        
         this.filteredlist=this.userslist;
-        this.service.searchuserlist=  data.filter(user => user.username !== this.service.myName);
-        this.service.searchfilteredlist=data.filter(user => user.username !== this.service.myName);
+       // this.service.searchuserlist=  data.filter(user => user.username !== this.service.myName);
+       // this.service.searchfilteredlist=data.filter(user => user.username !== this.service.myName);
         // console.log(this.service.searchfilteredlist.);
       }
     })

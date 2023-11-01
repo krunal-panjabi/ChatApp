@@ -111,8 +111,9 @@
 
                     <div class="mb-3" *ngFor="let user of service.searchfilteredlist"
                         [ngClass]="grid ? 'col-4' : 'col-12'">
-                        <div style="flex: 0 0 calc(33.3333% - 20px); background-color: transparent">
-                            <div class="d-flex justify-content-center">
+                        <div
+                            style=" border: solid black 1px;box-shadow: 3px 4px 12px grey;border-radius: 12px;flex: 0 0 calc(33.3333% - 20px); background-color: white">
+                            <div class="mt-2 d-flex justify-content-center">
                                 <div class="card me-2 mb-2"
                                     style="width: 190px;height: 190px;border-radius: 50%; display: flex;justify-content: center;">
                                     <img style="width: 190px;height: 190px;border-radius: 50%;" class="card-img-top"
@@ -120,11 +121,44 @@
 
                                 </div>
                             </div>
-                            <div class="card-body text-center" style="background-color:transparent">
-                                <p class="card-text" style="font-size: larger;font-weight: 700;">{{user.username}}
-                                </p>
+                            <div class="card-body text-center " style="background-color:transparent">
+                                <span class="card-text" style="font-size: large;font-weight: 600;">{{user.username}}
+                                </span>
+
                             </div>
-                            <div class="card-body text-center" style="background-color:transparent">
+
+                            <div class="text-center">
+                                <button [class]="user.status === 0 ? ' btn-primary ' : ' btn-secondary'"
+                                    (click)="requestUser(user.username)" [disabled]="user.status === 1"
+                                    class="btn card-text"
+                                    style="font-size: larger;font-weight: 500;padding: 0px;width: fit-content;">
+                                    <i class="ms-1"
+                                        [class]="user.status === 1 ? 'bi bi-check' : 'bi bi-person-fill-add'"></i>
+                                    <span class="ms-2 me-1" *ngIf="user.status === 1">Following</span>
+                                    <span class="ms-2 me-1" *ngIf="user.status === 0">Follow</span>
+                                </button>
+                            </div>
+
+                            <div class="mt-2 mb-2 d-flex justify-content-center align-items-center"
+                                style="    background-color: #e3e3e3;">
+
+
+
+                                <span class="me-3" style="color: purple;font-weight: 600;"> mutual Friends</span>
+                                <button style="padding: 0px;background-color: transparent;border: 0px;"
+                                    (click)="openDialog(user.username)">
+                                    <ng-container *ngFor="let img of user.mutualarr,let imgId=index">
+                                        <ng-container *ngIf="imgId<3">
+                                            <img style="width:20px;height:20px;border-radius: 50%;border: solid black 1px;"
+                                                [src]="img">
+                                        </ng-container>
+
+                                    </ng-container>
+                                </button>
+
+                            </div>
+
+                            <!-- <div class="card-body text-center" style="background-color:transparent">
                                 <button [class]="user.status === 0 ? ' btn-primary ' : ' btn-secondary'"
                                     (click)="requestUser(user.username)" [disabled]="user.status === 1"
                                     class="btn card-text" style="font-size: larger;font-weight: 700;">
@@ -132,7 +166,7 @@
                                     <span class="ms-2" *ngIf="user.status === 1">Following</span>
                                     <span class="ms-2" *ngIf="user.status === 0">Follow</span>
                                 </button>
-                            </div>
+                            </div> -->
 
                         </div>
                     </div>
