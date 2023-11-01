@@ -46,6 +46,8 @@ hr {
     height: 20px;
     width: 20px;
     border-radius: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 .user-image1 {
     height: 29px;
@@ -373,7 +375,7 @@ input[type=checkbox]:checked~.sidebarIconToggle>.diagonal.part-2 {
   }
   
   .show {
-    width: 250px; /* Adjust the width according to your design */
+    width: 210px; /* Adjust the width according to your design */
   }
   
   /* .search-input {

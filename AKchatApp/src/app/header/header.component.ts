@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { profile } from '../Models/profile';
 import { UsersService } from '../users.service';
@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationComponent } from '../notification/notification.component';
 import { FormControl } from '@angular/forms';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-header',
@@ -35,7 +36,8 @@ isDropdownVisible = false;
     console.log("")
     this.filteredlist=this.userlist
   }
-  
+
+
   toggleDivColors(color:any) {
     this.isGreenActive = !this.isGreenActive;
     this.service.toggletheme(color);
