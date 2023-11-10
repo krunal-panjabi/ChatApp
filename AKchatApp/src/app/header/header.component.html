@@ -18,14 +18,15 @@
   <div class="container-fluid d-flex" *ngIf="service.isLogInComponent">
     <div class="col-2 col-sm-4 col-md-5">
       <div *ngIf="service.isButtonVisisble">
-        <button class=" ms-1 btn btn-warning btn-sm" type="button" [routerLink]="['/chat']"><i class="bi bi-house-door-fill"></i>
+        <button class=" ms-1 btn btn-warning btn-sm" type="button" [routerLink]="['/chat']"><i
+            class="bi bi-house-door-fill"></i>
           <span class="ms-1 d-none d-sm-inline-flex">Home</span>
         </button>
       </div>
     </div>
     <div class="col-8 col-sm-7 col-md-7 d-flex justify-content-between header">
       <div>
-        <span class="navbar-brand mb-0 h1 maintitle" >Chat Application</span>
+        <span class="navbar-brand mb-0 h1 maintitle">Chat Application</span>
       </div>
 
       <div class="dropdown mb-0 d-flex">
@@ -62,9 +63,9 @@
           </button>
           <div id="myDropdown" style="border: 0px;" class="dropdown-content" [ngClass]="{'show': isDropdownVisible}">
             <div class="input-container" style="padding: 0px;">
-              <input type="text" placeholder="Search.." id="myInput" [formControl]="userctrl" (input)="onUserSearch()"
-                style="position: absolute;
-              right: 40px;
+              <input #myInput type="text" placeholder="Search.." id="myInput" [formControl]="userctrl"
+                (input)="onUserSearch()" style="position: absolute;
+              right: 28px;
               bottom: 0px;
               height: 20px;">
             </div>
@@ -89,7 +90,7 @@
 
 
 
-    
+
 
         <div style="display: flex;align-items: center;" class="position-relative" (click)="openNotiDialogue()">
           <i class="bi bi-bell me-2" style="color: white; font-size: 22px;"></i>
@@ -102,8 +103,14 @@
               class="bi bi-images" style=" font-size: larger;"></i></button>
         </div>
         <div class="d-flex">
-          <img class="user-image me-2" [src]="this.service.imageUrl" alt="">
-          <button style="width:55%" class="btn  dropdown-toggle p-0 dbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <ng-container *ngIf="this.service.imageUrl;else noofflineuser">
+            <img class="user-image me-2" [src]="this.service.imageUrl" alt="">
+          </ng-container>
+          <ng-template #noofflineuser>
+            <div class="user-text me-2">{{this.service.myName.charAt(0)}}</div>
+          </ng-template>
+          <button style="width:55%" class="btn  dropdown-toggle p-0 dbtn" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
             <span class="navbar-brand ">{{service.myName}}</span>
           </button>
           <ul class="dropdown-menu mt-2" style="background-color: rgba(25,135,84,255);padding: 10px;">
@@ -127,7 +134,7 @@
       </div>
 
       <div class="body togglebody d-none">
-        
+
         <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
         <label for="openSidebarMenu" class="sidebarIconToggle">
           <div class="spinner diagonal part-1"></div>
@@ -145,7 +152,7 @@
               <span><img class="me-2" style="width:20px;height:20px" src='/assets/img/logo.jpg' alt=""></span>
               <span style="margin-right: 23px;"><a (click)="logout()">LogOut</a></span>
             </div>
-          
+
             <div [ngClass]="service.defaulttheme" class="d-flex justify-content-center p-1">
               <div class="p-1 text-black" [class.defaultgreen]="isGreenActive" [class.bg-white]="!isGreenActive"
                 (click)="toggleDivColors('headergreen')">green</div>

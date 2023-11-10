@@ -563,6 +563,14 @@ namespace AKchat.Areas.user.Controllers
         }
 
         [Authorize]
+        [HttpGet("GetMyGallery")]
+        public List<GalleryVm> GetMyGallery(string myName)
+        {
+            var gallery = _userrepo.GetMyGalleryData(myName);
+            return gallery;
+        }
+
+        [Authorize]
         [HttpPost("UploadStoryData")]
         public IActionResult UploadStoryData([FromBody] StoryVm model)//company register
         {
@@ -583,6 +591,14 @@ namespace AKchat.Areas.user.Controllers
         public List<AllStoryVm> GetStory(string username)
         {
             var story = _userrepo.GetStory(username);
+            return story;
+        }
+
+        [Authorize]
+        [HttpGet("UsersLikedPost")]
+        public List<UsersLikedPostVm> UsersLikedPost(int imageId)
+        {
+            var story = _userrepo.UsersLikedPost(imageId);
             return story;
         }
 
@@ -630,7 +646,19 @@ namespace AKchat.Areas.user.Controllers
         }
 
 
-
+        [HttpPost("deletePost")]
+        public IActionResult deletePost([FromBody] int id)
+        {
+            var post = _userrepo.deletePost(id);
+            if (post > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
 
 
 

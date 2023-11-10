@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { profile } from '../Models/profile';
 import { UsersService } from '../users.service';
@@ -75,7 +75,8 @@ isDropdownVisible = false;
     sessionStorage.clear();
     this.service.myName = '';
     this.service.reintialized();
-    this.service.notifyOtherTabs();
+      this.service.notifyOtherTabs();
+      this.userctrl.setValue(null);
     this.router.navigateByUrl('/login');
   }
  
@@ -84,6 +85,9 @@ isDropdownVisible = false;
   }
 
   toggleDropdown() {
+    // this.myInput.nativeElement.value = '';
+    this.userctrl.setValue(null);
+    this.onUserSearch();
     this.isDropdownVisible = !this.isDropdownVisible;
   }
 

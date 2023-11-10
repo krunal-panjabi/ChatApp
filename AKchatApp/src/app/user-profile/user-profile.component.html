@@ -110,13 +110,17 @@
 
 
 
-                        <mat-card-content class="d-flex flex-column">
+                        <mat-card-content class="d-flex flex-column about">
                             <label>About me</label>
-                            <mat-form-field appearance="outline">
+                            <!-- <mat-form-field appearance="outline"> -->
 
-                                <mat-label>About Me</mat-label>
-                                <input matInput formControlName="aboutme">
-                            </mat-form-field>
+                            <!-- <mat-label>About Me</mat-label> -->
+                            <!-- <input matInput formControlName="aboutme"> -->
+
+                            <angular-editor [placeholder]="'Enter text here...'" [config]="config"
+                                formControlName="aboutme"></angular-editor>
+
+                            <!-- </mat-form-field> -->
 
                         </mat-card-content>
 

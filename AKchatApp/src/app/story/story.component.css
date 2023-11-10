@@ -47,3 +47,15 @@
         display: block !important;
     }
   }
+
+
+  .user-text{
+    height: 88px; width: 88px; border-radius: 50%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    font-weight: 600;
+    font-size: xxx-large;
+  }

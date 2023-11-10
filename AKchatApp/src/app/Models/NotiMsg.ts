@@ -6,4 +6,5 @@ export interface notimsg{
     msgid?:number;
     usename?:string;
     answer?:number;
+    userImage? : string;
 }

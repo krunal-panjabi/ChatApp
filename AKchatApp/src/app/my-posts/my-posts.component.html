@@ -1,0 +1,95 @@
+<div class="d-flex justify-content-center align-items-center" style="height: 95vh;">
+    <div class="p-2 mt-3 "
+        style="border-radius: 22px;background-color: rgb(218 255 211);; width: 90%; position: absolute; height: 70vh; overflow-y: auto;overflow-x: hidden; padding: 10px;">
+
+        <div class="row mt-2">
+            <p class="text-center mb-3" style="font-size: x-large;font-weight: 800;">My Posts</p>
+
+            <ng-container *ngIf="galleryData.length > 0">
+
+                <div class="mb-3" *ngFor="let data of galleryData" [ngClass]="grid ? 'col-4' : 'col-12'">
+                    <div *ngIf="data.uploadedUser.trim() === service.myName.trim()"
+                        style=" border: solid black 1px;box-shadow: 3px 4px 12px grey;border-radius: 12px;flex: 0 0 calc(33.3333% - 20px); background-color: white">
+                        <div class="mt-2 d-flex justify-content-center" style="position: relative;">
+                            <span *ngIf="data.uploadedUser.trim() === service.myName.trim()"
+                                style="position: absolute;top: 5px;right: 5px;z-index: 22; ;color: red;">
+                                <button
+                                    style="border-radius: 50%;background-color: transparent;border: solid red 1px;padding-top: 3px;"
+                                    (click)="confirmDelete(data.galleryId)">
+                                    <i style="color: red;" class="bi bi-trash3-fill"></i>
+                                </button>
+                            </span>
+                            <div class="card me-2 mb-2"
+                                style="width: 190px;height: 190px;border-radius: 12px; display: flex;justify-content: center;">
+                                <img style="width: 190px;height: 190px;border-radius: 12px;" class="card-img-top"
+                                    [src]="data.imgstr">
+
+                            </div>
+                        </div>
+                        <div class="card-body m-2 " style="background-color:transparent">
+                            <span style="font-size: large;font-weight: 600;">Caption : </span>
+                            <span class="card-text">{{data.caption}}
+                            </span>
+
+                        </div>
+                        <div class="m-2">
+                            <span style="font-size: large;font-weight: 600;">Likes Count : </span>
+                            <span (click)="likes(data.galleryId)"> {{data.likeCount}} likes
+                            </span>
+                            <!-- <span>{{data.galleryId}}</span> -->
+                        </div>
+                        <div class="m-2">
+                            <span style="font-size: large;font-weight: 600;">Comments : </span>
+                            <span (click)="comment(data.galleryId)"><i class="bi bi-eye-fill ms-1"
+                                    style="font-size: larger;"></i></span>
+                        </div>
+
+                        <!-- <div class="d-flex justify-content-between">
+                        <button [class]="user.status === 0 ? 'btn btn-primary' : 'btn btn-secondary'"
+                            [disabled]="user.status === 1" class="card-text"
+                            style="font-size: larger; font-weight: 500; margin: 0 auto; width: fit-content; text-align: center;">
+                            <i class="ms-1" [class]="user.status === 1 ? 'bi bi-check' : 'bi bi-person-fill-add'"></i>
+                            <span class="ms-2 me-1" *ngIf="user.status === 1">Following</span>
+                            <span class="ms-2 me-1" *ngIf="user.status === 0">Follow</span>
+                        </button>
+                        <div class="me-2" style="text-align: right;display: flex;align-items: center;"
+                            *ngIf="user.status === 1">
+                            <i class="bi bi-send-fill" style="font-size: x-large;"></i>
+                        </div>
+                    </div> -->
+
+
+                        <!-- <div class="mt-2 mb-2 d-flex justify-content-center align-items-center"
+                        style="    background-color: #e3e3e3;">
+
+
+
+                        <span class="me-3" style="color: purple;font-weight: 600;"> mutual Friends</span>
+                        <button style="padding: 0px;background-color: transparent;border: 0px;">
+                            <ng-container *ngFor="let img of user.mutualarr,let imgId=index">
+                                <ng-container *ngIf="imgId<3">
+                                    <img style="width:20px;height:20px;border-radius: 50%;border: solid black 1px;"
+                                        [src]="img">
+                                </ng-container>
+
+                            </ng-container>
+                        </button>
+
+                    </div> -->
+
+                        <!-- <div class="card-body text-center" style="background-color:transparent">
+                <button [class]="user.status === 0 ? ' btn-primary ' : ' btn-secondary'"
+                    (click)="requestUser(user.username)" [disabled]="user.status === 1"
+                    class="btn card-text" style="font-size: larger;font-weight: 700;">
+                    <i [class]="user.status === 1 ? 'bi bi-check' : 'bi bi-person-fill-add'"></i>
+                    <span class="ms-2" *ngIf="user.status === 1">Following</span>
+                    <span class="ms-2" *ngIf="user.status === 0">Follow</span>
+                </button>
+            </div> -->
+
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

@@ -9,10 +9,11 @@ namespace ViewModels.Models
     public class GalleryVm
     {
         public int? galleryId { get; set; }
-        public string caption { get; set; }
-        public string imgstr { get; set; }
-        public string uploadedUser { get; set; }
-        public int likeCount { get; set; }
-        public int currentUserLiked { get; set; }
+        public string? caption { get; set; }
+        public string? imgstr { get; set; }
+        public string? userimage { get; set; }
+        public string? uploadedUser { get; set; }
+        public int? likeCount { get; set; }
+        public int? currentUserLiked { get; set; }
     }
 }

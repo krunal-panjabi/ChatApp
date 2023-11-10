@@ -34,11 +34,14 @@ namespace dataRepository.Interface
 
         public int UploadStoryData(string caption, string imgstr , string uploadedUser);
         public List<GalleryVm> GetGalleryData(string myName);
+        public List<GalleryVm> GetMyGalleryData(string myName);
         public List<NotiMsgVm> GetNotimsgs(string username);
         public int DeleteNotiMsg(int msgid);
         public List<AllStoryVm> GetStory(string username);
+        public List<UsersLikedPostVm> UsersLikedPost(int imageId);
         public StoryVm StoryOfUser(int userId);
         public int deleteStory(int userid);
+        public int deletePost(int userid);
 
 
         public int DisLikeEntryGrp(LikeVm model);

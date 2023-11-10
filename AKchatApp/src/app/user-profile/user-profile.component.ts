@@ -4,6 +4,7 @@ import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
 import { profile } from '../Models/profile';
 import { MatStepper } from '@angular/material/stepper';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,7 +18,8 @@ export class UserProfileComponent implements OnInit {
   imageUrl: string = "/assets/img/upload.png";
   fileToUpload!: File;
   file!: File;
-  nameError: boolean = false;
+    nameError: boolean = false;
+    htmlContent = '';
   empForm: FormGroup;
   oldname = '';
 
@@ -34,7 +36,7 @@ export class UserProfileComponent implements OnInit {
       }
     });
 
-
+     
     if (this.service.imageUrl === "") {
 
       this.imageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ"; // Replace with your actual default image URL
@@ -142,6 +144,17 @@ export class UserProfileComponent implements OnInit {
   button1() {
     this.stepper.next();
   }
+    config: AngularEditorConfig = {
+      editable: true,
+      spellcheck: true,
+      height: '1rem',
+      minHeight: '3rem',
+      placeholder: 'Enter text here...',
+      translate: 'no',
+      defaultParagraphSeparator: 'p',
+      defaultFontName: 'Arial',
+     
+    };
 }
 
 

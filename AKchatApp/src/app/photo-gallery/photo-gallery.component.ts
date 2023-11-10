@@ -40,6 +40,32 @@ export class PhotoGalleryComponent {
    this.fetchGalleryData();
  }
 
+
+ confirmDelete(galleryId: any) {
+  const confirmation = window.confirm('Are you sure you want to delete this post?');
+
+  if (confirmation) {
+    // The user confirmed the delete action, perform the delete operation here
+    this.deletePost(galleryId);
+  } else {
+    // The user canceled the delete action, do nothing
+  }
+}
+
+ deletePost(id:any){
+  this.service.deleteMyPost(id).subscribe({
+    next:()=>{
+      this.ngOnInit();
+      // this.service.LiveStory();
+  
+    }
+  
+  })
+
+ }
+
+
+
  fetchGalleryData() {
   this.service.getGalleryData(this.service.myName).subscribe(data => {
     this.galleryData = data;

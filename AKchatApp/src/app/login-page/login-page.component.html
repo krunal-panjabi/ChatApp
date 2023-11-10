@@ -30,7 +30,7 @@
                     <input formControlName="username" type="text" class="form-control " style="border: 0px;"
                         placeholder="Name" [class.is-invalid]="submitted && userForm.get('name')?.errors">
                     <!-- <label for="Name">Name</label> -->
-                  
+
                 </div>
                 <span class="text-danger" *ngIf="submitted && userForm.get('username')?.hasError('required')">
                     Please choose a name
@@ -54,6 +54,8 @@
                 <span class="text-danger" *ngIf="submitted && userForm.get('password')?.hasError('required')">
                     Please enter password
                 </span>
+
+
 
 
 
