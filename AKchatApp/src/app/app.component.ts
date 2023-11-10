@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { UsersService } from './users.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,27 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'AKchatApp';
+  constructor(router:Router,public service:UsersService){
+    router.events.subscribe(val=>{
+     if(window.location.pathname==='/' || window.location.pathname==='/login'){
+      this.service.isLogInComponent=false;
+     }
+     else{
+      this.service.isLogInComponent=true;
+     }
+    });
+
+    if ('BroadcastChannel' in window) {
+      const channel = new BroadcastChannel('session-logout');
+      channel.onmessage = (event) => {
+        const message=event.data;
+        sessionStorage.clear();
+      };
+    }
+  }
 }
+
+
+
+
+

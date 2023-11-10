@@ -82,7 +82,11 @@
     top: 45%;
     cursor: pointer;
   }
-  
+  .dropzone{
+    width:77%;
+    height:50%;
+    border:1px;
+  }
   .leftArrow {
     width: 36px;
     height: 36px;

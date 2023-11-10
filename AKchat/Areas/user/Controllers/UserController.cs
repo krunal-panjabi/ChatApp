@@ -55,7 +55,7 @@ namespace AKchat.Areas.user.Controllers
         public IActionResult Login([FromBody] UserVM model)
         {
             var valid_user = _userrepo.loginrepo(model);
-            if(valid_user == 0)
+            if (!Convert.ToBoolean(valid_user)) // Result=>   0=false and 1=true 
             {
                 if (_chatservices.AddUserToList(model))
                 {
@@ -163,8 +163,6 @@ namespace AKchat.Areas.user.Controllers
             {
                 return Ok(false);
             }
-
-
         }
         [Authorize]
         [SwaggerOperation(Summary = "For liking grp msg")]
@@ -219,7 +217,7 @@ namespace AKchat.Areas.user.Controllers
             else
             {
                 return Ok(true);
-           }
+            }
         }
         [Authorize]
         [HttpGet("GetAllOfflineUsers")]

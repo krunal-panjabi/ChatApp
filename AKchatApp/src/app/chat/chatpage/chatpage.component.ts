@@ -108,13 +108,15 @@ private removeFirst(array: string[], toRemove: string): void {
   }
 }
   ngOnInit():void{
+    this.service.myName = sessionStorage.getItem('myName') || '';
+    this.service.imageUrl=sessionStorage.getItem('userimage') || '';
     this.service.getAllUsers().subscribe({
       next:(data)=>{
         this.service.offlineUsers=data;
         this.service.usernamelist=this.service.offlineUsers;
       }
     })
-    this.service.getAllGroups(this.service.myName).subscribe({
+    this.service.getAllGroups(sessionStorage.getItem('myName') || '').subscribe({
       next: (data) => {
         this.service.groups = data;
         this.service.groupnamelist=this.service.groups;
@@ -130,8 +132,8 @@ private removeFirst(array: string[], toRemove: string): void {
     this.service.getAllUserNames().subscribe({
       next:(data)=>{
         data.forEach(user=>{
-           const imgAry=user.mutualimages?.split(',');
-           const friendsarr=user.mutualnames?.split(',');
+          const imgAry = user.mutualimages ? user.mutualimages.split(',') : [];
+          const friendsarr = user.mutualnames ? user.mutualnames.split(',') : [];
            const newUser={
              username:user.username,
              status:user.status,
@@ -144,27 +146,15 @@ private removeFirst(array: string[], toRemove: string): void {
            this.service.searchfilteredlist.push(newUser);
            this.service.searchuserlist.push(newUser);
         });
+        console.log("the usermutual",this.service.searchfilteredlist);
         this.userslist=data.filter(user=>user.username!==this.service.myName).map(user=>user.username);
        
         this.filteredlist=this.userslist;
-       // this.service.searchuserlist=  data.filter(user => user.username !== this.service.myName);
-       // this.service.searchfilteredlist=data.filter(user => user.username !== this.service.myName);
-        // console.log(this.service.searchfilteredlist.);
       }
     })
     if (this.service.myName) {
       console.log(this.service.myName);
     }
-    // else{
-    //  setTimeout(() => {
-    //    this.router.navigateByUrl('/no-connection');
-    //    setTimeout(() => {
-    //      this.router.navigateByUrl('/login');
-    //    }, 3000);
-    //  }, 0);
-    // }
-    // this.userslist=this.service.offlineUsers.filter(user=>user.username!==this.service.myName).map(user=>user.username);
-    // console.log("users for search list",this.userslist);
   }
   
   sendMessage(content:string){
@@ -230,6 +220,7 @@ private removeFirst(array: string[], toRemove: string): void {
   }
 
     openPrivateChat(toUser: string, image: string){
+      this.service.loadprivatechats(toUser);
   this.service.isGroupChat=false;
   this.service.isgeneral=false;
   this.service.toUser=toUser;
@@ -238,16 +229,17 @@ private removeFirst(array: string[], toRemove: string): void {
    const modalRef=this.modalService.open(PrivateChatsComponent);
    modalRef.componentInstance.toUser=toUser;
    modalRef.componentInstance.image=image;
-   this.service.loadprivatechats(toUser);
   }
 
   logout(){
     this.service.myName='';
     this.service.isTyping=false;
+  
     this.router.navigateByUrl('/login');
   }
 
   openGroupChat(GroupName:string){
+    this.service.loadgrpchats(GroupName);
     this.service.isgeneral=false;
     this.service.isGroupChat=true;
     this.service.globalgpname=GroupName;
@@ -255,7 +247,7 @@ private removeFirst(array: string[], toRemove: string): void {
     this.msgservice.messageDiv1Visibility={};
     this.msgservice.messageDiv2Visibility={};
     modalRef.componentInstance.GroupName=GroupName;
-    this.service.loadgrpchats(GroupName);
+  
     this.service.loadgrpmembers(GroupName).subscribe({
       next:(data)=>{
         this.service.grpmembers=data;

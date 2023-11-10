@@ -62,8 +62,21 @@ export class UsersService {
   defaulttheme='headergreen';
   isButtonVisisble=false;
   isdivvalid=false;
+  isLogInComponent=true;
   readonly url = "https://localhost:7239/"
+  jwtHelper: any;
+  tokenglobal:any;
   constructor(private http: HttpClient, private modalService: NgbModal, public msgservice: MessageService) { }
+
+reintialized()
+{
+  this.searchfilteredlist=[];
+  this.searchuserlist=[];
+  this.messages=[];
+  this.grpmessages=[];
+  this.searchfilteredlist=[];
+  this.searchuserlist=[];
+}
 
 
 toggletheme(color:string){
@@ -101,10 +114,6 @@ getPostComments(postId :number): Observable<PostComments[]> {
 }
 
   
-
-
-
-  
 getGalleryData(myName :string): Observable<GalleryData[]> {
   return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
 }
@@ -116,7 +125,9 @@ uploadStoryData(caption: string, imgstr: string [], uploadedUser: string): Obser
 
 getStoryData(): Observable<StoryView[]> {
   const headers = new HttpHeaders({ 'content-type': 'application/json' });
-  const params = new HttpParams().set("username", this.myName);
+  var name=sessionStorage.getItem('myName') || '';
+  const params = new HttpParams().set("username", name);
+ // const params = new HttpParams().set("username", this.myName);
   return this.http.get<StoryView[]>(`${environment.apiUrl}User/GetStory`, { 'headers': headers, 'params': params });
 }
   
@@ -224,15 +235,16 @@ getStoryData(): Observable<StoryView[]> {
 
     return this.http.post(`${environment.apiUrl}User/UserLogin`, User);
   }
-  public postFile(profiledata: profile): Observable<any> {
-    profiledata.username = this.myName;
+  public postFile(profiledata: profile,oldname:any): Observable<any> {
+    profiledata.username = oldname;
+    console.log("the userdata",profiledata);
     return this.http.post(`${environment.apiUrl}User/ProfileData`, profiledata);
   }
   public uploadfile(fileToUpload: File, name: string) {
     const endpoint = `${environment.apiUrl}User/uploadphoto`;
     const formData: FormData = new FormData();
     formData.append('Image', fileToUpload, fileToUpload.name);
-    formData.append('name', name);
+    formData.append('name', this.myName);
     return this.http
       .post(endpoint, formData);
   }
@@ -254,7 +266,9 @@ getStoryData(): Observable<StoryView[]> {
 
   getNotificationMsg(){
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
-    const params = new HttpParams().set("username", this.myName);
+    var name=sessionStorage.getItem('myName') || '';
+    const params = new HttpParams().set("username", name);
+    //const params = new HttpParams().set("username", this.myName);
     return this.http.get<notimsg[]>(`${environment.apiUrl}User/GetNotiMsg`, { 'headers': headers, 'params': params });
   }
   // getAllUsers() {
@@ -269,15 +283,16 @@ getStoryData(): Observable<StoryView[]> {
   // }
   getAllUsers() {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
-    const params = new HttpParams().set("username", this.myName);
+    var name=sessionStorage.getItem('myName') || '';
+    const params = new HttpParams().set("username", name);
     return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetOfflineUsers`, { 'headers': headers, 'params': params });
   }
 
   getAllUserNames()
   {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
-   const params = new HttpParams().set("username", this.myName);
-
+    var name=sessionStorage.getItem('myName') || '';
+    const params = new HttpParams().set("username", name);
     return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetAllOfflineUsers`, { 'headers': headers, 'params': params })
     
   }
@@ -309,20 +324,27 @@ getStoryData(): Observable<StoryView[]> {
   getAllGroups(username: string) {
 
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
-    const params = new HttpParams().set("username", username);
+    var name=sessionStorage.getItem('myName') || '';
+    const params = new HttpParams().set("username", name);
+ 
     return this.http.get<groupname[]>(`${environment.apiUrl}User/GetGroups`, { 'headers': headers, 'params': params });
   }
   public getuserprofiledetail(): Observable<profile> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
-    const params = new HttpParams().set("username", this.myName);
+    var name=sessionStorage.getItem('myName') || '';
+    const params = new HttpParams().set("username", name);
+    //const params = new HttpParams().set("username", this.myName);
     return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
   }
 
   public getuserImage(name: string): Observable<profile> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    var name=sessionStorage.getItem('myName') || '';
     const params = new HttpParams().set("username", name);
+    //const params = new HttpParams().set("username", name);
     return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
   }
+
   Declined(name:string,msgid:any)
   {
     const data={
@@ -332,6 +354,7 @@ getStoryData(): Observable<StoryView[]> {
     }
     return this.http.post(`${environment.apiUrl}User/DeclineReq`,data);
   }
+
   Accepted(name:string,msgid:any)
   {
     const data={
@@ -341,6 +364,7 @@ getStoryData(): Observable<StoryView[]> {
     }
     return this.http.post(`${environment.apiUrl}User/AcceptReq`,data);
   }
+
   SelectedUsers(users:string){
     alert("huuu");
     const data={
@@ -349,6 +373,7 @@ getStoryData(): Observable<StoryView[]> {
     }
     return this.http.post(`${environment.apiUrl}User/SelectedUsers`,data);
   }
+
   intitializeloadprivatechats(toUser: string, fromUser: string): Observable<Message[]> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     let params = new HttpParams()
@@ -378,8 +403,6 @@ getStoryData(): Observable<StoryView[]> {
     return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/LoadGrpMembers`, { 'headers': headers, 'params': params });
   }
 
-
-  
   intitializeloadgrpchats(name: string, gpname: string): Observable<Message[]> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     let params = new HttpParams()
@@ -403,12 +426,15 @@ getStoryData(): Observable<StoryView[]> {
   }
 
   storeToken(tokenValue:string){
-  localStorage.setItem('token',tokenValue);
+  sessionStorage.setItem('token',tokenValue); 
+  }
+   notifyOtherTabs() {
+    if ('BroadcastChannel' in window) {
+      const channel = new BroadcastChannel('session-logout');
+      channel.postMessage(this.tokenglobal);
+    }
   }
   
-  
-
-
   sendGalleryData(id: any, myName: string): Observable<any> {
     const data = {
       id: id,
@@ -418,14 +444,12 @@ getStoryData(): Observable<StoryView[]> {
   }
 
   getToken(){
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
   }
 
   isLoggedIn():boolean{
-  return !!localStorage.getItem('token');
+  return !!sessionStorage.getItem('token');
   }
-
-
 
   createChatConnection() {
     this.chatConnection = new HubConnectionBuilder()

@@ -14,20 +14,20 @@ declare var $: any;
 })
 export class StoryUploadComponent implements OnInit {
   @ViewChild('fileInput') fileInput: any;
-  @ViewChild('galleryimg') galleryimg !:ElementRef ;
+  @ViewChild('galleryimg') galleryimg !: ElementRef;
   urls = new Array<string>();
   selectedFiles?: FileList;
   previews: string[] = [];
-  isslider=false;
-  isbutton=false;
-  slideIndex = 0;      
-  content: string='';      
+  isslider = false;
+  isbutton = false;
+  slideIndex = 0;
+  content: string = '';
 
 
-  currentIndex: number = 0;      
+  currentIndex: number = 0;
   storyForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private service: UsersService,private router:Router,public dialogRef: MatDialogRef<StoryUploadComponent>) {
+  constructor(private formBuilder: FormBuilder, private service: UsersService, private router: Router, public dialogRef: MatDialogRef<StoryUploadComponent>) {
     this.storyForm = this.formBuilder.group({
       caption: '',
       imgstr: []
@@ -35,11 +35,11 @@ export class StoryUploadComponent implements OnInit {
   }
   ngOnInit(): void {
     $('#mTexts').emojioneArea({
-      pickerPosition:'right'
+      pickerPosition: 'right'
     });
-   $(document).on('input','.emojionearea-editor',()=>{
-    
-   });
+    $(document).on('input', '.emojionearea-editor', () => {
+
+    });
   }
 
 
@@ -65,22 +65,22 @@ export class StoryUploadComponent implements OnInit {
   //   this.previews.splice(index, 1);
   // }
   removeCurrentImage(): void {
-    console.log("the preview",this.previews);
+    console.log("the preview", this.previews);
     if (this.previews.length > 1) {
       this.previews.splice(this.currentIndex, 1);
 
       if (this.currentIndex >= this.previews.length) {
         this.currentIndex = this.previews.length - 1;
       }
-      console.log('the remove',this.previews.length);
-      if(this.previews.length===1){
-        this.isbutton=false;
+      console.log('the remove', this.previews.length);
+      if (this.previews.length === 1) {
+        this.isbutton = false;
       }
     }
-    else{
-      this.previews=[];
-      this.isslider=false;
-      console.log("the empty preview",this.previews);
+    else {
+      this.previews = [];
+      this.isslider = false;
+      console.log("the empty preview", this.previews);
     }
   }
   goToPrevious(): void {
@@ -89,7 +89,7 @@ export class StoryUploadComponent implements OnInit {
       ? this.previews.length - 1
       : this.currentIndex - 1;
 
- 
+
     this.currentIndex = newIndex;
   }
 
@@ -104,7 +104,7 @@ export class StoryUploadComponent implements OnInit {
   }
 
   detectFiles(event: any) {
-    if(this.previews.length<1){
+    if (this.previews.length < 1) {
       this.previews = [];
     }
     this.selectedFiles = event.target.files;
@@ -117,23 +117,51 @@ export class StoryUploadComponent implements OnInit {
           // console.log(e.target.result);
           this.previews.push(e.target.result);
           if (this.previews.length > 0) {
-                  this.isslider=true;
-                  console.log("the length",this.previews.length);
+            this.isslider = true;
+            console.log("the length", this.previews.length);
           }
-          if(this.previews.length>1){
-            this.isbutton=true;
+          if (this.previews.length > 1) {
+            this.isbutton = true;
           }
         };
         reader.readAsDataURL(this.selectedFiles[i]);
       }
     }
+
+  }
+
+  onDragOver(event: any) {
+    event.preventDefault();
+  }
+
+  onDrop(event: any) {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
   
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+  
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.previews.push(e.target.result);
+          if (this.previews.length > 0) {
+            this.isslider = true;
+            console.log("the length", this.previews.length);
+          }
+          if (this.previews.length > 1) {
+            this.isbutton = true;
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    }
   }
 
   getCurrentSlideUrl() {
     return `${this.previews[this.currentIndex]}`;
   }
- 
+
 
   convertToBase64(file: File) {
     const reader = new FileReader();
@@ -141,18 +169,18 @@ export class StoryUploadComponent implements OnInit {
       const base64String = e.target.result;
 
       this.storyForm.get('imgstr')?.setValue(base64String);
-       this.galleryimg.nativeElement.setAttribute('src',this.storyForm.get('imgstr')?.value)
+      this.galleryimg.nativeElement.setAttribute('src', this.storyForm.get('imgstr')?.value)
     };
     reader.readAsDataURL(file);
   }
   sendMessage(contentmsg: string) {
-          this.content=contentmsg;
-          this.onFormSubmit();
+    this.content = contentmsg;
+    this.onFormSubmit();
   }
   onFormSubmit() {
     alert('here');
     const imgstr = this.previews.join(',');
-    const caption= this.content;
+    const caption = this.content;
     // Set the imgstr value in the form control
     this.storyForm.get('imgstr')?.setValue(imgstr);
     this.storyForm.get('caption')?.setValue(caption);
@@ -169,20 +197,20 @@ export class StoryUploadComponent implements OnInit {
 
     console.log(postData);
 
-    if(this.storyForm.valid){
-           this.service.uploadStoryData(formValue.caption, formValue.imgstr, this.service.myName).subscribe(data =>{
-            this.dialogRef.close({submitted : true});
-            this.service.getStoryData().subscribe({
-              next:(data)=>{
-                this.service.allStories=data;
-                this.service.LiveStory();
-              },
+    if (this.storyForm.valid) {
+      this.service.uploadStoryData(formValue.caption, formValue.imgstr, this.service.myName).subscribe(data => {
+        this.dialogRef.close({ submitted: true });
+        this.service.getStoryData().subscribe({
+          next: (data) => {
+            this.service.allStories = data;
+            this.service.LiveStory();
+          },
 
-            })
-           });
-          //  this.service.getStoryData().subscribe(data => {
-          //   this.allStories = data;
-          // });
-         }
+        })
+      });
+      //  this.service.getStoryData().subscribe(data => {
+      //   this.allStories = data;
+      // });
+    }
   }
 }

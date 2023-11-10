@@ -1,7 +1,7 @@
-<div class="dialogue-container"   style="z-index:1002;">
-    <span class="fw-bolder">People Who React</span>
+<div class="dialogue-container"   style="z-index:1002;padding: 10px;">
+    <span class="fw-bolder" style="margin-left: 16px;">People Who React</span>
     <div class="d-flex justify-content-between" *ngFor="let user of service.likemembers">
-        <span  class="text-primary {{'user-'+ user.username}}" (click)="toggle(user.username)">{{user.username}}</span>
+        <span  class="text-primary {{'user-'+ user.username}}" (click)="toggle(user.username)" style="margin-left: 18px;margin-top: 5px;">{{user.username}}</span>
         <span><img src="assets/img/heart.jpg" class="open1div" style="height:35px;width:40px"></span>
     </div>
 </div>

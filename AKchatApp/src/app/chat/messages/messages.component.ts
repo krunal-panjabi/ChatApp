@@ -18,7 +18,7 @@ export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
   @Input() username: string | undefined;
   @Input() scrollautomatic: any;
   private shoulAutoscroll:boolean=true;
-
+  
   // messageDivVisibility: { [key: number]: boolean } = {}; //for options div
   // messageDiv1Visibility: { [key: number]: boolean } = {}; //for heart
   // ngOnInit() {

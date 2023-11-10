@@ -23,11 +23,9 @@ export class PhotoGalleryComponent {
    }
 
   ngOnInit(): void {
-
+    this.service.myName = sessionStorage.getItem('myName') || '';
+    this.service.imageUrl=sessionStorage.getItem('userimage') || '';
     if (this.service.myName) {
-
-
-     // this.updateImageUrl(); // Update imageUrl if myName is available
      console.log(this.service.myName);
      
    }

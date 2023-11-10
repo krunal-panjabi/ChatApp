@@ -146,14 +146,23 @@
 
                                 <span class="me-3" style="color: purple;font-weight: 600;"> mutual Friends</span>
                                 <button style="padding: 0px;background-color: transparent;border: 0px;"
-                                    (click)="openDialog(user.username)">
-                                    <ng-container *ngFor="let img of user.mutualarr,let imgId=index">
-                                        <ng-container *ngIf="imgId<3">
-                                            <img style="width:20px;height:20px;border-radius: 50%;border: solid black 1px;"
-                                                [src]="img">
+                                   >
+                                    <ng-container *ngIf="user!.mutualarr!.length > 0; else nomutual"  (click)="openDialog(user.username)">
+                                        <ng-container *ngFor="let img of user!.mutualarr; let imgId = index">
+                                            <ng-container *ngIf="imgId < 3">
+                                                <img style="width: 20px; height: 20px; border-radius: 50%; border: solid black 1px;"
+                                                    [src]="img ?? '/assets/img/profile.png'">
+                                            </ng-container>
                                         </ng-container>
-
                                     </ng-container>
+                                    
+                                    <ng-template #nomutual >
+                                        <div style="cursor:default">
+                                            <span>No Mutual Users</span>
+                                        </div>
+                                       
+                                    </ng-template>
+                                    
                                 </button>
 
                             </div>

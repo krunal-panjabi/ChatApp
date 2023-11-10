@@ -2,7 +2,16 @@
 {
     height: fit-content;
 }
-
+.custom-input{
+    border:none;
+    width: 100%;
+    border-bottom: 0.5px solid grey;
+}
+.custom-input:focus{
+    border:none !important;
+    outline: none;
+    border-bottom: 0.5px solid lightgray !important;
+}
 .mat-card{
     margin: 2%;
     text-align: left;

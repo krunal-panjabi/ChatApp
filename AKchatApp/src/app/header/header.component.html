@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark" [ngClass]="service.defaulttheme">
-  <div class="row container-fluid" *ngIf="!service.myName">
+  <div class="row container-fluid" *ngIf="!service.isLogInComponent">
 
     <div class="col-7 d-flex" style="justify-content: space-between;">
       <span class="text-center navbar-brand mb-0" style="font-family: cursive;color: white; font-size: x-large;">AK
@@ -15,7 +15,7 @@
 
 
   <!-- after login header -->
-  <div class="container-fluid d-flex" *ngIf="service.myName">
+  <div class="container-fluid d-flex" *ngIf="service.isLogInComponent">
     <div class="col-2 col-sm-4 col-md-5">
       <div *ngIf="service.isButtonVisisble">
         <button class=" ms-1 btn btn-warning btn-sm" type="button" [routerLink]="['/chat']"><i class="bi bi-house-door-fill"></i>

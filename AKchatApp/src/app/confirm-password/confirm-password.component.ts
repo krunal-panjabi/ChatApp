@@ -36,7 +36,7 @@ export class ConfirmPasswordComponent {
     if(this.newPass.valid){
       // this.otp=this.newPass.get("otp")?.value;
       this.newPassword=this.newPass.get("newPassword")?.value;
-      const email=localStorage.getItem('email');
+      const email=sessionStorage.getItem('email');
       console.log("email",email);
       this.service.newPassword(email,this.newPassword).subscribe(data =>{
         this.router.navigateByUrl('/login')

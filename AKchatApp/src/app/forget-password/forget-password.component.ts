@@ -39,8 +39,8 @@ submitForm(){
         if (response.result === 'NoUser') {
           this.forget.setErrors({ NoUser: true });        } 
           else{
-            localStorage.setItem('email',this.toemail);
-            console.log("the email",localStorage.getItem('email'));
+            sessionStorage.setItem('email',this.toemail);
+            console.log("the email",sessionStorage.getItem('email'));
             this.router.navigateByUrl('/otp-send');
 
           }

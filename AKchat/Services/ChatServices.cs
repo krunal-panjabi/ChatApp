@@ -18,11 +18,13 @@ namespace AKchat.Services
         private static readonly Dictionary<string, string> Users = new Dictionary<string, string>();
         public bool AddUserToList(UserVM model)
         {
-            var valid = _userrepo.loginrepo(model);
-            if (valid == 0)
-            {
                 lock (Users)
                 {
+                    var result = Users.Any(x => x.Key.ToLower() == model.username.ToLower());
+                    if (result)
+                    {
+                        return false;
+                    }
                     foreach (var user in Users)
                     {
                         if (user.Key.ToLower() == model.username.ToLower())
@@ -33,8 +35,8 @@ namespace AKchat.Services
                     Users.Add(model.username.ToLower(), null);
                     return true;
                 }
-            }
-            return false;
+           
+            
         }
 
         public void AddUserConnectionId(string user, string connectionId)
@@ -59,12 +61,12 @@ namespace AKchat.Services
         {
             lock (Users)
             {
-                 return Users[user.ToLower()];
+                return Users[user.ToLower()];
             }
         }
 
         public void RemoveUserFromList(string user)
-      {
+        {
             lock (Users)
             {
                 if (Users.ContainsKey(user.ToLower()))

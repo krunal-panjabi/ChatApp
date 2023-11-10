@@ -14,13 +14,19 @@ export class LoginPageComponent implements OnInit {
   userForm : FormGroup = new FormGroup({});
   submitted = false;
  
-  constructor(private formBuilder : FormBuilder ,private service : UsersService,private router:Router, private toastr: ToastrService) { }
+  constructor(private formBuilder : FormBuilder ,private service : UsersService,private router:Router, private toastr: ToastrService) { 
+    if(window.location.pathname === "/")
+    {
+      service.isLogInComponent=false;
+    }
+  }
 
   ngOnInit(): void {
+    console.log("the path",window.location.pathname);
     this.userForm.reset();
     this.initializeForm();
-    localStorage.clear();
   }
+  
   initializeForm(){
     this.userForm = this.formBuilder.group({
       username : [null ,[Validators.required,Validators.minLength(3),Validators.maxLength(15)]],
@@ -36,7 +42,10 @@ export class LoginPageComponent implements OnInit {
           if(response){
             if(response.message==="Valid")
             { this.service.storeToken(response.token);
-              this.service.myName=this.userForm.get('username')?.value;
+              this.service.tokenglobal=response.token;
+
+              sessionStorage.setItem('myName',this.userForm.get('username')?.value);
+              this.service.myName=sessionStorage.getItem('myName') || '';
               this.service.getNotificationMsg().subscribe({
                 next:(data)=>{
                   this.service.notimsgs = data;
@@ -49,7 +58,8 @@ export class LoginPageComponent implements OnInit {
               });
               this.service.getuserImage(this.userForm.get('username')?.value).subscribe({
                 next: (data: profile) => {
-                  this.service.imageUrl = data.imgstr;
+                  this.service.imageUrl = data.imgstr ?? '';
+                  sessionStorage.setItem('userimage',data.imgstr ?? '');
                 },
                 error: (error) => {
                   console.error('Error loading private chats', error);

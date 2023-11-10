@@ -21,18 +21,22 @@ isGreenActive: boolean = true;
 userctrl = new FormControl('');
 filteredlist:string[]=[];
 userlist:string[]=[];
+
 // searchVisible: boolean = false;
 
 isDropdownVisible = false;
 
 
-  constructor(public service: UsersService, private router: Router, private route: ActivatedRoute,private matdialog: MatDialog) { }
+  constructor(public service: UsersService, private router: Router, private route: ActivatedRoute,private matdialog: MatDialog) { 
+   
+  }
 
   ngOnInit(): void {
 
     this.extractedWord = this.route.snapshot.paramMap.get('chat') as string;
     this.userlist=this.service.offlineUsers.filter(user=>user.username!==this.service.myName).map(user=>user.username);
     // alert(this.userlist);
+    this.service.myName = sessionStorage.getItem('myName') || '';
     console.log("")
     this.filteredlist=this.userlist
   }
@@ -59,7 +63,6 @@ isDropdownVisible = false;
     this.service.getuserprofiledetail().subscribe({
       next:(data:profile)=>{
         this.service.singleuser=data;
-
         this.router.navigateByUrl('/user-profile');
       },
       error: (error) => {
@@ -69,15 +72,13 @@ isDropdownVisible = false;
   }
 
   logout() {
-    localStorage.clear();
+    sessionStorage.clear();
     this.service.myName = '';
+    this.service.reintialized();
+    this.service.notifyOtherTabs();
     this.router.navigateByUrl('/login');
   }
  
-
-
-
-
   search(){
     alert("fg")
   }

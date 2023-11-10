@@ -768,7 +768,7 @@ namespace dataRepository.Repository
             }
         }
 
-
+            
         public List<AllStoryVm> GetStory(string username)
         {
             List<AllStoryVm> model = new List<AllStoryVm>();
