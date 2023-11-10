@@ -76,7 +76,8 @@ export class UploadGalleryComponent implements OnInit {
       uploadedUser: this.service.myName ,
       galleryId : null,
       likeCount : null,
-      currentUserLiked : null
+      currentUserLiked : null,
+      userimage : null
     };
 
     console.log(postData);
@@ -85,6 +86,7 @@ export class UploadGalleryComponent implements OnInit {
            this.service.uploadGalleryData(formValue.caption, formValue.imgstr, this.service.myName).subscribe(data =>{
      
            });
+           this.service.getGalleryData(this.service.myName);
            this.router.navigateByUrl('/gallery')
          }
   }

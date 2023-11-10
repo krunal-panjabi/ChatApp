@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { profile } from '../Models/profile';
 import { UsersService } from '../users.service';
@@ -21,6 +21,8 @@ isGreenActive: boolean = true;
 userctrl = new FormControl('');
 filteredlist:string[]=[];
 userlist:string[]=[];
+
+// @ViewChild('myInput') myInput!: ElementRef;
 // searchVisible: boolean = false;
 
 isDropdownVisible = false;
@@ -71,6 +73,8 @@ isDropdownVisible = false;
   logout() {
     localStorage.clear();
     this.service.myName = '';
+    this.userctrl.setValue(null);
+    window.location.reload();
     this.router.navigateByUrl('/login');
   }
  
@@ -83,6 +87,9 @@ isDropdownVisible = false;
   }
 
   toggleDropdown() {
+    // this.myInput.nativeElement.value = '';
+    this.userctrl.setValue(null);
+    this.onUserSearch();
     this.isDropdownVisible = !this.isDropdownVisible;
   }
 

@@ -240,6 +240,7 @@ namespace dataRepository.Repository
                         content =  rdr["Message"].ToString(),
                         status= Convert.ToInt32(rdr["status"]),
                         name = rdr["name"].ToString(),
+                        userImage = rdr["userImage"].ToString(),
                         id = Convert.ToInt32(rdr["id"]),
                         msgid = rdr["msgid"]!= DBNull.Value?Convert.ToInt32(rdr["msgid"]): 00,
                         usename = rdr["usename"].ToString(),
@@ -386,18 +387,18 @@ namespace dataRepository.Repository
                     {
                         ProfileVm names = new ProfileVm
                         {
-                            name = rdr["Name"].ToString(),
-                            email = rdr["Email"].ToString(),
-                            aboutme = rdr["aboutme"].ToString(),
-                            status = rdr["status"].ToString(),
-                            imgstr = rdr["imgstr"].ToString(),
-                            gender = rdr["gender"].ToString(),
-                            phonenumber = rdr["phonenumber"].ToString(),
-                            dob = Convert.ToDateTime(rdr["dob"])
+                            name = rdr.IsDBNull(rdr.GetOrdinal("Name")) ? null : rdr["Name"].ToString(),
+                            email = rdr.IsDBNull(rdr.GetOrdinal("Email")) ? null : rdr["Email"].ToString(),
+                            aboutme = rdr.IsDBNull(rdr.GetOrdinal("aboutme")) ? null : rdr["aboutme"].ToString(),
+                            status = rdr.IsDBNull(rdr.GetOrdinal("status")) ? null : rdr["status"].ToString(),
+                            imgstr = rdr.IsDBNull(rdr.GetOrdinal("imgstr")) ? null : rdr["imgstr"].ToString(),
+                            gender = rdr.IsDBNull(rdr.GetOrdinal("gender")) ? null : rdr["gender"].ToString(),
+                            phonenumber = rdr.IsDBNull(rdr.GetOrdinal("phonenumber")) ? null : rdr["phonenumber"].ToString(),
+                            dob = rdr.IsDBNull(rdr.GetOrdinal("dob")) ? DateTime.Now : Convert.ToDateTime(rdr["dob"])
                         };
-                      
                         model.Add(names);
                     }
+
                 }
             }
 
@@ -545,7 +546,7 @@ namespace dataRepository.Repository
             }
         }
         public int profiledata(ProfileVm model)
-        {
+         {
             using (SqlConnection con = new SqlConnection(connections))
             {
                 SqlCommand cmd = new SqlCommand("spInsertUserProfile", con);
@@ -797,6 +798,33 @@ namespace dataRepository.Repository
         }
 
 
+        public List<UsersLikedPostVm> UsersLikedPost(int imageId)
+        {
+            List<UsersLikedPostVm> model = new List<UsersLikedPostVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("UsersLikedPost", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@imageId", imageId);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    UsersLikedPostVm names = new UsersLikedPostVm
+                    {
+                        userName = rdr["userLiked"].ToString(),
+                        userimg = rdr["image"].ToString(),
+                        //Convert.ToInt32(rdr["id"]),
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
+        }
+
+
 
 
 
@@ -846,6 +874,20 @@ namespace dataRepository.Repository
         }
 
 
+        public int deletePost(int id)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("deletePost", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", id);
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+                return i;
+            }
+        }
+
+
 
 
 
@@ -880,6 +922,39 @@ namespace dataRepository.Repository
                         caption = rdr["caption"].ToString(),
                         imgstr = rdr["imgstr"].ToString(),
                         uploadedUser = rdr["uploadedUser"].ToString(),
+                        userimage = rdr["image"].ToString(),
+                        galleryId = Convert.ToInt32(rdr["id"]),
+                        likeCount = Convert.ToInt32(rdr["likes"]),
+                        currentUserLiked = Convert.ToInt32(rdr["currentUserLiked"]),
+                    };
+                    model.Add(gallery);
+                }
+                con.Close();
+            }
+            return model;
+        }
+
+
+        public List<GalleryVm> GetMyGalleryData(string myName)
+        {
+            List<GalleryVm> model = new List<GalleryVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetMyGalleryData", con);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@myName", myName);
+
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    GalleryVm gallery = new GalleryVm
+                    {
+                        caption = rdr["caption"].ToString(),
+                        imgstr = rdr["imgstr"].ToString(),
+                        uploadedUser = rdr["uploadedUser"].ToString(),
+                        userimage = rdr["image"].ToString(),
                         galleryId = Convert.ToInt32(rdr["id"]),
                         likeCount = Convert.ToInt32(rdr["likes"]),
                         currentUserLiked = Convert.ToInt32(rdr["currentUserLiked"]),

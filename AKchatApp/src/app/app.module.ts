@@ -25,6 +25,9 @@ import { PostCommentComponent } from './post-comment/post-comment.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ConfirmPasswordComponent } from './confirm-password/confirm-password.component';
 import { OtpSendComponent } from './otp-send/otp-send.component';
+import { MyPostsComponent } from './my-posts/my-posts.component';
+import { UserLikedPostsComponent } from './user-liked-posts/user-liked-posts.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 // import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
 //import { MatChipsModule } from '@angular/material/chips';
 
@@ -42,7 +45,9 @@ import { OtpSendComponent } from './otp-send/otp-send.component';
     NotificationComponent,
     ForgetPasswordComponent,
     ConfirmPasswordComponent,
-    OtpSendComponent
+    OtpSendComponent,
+    MyPostsComponent,
+    UserLikedPostsComponent,
       ],
   imports: [
     BrowserModule,
@@ -54,6 +59,8 @@ import { OtpSendComponent } from './otp-send/otp-send.component';
     MaterialModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    AngularEditorModule
+
     // MatChipsModule
     
   ],

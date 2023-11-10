@@ -127,17 +127,22 @@
 
                             </div>
 
-                            <div class="text-center">
-                                <button [class]="user.status === 0 ? ' btn-primary ' : ' btn-secondary'"
+                            <div class="d-flex justify-content-between">
+                                <button [class]="user.status === 0 ? 'btn btn-primary' : 'btn btn-secondary'"
                                     (click)="requestUser(user.username)" [disabled]="user.status === 1"
-                                    class="btn card-text"
-                                    style="font-size: larger;font-weight: 500;padding: 0px;width: fit-content;">
+                                    class="card-text"
+                                    style="font-size: larger; font-weight: 500; margin: 0 auto; width: fit-content; text-align: center;">
                                     <i class="ms-1"
                                         [class]="user.status === 1 ? 'bi bi-check' : 'bi bi-person-fill-add'"></i>
                                     <span class="ms-2 me-1" *ngIf="user.status === 1">Following</span>
                                     <span class="ms-2 me-1" *ngIf="user.status === 0">Follow</span>
                                 </button>
+                                <div class="me-2" style="text-align: right;display: flex;align-items: center;"
+                                    (click)="openPrivateChat(user.username, user.imgstr)" *ngIf="user.status === 1">
+                                    <i class="bi bi-send-fill" style="font-size: x-large;"></i>
+                                </div>
                             </div>
+
 
                             <div class="mt-2 mb-2 d-flex justify-content-center align-items-center"
                                 style="    background-color: #e3e3e3;">

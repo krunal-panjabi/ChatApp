@@ -26,7 +26,7 @@ toggle(msg:any){
   })
 }
 
-fortoggleprivatechat(name:string,msgid:any){
+fortoggleprivatechat(name:string,msgid:any,userImage:any){
   this.router.navigateByUrl('/chat');
   this.service.isGroupChat=false;
   this.service.isgeneral=false;
@@ -37,6 +37,7 @@ fortoggleprivatechat(name:string,msgid:any){
   const modalRef=this.modalService.open(PrivateChatsComponent);
   modalRef.componentInstance.toUser=name;
   modalRef.componentInstance.msgid=msgid;
+  modalRef.componentInstance.image=userImage;
   modalRef.componentInstance.scrollautomatic=true;
   this.dialogRef.close();
 }

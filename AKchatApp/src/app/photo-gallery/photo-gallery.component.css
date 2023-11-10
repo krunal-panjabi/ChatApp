@@ -146,6 +146,14 @@ hr{
     width: fit-content;
 }
 
+.mypost-btn{
+  position: fixed;
+  top:63px;
+  left:6px;
+  z-index: 23;
+  width: fit-content;
+}
+
 /* .outerBody{position: relative;
   padding: 50px;
   background-image: linear-gradient(#ff9292, #f5f56d, #008500);

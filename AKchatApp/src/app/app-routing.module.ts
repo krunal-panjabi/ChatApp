@@ -10,7 +10,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ConfirmPasswordComponent } from './confirm-password/confirm-password.component';
 import { OtpSendComponent } from './otp-send/otp-send.component';
-// import { StoryComponent } from './story/story.component';
+ import { MyPostsComponent } from './my-posts/my-posts.component';
 
 const routes: Routes = [
   { path: '', component: LoginPageComponent },
@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'forget-password', component: ForgetPasswordComponent },
   { path: 'confirmPassword', component: ConfirmPasswordComponent },
   { path: 'otp-send', component: OtpSendComponent },
+  { path: 'my-posts', component: MyPostsComponent },
   { path: 'user-profile', component: UserProfileComponent,canActivate:[AuthGuard] },
   { path: 'gallery', component: PhotoGalleryComponent,canActivate:[AuthGuard] },
   { path: 'upload-gallery', component: UploadGalleryComponent,canActivate:[AuthGuard] },

@@ -20,6 +20,7 @@ import { MessageService } from './message.service';
 import { notimsg } from './Models/NotiMsg';
 import { StoryView } from './Models/storyView';
 import { PostComments } from './Models/postComments';
+import { UsersLikedPost } from './Models/usersLikedPosts';
 
 
 @Injectable(
@@ -109,6 +110,10 @@ getGalleryData(myName :string): Observable<GalleryData[]> {
   return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
 }
 
+getMyGalleryData(myName :string): Observable<GalleryData[]> {
+  return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetMyGallery?myName=`+myName);
+}
+
 uploadStoryData(caption: string, imgstr: string [], uploadedUser: string): Observable<any> {
   const storyData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
   return this.http.post(`${environment.apiUrl}User/UploadStoryData`, storyData);
@@ -120,6 +125,12 @@ getStoryData(): Observable<StoryView[]> {
   return this.http.get<StoryView[]>(`${environment.apiUrl}User/GetStory`, { 'headers': headers, 'params': params });
 }
   
+UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
+  console.log("in services"+imageId); 
+  const headers = new HttpHeaders({ 'content-type': 'application/json' });
+  const params = new HttpParams().set("imageId", imageId);
+  return this.http.get<UsersLikedPost[]>(`${environment.apiUrl}User/UsersLikedPost`, { 'headers': headers, 'params': params });
+}
   // storyOfUser(userId: any): Observable<any> {
   //   const data = {
   //     userId: userId,
@@ -140,6 +151,11 @@ getStoryData(): Observable<StoryView[]> {
     return this.http.post(`${environment.apiUrl}User/deleteStory`, userid);
   }
  
+  deleteMyPost(id: number): Observable<any> {
+  
+    // alert("gerjg"+ userid);
+    return this.http.post(`${environment.apiUrl}User/deletePost`, id);
+  }
 
   forgetPassword(emailstr: string): Observable<any> {
     const toemail={

@@ -3,46 +3,63 @@
 
 
 
-     
-        
-        <div class="col-12 gal-img" style="max-height:89vh;overflow-y: auto;position: relative; justify-content: center;">
+
+
+        <div class="col-12 gal-img"
+            style="max-height:89vh;overflow-y: auto;position: relative; justify-content: center;">
             <div class="container d-flex justify-content-center upload-btn  mt-2">
-                <a class="btn ubtn " [routerLink]="['/upload-gallery']" ><i class="bi bi-plus" style="font-size: x-large;"></i> upload Image</a>
+                <a class="btn ubtn " [routerLink]="['/upload-gallery']"><i class="bi bi-plus"
+                        style="font-size: x-large;"></i> upload Image</a>
+            </div>
+
+            <div class="container d-flex justify-content-center mypost-btn  mt-2">
+                <a class="btn ubtn " [routerLink]="['/my-posts']"> My Posts</a>
             </div>
 
 
 
+            <div class="container d-flex justify-content-center p-2 posts" *ngFor="let data of galleryData">
 
-                    <div class="container d-flex justify-content-center p-2 posts" *ngFor="let data of galleryData" >
-                    
-                    <div class="card mt-3 " style="width: fit-content;height: fit-content;" >
-                        <div class="m-3"> <img class="user-image me-2"
-                                src="https://blog.tryshiftcdn.com/uploads/2021/01/multiple-instagram-accounts@1x_1160x600_acf_cropped.jpg"
-                                alt="">
+                <div class="card mt-3 " style="width: fit-content;height: fit-content;">
+                    <div class="m-3 justify-content-between d-flex">
+                        <div style="justify-content: left;">
+                            <img class="user-image me-2" [src]="data.userimage" alt="">
 
                             <span class="navbar-brand ">{{ data.uploadedUser }}</span>
-                        </div> <hr>
+                        </div>
+                        <span *ngIf="data.uploadedUser.trim() === service.myName.trim()"
+                            style="position: absolute;top: 5px;right: 5px;z-index: 22; ;color: red;">
+                            <button
+                                style="border-radius: 50%;background-color: transparent;border: solid red 1px;padding-top: 3px;"
+                                (click)="confirmDelete(data.galleryId)">
+                                <i style="color: red;" class="bi bi-trash3-fill"></i>
+                            </button>
+                        </span>
+                    </div>
+                    <hr>
 
-                        <div (dblclick)="toggleHeartClass(data.galleryId)">
-                            <img class="card-img-top"  style="height: 300px;width: 550px;max-width: -webkit-fill-available;"
-                            [src]="data.imgstr"
-                            alt="Card image cap">
-                        </div>
-                            <hr>
-                            
-                        <div class="card-body">
-                            <p class="card-text" style="margin: 0px 0px 3px;">
-                                <div class="d-flex">
-                            <div class="like" (click)="toggleHeartClass(data.galleryId)">  <i  [ngClass]="data.currentUserLiked == 1 ? 'bi bi-heart-fill' : 'bi bi-heart'" style="font-size: larger;"></i> </div>
-                            <div class="like ms-3" (click)="comment(data.galleryId)"><i class="bi bi-chat ms-1" style="font-size: larger;"></i> </div>
-                            </div>
-                            <p> {{data.likeCount}} likes
-                                </p>
-                                <!-- <p style="color: red;">{{data.currentUserLiked}}</p> -->
-                                    <span><span style="font-weight: 600;">{{data.uploadedUser}}</span>&nbsp; {{data.caption}}</span>
-                        </div>
+                    <div (dblclick)="toggleHeartClass(data.galleryId)">
+                        <img class="card-img-top" style="height: 300px;width: 550px;max-width: -webkit-fill-available;"
+                            [src]="data.imgstr" alt="Card image cap">
                     </div>
+                    <hr>
+
+                    <div class="card-body">
+                        <p class="card-text" style="margin: 0px 0px 3px;">
+                        <div class="d-flex">
+                            <div class="like" (click)="toggleHeartClass(data.galleryId)"> <i
+                                    [ngClass]="data.currentUserLiked == 1 ? 'bi bi-heart-fill' : 'bi bi-heart'"
+                                    style="font-size: larger;"></i> </div>
+                            <div class="like ms-3" (click)="comment(data.galleryId)"><i class="bi bi-chat ms-1"
+                                    style="font-size: larger;"></i> </div>
+                        </div>
+                        <p> {{data.likeCount}} likes
+                        </p>
+                        <!-- <p style="color: red;">{{data.currentUserLiked}}</p> -->
+                        <span><span style="font-weight: 600;">{{data.uploadedUser}}</span>&nbsp; {{data.caption}}</span>
                     </div>
+                </div>
+            </div>
 
         </div>
     </div>

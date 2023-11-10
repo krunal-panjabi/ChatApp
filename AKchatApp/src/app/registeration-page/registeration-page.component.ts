@@ -21,10 +21,25 @@ export class RegisterationPageComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       username : ['' ,[Validators.required,Validators.minLength(3),Validators.maxLength(15)]],
       password : ['' ,[Validators.required]],
-      email:['',[Validators.required,this.validateEmail]]
-    })
+      email:['',[Validators.required,this.validateEmail]],
+      confirmPassword: ['', Validators.required] // Add required validation
+    }, { validators: this.passwordsMatchValidator })
+    
   }
 
+  
+  passwordsMatchValidator(group: FormGroup) {
+    const password = group.get('password')!.value;
+    const confirmPassword = group.get('confirmPassword')!.value;
+
+    if (password !== confirmPassword) {
+      return { passwordsNotMatch: true };
+    }
+
+    return null;
+  }
+
+  
   validateName(event: any) {
     debugger;
     this.service.CheckName(event.target.value).subscribe({
