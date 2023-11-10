@@ -112,27 +112,27 @@
 
                         <mat-card-content class="d-flex flex-column about">
                             <label>About me</label>
-                            <!-- <mat-form-field appearance="outline"> -->
+                             <mat-form-field appearance="outline"> -->
 
-                            <!-- <mat-label>About Me</mat-label> -->
-                            <!-- <input matInput formControlName="aboutme"> -->
+                            <!-- <mat-label>About Me</mat-label>
+                            <input matInput formControlName="aboutme">
 
                             <angular-editor [placeholder]="'Enter text here...'" [config]="config"
-                                formControlName="aboutme"></angular-editor>
+                                formControlName="aboutme"></angular-editor> -->
 
                             <!-- </mat-form-field> -->
 
-                        </mat-card-content>
+                        <!-- </mat-card-content>
 
                         <mat-card-content class="d-flex justify-content-center">
                             <button (click)="button1()" mat-raised-button color="primary" class="w-50"
                                 type="submit">Save</button>
-                        </mat-card-content>
+                        </mat-card-content> -->
 
 
 
 
-                    </mat-card>
+                    <!-- </mat-card>
                     <button class="ms-4" mat-button matStepperPrevious style=" background-color: #ff8686;">previous <i
                             class="bi bi-caret-left"></i></button>
                     <button #button2 class="ms-2" mat-button matStepperNext style=" background-color: #b4b4ff">next <i
@@ -152,7 +152,7 @@
 
                 </mat-step>
             </mat-horizontal-stepper>
-        </form> -->
+        </form>  -->
 
 
 
@@ -187,11 +187,6 @@
                             <label style="margin-right:10px">Email:</label>
                             <input class="custom-input" formControlName="email">
                         </div>
-                        <!-- <label>Email</label>
-                        <mat-form-field>
-                            <mat-label>Email</mat-label>
-                            <input matInput formControlName="email">
-                        </mat-form-field> -->
                         <span *ngIf="empForm.get('email')?.hasError('required')" style="top: 104%;left: 1%;"
                             class="text-danger position-absolute">Email is required</span>
 
@@ -269,11 +264,10 @@
                 </div>
                 <mat-card-content class="d-flex flex-column">
                     <label>About me</label>
-                    <mat-form-field appearance="outline">
+                    
 
-                        <mat-label>About Me</mat-label>
-                        <input matInput formControlName="aboutme">
-                    </mat-form-field>
+                    <angular-editor [placeholder]="'Enter text here...'" [config]="config"
+                        formControlName="aboutme"></angular-editor>
                 </mat-card-content>
                 <mat-card-content class="d-flex justify-content-center">
                     <button mat-raised-button color="primary" class="w-50" type="submit"
@@ -281,7 +275,7 @@
                 </mat-card-content>
                 <mat-card-footer></mat-card-footer>
             </mat-card>
-        </form>
+        </form> 
     </div>
 </div>
 
