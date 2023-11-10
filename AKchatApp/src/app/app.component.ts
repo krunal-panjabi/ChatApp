@@ -27,6 +27,15 @@ export class AppComponent {
         sessionStorage.clear();
       };
     }
+
+    if ('BroadcastChannel' in window) {
+      const channel = new BroadcastChannel('session-name');
+      channel.onmessage = (event) => {
+        const updatedName = event.data;
+        sessionStorage.setItem('myName', updatedName);
+        this.service.myName=sessionStorage.getItem('myName') || '';
+      };
+    }
   }
 }
 

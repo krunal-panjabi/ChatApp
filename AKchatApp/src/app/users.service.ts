@@ -450,7 +450,13 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
       channel.postMessage(this.tokenglobal);
     }
   }
-  
+  notifyOthertabsforname(){
+    alert('upname');
+    if ('BroadcastChannel' in window) {
+      const channel = new BroadcastChannel('session-name');
+      channel.postMessage(sessionStorage.getItem('myName'));
+    }
+  }
   sendGalleryData(id: any, myName: string): Observable<any> {
     const data = {
       id: id,

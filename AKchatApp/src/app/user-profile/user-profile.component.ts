@@ -86,6 +86,7 @@ export class UserProfileComponent implements OnInit {
       if (this.service.myName.trim() !== this.empForm.get('name')?.value.trim()) {
         sessionStorage.setItem('myName', this.empForm.get('name')?.value);
         this.service.myName = this.empForm.get('name')?.value;
+        this.service.notifyOthertabsforname();
       }
     
       this.imageUrl = this.empForm.get('imgstr')?.value;
