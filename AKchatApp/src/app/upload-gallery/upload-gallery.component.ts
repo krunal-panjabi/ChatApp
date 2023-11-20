@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UsersService } from '../users.service';
 import { GalleryData } from '../Models/galleryData';
@@ -17,8 +17,11 @@ export class UploadGalleryComponent implements OnInit {
   currentUser: any;
   fileToUpload!: File;
   imgg : string ='';
+  // elementRef: any;
+  // renderer: any;
+  grid = true;
 
-  constructor(private formBuilder: FormBuilder, private service: UsersService,private router:Router) {
+  constructor(private formBuilder: FormBuilder, public service: UsersService,private router:Router,private renderer: Renderer2,private elementRef: ElementRef) {
     this.galleryForm = this.formBuilder.group({
       caption: '',
       imgstr: ''
@@ -65,6 +68,36 @@ export class UploadGalleryComponent implements OnInit {
     reader.readAsDataURL(file);
   }
   
+
+  tagpeople(){
+    const divElement = this.elementRef.nativeElement.querySelector('#afterclick');
+    const divElement1 = this.elementRef.nativeElement.querySelector('#afterclick1');
+    const divElement2 = this.elementRef.nativeElement.querySelector('#afterclick2');
+    
+    
+    
+    if (divElement2.classList.contains('d-flex')) {
+      this.renderer.removeClass(divElement2, 'd-flex');
+    } else {
+      this.renderer.addClass(divElement2, 'd-flex');
+    }
+
+    if (divElement.classList.contains('afterclick')) {
+      this.renderer.removeClass(divElement, 'afterclick');
+    } else {
+      this.renderer.addClass(divElement, 'afterclick');
+    }
+
+    if (divElement1.classList.contains('afterclick1')) {
+      this.renderer.removeClass(divElement1, 'afterclick1');
+      this.renderer.addClass(divElement1, 'd-none');
+    } else {
+      this.renderer.removeClass(divElement1, 'd-none');
+      this.renderer.addClass(divElement1, 'afterclick1');
+    }
+
+
+  }
 
   onFormSubmit() {
     const formValue = this.galleryForm.value;

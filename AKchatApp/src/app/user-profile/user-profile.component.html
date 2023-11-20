@@ -1,6 +1,6 @@
 <div class="row d-flex justify-content-center main-body mt-5 mb-5">
-    <div class="col-12 col-md-8">
-        <!-- <form [formGroup]="empForm" (ngSubmit)="onFormSubmit()">
+    <div class="col-12 col-md-8 mb-5">
+        <form class="mb-5" [formGroup]="empForm" (ngSubmit)="onFormSubmit()">
 
 
 
@@ -15,7 +15,7 @@
 
 
 
-            <mat-horizontal-stepper #stepper labelPosition="bottom">
+            <mat-vertical-stepper #stepper labelPosition="bottom">
 
                 <mat-step label="Personal Details">
                     <mat-card>
@@ -24,10 +24,9 @@
                                 <label>Name</label>
                                 <mat-form-field appearance="outline">
                                     <mat-label>Name</mat-label>
-                                    <input matInput formControlName="name" (focusout)="validateNamepro($event)">
+                                    <input matInput formControlName="name">
                                 </mat-form-field>
                             </mat-card-content>
-
                             <mat-card-content class="d-flex flex-column half-size">
                                 <label>Email</label>
                                 <mat-form-field appearance="outline">
@@ -36,9 +35,7 @@
                                 </mat-form-field>
                             </mat-card-content>
                         </div>
-                        <span class="text-danger" *ngIf="empForm.get('name')?.invalid">
-                            {{ empForm.get('name')?.errors?.['message'] }}
-                        </span>
+
 
                         <div class="div1 d-flex justify-content-between">
                             <mat-card-content class="d-flex flex-column mb-4 content-with-border half-size">
@@ -70,8 +67,8 @@
 
 
                     </mat-card>
-                    <button class="ms-4" mat-button matStepperNext style="background-color: #b4b4ff" [disabled]="nameError">next <i
-                            class="bi bi-caret-right"></i></button>
+                    <!-- <button class="ms-4" mat-button matStepperNext style="background-color: #b4b4ff">next <i
+                            class="bi bi-caret-right"></i></button> -->
                 </mat-step>
 
 
@@ -112,27 +109,27 @@
 
                         <mat-card-content class="d-flex flex-column about">
                             <label>About me</label>
-                             <mat-form-field appearance="outline"> -->
+                            <!-- <mat-form-field appearance="outline"> -->
 
-                            <!-- <mat-label>About Me</mat-label>
-                            <input matInput formControlName="aboutme">
+                            <!-- <mat-label>About Me</mat-label> -->
+                            <!-- <input matInput formControlName="aboutme"> -->
 
                             <angular-editor [placeholder]="'Enter text here...'" [config]="config"
-                                formControlName="aboutme"></angular-editor> -->
+                                formControlName="aboutme"></angular-editor>
 
                             <!-- </mat-form-field> -->
 
-                        <!-- </mat-card-content>
+                        </mat-card-content>
 
                         <mat-card-content class="d-flex justify-content-center">
                             <button (click)="button1()" mat-raised-button color="primary" class="w-50"
                                 type="submit">Save</button>
-                        </mat-card-content> -->
+                        </mat-card-content>
 
 
 
 
-                    <!-- </mat-card>
+                    </mat-card>
                     <button class="ms-4" mat-button matStepperPrevious style=" background-color: #ff8686;">previous <i
                             class="bi bi-caret-left"></i></button>
                     <button #button2 class="ms-2" mat-button matStepperNext style=" background-color: #b4b4ff">next <i
@@ -151,12 +148,12 @@
                             class="bi bi-caret-left"></i></button>
 
                 </mat-step>
-            </mat-horizontal-stepper>
-        </form>  -->
+            </mat-vertical-stepper>
+        </form>
 
 
 
-        <form [formGroup]="empForm" (ngSubmit)="onFormSubmit()">
+        <!-- <form [formGroup]="empForm" (ngSubmit)="onFormSubmit()">
             <mat-card>
 
                 <div class="d-flex justify-content-center mb-5">
@@ -169,35 +166,23 @@
                     </div>
                 </div>
                 <div class="div1 d-flex justify-content-between">
-                    <mat-card-content class="d-flex flex-column half-size  content-with-border position-relative">
-                        <div class="d-flex align-items-center">
-                            <label style="margin-right:10px">Name:</label>
-                            <input class="custom-input" formControlName="name" (focusout)="validateNamepro($event)">
-
-                        </div>
-                        <span *ngIf="empForm.get('name')?.hasError('required')"
-                            style="margin-left: 24px;top: 105%;left: -4%;" class="text-danger position-absolute">Name is
-                            required</span>
-                        <span *ngIf="empForm.get('name')?.invalid" style="margin-left: 24px;top: 105%;left: -4%;"
-                            class="text-danger position-absolute">{{ empForm.get('name')?.errors?.['message'] }}</span>
+                    <mat-card-content class="d-flex flex-column half-size">
+                        <label>Name</label>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Name</mat-label>
+                            <input matInput formControlName="name">
+                        </mat-form-field>
                     </mat-card-content>
-
-                    <mat-card-content class="d-flex flex-column half-size  content-with-border position-relative">
-                        <div class="d-flex align-items-center">
-                            <label style="margin-right:10px">Email:</label>
-                            <input class="custom-input" formControlName="email">
-                        </div>
-                        <span *ngIf="empForm.get('email')?.hasError('required')" style="top: 104%;left: 1%;"
-                            class="text-danger position-absolute">Email is required</span>
-
+                    <mat-card-content class="d-flex flex-column half-size">
+                        <label>Email</label>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="email">
+                        </mat-form-field>
                     </mat-card-content>
-
                 </div>
-                <!-- <span class="text-danger" style="margin-left:24px">
-                    {{ empForm.get('name')?.errors?.['message'] }}
-                </span> -->
-                <div class="div1 d-flex justify-content-between mt-2">
-                    <mat-card-content class="d-flex flex-column mb-4 content-with-border half-size position-relative">
+                <div class="div1 d-flex justify-content-between">
+                    <mat-card-content class="d-flex flex-column mb-4 content-with-border half-size">
                         <div class="d-flex">
                             <label>Gender :</label>
                             <mat-radio-group class="mb-2" formControlName="gender">
@@ -206,12 +191,8 @@
                                 <mat-radio-button class="ms-4" value="Other">Other</mat-radio-button>
                             </mat-radio-group>
                         </div>
-
-                        <span *ngIf="empForm.get('gender')?.hasError('required')"
-                            style="text-align: end;margin-right: 20px;" class="text-danger position-absolute">Gender is
-                            required</span>
                     </mat-card-content>
-                    <mat-card-content class="d-flex flex-column content-with-border half-size position-relative">
+                    <mat-card-content class="d-flex flex-column content-with-border half-size">
                         <div class="d-flex">
                             <label>Status :</label>
                             <mat-radio-group class="mb-2" formControlName="status">
@@ -222,60 +203,40 @@
                                 </mat-radio-button>
                             </mat-radio-group>
                         </div>
-                        <span *ngIf="empForm.get('status')?.hasError('required')"
-                            style="text-align: end;margin-right: 20px;" class="text-danger position-absolute">Status is
-                            required</span>
-
                     </mat-card-content>
                 </div>
                 <div class="div1 d-flex justify-content-between">
-                    <mat-card-content class="d-flex flex-column half-size content-with-border position-relative">
-                        <div class="d-flex align-items-center">
-                            <label style="margin-right:10px">PhoneNumber:</label>
-                            <input class="custom-input" formControlName="phonenumber">
-
-                        </div>
-                        <!-- <label>Phone Number</label>
+                    <mat-card-content class="d-flex flex-column half-size">
+                        <label>Phone Number</label>
                         <mat-form-field appearance="outline">
                             <mat-label>Phone Number</mat-label>
                             <input matInput formControlName="phonenumber">
-                        </mat-form-field> -->
-                        <span *ngIf="empForm.get('phonenumber')?.hasError('required')"
-                            style="margin-left: 24px;top: 105%;left: -4%;"
-                            class="text-danger position-absolute">PhoneNumber is required</span>
-
-                    </mat-card-content>
-                    <mat-card-content style="    padding-left: 15px;padding-top: 0px;padding-bottom: 7px;" class="d-flex flex-column half-size content-with-border position-relative">
-                        <mat-form-field >
-                            <div>
-                                <label>Choose Your Birth date :</label>
-                                <input matInput [matDatepicker]="picker" formControlName="dob">
-                            </div>
-                            <mat-hint>MM/DD/YYYY</mat-hint>
-                            <mat-datepicker-toggle class="date-toggle" matIconSuffix
-                                [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                            <span *ngIf="empForm.get('dob')?.hasError('required')"
-                                style="margin-left: 24px;top: 105%;left: -4%;" class="text-danger position-absolute">Dob
-                                is required</span>
-
                         </mat-form-field>
                     </mat-card-content>
+                    <mat-form-field class="date half-size">
+                        <div>
+                            <label>Choose Your Birth date :</label>
+                            <input matInput [matDatepicker]="picker" formControlName="dob">
+                        </div>
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle class="date-toggle" matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
                 </div>
                 <mat-card-content class="d-flex flex-column">
                     <label>About me</label>
-                    
+                    <mat-form-field appearance="outline">
 
-                    <angular-editor [placeholder]="'Enter text here...'" [config]="config"
-                        formControlName="aboutme"></angular-editor>
+                        <mat-label>About Me</mat-label>
+                        <input matInput formControlName="aboutme">
+                    </mat-form-field>
                 </mat-card-content>
                 <mat-card-content class="d-flex justify-content-center">
-                    <button mat-raised-button color="primary" class="w-50" type="submit"
-                        [disabled]="nameError">Save</button>
+                    <button mat-raised-button color="primary" class="w-50" type="submit">Save</button>
                 </mat-card-content>
                 <mat-card-footer></mat-card-footer>
             </mat-card>
-        </form> 
+        </form> -->
     </div>
 </div>
 
