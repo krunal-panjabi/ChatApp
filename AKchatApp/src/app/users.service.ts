@@ -671,6 +671,12 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
       this.privateMessages = [...this.privateMessages, newMessage];
     });
 
+    this.chatConnection.on('ReceiveLikePostRes',(uUser:any) => {
+      this.countmsg=this.countmsg+1;
+    })
+   this.chatConnection.on('RecieveCommentRes',(name:any)=>{
+    this.countmsg=this.countmsg+1;
+   })
     this.chatConnection.on('ClosePrivateChat', () => {
       this.privateMessageInitiated = false;
       this.privateMessages = [];
@@ -793,7 +799,6 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
       content: content,
       count: 1
     };
-
     return this.chatConnection?.invoke('ReceiveMessage', message)
       .catch(error => console.log(error));
   }
@@ -801,6 +806,20 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
   return this.chatConnection?.invoke('LiveforPost',names)
   .catch(error => console.log(error)); 
  }
+
+ async likePost(uUser:string) {
+    
+    return this.chatConnection?.invoke('LikePost', uUser).then(()=>{
+      console.log('hii called');
+    })
+      .catch(error => console.log(error));
+  }
+async CommentLive(name:string){
+  return this.chatConnection?.invoke('CommentLive',name.trim()).then(()=>{
+    console.log('hii called');
+  })
+    .catch(error => console.log(error));
+}
   async requestnoti(names:string)
   {
     return this.chatConnection?.invoke('SendReqNoti',names)
@@ -842,6 +861,7 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
 
 
   async sendPrivateMessage(to: string, content: string) {
+    alert(this.chatConnection?.state);
     this.isgeneral=false;
     this.isGroupChat = false;
     var message:Message;

@@ -38,7 +38,11 @@ export class PhotoGalleryComponent {
     }, 0);
    }
    this.fetchGalleryData();
+   this.service.createChatConnection();
  }
+ ngOnDestroy(): void{
+  this.service.stopChatConnection();
+}
 
 
  confirmDelete(galleryId: any) {
@@ -72,13 +76,24 @@ export class PhotoGalleryComponent {
   });
 }
 
-toggleHeartClass(id:any) {
+
+
+toggleHeartClass(id:any,uUser:string) {
   // const myName = this.service.myName;
  
   const myName = this.service.myName;
   this.service.sendGalleryData(id,myName).subscribe({
     next:(data)=>{
-      this.fetchGalleryData();
+      // alert('next');
+      this.service.likePost(uUser);
+      this.service.getGalleryData(this.service.myName).subscribe({
+        next:(data)=>{
+          this.service.likePost(uUser);
+          this.galleryData = data;
+        }
+      })
+      
+      
     },
     error:(error)=>{
       console.log('error ')
@@ -88,14 +103,17 @@ toggleHeartClass(id:any) {
 })
 }
 
-comment(postId : any){
+comment(postId : any,name:string){
   this.matdialog.open(PostCommentComponent,{
     width:'500px',  
     height : '400px',   
     
     // position:{top:'48px',right:'50px', },
     panelClass: 'custom-dialog-container',
-    data:{postId}
+    data: {
+      postId: postId,
+      name: name
+    }
    })
 }
 

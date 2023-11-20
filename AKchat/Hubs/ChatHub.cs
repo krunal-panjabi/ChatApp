@@ -191,6 +191,8 @@ namespace AKchat.Hubs
             }
             await Clients.Group(privateGroupName).SendAsync("SendNotiRequest", names);
         }
+
+       
         public async Task SendDisLikeResGrp(string userlist,string gpname)
         {
             string privateGroupName = "randomgrp";
@@ -338,7 +340,25 @@ namespace AKchat.Hubs
 
 
         }
+        public async Task LikePost(string uUser)
+        {
 
+            if (_chatServices.IsUserOnline(uUser))
+            {
+                var toConnectionId = _chatServices.GetConnectionIdByUser(uUser);
+                await Clients.Client(toConnectionId).SendAsync("ReceiveLikePostRes", uUser);
+            }
+        }
+        public async Task CommentLive(string name)
+        {
+            if(_chatServices.IsUserOnline(name))
+            {
+                var toConnectionId = _chatServices.GetConnectionIdByUser(name);
+                await Clients.Client(toConnectionId).SendAsync("RecieveCommentRes", name);
+
+            }
+
+        }
 
 
 

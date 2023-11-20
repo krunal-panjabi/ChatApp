@@ -1,11 +1,11 @@
 <div class="mainBody">
     <div class="row d-flex justify-content-center mt-5">
-        <div class="col-6 mt-3" style="background-color: #ededed;height: 500px;">
+        <div class="col-6 mt-3" style="background-color: white;height: 500px;">
             <div class="container d-flex justify-content-center mt-2">
             </div>
 
             <form [formGroup]="galleryForm" (ngSubmit)="onFormSubmit()">
-                <mat-card>
+                <mat-card   style="border-radius: 22px;    box-shadow: 0px 5px 25px rgb(173, 173, 173);">
 
                     <div id="afterclick2" class="">
 
@@ -26,7 +26,7 @@
 
                             <div class="d-flex justify-content-center">
                                 <mat-card-content class="d-flex flex-column half-size">
-                                    <label>Caption</label>
+                                    
                                     <mat-form-field appearance="outline">
 
                                         <mat-label>Caption</mat-label>
@@ -39,7 +39,7 @@
                             </div>
 
                             <div class="mb-3" style="text-align: center;">
-                                <button type="button" (click)="tagpeople()">Tag
+                                <button class="button-41"  type="button" (click)="tagpeople()">Tag
                                     People</button>
                             </div>
 

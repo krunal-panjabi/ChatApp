@@ -116,5 +116,31 @@
                     class="bi bi-x-circle"></i></span>
         </ng-container>
 
+        <ng-container *ngIf="msg.status===8">
+            <span style="margin-bottom: auto;margin-top: auto;"><img src='/assets/img/heart.jpg'
+                    style="width:32px;height:28px;"></span>
+            <div>
+                <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                <div class="text-black">{{msg.content}}</div>
+            </div>
+
+            <!-- <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                    class="bi bi-x-circle"></i></span> -->
+        </ng-container>
+
+        <ng-container *ngIf="msg.status===9">
+            <span style="margin-bottom: auto;margin-top: auto;" class="me-2">
+                <i class="bi bi-chat-left-dots-fill" style="font-size: x-large;"></i>
+                <!-- <img src='/assets/img/heart.jpg' style="width:32px;height:28px;"> -->
+            </span>
+            <div>
+                <div class="text-black fw-bolder">{{msg.name?.toUpperCase()}}</div>
+                <div class="text-black">{{msg.content}}</div>
+            </div>
+
+            <!-- <span style="margin-left: auto;margin-bottom: auto;margin-top: auto;" (click)="toggle(msg.id)"><i
+                    class="bi bi-x-circle"></i></span> -->
+        </ng-container>
+
     </div>
 </div>
