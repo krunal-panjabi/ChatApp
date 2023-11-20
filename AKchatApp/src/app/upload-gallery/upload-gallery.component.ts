@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UsersService } from '../users.service';
 import { GalleryData } from '../Models/galleryData';
@@ -17,8 +17,10 @@ export class UploadGalleryComponent implements OnInit {
   currentUser: any;
   fileToUpload!: File;
   imgg : string ='';
-
-  constructor(private formBuilder: FormBuilder, private service: UsersService,private router:Router) {
+  grid = true;
+  selectedTags = '';
+  selectedProfiles: Set<string> = new Set();
+  constructor(private formBuilder: FormBuilder, public service: UsersService,private router:Router,private renderer: Renderer2,private elementRef: ElementRef) {
     this.galleryForm = this.formBuilder.group({
       caption: '',
       imgstr: ''
@@ -26,21 +28,16 @@ export class UploadGalleryComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.service.myName = sessionStorage.getItem('myName') || '';
+    this.service.imageUrl=sessionStorage.getItem('userimage') || '';
     this.galleryForm.reset();
-    if (this.service.myName) {
-
-      // this.updateImageUrl(); // Update imageUrl if myName is available
-      console.log(this.service.myName);
-      
-    }
-    else{
-     setTimeout(() => {
-       this.router.navigateByUrl('/no-connection');
-       setTimeout(() => {
-         this.router.navigateByUrl('/login');
-       }, 3000);
-     }, 0);
-    }
+    this.service.getAllUsers().subscribe({
+      next:(data)=>{
+        this.service.offlineUsers=data;
+        
+      }
+    })
+    this.service.createChatConnection();
   }
 
 
@@ -52,7 +49,44 @@ export class UploadGalleryComponent implements OnInit {
     }
     
   }
-  
+  includename(name: string): void {
+    if (this.selectedProfiles.has(name)) {
+      this.selectedProfiles.delete(name);
+    } else {
+      this.selectedProfiles.add(name);
+    }
+    this.selectedTags = Array.from(this.selectedProfiles).join(',');
+  }
+  tagpeople(){
+    const divElement = this.elementRef.nativeElement.querySelector('#afterclick');
+    const divElement1 = this.elementRef.nativeElement.querySelector('#afterclick1');
+    const divElement2 = this.elementRef.nativeElement.querySelector('#afterclick2');
+    
+    
+    
+    if (divElement2.classList.contains('d-flex')) {
+      this.renderer.removeClass(divElement2, 'd-flex');
+    } else {
+      this.renderer.addClass(divElement2, 'd-flex');
+    }
+
+    if (divElement.classList.contains('afterclick')) {
+      this.renderer.removeClass(divElement, 'afterclick');
+    } else {
+      this.renderer.addClass(divElement, 'afterclick');
+    }
+
+    if (divElement1.classList.contains('afterclick1')) {
+      this.renderer.removeClass(divElement1, 'afterclick1');
+      this.renderer.addClass(divElement1, 'd-none');
+    } else {
+      this.renderer.removeClass(divElement1, 'd-none');
+      this.renderer.addClass(divElement1, 'afterclick1');
+    }
+
+
+  }
+
   convertToBase64(file: File) {
     const reader = new FileReader();
     reader.onload = (e: any) => {
@@ -68,8 +102,6 @@ export class UploadGalleryComponent implements OnInit {
 
   onFormSubmit() {
     const formValue = this.galleryForm.value;
-
-    
     const postData: GalleryData = {
       caption: formValue.caption,
       imgstr: formValue.imgstr,
@@ -77,15 +109,17 @@ export class UploadGalleryComponent implements OnInit {
       galleryId : null,
       likeCount : null,
       currentUserLiked : null,
-      userimage : null
+      userimage : null,
+      tagnames:this.selectedTags
     };
-
-    console.log(postData);
-
     if(this.galleryForm.valid){
-           this.service.uploadGalleryData(formValue.caption, formValue.imgstr, this.service.myName).subscribe(data =>{
-     
+           this.service.uploadGalleryData(formValue.caption, formValue.imgstr, this.service.myName,this.selectedTags).subscribe({
+            next:(data:any)=>{
+              this.service.LiveNotiforPost(this.selectedTags);
+            }
            });
+                
+          
            this.service.getGalleryData(this.service.myName);
            this.router.navigateByUrl('/gallery')
          }

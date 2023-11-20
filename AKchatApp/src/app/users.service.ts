@@ -99,8 +99,8 @@ createGroup(grpname: string, members: string): Observable<any> {
   return this.http.post<Message[]>(`${environment.apiUrl}User/CreateGroup`, group);
 }
 
-uploadGalleryData(caption: string, imgstr: string, uploadedUser: string): Observable<any> {
-  const galleryData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
+uploadGalleryData(caption: string, imgstr: string, uploadedUser: string,tagname:string): Observable<any> {
+  const galleryData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser,tagnames:tagname }
   return this.http.post<Message[]>(`${environment.apiUrl}User/UploadGalleryData`, galleryData);
 }
 
@@ -464,7 +464,6 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
     };
     return this.http.post(`${environment.apiUrl}User/likePost`, data);
   }
-
   getToken(){
     return sessionStorage.getItem('token');
   }
@@ -540,6 +539,9 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
    })
    this.chatConnection.on('SendLikeResGrp',(name:string,gpname:string)=>{
     this.loadgrpchats(gpname);
+    this.countmsg=this.countmsg+1;
+   })
+   this.chatConnection.on('LiveForPost',(names:string)=>{
     this.countmsg=this.countmsg+1;
    })
    this.chatConnection.on('SendNotiRequest',(name:string)=>{
@@ -795,7 +797,10 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
     return this.chatConnection?.invoke('ReceiveMessage', message)
       .catch(error => console.log(error));
   }
-
+ async LiveNotiforPost(names:string){
+  return this.chatConnection?.invoke('LiveforPost',names)
+  .catch(error => console.log(error)); 
+ }
   async requestnoti(names:string)
   {
     return this.chatConnection?.invoke('SendReqNoti',names)

@@ -24,12 +24,15 @@ interface UserWithIcon extends OfflineUsers {
   templateUrl: './chatpage.component.html',
   styleUrls: ['./chatpage.component.css']
 })
+
 export class ChatpageComponent implements OnInit,OnDestroy {
   userControl:FormControl<string[] | null> = new FormControl([]);
   userslist:string[]=[];
   userctrl = new FormControl('');
   searchctrl=new FormControl('');
   filteredlist:string[]=[];
+  
+
   // userslist1: UserWithIcon[] = [];
 
   iconClass = 'bi bi-person-fill-add'; // Initial icon class

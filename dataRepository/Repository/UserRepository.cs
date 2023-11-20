@@ -303,20 +303,15 @@ namespace dataRepository.Repository
             }
             return model;
         }
-
-
         //public async Task<ProfileVm> GetUserByProfileAsync(string name)
         //{
         //    List<ProfileVm> model = new List<ProfileVm>();
-
         //    using (SqlConnection con = new SqlConnection(connections))
         //    {
         //        SqlCommand cmd = new SqlCommand("selectuserbyprofile", con);
         //        cmd.CommandType = CommandType.StoredProcedure;
         //        cmd.Parameters.AddWithValue("@userName", name);
-
         //        await con.OpenAsync();
-
         //        using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
         //        {
         //            while (await rdr.ReadAsync())
@@ -332,18 +327,12 @@ namespace dataRepository.Repository
         //                    phonenumber = rdr["phonenumber"].ToString(),
         //                    dob = Convert.ToDateTime(rdr["dob"])
         //                };
-
         //                model.Add(names);
         //            }
         //        }
         //    }
-
         //    return model.FirstOrDefault();
         //}
-
-
-
-
         public List<AllUsersVm> GetAllUsers(string username)
         {
             List<AllUsersVm> model = new List<AllUsersVm>();
@@ -394,7 +383,14 @@ namespace dataRepository.Repository
                             imgstr = rdr.IsDBNull(rdr.GetOrdinal("imgstr")) ? null : rdr["imgstr"].ToString(),
                             gender = rdr.IsDBNull(rdr.GetOrdinal("gender")) ? null : rdr["gender"].ToString(),
                             phonenumber = rdr.IsDBNull(rdr.GetOrdinal("phonenumber")) ? null : rdr["phonenumber"].ToString(),
-                            dob = rdr.IsDBNull(rdr.GetOrdinal("dob")) ? DateTime.Now : Convert.ToDateTime(rdr["dob"])
+                            dob = rdr.IsDBNull(rdr.GetOrdinal("dob")) ? DateTime.Now : Convert.ToDateTime(rdr["dob"]),
+                            schoolname=rdr.IsDBNull(rdr.GetOrdinal("scname")) ? null : rdr["scname"].ToString(),
+                            workplace=rdr.IsDBNull(rdr.GetOrdinal("wpname")) ? null : rdr["wpname"].ToString(),
+                            clgname=rdr.IsDBNull(rdr.GetOrdinal("clname")) ? null : rdr["clname"].ToString(),
+                            twitterlink=rdr.IsDBNull(rdr.GetOrdinal("twitlink")) ? null : rdr["twitlink"].ToString(),
+                            facebooklink=rdr.IsDBNull(rdr.GetOrdinal("facelink"))? null : rdr["facelink"].ToString(),
+                            instalink=rdr.IsDBNull(rdr.GetOrdinal("instalink"))? null : rdr["instalink"].ToString(),
+                            linkdinlink=rdr.IsDBNull(rdr.GetOrdinal("linlink"))? null : rdr["linlink"].ToString()
                         };
                         model.Add(names);
                     }
@@ -559,6 +555,15 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@aboutme", model.aboutme);
                 cmd.Parameters.AddWithValue("@status", model.status);
                 cmd.Parameters.AddWithValue("@email", model.email);
+                cmd.Parameters.AddWithValue("@schoolname", model.schoolname);
+                cmd.Parameters.AddWithValue("@workplace", model.workplace);
+                cmd.Parameters.AddWithValue("@clgname", model.clgname);
+                cmd.Parameters.AddWithValue("@instalink", model.instalink);
+                cmd.Parameters.AddWithValue("@facelink", model.facebooklink);
+                cmd.Parameters.AddWithValue("@twitlink", model.twitterlink);
+                cmd.Parameters.AddWithValue("@linkdinlink", model.linkdinlink);
+                
+
                 con.Open();
 
                 int row_count = cmd.ExecuteNonQuery();
@@ -691,7 +696,7 @@ namespace dataRepository.Repository
             }
         }
 
-        public int UploadGalleryData(string caption, string imgstr, string uploadedUser)
+        public int UploadGalleryData(string caption, string imgstr, string uploadedUser,string tagnames)
         {
             using (SqlConnection con = new SqlConnection(connections))
             {
@@ -700,6 +705,7 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@caption", caption);
                 cmd.Parameters.AddWithValue("@imgstr", imgstr);
                 cmd.Parameters.AddWithValue("@uploadedUser", uploadedUser);
+                cmd.Parameters.AddWithValue("@tagnames", tagnames);
                 con.Open();
 
                 int row_count = cmd.ExecuteNonQuery();
@@ -926,6 +932,7 @@ namespace dataRepository.Repository
                         galleryId = Convert.ToInt32(rdr["id"]),
                         likeCount = Convert.ToInt32(rdr["likes"]),
                         currentUserLiked = Convert.ToInt32(rdr["currentUserLiked"]),
+                        tagnames= rdr.IsDBNull(rdr.GetOrdinal("tagname")) ? null : rdr["tagname"].ToString(),
                     };
                     model.Add(gallery);
                 }

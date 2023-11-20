@@ -521,7 +521,7 @@ namespace AKchat.Areas.user.Controllers
         public IActionResult UploadGalleryData([FromBody] GalleryVm model)//company register
         {
 
-            var count_value = _userrepo.UploadGalleryData(model.caption, model.imgstr, model.uploadedUser);
+            var count_value = _userrepo.UploadGalleryData(model.caption, model.imgstr, model.uploadedUser,model.tagnames);
             if (count_value > 0)
             {
                 return Ok(true);

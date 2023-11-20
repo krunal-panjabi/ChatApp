@@ -24,6 +24,7 @@ export class UserProfileComponent implements OnInit {
   oldname = '';
 
   ngOnInit(): void {
+  
     this.service.myName = sessionStorage.getItem('myName') || '';
     this.service.imageUrl = sessionStorage.getItem('userimage') || '';
     this.service.getuserprofiledetail().subscribe({
@@ -35,7 +36,7 @@ export class UserProfileComponent implements OnInit {
         console.error('Error loading private chats', error);
       }
     });
-
+   
      
     if (this.service.imageUrl === "") {
 
@@ -57,7 +58,14 @@ export class UserProfileComponent implements OnInit {
       dob: [null, Validators.required],
       aboutme: ['', Validators.required],
       status: ['', Validators.required],
-      imgstr: ''
+      imgstr: '',
+      workplace:'',
+      schoolname:'',
+      clgname:'',
+      instalink:'',
+      twitterlink:'',
+      facebooklink:'',
+      linkdinlink:''
     });
   }
 
@@ -80,6 +88,7 @@ export class UserProfileComponent implements OnInit {
     }
   }
   onFormSubmit() {
+    alert('called');
     // this.button2.nativeElement.click();
     if (this.empForm.valid) {
       this.oldname = this.service.myName;

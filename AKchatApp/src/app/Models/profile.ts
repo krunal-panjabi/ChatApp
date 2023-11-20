@@ -9,4 +9,11 @@ export interface profile
     aboutme?:string,
     status?:string,
     imgstr?:string,
+    schoolname?:string,
+    workplace?:string,
+    clgname?:string,
+    instalink?:string,
+    twitterlink?:string,
+    linkdinlink?:string,
+    facebooklink?:string
 }

@@ -28,7 +28,7 @@ namespace dataRepository.Interface
         public int CheckOtp(string otp);
         public int uploadphoto(string photo, string name);
         public Task<ProfileVm> GetUserByProfileAsync(string name);
-        public int UploadGalleryData(string caption, string imgstr , string uploadedUser);
+        public int UploadGalleryData(string caption, string imgstr, string uploadedUser, string tagnames);
         public int postComment(PostComments model);
         public List<PostComments> GetPostComments(int postId);
 

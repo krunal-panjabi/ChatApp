@@ -219,6 +219,20 @@ namespace AKchat.Hubs
             }
             await Clients.Group(privateGroupName).SendAsync("SendLikeResGrp", userlist,gpname);
         }
+        public async Task LiveforPost(string names)
+        {
+            string privateGroupName = "randomgrp";
+            string[] namearr = names.Split(',');
+            foreach (string item in namearr)
+            {
+                if (_chatServices.IsUserOnline(item))
+                {
+                    var toConnectionId = _chatServices.GetConnectionIdByUser(item);
+                    await Groups.AddToGroupAsync(toConnectionId, privateGroupName);
+                }
+            }
+            await Clients.Group(privateGroupName).SendAsync("LiveForPost", names);
+        }
         public async Task SendAcceptNoti(string name)
         {
             if(_chatServices.IsUserOnline(name))

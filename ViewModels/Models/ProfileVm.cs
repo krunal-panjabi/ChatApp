@@ -17,5 +17,12 @@ namespace ViewModels.Models
         public string? status { get; set; }
         public string? username { get; set; }
         public string? imgstr { get; set; }
+        public string? schoolname { get; set; }
+        public string? workplace { get; set; }
+        public string? clgname { get; set; }
+        public string? instalink { get; set; }
+        public string? twitterlink { get; set; }
+        public string? linkdinlink { get; set; }
+        public string? facebooklink { get; set; }
     }
 }

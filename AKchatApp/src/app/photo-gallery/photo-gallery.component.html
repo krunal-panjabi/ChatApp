@@ -22,10 +22,11 @@
 
                 <div class="card mt-3 " style="width: fit-content;height: fit-content;">
                     <div class="m-3 justify-content-between d-flex">
-                        <div style="justify-content: left;">
+                        <div class="d-flex align-items-center">
                             <img class="user-image me-2" [src]="data.userimage" alt="">
 
-                            <span class="navbar-brand ">{{ data.uploadedUser }}</span>
+                            <span class="navbar-brand me-1">{{ data.uploadedUser }}</span>
+                            <span *ngIf="data.tagnames" class="navbar-brand" >has tagged <span class="fw-bolder">{{data.tagnames}}</span></span>
                         </div>
                         <span *ngIf="data.uploadedUser.trim() === service.myName.trim()"
                             style="position: absolute;top: 5px;right: 5px;z-index: 22; ;color: red;">

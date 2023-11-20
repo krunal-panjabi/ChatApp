@@ -6,4 +6,5 @@ export interface GalleryData {
     galleryId : number | null;
     likeCount : number|null;
     currentUserLiked :any;
+    tagnames?:string;
   }

@@ -72,7 +72,6 @@ export class PhotoGalleryComponent {
   });
 }
 
-
 toggleHeartClass(id:any) {
   // const myName = this.service.myName;
  

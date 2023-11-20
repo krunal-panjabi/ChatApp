@@ -27,3 +27,37 @@
 
 
 }
+.tick-logo {
+    position: absolute;
+    top: -8px;
+    right: -5px;
+    color: green; 
+    font-size: 24px;
+  }
+.afterclick{
+    width: 50%;
+}
+.afterclick1{
+    height: 400px;width: 50%;background-color: rgb(238, 238, 238);
+}
+
+
+
+
+
+
+.grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between; 
+  }
+  
+  
+  .grid-item {
+    flex: 0 0 calc(33.3333% - 20px); 
+    border: solid black 1px;
+    box-shadow: 3px 4px 12px grey;
+    border-radius: 12px;
+    background-color: white;
+  }

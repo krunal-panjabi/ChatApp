@@ -15,5 +15,6 @@ namespace ViewModels.Models
         public string? uploadedUser { get; set; }
         public int? likeCount { get; set; }
         public int? currentUserLiked { get; set; }
+        public string? tagnames { get; set; }
     }
 }
