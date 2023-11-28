@@ -4,7 +4,17 @@
             <div class="d-flex justify-content-center mb-5">
                 <div class="user-image d-flex justify-content-center">
                     <input class="image-input" type="file" #Image accept="image/*" (change)="handleFileInput($event)">
-                    <img class="user-image" [src]="imageUrl" alt="">
+
+
+                    <ng-container *ngIf="imageUrl;else noofflineuser">
+                        <img class="user-image" [src]="imageUrl" alt="">
+                    </ng-container>
+                    <ng-template #noofflineuser>
+
+                        <div class="user-text me-2">{{this.service.myName.charAt(0)}}</div>
+                    </ng-template>
+
+
                     <div class="edit-pencil"><i class="bi bi-pencil-square"
                             style="font-size: x-large;color: white;"></i></div>
                 </div>

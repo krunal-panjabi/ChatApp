@@ -17,25 +17,35 @@ export class RegisterationPageComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
   }
-  initializeForm(){
+  initializeForm() {
     this.userForm = this.formBuilder.group({
-      username : ['' ,[Validators.required,Validators.minLength(3),Validators.maxLength(15)]],
-      password : ['' ,[Validators.required]],
-      email:['',[Validators.required,this.validateEmail]],
-      confirmPassword: ['', Validators.required] // Add required validation
-    }, { validators: this.passwordsMatchValidator })
-    
-  }
-
+      username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+      password: ['', [Validators.required]],
+      email: ['', [Validators.required, this.validateEmail]],
+      confirmPassword: ['', [Validators.required, this.passwordsMatchValidator]] // Add required validation
+    });
   
-  passwordsMatchValidator(group: FormGroup) {
-    const password = group.get('password')!.value;
-    const confirmPassword = group.get('confirmPassword')!.value;
-
-    if (password !== confirmPassword) {
-      return { passwordsNotMatch: true };
+    // Apply the password match validator separately
+    this.userForm.get('confirmPassword')?.setValidators([
+      Validators.required,
+      this.passwordsMatchValidator.bind(this) // Bind the function to the class context
+    ]);
+  
+    // Update the form control to trigger validation after setting the validators
+    this.userForm.get('confirmPassword')?.updateValueAndValidity();
+  }
+  
+  
+  passwordsMatchValidator(control: AbstractControl) {
+    if (control && control.parent) {
+      const password = control.parent.get('password')?.value;
+      const confirmPassword = control.value;
+  
+      if (password !== confirmPassword) {
+        return { passwordsNotMatch: true };
+      }
     }
-
+  
     return null;
   }
 

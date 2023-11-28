@@ -66,161 +66,113 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-8 ">
-            <!-- <div class="card border-secondary g-chat" style="height:749px;">
-                <div class="card-header h3 text-muted text-center" style="font-size: 22px;">General Chat</div>
-                <div class="card-body" style="min-height: 500px;background-color: white;">
-                    <app-messages [messages]="service.messages"></app-messages>
-                </div>
-                <div class="card-footer">
-                    <app-chat-input-general (contentemitter)="sendMessage($event)"></app-chat-input-general> -->
-            <!-- <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input>
-                </div>
-            </div> -->
-            <app-story></app-story>
-
-            <!-- <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input> -->
-            <!-- </div>
-            </div> -->
 
 
+        <ng-container *ngIf="displayComponent === 'A'">
 
-            <!-- <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                </div>
-            </div> -->
+            <div class="col-lg-8 ">
 
+                <app-story></app-story>
 
+                <div class="p-2 mt-3"
+                    style="border-radius: 22px;background-color: rgb(218 255 211);; width: 65%; position: absolute; height: 54vh; overflow-y: auto;overflow-x: hidden; padding: 10px;">
 
+                    <div class="row mt-2" *ngIf="service.isdivvalid">
+                        <p class="text-center mb-3" style="font-size: x-large;font-weight: 800;">Suggested Users</p>
 
+                        <div class="mb-3" *ngFor="let user of service.searchfilteredlist"
+                            [ngClass]="grid ? 'col-4' : 'col-12'">
+                            <div
+                                style=" border: solid black 1px;box-shadow: 3px 4px 12px grey;border-radius: 12px; background-color: white">
+                                <div class="mt-2 d-flex justify-content-center">
+                                    <div class="card me-2 mb-2" (click)="userDetail(user.username)"
+                                        style="width: 190px;height: 190px;border-radius: 50%; display: flex;justify-content: center;">
 
-
-
-
-
-
-
-            <div class="p-2 mt-3"
-                style="border-radius: 22px;background-color: rgb(218 255 211);; width: 65%; position: absolute; height: 54vh; overflow-y: auto;overflow-x: hidden; padding: 10px;">
-
-                <div class="row mt-2" *ngIf="service.isdivvalid">
-                    <p class="text-center mb-3" style="font-size: x-large;font-weight: 800;">Suggested Users</p>
-
-                    <div class="mb-3" *ngFor="let user of service.searchfilteredlist"
-                        [ngClass]="grid ? 'col-4' : 'col-12'">
-                        <div
-                            style=" border: solid black 1px;box-shadow: 3px 4px 12px grey;border-radius: 12px;flex: 0 0 calc(33.3333% - 20px); background-color: white">
-                            <div class="mt-2 d-flex justify-content-center">
-                                <div class="card me-2 mb-2"
-                                    style="width: 190px;height: 190px;border-radius: 50%; display: flex;justify-content: center;">
-                                    <img style="width: 190px;height: 190px;border-radius: 50%;" class="card-img-top"
-                                        [src]="user.imgstr || '/assets/img/profile.png'" alt="">
-
-                                </div>
-                            </div>
-                            <div class="card-body text-center " style="background-color:transparent">
-                                <span class="card-text" style="font-size: large;font-weight: 600;">{{user.username}}
-                                </span>
-
-                            </div>
-
-                            <div class="d-flex justify-content-between">
-                                <button [class]="user.status === 0 ? 'btn btn-primary' : 'btn btn-secondary'"
-                                    (click)="requestUser(user.username)" [disabled]="user.status === 1"
-                                    class="card-text"
-                                    style="font-size: larger; font-weight: 500; margin: 0 auto; width: fit-content; text-align: center;">
-                                    <i class="ms-1"
-                                        [class]="user.status === 1 ? 'bi bi-check' : 'bi bi-person-fill-add'"></i>
-                                    <span class="ms-2 me-1" *ngIf="user.status === 1">Following</span>
-                                    <span class="ms-2 me-1" *ngIf="user.status === 0">Follow</span>
-                                </button>
-                                <div class="me-2" style="text-align: right;display: flex;align-items: center;"
-                                    (click)="openPrivateChat(user.username, user.imgstr)" *ngIf="user.status === 1">
-                                    <i class="bi bi-send-fill" style="font-size: x-large;"></i>
-                                </div>
-                            </div>
-
-
-                            <div class="mt-2 mb-2 d-flex justify-content-center align-items-center"
-                                style="    background-color: #e3e3e3;">
-
-
-
-                                <span class="me-3" style="color: purple;font-weight: 600;"> mutual Friends</span>
-                                <button style="padding: 0px;background-color: transparent;border: 0px;"
-                                   >
-                                    <div *ngIf="user!.mutualarr!.length > 0; else nomutual"  (click)="openDialog(user.username)">
-                                        <ng-container *ngFor="let img of user!.mutualarr; let imgId = index">
-                                            <ng-container *ngIf="imgId < 3">
-                                                <img style="width: 20px; height: 20px; border-radius: 50%; border: solid black 1px;"
-                                                    [src]="img ?? '/assets/img/profile.png'">
-                                            </ng-container>
+                                        <ng-container *ngIf="user.imgstr;else noofflineuser">
+                                            <img style="width: 190px;height: 190px;border-radius: 50%;"
+                                                class="card-img-top" [src]="user.imgstr" alt="">
                                         </ng-container>
+                                        <ng-template #noofflineuser>
+
+                                            <div class="user-text me-2">{{user.username.charAt(0)}}</div>
+                                        </ng-template>
+
                                     </div>
-                                    
-                                    <ng-template #nomutual >
-                                        <div style="cursor:default">
-                                            <span>No Mutual Users</span>
-                                        </div>
-                                       
-                                    </ng-template>
-                                    
-                                </button>
+                                </div>
+                                <div class="card-body text-center " style="background-color:transparent">
+                                    <span class="card-text" style="font-size: large;font-weight: 600;">{{user.username}}
+                                    </span>
+
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <button [class]="user.status === 0 ? 'btn btn-primary' : 'btn btn-secondary'"
+                                        (click)="requestUser(user.username)" [disabled]="user.status === 1"
+                                        class="card-text"
+                                        style="font-size: larger; font-weight: 500; margin: 0 auto; width: fit-content; text-align: center;">
+                                        <i class="ms-1"
+                                            [class]="user.status === 1 ? 'bi bi-check' : 'bi bi-person-fill-add'"></i>
+                                        <span class="ms-2 me-1" *ngIf="user.status === 1">Following</span>
+                                        <span class="ms-2 me-1" *ngIf="user.status === 0">Follow</span>
+                                    </button>
+                                    <div class="me-2" style="text-align: right;display: flex;align-items: center;"
+                                        (click)="openPrivateChat(user.username, user.imgstr)" *ngIf="user.status === 1">
+                                        <i class="bi bi-send-fill" style="font-size: x-large;"></i>
+                                    </div>
+                                </div>
+
+
+                                <div class="mt-2 mb-2 d-flex justify-content-center align-items-center"
+                                    style="    background-color: #e3e3e3;">
+
+
+
+                                    <span class="me-3" style="color: purple;font-weight: 600;"> mutual Friends</span>
+                                    <button style="padding: 0px;background-color: transparent;border: 0px;">
+                                        <ng-container *ngIf="user!.mutualarr!.length > 0; else nomutual">
+                                            <button style="border: 0px;background-color: transparent"
+                                                (click)="openDialog(user.username)">
+                                                <ng-container *ngFor="let img of user!.mutualarr; let imgId = index">
+                                                    <ng-container *ngIf="imgId < 3">
+                                                        <img style="width: 20px; height: 20px; border-radius: 50%; border: solid black 1px;"
+                                                            [src]="img ?? '/assets/img/profile.png'">
+                                                    </ng-container>
+                                                </ng-container>
+                                            </button>
+                                        </ng-container>
+
+                                        <ng-template #nomutual>
+                                            <div style="cursor:default">
+                                                <span>No Mutual Users</span>
+                                            </div>
+
+                                        </ng-template>
+
+                                    </button>
+
+                                </div>
 
                             </div>
-
-                            <!-- <div class="card-body text-center" style="background-color:transparent">
-                                <button [class]="user.status === 0 ? ' btn-primary ' : ' btn-secondary'"
-                                    (click)="requestUser(user.username)" [disabled]="user.status === 1"
-                                    class="btn card-text" style="font-size: larger;font-weight: 700;">
-                                    <i [class]="user.status === 1 ? 'bi bi-check' : 'bi bi-person-fill-add'"></i>
-                                    <span class="ms-2" *ngIf="user.status === 1">Following</span>
-                                    <span class="ms-2" *ngIf="user.status === 0">Follow</span>
-                                </button>
-                            </div> -->
-
                         </div>
                     </div>
                 </div>
+
+
+
             </div>
-            <!-- <div class="p-5 mt-3"
-                style="border-radius: 22px;background-color: rgb(185, 185, 185); width: 65%; position: absolute; height: 54vh; overflow-y: auto; display: flex; flex-wrap: wrap; justify-content: space-between; padding: 10px;">
-
-                <div *ngIf="service.isdivvalid" class="row">
-                    <div *ngFor="let user of service.searchfilteredlist" class="col-4 mb-3"
-                        style="flex: 0 0 calc(33.3333% - 20px); background-color: transparent">
-
-                        <div class="d-flex justify-content-center">
-                            <div class="card me-2 mb-2"
-                                style="width: 190px;height: 190px;border-radius: 50%; display: flex;justify-content: center;">
-                                <img style="width: 190px;height: 190px;border-radius: 50%;" class="card-img-top"
-                                    [src]="user.imgstr || 'src/assets/img/pizza.png'" alt="">
-
-                            </div>
-                        </div>
-                        <div class="card-body text-center" style="background-color:transparent">
-                            <p class="card-text" style="font-size: larger;font-weight: 700;">{{user.username}}</p>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div> -->
+        </ng-container>
+        <ng-container *ngIf="displayComponent === 'B'">
+            <div class="col-10">
+                <app-user-detail [receivedData]="dataToSend"
+                    (dataEvent)="receiveDataFromChild($event) "></app-user-detail>
+            </div>
+        </ng-container>
 
 
 
 
 
-
-
-
-
-        </div>
-
-        <div class="col-lg-2 ">
+        <!-- <div class="col-lg-2 ">
             <div class="pt-2 pb-2 ps-1 pe-1 text-center mb-2 sidechat" [ngClass]="service.defaulttheme">
                 Please Select User You want to Chat
             </div>
@@ -237,12 +189,7 @@
                     </mat-chip-list>
                 </mat-select-trigger>
                 <mat-select class="forbox" [formControl]="userControl" multiple placeholder="Add User...">
-                    <!-- <div class="d-flex align-items-center p-2">
-                        <span class="ms-2"><i class="bi bi-search"></i></span>
-                        <input class="ps-2 mt-1 mb-1 border-bottom" style="width: fit-content"
-                            placeholder="Write here name " matInput [formControl]="userctrl"
-                            (input)="onSearchInputChange()" />
-                    </div> -->
+               
 
                     <ng-container *ngIf="filteredlist.length > 0; else nouser">
                         <ng-container style="top:200px" *ngFor="let user of filteredlist">
@@ -260,13 +207,16 @@
                 </mat-select>
             </mat-form-field>
 
-            <!-- <button class="text-black bg-warning w-100 ps-1 pe-1 border-0 pt-2 pb-2"
-                style="border-radius:5px 5px 5px 5px" (click)="onSaveButtonClick()">Selected Users</button> -->
-            <!-- <app-story></app-story> -->
-        </div>
-    </div>    
-    <!-- </div> -->    
-    
+          
+        </div> -->
+
+
+
+
+
+    </div>
+    <!-- </div> -->
+
     <div class="tabsbody d-none">
         <mat-tab-group color="transparent" >
             <mat-tab label="Chats">

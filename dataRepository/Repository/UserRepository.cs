@@ -303,6 +303,37 @@ namespace dataRepository.Repository
             }
             return model;
         }
+
+
+       
+            public MutualFriends GetMutualOfUser(string myName, string name)
+            {
+                MutualFriends mutualFriends = new MutualFriends();
+
+                using (SqlConnection con = new SqlConnection(connections))
+                {
+                    SqlCommand cmd = new SqlCommand("MutualOfUser", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@myName", myName);
+                    cmd.Parameters.AddWithValue("@name", name);
+
+                    // Output parameters
+                    cmd.Parameters.Add("@AllImagesResult", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@AllNamesResult", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+
+                    // Assign output parameter values to the MutualFriends model
+                    mutualFriends.images = Convert.ToString(cmd.Parameters["@AllImagesResult"].Value);
+                    mutualFriends.names = Convert.ToString(cmd.Parameters["@AllNamesResult"].Value);
+                }
+
+                return mutualFriends;
+            }
+        
+
+
         //public async Task<ProfileVm> GetUserByProfileAsync(string name)
         //{
         //    List<ProfileVm> model = new List<ProfileVm>();
@@ -381,6 +412,7 @@ namespace dataRepository.Repository
                             aboutme = rdr.IsDBNull(rdr.GetOrdinal("aboutme")) ? null : rdr["aboutme"].ToString(),
                             status = rdr.IsDBNull(rdr.GetOrdinal("status")) ? null : rdr["status"].ToString(),
                             imgstr = rdr.IsDBNull(rdr.GetOrdinal("imgstr")) ? null : rdr["imgstr"].ToString(),
+                            imgstr2 = rdr.IsDBNull(rdr.GetOrdinal("imgstr2")) ? null : rdr["imgstr2"].ToString(),
                             gender = rdr.IsDBNull(rdr.GetOrdinal("gender")) ? null : rdr["gender"].ToString(),
                             phonenumber = rdr.IsDBNull(rdr.GetOrdinal("phonenumber")) ? null : rdr["phonenumber"].ToString(),
                             dob = rdr.IsDBNull(rdr.GetOrdinal("dob")) ? DateTime.Now : Convert.ToDateTime(rdr["dob"]),
@@ -548,6 +580,7 @@ namespace dataRepository.Repository
                 SqlCommand cmd = new SqlCommand("spInsertUserProfile", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@userName", model.username ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@cover", model.imgstr2 ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@name", model.name ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@gender", model.gender ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@phoneNumber", model.phonenumber ?? (object)DBNull.Value);
@@ -562,6 +595,8 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@facelink", model.facebooklink ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@twitlink", model.twitterlink ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@linkdinlink", model.linkdinlink ?? (object)DBNull.Value);
+
+
                 con.Open();
 
                 int row_count = cmd.ExecuteNonQuery();
@@ -569,6 +604,37 @@ namespace dataRepository.Repository
                 return row_count;
             }
         }
+
+        //public int GetUserDetails(ProfileVm model)
+        //{
+        //    using (SqlConnection con = new SqlConnection(connections))
+        //    {
+        //        SqlCommand cmd = new SqlCommand("spInsertUserProfile", con);
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Parameters.AddWithValue("@userName", model.username ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@name", model.name ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@gender", model.gender ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@phoneNumber", model.phonenumber ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@dob", model.dob ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@aboutme", model.aboutme ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@status", model.status ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@email", model.email ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@schoolname", model.schoolname ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@workplace", model.workplace ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@clgname", model.clgname ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@instalink", model.instalink ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@facelink", model.facebooklink ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@twitlink", model.twitterlink ?? (object)DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@linkdinlink", model.linkdinlink ?? (object)DBNull.Value);
+
+
+        //        con.Open();
+
+        //        int row_count = cmd.ExecuteNonQuery();
+
+        //        return row_count;
+        //    }
+        //}
 
 
         public int otpSend(ForgetVm model)

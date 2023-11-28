@@ -1,5 +1,4 @@
-export interface profile
-{
+export interface UserDetails {
     username?:string,
     name?:string,
     email?:string,
@@ -9,7 +8,6 @@ export interface profile
     aboutme?:string,
     status?:string,
     imgstr?:string,
-    imgstr2?:string,
     schoolname?:string,
     workplace?:string,
     clgname?:string,
@@ -17,4 +15,4 @@ export interface profile
     twitterlink?:string,
     linkdinlink?:string,
     facebooklink?:string
-}
+  }

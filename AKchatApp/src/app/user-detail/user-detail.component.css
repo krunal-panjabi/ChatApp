@@ -36,15 +36,15 @@
 }
 
 .user-image{
-    height: 140px;
-    width: 140px;
+    height: 200px;
+    width: 200px;
     border-radius: 50%;
     position: relative;
 }
 
 .user-text{
-    height: 140px;
-    width: 140px;
+    height: 200px;
+    width: 200px;
     /* height: 88px; width: 88px; */
      border-radius: 50%;
     background-color: rgb(231, 231, 231);
@@ -99,18 +99,66 @@
     width: 100% !important;
   }
 }
-.date-picker-container {
-    display: flex;
-    flex-direction: column;
-    /* Add any additional styling as needed */
-  }
-  
-  /* Adjust styling for the label if necessary */
-  .date-picker-container label {
-    margin-bottom: 8px; /* Add spacing between the label and the input */
-  }
-  
+
 
 .about {
     width: 93% !important;
 }
+
+.image{
+    position: absolute;
+    left: 2%;
+    top: 40%;
+}
+
+.card{
+    width: 45%;
+    max-height: 220px;
+}
+.pstyle{
+    font-weight: 600;font-size: larger;
+}
+
+.spanstyle{
+    font-weight: 400;font-size:medium ;
+}
+
+.mutual-div{
+    width: 100% !important;
+}
+.mutualbtn{
+    width: 100%;
+    background-color: #eebdee;
+    border: 0px;
+    padding: 5px;
+    border-radius: 12px;
+}
+
+.buffer-screen {
+    z-index: 22;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(209, 209, 209, 0.8); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .wholebody{
+    position: relative;
+  }
+
+  .smUser-text{
+    width:40px;height:40px;border-radius:50%;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    font-weight: 600;
+    font-size: large;
+  }

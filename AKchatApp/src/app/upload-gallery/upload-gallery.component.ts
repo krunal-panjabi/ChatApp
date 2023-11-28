@@ -184,7 +184,7 @@ export class UploadGalleryComponent implements OnInit {
     // }
     this.tagdiv = false;
 
-  }
+  // }
 
   convertToBase64(file: File) {
     const reader = new FileReader();

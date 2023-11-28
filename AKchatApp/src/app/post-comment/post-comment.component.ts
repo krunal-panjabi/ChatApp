@@ -32,8 +32,8 @@ export class PostCommentComponent implements OnInit{
     // this.service.getPostComments(this.storydata);
   //  alert(this.storydata);
    this.getComments();
-   alert(this.postId);
-   alert(this.name)
+  //  alert(this.postId);
+  //  alert(this.name)
   }
 
   getComments(){

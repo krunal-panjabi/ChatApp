@@ -164,6 +164,20 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(false);
             }
         }
+
+        //[HttpPost("GetUserDetails")]
+        //public IActionResult GetUserDetails([FromBody] string username)
+        //{
+        //    var count_value = _userrepo.GetUserDetails(username);
+        //    if (count_value > 0)
+        //    {
+        //        return Ok(true);
+        //    }
+        //    else
+        //    {
+        //        return Ok(false);
+        //    }
+        //}
         [Authorize]
         [SwaggerOperation(Summary = "For liking grp msg")]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, "You are not authenticated.")]
@@ -227,6 +241,14 @@ namespace AKchat.Areas.user.Controllers
             return users;
         }
 
+
+        [Authorize]
+        [HttpGet("GetMutualOfUser")]
+        public MutualFriends GetMutualOfUser(string myName,string name)
+        {
+            var users = _userrepo.GetMutualOfUser(myName,name);
+            return users;
+        }
 
         //[Authorize]
         //[HttpGet("FetchUserDetail")]

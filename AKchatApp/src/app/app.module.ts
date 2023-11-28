@@ -28,6 +28,7 @@ import { OtpSendComponent } from './otp-send/otp-send.component';
 import { MyPostsComponent } from './my-posts/my-posts.component';
 import { UserLikedPostsComponent } from './user-liked-posts/user-liked-posts.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 // import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
 //import { MatChipsModule } from '@angular/material/chips';
 
@@ -48,6 +49,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     OtpSendComponent,
     MyPostsComponent,
     UserLikedPostsComponent,
+    // UserDetailComponent
       ],
   imports: [
     BrowserModule,

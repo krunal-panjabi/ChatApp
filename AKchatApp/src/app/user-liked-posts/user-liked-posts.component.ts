@@ -15,7 +15,7 @@ export class UserLikedPostsComponent implements OnInit{
   // userName!: string;
   //    userImg!: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private service : UsersService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public service : UsersService) {
     this.imageId = data.imageId; // Access 'res' property from data
     // this.userImg=data.userimg
   }

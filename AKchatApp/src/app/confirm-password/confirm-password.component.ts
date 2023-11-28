@@ -29,7 +29,7 @@ export class ConfirmPasswordComponent {
   
   submitForm(){
     // alert(this.newPass.get("email")?.value);
-     alert(this.newPass.get("newPassword")?.value);
+    //  alert(this.newPass.get("newPassword")?.value);
 
   
   

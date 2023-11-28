@@ -2,8 +2,17 @@
 <div style="min-height: 355px;overflow-y: auto;">
     <div class="ms-3 mt-3" *ngFor="let user of userLikedPost">
         <div class=" d-flex">
-            <span class="me-2"><img style="width:35px;height:35px;border-radius:50%; border: solid 1px red;"
-                    [src]="user.userimg ?? '/assets/img/profile.png'"></span>
+            <span class="me-2">
+                <ng-container *ngIf="user.userimg;else noofflineuser">
+                    <img class="user-image" style="" [src]="user.userimg ?? '/assets/img/profile.png'">
+                </ng-container>
+
+                <ng-template #noofflineuser>
+
+                    <div class="user-text me-2">{{user.userName.charAt(0)}}</div>
+                </ng-template>
+
+            </span>
             <!-- Display the name -->
             <span class="d-flex align-items-center" style="font-size: x-large;">{{ user.userName }}</span>
             <!-- Display the image -->

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { user } from './Models/users';
 import { environment } from 'src/environments/environment';
 import { HubConnection } from '@microsoft/signalr';
@@ -14,6 +14,7 @@ import { group } from './Models/group';
 import { groupname } from './Models/groupname';
 import { groupmodel } from './Models/groupmodel';
 import { profile } from './Models/profile';
+import { UserDetails } from './Models/userDetails';
 import { GalleryData } from './Models/galleryData';
 import { AllStories } from './Models/allStories';
 import { MessageService } from './message.service';
@@ -24,6 +25,7 @@ import { UsersLikedPost } from './Models/usersLikedPosts';
 import { userlikecommentpostmodel } from './Models/userlikecommentpostmode';
 import {  userslikepostsdata } from './Models/userslikepostsdata';
 import { userscommentposts } from './Models/userscommentposts';
+import { MutualFriends } from './Models/mutualFriends';
 
 
 @Injectable(
@@ -45,6 +47,7 @@ export class UsersService {
   offlineUsers: OfflineUsers[] = [];
   allStories: AllStories[] = [];
   singleuser!: profile;
+  oneuserdetail! : UserDetails;
   grpmembers: OfflineUsers[] = [];
   likemembers: OfflineUsers[] = [];
   groups: groupname[] = [];
@@ -54,10 +57,12 @@ export class UsersService {
   private chatConnection?: HubConnection;
   privateMessages: Message[] = [];
   usernamelist:OfflineUsers[]=[];
+  mutualFriends!:MutualFriends;
   searchuserlist:OfflineUsers[]=[];
   searchfilteredlist:OfflineUsers[]=[];
   groupnamelist:groupname[]=[];
   preview:string[]=[];
+  userdetails:UserDetails[]=[];
   privateMessageInitiated = false;
   grpMessageInitiated=false;
   privatetypeintiate = false;
@@ -82,6 +87,22 @@ reintialized()
   this.searchuserlist=[];
 }
 
+
+
+// private dataSubject = new Subject<string>();
+// data$ = this.dataSubject.asObservable();
+
+// sendButtonClick(data: any): void {
+//   alert(data);
+//   this.dataSubject.next(data);
+// }
+
+// private dataSubject = new BehaviorSubject<string>('Initial data');
+// data$ = this.dataSubject.asObservable();
+
+// sendButtonClick(data: string) {
+//   this.dataSubject.next(data);
+// }
 
 toggletheme(color:string){
   
@@ -114,6 +135,21 @@ return this.http.post(`${environment.apiUrl}User/postComment`, postComments);
 getPostComments(postId :number): Observable<PostComments[]> {
   return this.http.get<PostComments[]>(`${environment.apiUrl}User/GetPostComments?postId=`+postId);
 }
+
+// getUserDetails(username :string): Observable<UserDetails[]> {
+//   return this.http.get<UserDetails[]>(`${environment.apiUrl}User/GetUserDetails?username=`+username);
+// }
+
+public getUserDetails(username :string): Observable<UserDetails> {
+  const headers = new HttpHeaders({ 'content-type': 'application/json' });
+  
+  const params = new HttpParams().set("username", username);
+  //const params = new HttpParams().set("username", this.myName);
+  return this.http.get<UserDetails>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
+}
+
+
+  
 getGalleryData(myName :string): Observable<GalleryData[]> {
   return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
 }
@@ -197,7 +233,7 @@ getUsersLikePosts():Observable<userscommentposts[]>{
       otp:email,
       newPassword : newPassword
     };
-    alert(newPass.otp);
+    // alert(newPass.otp);
     console.log("the object",newPass);
     
     return this.http.post(`${environment.apiUrl}User/NewPassword`, newPass);
@@ -329,6 +365,15 @@ getUsersLikePosts():Observable<userscommentposts[]>{
     
   }
 
+  getMutualNames(name : any)
+  {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    var myName=sessionStorage.getItem('myName') || '';
+    const params = new HttpParams().set("myName", myName).set('name', name);
+    return this.http.get<MutualFriends>(`${environment.apiUrl}User/GetMutualOfUser`, { 'headers': headers, 'params': params })
+    
+  }
+
 
   // public getuserprofiledetail(): Observable<profile> {
   //   const headers = new HttpHeaders({ 'content-type': 'application/json' });
@@ -398,7 +443,7 @@ getUsersLikePosts():Observable<userscommentposts[]>{
   }
 
   SelectedUsers(users:string){
-    alert("huuu");
+    // alert("huuu");
     const data={
       userlist:users,
       name:this.myName
@@ -467,7 +512,7 @@ getUsersLikePosts():Observable<userscommentposts[]>{
     }
   }
   notifyOthertabsforname(){
-    alert('upname');
+    // alert('upname');
     if ('BroadcastChannel' in window) {
       const channel = new BroadcastChannel('session-name');
       channel.postMessage(sessionStorage.getItem('myName'));
@@ -883,7 +928,7 @@ async CommentLive(name:string){
 
 
   async sendPrivateMessage(to: string, content: string) {
-    alert(this.chatConnection?.state);
+    // alert(this.chatConnection?.state);
     this.isgeneral=false;
     this.isGroupChat = false;
     var message:Message;

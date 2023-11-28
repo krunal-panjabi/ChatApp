@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OfflineUsers } from 'src/app/Models/OfflineUsers';
 import { UsersService } from 'src/app/users.service';
@@ -13,6 +13,7 @@ import { groupname } from 'src/app/Models/groupname';
 import { clippingParents } from '@popperjs/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MutualFriendListComponent } from 'src/app/mutual-friend-list/mutual-friend-list.component';
+import { UserDetailComponent } from 'src/app/user-detail/user-detail.component';
 
 interface UserWithIcon extends OfflineUsers {
   iconClass: string;
@@ -31,17 +32,21 @@ export class ChatpageComponent implements OnInit {
   userctrl = new FormControl('');
   searchctrl=new FormControl('');
   filteredlist:string[]=[];
-  
+  displayComponent: 'A' | 'B' = 'A';
+  receiveddata: string = '';
+  dataToSend: string = '';
+  @ViewChild('childComponent', { static: true }) childComponent!: ElementRef;
+
 
   // userslist1: UserWithIcon[] = [];
 
   iconClass = 'bi bi-person-fill-add'; // Initial icon class
   iconChanged = false;
 
- 
-  
+
+
   grid = true;
-  constructor(public service : UsersService,private modalService:NgbModal,private router:Router,public msgservice:MessageService,public dialog:MatDialog) { 
+  constructor(public service : UsersService,private modalService:NgbModal,private router:Router,public msgservice:MessageService,public dialog:MatDialog) {
     //var absUrl= $location.absUrl();
     console.log('ChatComponent constructor called');
     if(window.location.pathname === "/chat")
@@ -50,15 +55,36 @@ export class ChatpageComponent implements OnInit {
     }
   }
 
+userDetail(username : any){
+  // alert("called")
+  // const dialogRef = this.dialog.open(UserDetailComponent, {
+  //   width: '1500px',
+  //   height: '750px',
+  //   data: {username : username }
+  // });
+  this.dataToSend = username;
+  this.displayComponent = 'B';
+  // this.childComponent.nativeElement.someMethod(username);
+  // this.service.sendButtonClick(username);
+}
 
+receiveDataFromChild(data: string) {
+  this.receiveddata = data;
+  if (this.receiveddata === 'A') {
+    this.displayComponent = 'A';
+  } else if (this.receiveddata === 'B') {
+    this.displayComponent = 'B';
+  }
+}
 
-  openDialog(name:any): void {
-    alert(name);
+  openDialog(name : any): void {
+    console.log('got here');
+    // alert(name);
     const filteredUsers = this.service.searchfilteredlist.filter(user => user.username === name);
     console.log("user data",filteredUsers);
     const imgArray = filteredUsers.map(user => user.mutualarr);
     const friendNamesArray = filteredUsers.map(user => user.mutualfriends);
-    
+
 
     const dialogRef = this.dialog.open(MutualFriendListComponent, {
       width: '250px',
@@ -79,7 +105,7 @@ export class ChatpageComponent implements OnInit {
   this.service.groupnamelist=this.service.groups.filter(grp=>grp.groupname.toLowerCase().includes(searchterm));
   }
   // onSearchInputChange(){
-  
+
   //   const searchterm=(this.userctrl.value?? '').toLowerCase();
   //   this.filteredlist=this.userslist.filter(user=>user.toLowerCase().includes(searchterm));
   // }
@@ -120,7 +146,7 @@ private removeFirst(array: string[], toRemove: string): void {
       }
     });
     this.service.createChatConnection();
-    
+
     this.service.getAllUserNames().subscribe({
       next:(data)=>{
         data.forEach(user=>{
@@ -140,7 +166,7 @@ private removeFirst(array: string[], toRemove: string): void {
         });
         console.log("the usermutual",this.service.searchfilteredlist);
         this.userslist=data.filter(user=>user.username!==this.service.myName).map(user=>user.username);
-       
+
         this.filteredlist=this.userslist;
       }
     })
@@ -148,7 +174,7 @@ private removeFirst(array: string[], toRemove: string): void {
       console.log(this.service.myName);
     }
   }
-  
+
   sendMessage(content:string){
     this.service.sendMessage(content);
   }
@@ -165,13 +191,13 @@ private removeFirst(array: string[], toRemove: string): void {
   //        }
   //      })
   //   }
-  
+
   // }
 
   // requestUser(username :any)
   // {
-  
-    
+
+
   //      this.service.SelectedUsers(username).subscribe({
   //        next:(data)=>{
   //         this.service.requestnoti(username);
@@ -181,22 +207,22 @@ private removeFirst(array: string[], toRemove: string): void {
   //        }
   //      })
 
-    
-  
+
+
   // }
 
 
   requestUser(username: string) {
-    alert("clicked noww");
+    // alert("clicked noww");
     // Find the user by username and update the request status
     // const user = this.userslist1.find(user => user.username === username);
     // if (user) {
       console.log()
       this.service.SelectedUsers(username).subscribe({
         next: (data) => {
-          alert(data);
+          // alert(data);
           this.service.requestnoti(username);
-        //   user.iconClass = 'bi bi-check'; 
+        //   user.iconClass = 'bi bi-check';
         //   user.iconChanged = true;
          }
       });
@@ -233,7 +259,7 @@ private removeFirst(array: string[], toRemove: string): void {
     this.msgservice.messageDiv1Visibility={};
     this.msgservice.messageDiv2Visibility={};
     modalRef.componentInstance.GroupName=GroupName;
-  
+
     this.service.loadgrpmembers(GroupName).subscribe({
       next:(data)=>{
         this.service.grpmembers=data;
