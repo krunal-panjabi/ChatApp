@@ -4,24 +4,18 @@
     </div>
     <div style="overflow-y: auto;height: 330px;">
         <div *ngFor="let data of commentData">
-            <div class="ms=2 mt-1" style="background-color: rgb(213, 213, 213);margin: 0px;">
-                <p class="ms-2 p-0 me-2 mb-0" style="font-weight: 600;">{{data.commenter}}</p>
-                <p class="p-0">{{data.comment}}</p>
+            <div class="ms=2 mt-1" style="    background-color: #50c072;margin: 0px;padding: 5px;border-radius: 6px;">
+                <p class="ms-4 p-0 me-2 mb-0" style="font-weight: 500;color: white;">{{data.commenter}}</p>
+                <p class="p-0 ms-4 mb-0" style="font-weight: 200;color: white;">{{data.comment}}</p>
             </div>
-            <hr>
         </div>
-    </div>
-
-
+    </div> 
     <form class="mb-2" style="display: flex;position: absolute;bottom: 0px;width: 94%;" [formGroup]="commentForm"
         (ngSubmit)="onFormSubmit()">
         <div style="display: flex;width: 100%;">
             <input type="text" id="fname" value="" placeholder="Enter Comment..." name="comment"
-                formControlName="comment" style="flex: 1;">
-            <input class="ms-2" type="submit" value="Send">
+                formControlName="comment" style="flex: 1;border-radius: 12px;border: 1px solid lightgrey;padding: 3px;">
+            <input class="ms-2" type="submit" value="Send" style="border: none;color: white;border-radius: 5px;background: rgb(25, 135, 84);">
         </div>
     </form>
-
-
-
 </div>

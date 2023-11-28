@@ -117,7 +117,7 @@
                                 <div class="card me-2 mb-2"
                                     style="width: 190px;height: 190px;border-radius: 50%; display: flex;justify-content: center;">
                                     <img style="width: 190px;height: 190px;border-radius: 50%;" class="card-img-top"
-                                        [src]="user.imgstr || 'src/assets/img/pizza.png'" alt="">
+                                        [src]="user.imgstr || '/assets/img/profile.png'" alt="">
 
                                 </div>
                             </div>
@@ -152,14 +152,14 @@
                                 <span class="me-3" style="color: purple;font-weight: 600;"> mutual Friends</span>
                                 <button style="padding: 0px;background-color: transparent;border: 0px;"
                                    >
-                                    <ng-container *ngIf="user!.mutualarr!.length > 0; else nomutual"  (click)="openDialog(user.username)">
+                                    <div *ngIf="user!.mutualarr!.length > 0; else nomutual"  (click)="openDialog(user.username)">
                                         <ng-container *ngFor="let img of user!.mutualarr; let imgId = index">
                                             <ng-container *ngIf="imgId < 3">
                                                 <img style="width: 20px; height: 20px; border-radius: 50%; border: solid black 1px;"
                                                     [src]="img ?? '/assets/img/profile.png'">
                                             </ng-container>
                                         </ng-container>
-                                    </ng-container>
+                                    </div>
                                     
                                     <ng-template #nomutual >
                                         <div style="cursor:default">
@@ -264,11 +264,11 @@
                 style="border-radius:5px 5px 5px 5px" (click)="onSaveButtonClick()">Selected Users</button> -->
             <!-- <app-story></app-story> -->
         </div>
-    </div>
-    <!-- </div> -->
-
+    </div>    
+    <!-- </div> -->    
+    
     <div class="tabsbody d-none">
-        <mat-tab-group>
+        <mat-tab-group color="transparent" >
             <mat-tab label="Chats">
                 <div class="section1">
                     <div class="d-flex justify-content-between sec1_grp my-3">

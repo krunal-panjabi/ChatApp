@@ -121,8 +121,8 @@ export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
           this.matdialog.open(DialogBodyComponent, {
             width: '350px',
             position: {
-              top: '100px',
-              left: '500px'
+              top: '300px',
+              left: '700px'
             },
           })
         },

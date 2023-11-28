@@ -547,23 +547,21 @@ namespace dataRepository.Repository
             {
                 SqlCommand cmd = new SqlCommand("spInsertUserProfile", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@userName", model.username);
-                cmd.Parameters.AddWithValue("@name", model.name);
-                cmd.Parameters.AddWithValue("@gender", model.gender);
-                cmd.Parameters.AddWithValue("@phoneNumber", model.phonenumber);
-                cmd.Parameters.AddWithValue("@dob", model.dob);
-                cmd.Parameters.AddWithValue("@aboutme", model.aboutme);
-                cmd.Parameters.AddWithValue("@status", model.status);
-                cmd.Parameters.AddWithValue("@email", model.email);
-                cmd.Parameters.AddWithValue("@schoolname", model.schoolname);
-                cmd.Parameters.AddWithValue("@workplace", model.workplace);
-                cmd.Parameters.AddWithValue("@clgname", model.clgname);
-                cmd.Parameters.AddWithValue("@instalink", model.instalink);
-                cmd.Parameters.AddWithValue("@facelink", model.facebooklink);
-                cmd.Parameters.AddWithValue("@twitlink", model.twitterlink);
-                cmd.Parameters.AddWithValue("@linkdinlink", model.linkdinlink);
-                
-
+                cmd.Parameters.AddWithValue("@userName", model.username ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@name", model.name ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@gender", model.gender ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@phoneNumber", model.phonenumber ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@dob", model.dob ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@aboutme", model.aboutme ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@status", model.status ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@email", model.email ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@schoolname", model.schoolname ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@workplace", model.workplace ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@clgname", model.clgname ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@instalink", model.instalink ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@facelink", model.facebooklink ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@twitlink", model.twitterlink ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@linkdinlink", model.linkdinlink ?? (object)DBNull.Value);
                 con.Open();
 
                 int row_count = cmd.ExecuteNonQuery();
@@ -702,7 +700,7 @@ namespace dataRepository.Repository
             {
                 SqlCommand cmd = new SqlCommand("UploadGalleryData", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@caption", caption);
+                cmd.Parameters.AddWithValue("@caption", caption ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@imgstr", imgstr);
                 cmd.Parameters.AddWithValue("@uploadedUser", uploadedUser);
                 cmd.Parameters.AddWithValue("@tagnames", tagnames);
@@ -802,7 +800,90 @@ namespace dataRepository.Repository
             }
             return model;
         }
+        public List<UsersLikePostDataVm> GetUsersLikeData(string username)
+        {
+            List<UsersLikePostDataVm> model = new List<UsersLikePostDataVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetUsersLikePostData", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@myName", username);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    UsersLikePostDataVm names = new UsersLikePostDataVm
+                    {
+                        postid = Convert.ToInt32(rdr["postid"]),
+                        imgstr=rdr.IsDBNull(rdr.GetOrdinal("imgstr")) ? null : rdr["imgstr"].ToString()
+                        // tagnames= rdr.IsDBNull(rdr.GetOrdinal("tagname")) ? null : rdr["tagname"].ToString(),
+                    };
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
+        }
+        public List<UsersLikeCommentPostsVm> GetUsersCommentData(string username)
+        {
+            List<UsersLikeCommentPostsVm> model = new List<UsersLikeCommentPostsVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetUsersCommentData", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@myName", username);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    UsersLikeCommentPostsVm names = new UsersLikeCommentPostsVm
+                    {
+                        postid = Convert.ToInt32(rdr["postid"]),
+                        caption = rdr["caption"].ToString(),
+                        imgstr = rdr["imgstr"].ToString(),
+                        uplodedby = rdr["username"].ToString(),
+                        comment = rdr.IsDBNull(rdr.GetOrdinal("comment")) ? null : rdr["comment"].ToString(),
+                        uploadedbyimage = rdr["img"].ToString()
 
+                        // tagnames= rdr.IsDBNull(rdr.GetOrdinal("tagname")) ? null : rdr["tagname"].ToString(),
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
+        }
+        public List<UsersLikeCommentPostsVm> GetUsersLikeCommentData(string username)
+        {
+            List<UsersLikeCommentPostsVm> model = new List<UsersLikeCommentPostsVm>();
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetUsersLikeCommentPostData", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@myName", username);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    UsersLikeCommentPostsVm names = new UsersLikeCommentPostsVm
+                    {
+                        postid= Convert.ToInt32(rdr["post_id"]),
+                        caption = rdr["caption"].ToString(),
+                        imgstr = rdr["imgstr"].ToString(),
+                        userliked = Convert.ToInt32(rdr["userLikedStatus"]),
+                        commenter = rdr.IsDBNull(rdr.GetOrdinal("commenter")) ? null: rdr["commenter"].ToString(),
+                        comment = rdr.IsDBNull(rdr.GetOrdinal("comment")) ? null: rdr["comment"].ToString(),
+
+                        // tagnames= rdr.IsDBNull(rdr.GetOrdinal("tagname")) ? null : rdr["tagname"].ToString(),
+                    };
+
+                    model.Add(names);
+                }
+                con.Close();
+            }
+            return model;
+        }
 
         public List<UsersLikedPostVm> UsersLikedPost(int imageId)
         {

@@ -100,7 +100,7 @@
                     </span>
                     <span style="text-align: left;" *ngIf="message.messageLike===0"
                         (click)="LikeMsg(message.messageid,messageId+1,messageId+1)"><i
-                            class="bi bi-suit-heart-fill nolike"
+                            class="me-1 bi bi-suit-heart-fill nolike"
                             [class.colorheart]="msgservice.messageDiv1Visibility[messageId+1]"></i>like</span>
 
                     <span style="text-align: left;" (click)="closediv(messageId+1)"><i class="bi bi-x-lg me-1"></i>Close</span>

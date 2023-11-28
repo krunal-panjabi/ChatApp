@@ -25,7 +25,7 @@ interface UserWithIcon extends OfflineUsers {
   styleUrls: ['./chatpage.component.css']
 })
 
-export class ChatpageComponent implements OnInit,OnDestroy {
+export class ChatpageComponent implements OnInit {
   userControl:FormControl<string[] | null> = new FormControl([]);
   userslist:string[]=[];
   userctrl = new FormControl('');
@@ -73,15 +73,6 @@ export class ChatpageComponent implements OnInit,OnDestroy {
   }
 
 
-
-
-
-
-
-
-
-
-
   onSearchInputChange1(){
    const searchterm=(this.searchctrl.value?? '').toLocaleLowerCase();
   this.service.usernamelist=this.service.offlineUsers.filter(user=>user.username.toLowerCase().includes(searchterm));
@@ -95,9 +86,7 @@ export class ChatpageComponent implements OnInit,OnDestroy {
 
 
 
- ngOnDestroy(): void{
-   this.service.stopChatConnection();
- }
+
  onCatRemoved(cat: string) {
   const categories = this.userControl.value as string[];
   this.removeFirst(categories, cat);
@@ -234,12 +223,6 @@ private removeFirst(array: string[], toRemove: string): void {
    modalRef.componentInstance.image=image;
   }
 
-  logout(){
-    this.service.myName='';
-    this.service.isTyping=false;
-  
-    this.router.navigateByUrl('/login');
-  }
 
   openGroupChat(GroupName:string){
     this.service.loadgrpchats(GroupName);

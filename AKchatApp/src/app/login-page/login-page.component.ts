@@ -15,14 +15,14 @@ export class LoginPageComponent implements OnInit {
   submitted = false;
  
   constructor(private formBuilder : FormBuilder ,private service : UsersService,private router:Router, private toastr: ToastrService) { 
-    if(window.location.pathname === "/")
-    {
-      service.isLogInComponent=false;
-    }
+    // if(window.location.pathname === "/")
+    // {
+    //   service.isLogInComponent=false;
+    // }
   }
 
   ngOnInit(): void {
-    console.log("the path",window.location.pathname);
+    //console.log("the path",window.location.pathname);
     this.userForm.reset();
     this.initializeForm();
   }

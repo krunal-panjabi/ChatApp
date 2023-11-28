@@ -1,32 +1,36 @@
 <div class="mainBody">
     <div class="row d-flex justify-content-center ">
-
-
-
-
-
         <div class="col-12 gal-img"
             style="max-height:89vh;overflow-y: auto;position: relative; justify-content: center;">
             <div class="container d-flex justify-content-center upload-btn  mt-2">
-                <a class="btn ubtn " [routerLink]="['/upload-gallery']"><i class="bi bi-plus"
-                        style="font-size: x-large;"></i> upload Image</a>
+                <a class="btn ubtn " [routerLink]="['/upload-gallery']"><i class="bi bi-plus posticon"
+                        style="font-size: x-large;"></i><span class="headtitle">upload Image</span></a>
             </div>
-
             <div class="container d-flex justify-content-center mypost-btn  mt-2">
-                <a class="btn ubtn " [routerLink]="['/my-posts']"> My Posts</a>
+                <a class="btn ubtn " [routerLink]="['/my-posts']"><i class="bi bi-file-post d-none posticon" style="font-size: large;"></i><span class="headtitle">My Posts</span></a>
             </div>
-
-
-
-            <div class="container d-flex justify-content-center p-2 posts" *ngFor="let data of galleryData">
+            <div  class="container d-flex justify-content-center p-2 posts" *ngFor="let data of galleryData">
 
                 <div class="card mt-3 " style="width: fit-content;height: fit-content;">
                     <div class="m-3 justify-content-between d-flex">
                         <div class="d-flex align-items-center">
                             <img class="user-image me-2" [src]="data.userimage" alt="">
-
                             <span class="navbar-brand me-1">{{ data.uploadedUser }}</span>
-                            <span *ngIf="data.tagnames" class="navbar-brand" >has tagged <span class="fw-bolder">{{data.tagnames}}</span></span>
+                            <span *ngIf="data.tagnames" class="navbar-brand">has tagged
+                                <ng-container *ngIf="!showAllNames && data.tagnames.split(',').length>2;else showothers">
+                                     {{data.tagnames.split(',').slice(0,2).join(', ')}}
+                                     <span class="fw-bolder">with {{data.tagnames.split(',').length-2}} others</span>
+                                     <a href="javascript:void(0);" (click)="toggleShowAllNames()"
+                                     style="text-decoration: none;color: #3F51B5;" class="ms-1 fw-bolder">Show All</a>
+                                </ng-container>
+                                <ng-template #showothers>
+                                    {{data.tagnames.split(',').join(', ')}}
+                                    <a href="javascript:void(0);" (click)="toggleShowAllNames()"
+                                    *ngIf="data.tagnames.split(',').length>2"
+                                    style="text-decoration: none;color: #3F51B5;" class="ms-1 fw-bolder">Show Less</a>
+                                </ng-template>
+                              
+                            </span>
                         </div>
                         <span *ngIf="data.uploadedUser.trim() === service.myName.trim()"
                             style="position: absolute;top: 5px;right: 5px;z-index: 22; ;color: red;">
@@ -38,26 +42,25 @@
                         </span>
                     </div>
                     <hr>
-
                     <div (dblclick)="toggleHeartClass(data.galleryId,data.uploadedUser)">
                         <img class="card-img-top" style="height: 300px;width: 550px;max-width: -webkit-fill-available;"
                             [src]="data.imgstr" alt="Card image cap">
                     </div>
                     <hr>
-
                     <div class="card-body">
                         <p class="card-text" style="margin: 0px 0px 3px;">
                         <div class="d-flex">
                             <div class="like" (click)="toggleHeartClass(data.galleryId,data.uploadedUser)"> <i
                                     [ngClass]="data.currentUserLiked == 1 ? 'bi bi-heart-fill' : 'bi bi-heart'"
-                                    style="font-size: larger;"></i> </div>
+                                    style="font-size: larger;-webkit-text-stroke: 0.5px;"></i> </div>
                             <div class="like ms-3" (click)="comment(data.galleryId,data.uploadedUser)"><i
-                                    class="bi bi-chat ms-1" style="font-size: larger;"></i> </div>
+                                    class="bi bi-chat ms-1" style="font-size: larger;-webkit-text-stroke: 0.5px;"></i> </div>
                         </div>
                         <p> {{data.likeCount}} likes
                         </p>
                         <!-- <p style="color: red;">{{data.currentUserLiked}}</p> -->
-                        <span><span style="font-weight: 600;">{{data.uploadedUser}}</span>&nbsp; {{data.caption}}</span>
+                        <span *ngIf="data.caption"><span style="font-weight: 600;">{{data.uploadedUser}}</span>&nbsp;
+                            {{data.caption}}</span>
                     </div>
                 </div>
             </div>

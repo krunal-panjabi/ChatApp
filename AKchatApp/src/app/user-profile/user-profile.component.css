@@ -84,8 +84,18 @@
     width: 100% !important;
   }
 }
-
+.date-picker-container {
+    display: flex;
+    flex-direction: column;
+    /* Add any additional styling as needed */
+  }
+  
+  /* Adjust styling for the label if necessary */
+  .date-picker-container label {
+    margin-bottom: 8px; /* Add spacing between the label and the input */
+  }
+  
 
 .about {
-    width: 80% !important;
+    width: 93% !important;
 }

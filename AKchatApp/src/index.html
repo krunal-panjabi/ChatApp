@@ -35,7 +35,7 @@
         localStorage.setItem('sessionStorage', JSON.stringify(sessionStorage));
         // The other tab should now have it, so we're done with it.
         localStorage.removeItem('sessionStorage'); // <- Could do a short timeout as well.
-      } else if (event.key == 'sessionStorage' && !sessionStorage.length) {
+      } else if (event.key == 'sessionStorage' && !sessionStorage.length) { //here data is sent by another tab after requesting
         // Another tab sent data <- get it
         var data = JSON.parse(event.newValue);
         for (var key in data) {
@@ -43,11 +43,12 @@
         }
       }
     };
-    
-  if (window.addEventListener) {
+     //it is for listening changes for storage
+  if (window.addEventListener) { //This code adds an event listener for the 'storage' event on the window, calling the sessionStorage_transfer function when the event occurs.
+
   window.addEventListener("storage", sessionStorage_transfer, false);
   }
-  if (!sessionStorage.length) {
+  if (!sessionStorage.length) { //this will check if in new tab the session storage is empty than it request from another tab for session items
   localStorage.setItem('getSessionStorage', 'foobar');
   localStorage.removeItem('getSessionStorage');
   };

@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'AKchatApp';
   constructor(router:Router,public service:UsersService){
     router.events.subscribe(val=>{
-     if(window.location.pathname==='/' || window.location.pathname==='/login'){
+     if(window.location.pathname==='/' || window.location.pathname==='/login' || window.location.pathname==='/register'){
       this.service.isLogInComponent=false;
      }
      else{

@@ -13,7 +13,7 @@ import { PostCommentComponent } from '../post-comment/post-comment.component';
   styleUrls: ['./photo-gallery.component.css']
 })
 export class PhotoGalleryComponent {
-
+  showAllNames = false;
   galleryData: GalleryData[] = [];
   constructor(public service: UsersService, private router: Router,private matdialog: MatDialog) {
     if(window.location.pathname !== "/chat")
@@ -29,21 +29,14 @@ export class PhotoGalleryComponent {
      console.log(this.service.myName);
      
    }
-   else{
-    setTimeout(() => {
-      this.router.navigateByUrl('/no-connection');
-      setTimeout(() => {
-        this.router.navigateByUrl('/login');
-      }, 3000);
-    }, 0);
-   }
+   
    this.fetchGalleryData();
-   this.service.createChatConnection();
+  //  this.service.createChatConnection();
  }
- ngOnDestroy(): void{
-  this.service.stopChatConnection();
-}
 
+ toggleShowAllNames() {
+  this.showAllNames = !this.showAllNames;
+}
 
  confirmDelete(galleryId: any) {
   const confirmation = window.confirm('Are you sure you want to delete this post?');
@@ -85,7 +78,6 @@ toggleHeartClass(id:any,uUser:string) {
   this.service.sendGalleryData(id,myName).subscribe({
     next:(data)=>{
       // alert('next');
-      this.service.likePost(uUser);
       this.service.getGalleryData(this.service.myName).subscribe({
         next:(data)=>{
           this.service.likePost(uUser);

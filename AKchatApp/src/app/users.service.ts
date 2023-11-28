@@ -21,6 +21,9 @@ import { notimsg } from './Models/NotiMsg';
 import { StoryView } from './Models/storyView';
 import { PostComments } from './Models/postComments';
 import { UsersLikedPost } from './Models/usersLikedPosts';
+import { userlikecommentpostmodel } from './Models/userlikecommentpostmode';
+import {  userslikepostsdata } from './Models/userslikepostsdata';
+import { userscommentposts } from './Models/userscommentposts';
 
 
 @Injectable(
@@ -103,31 +106,24 @@ uploadGalleryData(caption: string, imgstr: string, uploadedUser: string,tagname:
   const galleryData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser,tagnames:tagname }
   return this.http.post<Message[]>(`${environment.apiUrl}User/UploadGalleryData`, galleryData);
 }
-
 public uploadPostComment(postComments: PostComments): Observable<any> {
   // postComments.username = this.myName;
   // alert("service "+postComments);
 return this.http.post(`${environment.apiUrl}User/postComment`, postComments);
 }
-
 getPostComments(postId :number): Observable<PostComments[]> {
   return this.http.get<PostComments[]>(`${environment.apiUrl}User/GetPostComments?postId=`+postId);
 }
-
-  
 getGalleryData(myName :string): Observable<GalleryData[]> {
   return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
 }
-
 getMyGalleryData(myName :string): Observable<GalleryData[]> {
   return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetMyGallery?myName=`+myName);
 }
-
 uploadStoryData(caption: string, imgstr: string [], uploadedUser: string): Observable<any> {
   const storyData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
   return this.http.post(`${environment.apiUrl}User/UploadStoryData`, storyData);
 }
-
 getStoryData(): Observable<StoryView[]> {
   const headers = new HttpHeaders({ 'content-type': 'application/json' });
   var name=sessionStorage.getItem('myName') || '';
@@ -141,6 +137,26 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
   const headers = new HttpHeaders({ 'content-type': 'application/json' });
   const params = new HttpParams().set("imageId", imageId);
   return this.http.get<UsersLikedPost[]>(`${environment.apiUrl}User/UsersLikedPost`, { 'headers': headers, 'params': params });
+}
+// getUsersLikeComment(): Observable<userlikecommentpostmodel[]>{
+//   const headers = new HttpHeaders({ 'content-type': 'application/json' });
+//   var name=sessionStorage.getItem('myName') || '';
+//   const params = new HttpParams().set("username", name);
+//   return this.http.get<userlikecommentpostmodel[]>(`${environment.apiUrl}User/GetUsersLikeCommentData`, { 'headers': headers, 'params': params });
+
+// }
+getUsersCommentPosts():Observable<userlikecommentpostmodel[]>{
+  const headers = new HttpHeaders({ 'content-type': 'application/json' });
+  var name=sessionStorage.getItem('myName') || '';
+  const params = new HttpParams().set("username", name);
+  return this.http.get<userlikecommentpostmodel[]>(`${environment.apiUrl}User/GetUsersCommentData`, { 'headers': headers, 'params': params });
+}
+getUsersLikePosts():Observable<userscommentposts[]>{
+  const headers = new HttpHeaders({ 'content-type': 'application/json' });
+  var name=sessionStorage.getItem('myName') || '';
+  const params = new HttpParams().set("username", name);
+  return this.http.get<userslikepostsdata[]>(`${environment.apiUrl}User/GetUsersLikeData`, { 'headers': headers, 'params': params });
+
 }
   // storyOfUser(userId: any): Observable<any> {
   //   const data = {
@@ -542,6 +558,7 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
     this.countmsg=this.countmsg+1;
    })
    this.chatConnection.on('LiveForPost',(names:string)=>{
+    alert(this.chatConnection?.state);
     this.countmsg=this.countmsg+1;
    })
    this.chatConnection.on('SendNotiRequest',(name:string)=>{
@@ -717,8 +734,12 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
        .catch(error => console.log(error));
      }
 
-  
+  async disconnectedasync(name:string){
+    return this.chatConnection?.invoke('disconnectfromdic',name)
+       .catch(error => console.log(error));
+  }
   stopChatConnection() {
+    console.log('connection broken');
     this.chatConnection?.stop().catch(error => console.log(error));
   }
   async addUserConnectionId() {
@@ -803,13 +824,14 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
       .catch(error => console.log(error));
   }
  async LiveNotiforPost(names:string){
+  alert('live for Post')
   return this.chatConnection?.invoke('LiveforPost',names)
   .catch(error => console.log(error)); 
  }
 
  async likePost(uUser:string) {
     
-    return this.chatConnection?.invoke('LikePost', uUser).then(()=>{
+    return this.chatConnection?.invoke('LikePost', uUser.trim()).then(()=>{
       console.log('hii called');
     })
       .catch(error => console.log(error));

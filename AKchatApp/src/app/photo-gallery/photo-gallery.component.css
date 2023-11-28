@@ -36,7 +36,9 @@ hr{
 }
 
 
+.posticon{
 
+}
 .ubtn{
     background-image: linear-gradient(to bottom right, #ff5f5f, yellow,pink,lightblue);
     color: black;
@@ -47,15 +49,9 @@ hr{
 
 
 
-
-
-
-
-
-
 /* CSS */
 .ubtn {
-  padding: 0.6em 2em;
+  padding: 12px;
   border: none;
   outline: none;
   color: black;
@@ -163,3 +159,26 @@ hr{
 
 } */
 
+@media screen  and (max-width:1010px)  {
+  .ubtn{
+   padding:10px;
+  }
+  .posticon{
+   display: block !important;
+   font-size: large !important;
+  }
+   }
+ 
+   @media screen and (max-width:840px){
+    .mypost-btn{
+      position: absolute !important;
+      top:0px !important;
+    }
+    .upload-btn{
+      top:48px !important;
+    }
+    .posts{
+      margin-top:30px;
+    }
+  
+   }

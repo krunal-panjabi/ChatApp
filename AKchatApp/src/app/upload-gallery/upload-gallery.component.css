@@ -8,27 +8,41 @@
     /* border: solid grey 1px; */
     /* background-color: rgb(225, 225, 225); */
     position: relative;
-    box-shadow: 10px 10px 5px rgb(172, 172, 172);
+    
 }
 
 .image-input{
     opacity: 0;
     z-index: 34;
     height: 200px;
+    left: 40%;
+    top: 20%;
     position: absolute;
     width: 200px; 
 }
 .user-image-o{
-    height: 200px;
-    width: 200px; 
-    border-radius: 12px;
+    height: 364px;
+    width: 100%; 
+   
     z-index: 0;
     opacity: 1;
-    position: absolute;
-
-
 }
-
+.selected-profile {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px;
+    background-color: rgb(25, 135, 84);
+    border-radius: 5px;
+    color:white
+  }  
+  .afterfocus,
+  .afterfocus:focus,
+  .afterfocus:active {
+      background: #EEEE;
+      border: none;
+      outline: none;
+  }
+  
 .afterclick{
     width: 50%;
 }
@@ -103,7 +117,7 @@
 
 
 
-}
+
 .tick-logo {
     position: absolute;
     top: -8px;
@@ -133,8 +147,50 @@
   
   .grid-item {
     flex: 0 0 calc(33.3333% - 20px); 
-    border: solid black 1px;
     box-shadow: 3px 4px 12px grey;
     border-radius: 12px;
-    background-color: white;
+    padding: 11px 15px 11px 15px;
+    position: relative;
   }
+  .button-41 {
+    background-color: initial;
+    background: blue;
+    /* background-image: linear-gradient(-180deg, #00D775, #00BD68); */
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+   
+    outline: 0;
+    overflow: hidden;
+    padding: 0 20px;
+    pointer-events: auto;
+    position: relative;
+    text-align: center;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: top;
+    white-space: nowrap;
+    width: fit-content;
+    z-index: 9;
+    border: 0;
+    
+  }
+  
+  .button-41:hover {
+    background: #009954;
+  border-radius: 25px;}
+  .mat-tab-label{
+    background:aqua !important;
+    color: blue !important;
+    width: 60px !important;
+    height: 50px !important;
+    font-size: 20px !important;
+  }
+  /* .mat-tab-group.mat-primary .mat-ink-bar{
+    background: brown !important;
+    height: 5px !important;
+  }  */

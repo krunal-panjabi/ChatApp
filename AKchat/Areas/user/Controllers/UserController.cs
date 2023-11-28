@@ -512,10 +512,6 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(false);
             }
         }
-
-
-
-
         [Authorize]
         [HttpPost("UploadGalleryData")]
         public IActionResult UploadGalleryData([FromBody] GalleryVm model)//company register
@@ -531,7 +527,7 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(false);
             }
         }
-
+       
         [HttpPost("postComment")]
         public IActionResult postComment([FromBody] PostComments model)//company register
         {
@@ -593,7 +589,27 @@ namespace AKchat.Areas.user.Controllers
             var story = _userrepo.GetStory(username);
             return story;
         }
-
+        [Authorize]
+        [HttpGet("GetUsersLikeCommentData")]
+        public List<UsersLikeCommentPostsVm> GetUsersLikeCommentData(string username)
+        {
+            var data = _userrepo.GetUsersLikeCommentData(username);
+            return data;
+        }
+        [Authorize]
+        [HttpGet("GetUsersCommentData")]
+        public List<UsersLikeCommentPostsVm> GetUsersCommentData(string username)
+        {
+            var data = _userrepo.GetUsersCommentData(username);
+            return data;
+        }
+        [Authorize]
+        [HttpGet("GetUsersLikeData")]
+        public List<UsersLikePostDataVm> GetUsersLikeData(string username)
+        {
+            var data = _userrepo.GetUsersLikeData(username);
+            return data;
+        }
         [Authorize]
         [HttpGet("UsersLikedPost")]
         public List<UsersLikedPostVm> UsersLikedPost(int imageId)

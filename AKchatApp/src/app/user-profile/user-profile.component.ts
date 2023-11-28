@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
 import { profile } from '../Models/profile';
-import { MatStepper } from '@angular/material/stepper';
+import { MatStep, MatStepper } from '@angular/material/stepper';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
@@ -11,18 +11,21 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css']
 })
+
 export class UserProfileComponent implements OnInit {
   @ViewChild('button2') button2!: ElementRef;
   @ViewChild('stepper') stepper!: MatStepper;
+
   currentUser: any;
   imageUrl: string = "/assets/img/upload.png";
   fileToUpload!: File;
   file!: File;
     nameError: boolean = false;
+    emailError:boolean=false;
     htmlContent = '';
   empForm: FormGroup;
   oldname = '';
-
+  
   ngOnInit(): void {
   
     this.service.myName = sessionStorage.getItem('myName') || '';
@@ -30,14 +33,15 @@ export class UserProfileComponent implements OnInit {
     this.service.getuserprofiledetail().subscribe({
       next: (data: profile) => {
         this.service.singleuser = data;
-        this.empForm.patchValue(this.service.singleuser);
+       this.empForm.patchValue(this.service.singleuser);
+      
       },
       error: (error) => {
         console.error('Error loading private chats', error);
       }
     });
    
-     
+
     if (this.service.imageUrl === "") {
 
       this.imageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ"; // Replace with your actual default image URL
@@ -52,12 +56,12 @@ export class UserProfileComponent implements OnInit {
     }
     this.empForm = this.formBuilder.group({
       name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      gender: ['', Validators.required],
+      email: ['', [Validators.email,this.validateEmail]],
+      gender: '',
       phonenumber: ['', Validators.required],
       dob: [null, Validators.required],
-      aboutme: ['', Validators.required],
-      status: ['', Validators.required],
+      aboutme: '',
+      status: '',
       imgstr: '',
       workplace:'',
       schoolname:'',
@@ -87,10 +91,40 @@ export class UserProfileComponent implements OnInit {
       this.nameError = false;
     }
   }
+  updateDate(event: any) {
+    this.empForm.get('dob')?.setValue(event.target.value);
+  }
+  validateEmail(event: any) {
+    if (event && event.target && event.target.value) {
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  
+      if (!emailPattern.test(event.target.value)) {
+        this.empForm.get('email')?.setErrors({ invalid: true, message: "Enter Valid Email" });
+        this.emailError = true;
+      } else {
+        this.emailError = false;
+      }
+    }
+  
+    return null;
+  }
+  
+  
   onFormSubmit() {
-    alert('called');
+   
     // this.button2.nativeElement.click();
     if (this.empForm.valid) {
+      // if (
+      //   this.empForm.get('name')?.hasError('required') ||
+      //   this.empForm.get('email')?.hasError('invalid') ||
+      //   this.empForm.get('name')?.hasError('invalid') ||
+      //   this.empForm.get('email')?.hasError('required')
+      // ) 
+      // {
+      //   // Do not proceed with submission if there are errors
+      //   return;
+      // }
+      alert('called');
       this.oldname = this.service.myName;
       if (this.service.myName.trim() !== this.empForm.get('name')?.value.trim()) {
         sessionStorage.setItem('myName', this.empForm.get('name')?.value);
@@ -103,6 +137,7 @@ export class UserProfileComponent implements OnInit {
       this.service.imageUrl = this.empForm.get('imgstr')?.value;
       // Programmatically trigger a click on button2
       // this.button2.nativeElement.click();
+      console.log("the form",this.empForm.value);
       this.service.postFile(this.empForm.value, this.oldname).subscribe({
         next: (response) => {
           console.log(response);
@@ -132,8 +167,6 @@ export class UserProfileComponent implements OnInit {
           });
         }
       );
-
-
     }
 
 
@@ -157,7 +190,7 @@ export class UserProfileComponent implements OnInit {
     config: AngularEditorConfig = {
       editable: true,
       spellcheck: true,
-      height: '1rem',
+      height: '10rem',
       minHeight: '3rem',
       placeholder: 'Enter text here...',
       translate: 'no',

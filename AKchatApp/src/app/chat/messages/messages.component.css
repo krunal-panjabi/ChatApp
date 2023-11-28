@@ -59,7 +59,6 @@
   border-radius: 7px;
   justify-content: space-between;
   width: fit-content;
- 
 }
 
 .ticks {
@@ -256,6 +255,14 @@
   }
 
   @media screen and (max-width:737px){
+    .contimg1{
+      right: -39px !important;
+    bottom: 57px !important;
+    }
+    .divcont{
+      right: -41px;
+      bottom: -57px;
+    }
     .msgstructure{
       flex-direction: column !important;
      align-items: start !important;

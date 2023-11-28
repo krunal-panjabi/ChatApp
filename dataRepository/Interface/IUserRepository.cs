@@ -31,7 +31,6 @@ namespace dataRepository.Interface
         public int UploadGalleryData(string caption, string imgstr, string uploadedUser, string tagnames);
         public int postComment(PostComments model);
         public List<PostComments> GetPostComments(int postId);
-
         public int UploadStoryData(string caption, string imgstr , string uploadedUser);
         public List<GalleryVm> GetGalleryData(string myName);
         public List<GalleryVm> GetMyGalleryData(string myName);
@@ -42,8 +41,6 @@ namespace dataRepository.Interface
         public StoryVm StoryOfUser(int userId);
         public int deleteStory(int userid);
         public int deletePost(int userid);
-
-
         public int DisLikeEntryGrp(LikeVm model);
         public int DisLikeEntry(LikeVm model);
         public int LikeEntry(LikeVm model);
@@ -55,7 +52,8 @@ namespace dataRepository.Interface
         public int acceptrequest(ResponseVm model);
         public int declinerequest(ResponseVm model);
         public int deletemessage(ResponseVm model);
-
-
+        public List<UsersLikeCommentPostsVm> GetUsersLikeCommentData(string username);
+        public List<UsersLikePostDataVm> GetUsersLikeData(string username);
+        public List<UsersLikeCommentPostsVm> GetUsersCommentData(string username);
     }
 }

@@ -360,7 +360,15 @@ namespace AKchat.Hubs
 
         }
 
-
+        public async Task disconnectfromdic(string name)
+        {
+            var user = _chatServices.GetUserByConnectionId(Context.ConnectionId);
+            if (user != null)
+            {
+                _chatServices.RemoveUserFromList(user);
+                await DisplayOnlineUsers();
+            }
+        }
 
     }
 }

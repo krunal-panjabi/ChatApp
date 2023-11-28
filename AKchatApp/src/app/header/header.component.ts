@@ -72,11 +72,13 @@ isDropdownVisible = false;
   }
 
   logout() {
+    this.service.disconnectedasync(this.service.myName);
     sessionStorage.clear();
     this.service.myName = '';
     this.service.reintialized();
       this.service.notifyOtherTabs();
       this.userctrl.setValue(null);
+     
     this.router.navigateByUrl('/login');
   }
  
