@@ -8,6 +8,24 @@
     width: 30px;
     border-radius: 50%;
 }
+
+.user-text{
+  height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: rgb(231, 231, 231);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    font-weight: 600;
+    font-size: large;
+}
+
+
+
 hr{
     margin: 10px 0px;
 }

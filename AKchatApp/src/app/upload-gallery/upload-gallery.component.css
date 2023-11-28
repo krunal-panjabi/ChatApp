@@ -103,7 +103,7 @@
 
 
 
-}
+
 .tick-logo {
     position: absolute;
     top: -8px;
@@ -137,4 +137,62 @@
     box-shadow: 3px 4px 12px grey;
     border-radius: 12px;
     background-color: white;
+  }
+
+  /* btn css */
+
+
+
+/* CSS */
+.button-41 {
+  background-color: initial;
+  background-image: linear-gradient(-180deg, #00D775, #00BD68);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+  height: 44px;
+  line-height: 44px;
+  outline: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: top;
+  white-space: nowrap;
+  width: fit-content;
+  z-index: 9;
+  border: 0;
+  
+}
+
+.button-41:hover {
+  background: #009954;
+border-radius: 25px;}
+
+.btn1 {
+    position: relative;
+    padding-right: 20px; /* Adjust padding to accommodate the pseudo-element */
+    /* Other button styles */
+  }
+  
+  .btn1:after {
+    content: '▶'; /* Content to be displayed */
+    /* position: absolute; */
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    position: absolute;
+    z-index: -1;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    top: 2px;
+    /* Other styles for the arrow */
   }

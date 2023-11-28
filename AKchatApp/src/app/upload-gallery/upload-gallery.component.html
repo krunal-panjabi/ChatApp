@@ -5,7 +5,7 @@
             </div>
 
             <form [formGroup]="galleryForm" (ngSubmit)="onFormSubmit()">
-                <mat-card   style="border-radius: 22px;    box-shadow: 0px 5px 25px rgb(173, 173, 173);">
+                <mat-card style="border-radius: 22px;    box-shadow: 0px 5px 25px rgb(173, 173, 173);">
 
                     <div id="afterclick2" class="">
 
@@ -26,7 +26,7 @@
 
                             <div class="d-flex justify-content-center">
                                 <mat-card-content class="d-flex flex-column half-size">
-                                    
+
                                     <mat-form-field appearance="outline">
 
                                         <mat-label>Caption</mat-label>
@@ -39,8 +39,13 @@
                             </div>
 
                             <div class="mb-3" style="text-align: center;">
-                                <button class="button-41"  type="button" (click)="tagpeople()">Tag
+                                <button class="button-41" type="button" (click)="tagpeople()">Tag
                                     People</button>
+
+
+
+
+
                             </div>
 
                         </div>
@@ -56,14 +61,14 @@
                                                     class="card-img-top"
                                                     [src]="users.imgstr || 'src/assets/img/pizza.png'" alt="">
                                             </div>
-                                            <div class="tick-logo"  *ngIf="selectedProfiles.has(users.username)" >✔</div>
+                                            <div class="tick-logo" *ngIf="selectedProfiles.has(users.username)">✔</div>
                                         </div>
                                         <div class="card-body text-center " style="background-color:transparent">
                                             <span class="card-text"
                                                 style="font-size: large;font-weight: 600;">{{users.username}}
                                             </span>
                                         </div>
-                                       
+
                                     </div>
                                 </ng-container>
                             </div>

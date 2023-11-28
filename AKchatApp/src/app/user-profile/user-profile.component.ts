@@ -15,7 +15,8 @@ export class UserProfileComponent implements OnInit {
   @ViewChild('button2') button2!: ElementRef;
   @ViewChild('stepper') stepper!: MatStepper;
   currentUser: any;
-  imageUrl: string = "/assets/img/upload.png";
+  imageUrl: string = "";
+  imageUrl2: string = "";
   fileToUpload!: File;
   file!: File;
     nameError: boolean = false;
@@ -24,12 +25,13 @@ export class UserProfileComponent implements OnInit {
   oldname = '';
 
   ngOnInit(): void {
-  
+    
     this.service.myName = sessionStorage.getItem('myName') || '';
     this.service.imageUrl = sessionStorage.getItem('userimage') || '';
     this.service.getuserprofiledetail().subscribe({
       next: (data: profile) => {
         this.service.singleuser = data;
+        console.log(data);
         this.empForm.patchValue(this.service.singleuser);
       },
       error: (error) => {
@@ -40,13 +42,22 @@ export class UserProfileComponent implements OnInit {
      
     if (this.service.imageUrl === "") {
 
-      this.imageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ"; // Replace with your actual default image URL
+      this.imageUrl = ""; // Replace with your actual default image URL
     } else {
       this.imageUrl = this.service.imageUrl;
     }
   }
 
-  constructor(private formBuilder: FormBuilder, private service: UsersService, private router: Router) {
+//   if (this.service.imageUrl2 === "") {
+
+//     this.imageUrl2 = ""; 
+//   } else {
+//     this.imageUrl2 = this.service.imageUrl2;
+//   }
+// }
+
+
+  constructor(private formBuilder: FormBuilder, public service: UsersService, private router: Router) {
     if (window.location.pathname !== "/chat") {
       service.isButtonVisisble = true;
     }
@@ -59,6 +70,7 @@ export class UserProfileComponent implements OnInit {
       aboutme: ['', Validators.required],
       status: ['', Validators.required],
       imgstr: '',
+      imgstr2: '',
       workplace:'',
       schoolname:'',
       clgname:'',
@@ -88,7 +100,7 @@ export class UserProfileComponent implements OnInit {
     }
   }
   onFormSubmit() {
-    alert('called');
+    // alert('called');
     // this.button2.nativeElement.click();
     if (this.empForm.valid) {
       this.oldname = this.service.myName;
@@ -148,6 +160,21 @@ export class UserProfileComponent implements OnInit {
     };
     reader.readAsDataURL(this.file);
   }
+
+  handleFileInput2(event: any) {
+    let reader = new FileReader();
+    this.file = event.target.files[0];
+    reader.onload = (event: any) => {
+      this.imageUrl2 = event.target.result;
+      this.empForm.get('imgstr2')?.setValue(event.target.result);
+    };
+    reader.readAsDataURL(this.file);
+  }
+
+
+
+
+  
   abc() {
     // alert("dsf")
   }
@@ -157,7 +184,7 @@ export class UserProfileComponent implements OnInit {
     config: AngularEditorConfig = {
       editable: true,
       spellcheck: true,
-      height: '1rem',
+      height: '10rem',
       minHeight: '3rem',
       placeholder: 'Enter text here...',
       translate: 'no',

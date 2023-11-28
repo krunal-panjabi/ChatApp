@@ -17,6 +17,7 @@ namespace ViewModels.Models
         public string? status { get; set; }
         public string? username { get; set; }
         public string? imgstr { get; set; }
+        public string? imgstr2 { get; set; }
         public string? schoolname { get; set; }
         public string? workplace { get; set; }
         public string? clgname { get; set; }

@@ -185,3 +185,15 @@
  
 
 
+
+
+   .user-text{
+    width: 190px;height: 190px;border-radius: 50%;
+    background-color: rgb(231, 231, 231);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    font-weight: 600;
+    font-size: xxx-large;
+   }

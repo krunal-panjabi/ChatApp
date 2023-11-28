@@ -15,6 +15,7 @@ namespace dataRepository.Interface
         public int checkforname(string name);
         public int loginrepo(UserVM model);
         public List<AllUsersVm> GetAllOfflineUsers(string username);
+        public MutualFriends GetMutualOfUser(string myName,string name);
         public List<AllUsersVm> GetAllUsers(string username);
         public void storechat(MessageVM model);
         public Task<List<MessageVM>> loadprivatechat(string from, string to);
@@ -23,6 +24,7 @@ namespace dataRepository.Interface
         public Task<List<MessageVM>> loadgroupchat(string grpname, string name);
         public List<AllUsersVm> loadmembers(string gpname);
         public int profiledata(ProfileVm model);
+        //public int GetUserDetails(string username);
         public int otpSend(ForgetVm model);
         public int newpassword(NewPasswordVM model);
         public int CheckOtp(string otp);

@@ -7,10 +7,43 @@
             <div class="d-flex justify-content-center mb-5">
                 <div class="user-image d-flex justify-content-center">
                     <input class="image-input" type="file" #Image accept="image/*" (change)="handleFileInput($event)">
-                    <img class="user-image" [src]="imageUrl" alt="">
+
+
+                    <ng-container *ngIf="imageUrl;else noofflineuser">
+                        <img class="user-image" [src]="imageUrl" alt="">
+                    </ng-container>
+                    <ng-template #noofflineuser>
+
+                        <div class="user-text me-2">{{this.service.myName.charAt(0)}}</div>
+                    </ng-template>
+
+
                     <div class="edit-pencil"><i class="bi bi-pencil-square"
                             style="font-size: x-large;color: white;"></i></div>
                 </div>
+
+
+
+                <div class="user-image d-flex justify-content-center">
+                    <input class="image-input" type="file" #Image accept="image/*" (change)="handleFileInput2($event)">
+
+
+                    <ng-container *ngIf="imageUrl2;else noofflineuser2">
+                        <img class="user-image" [src]="imageUrl2" alt="">
+                    </ng-container>
+
+                    <ng-template #noofflineuser2>
+
+                        <div class="user-text me-2">cover</div>
+                    </ng-template>
+
+
+                    <div class="edit-pencil"><i class="bi bi-pencil-square"
+                            style="font-size: x-large;color: white;"></i></div>
+                </div>
+
+
+
             </div>
 
 
@@ -25,7 +58,8 @@
                                 <mat-form-field appearance="outline">
                                     <mat-label>Name</mat-label>
                                     <input matInput formControlName="name" (focusout)="validateNamepro($event)">
-                                        <mat-error *ngIf="empForm.get('name')?.invalid">{{ empForm.get('name')?.errors?.['message'] }}</mat-error>
+                                    <mat-error *ngIf="empForm.get('name')?.invalid">{{
+                                        empForm.get('name')?.errors?.['message'] }}</mat-error>
                                 </mat-form-field>
                             </mat-card-content>
                             <mat-card-content class="d-flex flex-column half-size">
@@ -81,17 +115,18 @@
                                 </mat-form-field>
                             </mat-card-content>
 
-
-                            <mat-form-field class="date half-size">
-                                <div>
-                                    <label>Choose Your Birth date :</label>
-                                    <input matInput [matDatepicker]="picker" formControlName="dob">
-                                </div>
-                                <mat-hint>MM/DD/YYYY</mat-hint>
-                                <mat-datepicker-toggle class="date-toggle" matIconSuffix
-                                    [for]="picker"></mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
-                            </mat-form-field>
+                            <div class="d-flex ">
+                                <label>Choose Your Birth date :</label>
+                                <mat-form-field class="date half-size">
+                                    <div>
+                                        <input matInput [matDatepicker]="picker" formControlName="dob">
+                                    </div>
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle class="date-toggle" matIconSuffix
+                                        [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
 
                         </div>
 
@@ -135,7 +170,7 @@
                                 <label class="me-1" style="font-size: 17px;font-weight: 500;">WorkPlace</label>
                                 <img style="width:23px;height:24px" src='/assets/img/workicon.png' />
                             </div>
-                           
+
                             <mat-form-field appearance="outline" style="width:100% !important">
 
                                 <input matInput formControlName="workplace">
@@ -159,7 +194,7 @@
                                 <label class="me-1" style="font-size: 17px;font-weight: 500;">College Name</label>
                                 <img style="width:27px;height:28px" src='/assets/img/clg.png' />
                             </div>
-                           
+
                             <mat-form-field appearance="outline">
                                 <input matInput formControlName="clgname">
                             </mat-form-field>
@@ -178,31 +213,40 @@
                                 <span style="font-weight: 500;">Share this link via</span>
                             </div>
                             <div class="d-flex">
-                                <div class="me-1"><img style="width:30px;height:30px" src='/assets/img/facebook.jpg' /></div>
-                                <div class="me-1"><img style="width:30px;height:30px" src='/assets/img/twitter.jpg' /></div>
-                                <div class="me-1"><img style="width:30px;height:30px" src='/assets/img/insta.jpg' /></div>
-                                <div class="me-1"><img style="width:30px;height:30px" src='/assets/img/linkdin.jpg' /></div>
+                                <div class="me-1"><img style="width:30px;height:30px" src='/assets/img/facebook.jpg' />
+                                </div>
+                                <div class="me-1"><img style="width:30px;height:30px" src='/assets/img/twitter.jpg' />
+                                </div>
+                                <div class="me-1"><img style="width:30px;height:30px" src='/assets/img/insta.jpg' />
+                                </div>
+                                <div class="me-1"><img style="width:30px;height:30px" src='/assets/img/linkdin.jpg' />
+                                </div>
                             </div>
 
                             <div class="links mt-3 d-flex flex-column">
                                 <div class="item1 d-flex" style="gap:10px">
                                     <div class="item1-links d-flex flex-column half-size">
-                                        <label for="Name" style="font-size: 16px;font-weight: 500;">Facebook Link</label>
+                                        <label for="Name" style="font-size: 16px;font-weight: 500;">Facebook
+                                            Link</label>
                                         <div class=" mb-3 d-flex"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;" src='/assets/img/facebook.jpg' />
+                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"
+                                                src='/assets/img/facebook.jpg' />
                                             <!-- <i class="bi bi-link-45deg"
                                                 style="font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"></i> -->
-                                            <input placeholder="http://" formControlName="facebooklink" class="form-control " style="border: 0px;">
+                                            <input placeholder="http://" formControlName="facebooklink"
+                                                class="form-control " style="border: 0px;">
                                         </div>
                                     </div>
                                     <div class="item1-links d-flex flex-column half-size">
                                         <label for="Name" style="font-size: 16px;font-weight: 500;">Twitter Link</label>
                                         <div class=" mb-3 d-flex"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;" src='/assets/img/twitter.jpg' />
+                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"
+                                                src='/assets/img/twitter.jpg' />
 
-                                            <input placeholder="http://" formControlName="twitterlink" class="form-control " style="border: 0px;">
+                                            <input placeholder="http://" formControlName="twitterlink"
+                                                class="form-control " style="border: 0px;">
                                         </div>
                                     </div>
 
@@ -212,18 +256,22 @@
                                         <label for="Name" style="font-size: 16px;font-weight: 500;">Insta Link</label>
                                         <div class=" mb-3 d-flex"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;" src='/assets/img/insta.jpg' />
+                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"
+                                                src='/assets/img/insta.jpg' />
 
-                                            <input placeholder="http://" formControlName="instalink" class="form-control " style="border: 0px;">
+                                            <input placeholder="http://" formControlName="instalink"
+                                                class="form-control " style="border: 0px;">
                                         </div>
                                     </div>
                                     <div class="item1-links d-flex flex-column half-size">
                                         <label for="Name" style="font-size: 16px;font-weight: 500;">Linkdin Link</label>
                                         <div class=" mb-3 d-flex"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;" src='/assets/img/linkdin.jpg' />
+                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"
+                                                src='/assets/img/linkdin.jpg' />
 
-                                            <input placeholder="http://" class="form-control" formControlName="linkdinlink" style="border: 0px;">
+                                            <input placeholder="http://" class="form-control"
+                                                formControlName="linkdinlink" style="border: 0px;">
                                         </div>
                                     </div>
 
