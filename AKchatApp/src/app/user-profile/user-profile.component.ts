@@ -28,14 +28,16 @@ export class UserProfileComponent implements OnInit {
   oldname = '';
   
   ngOnInit(): void {
-    
     this.service.myName = sessionStorage.getItem('myName') || '';
     this.service.imageUrl = sessionStorage.getItem('userimage') || '';
     this.service.getuserprofiledetail().subscribe({
       next: (data: profile) => {
         this.service.singleuser = data;
-       this.empForm.patchValue(this.service.singleuser);
-      
+
+        this.imageUrl2=data.imgstr2 ?? '';
+        //alert("see data")
+        console.log(data);
+        this.empForm.patchValue(this.service.singleuser);
       },
       error: (error) => {
         console.error('Error loading private chats', error);
@@ -49,6 +51,8 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.imageUrl = this.service.imageUrl;
     }
+  
+    
   }
 
 //   if (this.service.imageUrl2 === "") {
@@ -162,6 +166,9 @@ export class UserProfileComponent implements OnInit {
               console.error('Error loading private chats', error);
             }
           });
+        },
+        error: (error) => {
+          console.log(error);
         }
       );
     }
@@ -182,6 +189,7 @@ export class UserProfileComponent implements OnInit {
     this.file = event.target.files[0];
     reader.onload = (event: any) => {
       this.imageUrl2 = event.target.result;
+      this.service.coverimg=event.target.result;
       this.empForm.get('imgstr2')?.setValue(event.target.result);
     };
     reader.readAsDataURL(this.file);
@@ -190,7 +198,7 @@ export class UserProfileComponent implements OnInit {
 
 
 
-  
+
   abc() {
     // alert("dsf")
   }

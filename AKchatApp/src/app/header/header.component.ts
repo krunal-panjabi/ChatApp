@@ -60,15 +60,16 @@ isDropdownVisible = false;
   
 
   profile() {
-    this.service.getuserprofiledetail().subscribe({
-      next:(data:profile)=>{
-        this.service.singleuser=data;
-        this.router.navigateByUrl('/user-profile');
-      },
-      error: (error) => {
-        console.error('Error loading private chats', error);
-      }
-    });
+    this.router.navigateByUrl('/user-profile');
+    // this.service.getuserprofiledetail().subscribe({
+    //   next:(data:profile)=>{
+    //     this.service.singleuser=data;
+    //     this.router.navigateByUrl('/user-profile');
+    //   },
+    //   error: (error) => {
+    //     console.error('Error loading private chats', error);
+    //   }
+    // });
   }
 
   logout() {

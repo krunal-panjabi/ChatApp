@@ -388,7 +388,7 @@ namespace dataRepository.Repository
             }
             return model;
         }
-      
+
         public async Task<ProfileVm> GetUserByProfileAsync(string name)
         {
             List<ProfileVm> model = new List<ProfileVm>();
@@ -399,7 +399,7 @@ namespace dataRepository.Repository
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@userName", name);
 
-                await con.OpenAsync(); 
+                await con.OpenAsync();
 
                 using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                 {
@@ -416,13 +416,114 @@ namespace dataRepository.Repository
                             gender = rdr.IsDBNull(rdr.GetOrdinal("gender")) ? null : rdr["gender"].ToString(),
                             phonenumber = rdr.IsDBNull(rdr.GetOrdinal("phonenumber")) ? null : rdr["phonenumber"].ToString(),
                             dob = rdr.IsDBNull(rdr.GetOrdinal("dob")) ? DateTime.Now : Convert.ToDateTime(rdr["dob"]),
-                            schoolname=rdr.IsDBNull(rdr.GetOrdinal("scname")) ? null : rdr["scname"].ToString(),
-                            workplace=rdr.IsDBNull(rdr.GetOrdinal("wpname")) ? null : rdr["wpname"].ToString(),
-                            clgname=rdr.IsDBNull(rdr.GetOrdinal("clname")) ? null : rdr["clname"].ToString(),
-                            twitterlink=rdr.IsDBNull(rdr.GetOrdinal("twitlink")) ? null : rdr["twitlink"].ToString(),
-                            facebooklink=rdr.IsDBNull(rdr.GetOrdinal("facelink"))? null : rdr["facelink"].ToString(),
-                            instalink=rdr.IsDBNull(rdr.GetOrdinal("instalink"))? null : rdr["instalink"].ToString(),
-                            linkdinlink=rdr.IsDBNull(rdr.GetOrdinal("linlink"))? null : rdr["linlink"].ToString()
+                            schoolname = rdr.IsDBNull(rdr.GetOrdinal("scname")) ? null : rdr["scname"].ToString(),
+                            workplace = rdr.IsDBNull(rdr.GetOrdinal("wpname")) ? null : rdr["wpname"].ToString(),
+                            clgname = rdr.IsDBNull(rdr.GetOrdinal("clname")) ? null : rdr["clname"].ToString(),
+                            twitterlink = rdr.IsDBNull(rdr.GetOrdinal("twitlink")) ? null : rdr["twitlink"].ToString(),
+                            facebooklink = rdr.IsDBNull(rdr.GetOrdinal("facelink")) ? null : rdr["facelink"].ToString(),
+                            instalink = rdr.IsDBNull(rdr.GetOrdinal("instalink")) ? null : rdr["instalink"].ToString(),
+                            linkdinlink = rdr.IsDBNull(rdr.GetOrdinal("linlink")) ? null : rdr["linlink"].ToString(),
+
+                            followers = rdr.IsDBNull(rdr.GetOrdinal("followers")) ? null : (int?)rdr["followers"]
+                        };
+
+                        model.Add(names);
+                    }
+
+                }
+
+            }
+
+            return model.FirstOrDefault();
+        }
+
+
+        //public async Task<ProfileVm> GetUserByProfileAsync(string name)
+        //{
+        //    ProfileVm profile = new ProfileVm();
+
+        //    using (SqlConnection con = new SqlConnection(connections))
+        //    {
+        //        // First stored procedure
+        //        SqlCommand cmd1 = new SqlCommand("selectuserbyprofile", con);
+        //        cmd1.CommandType = CommandType.StoredProcedure;
+        //        // Add parameters if needed
+
+        //        // Second stored procedure
+        //        SqlCommand cmd2 = new SqlCommand("followersOfUser", con);
+        //        cmd2.CommandType = CommandType.StoredProcedure;
+        //        // Add parameters if needed
+
+        //        await con.OpenAsync();
+
+        //        // Execute the first stored procedure
+        //        using (SqlDataReader rdr1 = await cmd1.ExecuteReaderAsync())
+        //        {
+        //            while (await rdr1.ReadAsync())
+        //            {
+
+
+        //                profile.name = rdr1.IsDBNull(rdr1.GetOrdinal("Name")) ? null : rdr1["Name"].ToString();
+        //                profile.email = rdr1.IsDBNull(rdr1.GetOrdinal("Email")) ? null : rdr1["Email"].ToString();
+        //                profile.aboutme = rdr1.IsDBNull(rdr1.GetOrdinal("aboutme")) ? null : rdr1["aboutme"].ToString();
+        //                profile.status = rdr1.IsDBNull(rdr1.GetOrdinal("status")) ? null : rdr1["status"].ToString();
+        //                //imgstr = rdr.IsDBNull(rdr.GetOrdinal("imgstr")) ? null : rdr["imgstr"].ToString(),
+        //                profile.imgstr2 = rdr1.IsDBNull(rdr1.GetOrdinal("imgstr2")) ? null : rdr1["imgstr2"].ToString();
+        //                profile.gender = rdr1.IsDBNull(rdr1.GetOrdinal("gender")) ? null : rdr1["gender"].ToString();
+        //                profile.phonenumber = rdr1.IsDBNull(rdr1.GetOrdinal("phonenumber")) ? null : rdr1["phonenumber"].ToString();
+        //                profile.dob = rdr1.IsDBNull(rdr1.GetOrdinal("dob")) ? DateTime.Now : Convert.ToDateTime(rdr1["dob"]);
+        //                profile.schoolname = rdr1.IsDBNull(rdr1.GetOrdinal("scname")) ? null : rdr1["scname"].ToString();
+        //                profile.workplace = rdr1.IsDBNull(rdr1.GetOrdinal("wpname")) ? null : rdr1["wpname"].ToString();
+        //                profile.clgname = rdr1.IsDBNull(rdr1.GetOrdinal("clname")) ? null : rdr1["clname"].ToString();
+        //                profile.twitterlink = rdr1.IsDBNull(rdr1.GetOrdinal("twitlink")) ? null : rdr1["twitlink"].ToString();
+        //                profile.facebooklink = rdr1.IsDBNull(rdr1.GetOrdinal("facelink")) ? null : rdr1["facelink"].ToString();
+        //                profile.instalink = rdr1.IsDBNull(rdr1.GetOrdinal("instalink")) ? null : rdr1["instalink"].ToString();
+        //                    profile.linkdinlink = rdr1.IsDBNull(rdr1.GetOrdinal("linlink")) ? null : rdr1["linlink"].ToString();
+
+
+
+        //            }
+        //        }
+
+        //        // Execute the second stored procedure
+        //        int followersCount = 0;
+        //        using (SqlDataReader rdr2 = await cmd2.ExecuteReaderAsync())
+        //        {
+        //            while (await rdr2.ReadAsync())
+        //            {
+        //                // Get the follower count
+        //                followersCount = rdr2.IsDBNull(rdr2.GetOrdinal("followers")) ? 0 : Convert.ToInt32(rdr2["followers"]);
+        //            }
+        //        }
+
+        //        // Assign the followers count to the profile
+        //        profile.followers = followersCount;
+        //    }
+
+        //    return profile;
+        //}
+
+
+        public async Task<ProfileVm> FetchUserImage(string name)
+        {
+            List<ProfileVm> model = new List<ProfileVm>();
+
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("FetchUserImage", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userName", name);
+
+                await con.OpenAsync();
+
+                using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                {
+                    while (await rdr.ReadAsync())
+                    {
+                        ProfileVm names = new ProfileVm
+                        {
+                            imgstr = rdr.IsDBNull(rdr.GetOrdinal("imgstr")) ? null : rdr["imgstr"].ToString(),
+                           
                         };
                         model.Add(names);
                     }
@@ -432,6 +533,8 @@ namespace dataRepository.Repository
 
             return model.FirstOrDefault();
         }
+
+
 
         public List<AllUsersVm> loadmembers(string gpname)
         {
@@ -581,6 +684,7 @@ namespace dataRepository.Repository
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@userName", model.username ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@cover", model.imgstr2 ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@profileimage", model.imgstr ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@name", model.name ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@gender", model.gender ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@phoneNumber", model.phonenumber ?? (object)DBNull.Value);

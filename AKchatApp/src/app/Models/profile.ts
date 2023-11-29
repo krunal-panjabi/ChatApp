@@ -16,5 +16,6 @@ export interface profile
     instalink?:string,
     twitterlink?:string,
     linkdinlink?:string,
-    facebooklink?:string
+    facebooklink?:string,
+    followers? : number,
 }

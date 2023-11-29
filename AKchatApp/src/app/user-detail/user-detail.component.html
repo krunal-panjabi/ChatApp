@@ -1,29 +1,31 @@
-<div class="wholebody"
-    style="margin-left: 160px;margin-right: 160px;box-shadow: 3px 3px 13px -3px #888888;border: 1px solid lightgrey;background: white;border-radius: 10px;padding: 30px 10px 10px 10px;">
-    <div style="border: 1px solid lightgrey;border-radius: 10px;">
-        <div style="height: 209px;position: relative;background: whitesmoke;">
-            <!-- <img src='/assets/img/restaurant2.jpg' style="width:100%;height:100%"> -->
-            <button style="position: absolute;top:5px;left: 5px;border: 0px;background-color: transparent;"
-                (click)="back()">
-                <i style="color: grey;font-size: x-large;" class="bi bi-arrow-left-circle"></i></button>
+<div class="wholebody">
+
+    <div style="background-color: rgb(0, 191, 255);height: 300px;position: relative">
+
+        <img style="position: absolute;width: 100%;height: 300px; " [src]="service.oneuserdetail.imgstr2" alt="">
+
+        <!-- <div class="container-fluid" style="background-color: lightblue;height: 200px;position: relative;"> -->
+        <button style="position: absolute;top:5px;left: 5px;border: 0px;background-color: transparent;z-index: 5;"
+            (click)="back()">
+            <i style="color: grey;font-size: x-large;" class="bi bi-arrow-left-circle"></i></button>
 
 
-            <div class="image d-flex justify-content-center mb-5">
-                <div class="user-image d-flex justify-content-center">
+        <div class="image d-flex justify-content-center mb-5" style="z-index: 5;">
+            <div class="user-image d-flex justify-content-center">
 
-                    <ng-container *ngIf="service.oneuserdetail?.imgstr;else noofflineuser">
-                        <img class="" [src]="service.oneuserdetail.imgstr" alt=""
-                            style="border-radius: 50%;width:150px;height:150px">
-                    </ng-container>
+                <ng-container *ngIf="service.oneuserdetail.imgstr;else noofflineuser">
+                    <img class="user-image" [src]="service.oneuserdetail.imgstr" alt="">
+                </ng-container>
 
-                    <ng-template #noofflineuser *ngIf="service.oneuserdetail">
-                        <div class="user-text me-2">{{service.oneuserdetail.name?.charAt(0)}}</div>
-                    </ng-template>
-                    `
-                </div>
+                <ng-template #noofflineuser>
+
+                    <div class="user-text me-2">{{service.oneuserdetail.name?.charAt(0)}}</div>
+                </ng-template>
+                `
             </div>
-
         </div>
+        <!-- </div> -->
+    </div>
 
         <div *ngIf="isLoading" class="buffer-screen">
             <!-- Add your buffering screen content or spinner here -->
@@ -362,29 +364,32 @@
                                     Email <span class="spanstyle mx-1">
                                         {{service.oneuserdetail?.email}}</span></p>
 
-                                <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">cake</mat-icon> Born
-                                    On
-                                    <span class="spanstyle mx-1">
-                                        {{service.oneuserdetail?.dob}}</span>
-                                </p>
-                                <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">person</mat-icon>
-                                    Status
-                                    <span class="spanstyle mx-1">
-                                        {{service.oneuserdetail?.status}}</span>
-                                </p>
-                                <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">face</mat-icon>
-                                    Gender
-                                    <span class="spanstyle mx-1">
-                                        {{service.oneuserdetail?.gender}}</span>
-                                </p>
-                                <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">details</mat-icon>
-                                    About
-                                    <span class="spanstyle mx-1" [innerHTML]="sanitizedHtml">
-                                        <!-- {{service.oneuserdetail.aboutme}} -->
-                                    </span>
-                                </p>
+                            <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">cake</mat-icon> Born On
+                                <span class="spanstyle mx-1">
+                                    {{service.oneuserdetail.dob}}</span>
+                            </p>
+                            <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">person</mat-icon> Status
+                                <span class="spanstyle mx-1">
+                                    {{service.oneuserdetail.status}}</span>
+                            </p>
+                            <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">face</mat-icon> Gender
+                                <span class="spanstyle mx-1">
+                                    {{service.oneuserdetail.gender}}</span>
+                            </p>
 
-                                <!-- <p>{{service.mutualFriends.names}}</p> -->
+                            <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">face</mat-icon> Followers
+                                <span class="spanstyle mx-1">
+                                    {{service.oneuserdetail.followers}}</span>
+                            </p>
+
+                            <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">details</mat-icon> About
+                                <span class="spanstyle mx-1" [innerHTML]="sanitizedHtml">
+                                    <!-- {{service.oneuserdetail.aboutme}} -->
+                                </span>
+                            </p>
+
+
+                            <!-- <p>{{service.mutualFriends.names}}</p> -->
 
                             </div>
 

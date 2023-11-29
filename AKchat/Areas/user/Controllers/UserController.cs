@@ -219,6 +219,16 @@ namespace AKchat.Areas.user.Controllers
             var user = await _userrepo.GetUserByProfileAsync(username);
             return Ok(user);
         }
+
+        [Authorize]
+        [HttpGet("FetchUserImage")]
+        public async Task<IActionResult> FetchUserImage(string username)
+        {
+            var user = await _userrepo.FetchUserImage(username);
+            return Ok(user);
+        }
+
+
         [HttpGet("CheckForName")]
         public IActionResult CheckForName(string username)
         {
