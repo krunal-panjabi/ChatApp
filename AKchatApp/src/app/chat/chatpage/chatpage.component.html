@@ -162,7 +162,7 @@
             </div>
         </ng-container>
         <ng-container *ngIf="displayComponent === 'B'">
-            <div class="col-10">
+            <div class="col-10" style="background-color: whitesmoke;">
                 <app-user-detail [receivedData]="dataToSend"
                     (dataEvent)="receiveDataFromChild($event) "></app-user-detail>
             </div>

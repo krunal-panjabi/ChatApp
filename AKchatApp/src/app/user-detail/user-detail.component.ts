@@ -4,6 +4,9 @@ import { UsersService } from '../users.service';
 import { UserDetails } from '../Models/userDetails';
 import { Subscription, take, timer } from 'rxjs';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { userslikepostsdata } from '../Models/userslikepostsdata';
+import { GalleryService } from '../gallery.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-detail',
@@ -15,13 +18,21 @@ export class UserDetailComponent {
   @Input() receivedData!: string;
   username!: string;
   imageUrl: string = "";
+  coverUrl: string ='';
   userslist:string[]=[];
+  posts: any[] = [];
   names:string[]=[];
   images:string[]=[];
   filteredlist:string[]=[];
+  likeposts: userslikepostsdata[] = [];
   htmlContent: string = '';
   sanitizedHtml: SafeHtml;
   isLoading = false;
+  selecteddiv=1;
+  noofflineuser:any;
+  showMore = false;
+  maxCommentsToShow = 2;
+ 
   // private subscription: Subscription;
   // receivedData: string = '';
 
@@ -36,7 +47,7 @@ export class UserDetailComponent {
   //   this.username = this.receivedData;
   // }
 
-  constructor(public service: UsersService,private sanitizer: DomSanitizer) {
+  constructor(public service: UsersService,private router:Router,private sanitizer: DomSanitizer,public galleryservice:GalleryService) {
     this.sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(this.htmlContent);
     // this.subscription = this.service.data$.subscribe((data: any) => {
     //   this.username = data; 
@@ -47,31 +58,81 @@ export class UserDetailComponent {
   back() {
     this.dataEvent.emit('A');
   }
+  redirectToPost(postid:any){
+    this.isLoading = true; 
+      
+      timer(2000) // Emit a value after 1 second
+        .pipe(take(1)) // Take only one emitted value
+        .subscribe(() => {
+          this.isLoading = false; // Deactivate loading screen after 1 second
+        });
+    this.galleryservice.changeOrderById(postid);
+     setTimeout(() => {
+      this.router.navigateByUrl('/gallery');
+    }, 1000); // 2000 milliseconds (2 seconds)
 
+  }
   // showAlert(){
   //   alert("woohoo this worked");
     
   //    this.ngOnInit()
   // }
-
+  changediv(number:any,name:any){
+    this.isLoading = true; 
+      
+      timer(500) 
+        .pipe(take(1)) 
+        .subscribe(() => {
+          this.isLoading = false; // Deactivate loading screen after 1 second
+        });
+    this.selecteddiv=number;
+    if(number===2){
+      this.service.getUsersLikePosts(name).subscribe({
+        next: (data) => {
+         this.likeposts = data;        
+        }
+      })
+    }
+    else if(number===3){
+      this.service.getUsersCommentPosts(name).subscribe({
+        next:(data)=>{
+          const organizedData: { [key: number]: { image: string | undefined,caption:string | undefined,uplodeduserimg:string | undefined,uplodedby:string|undefined ,comments: string[],showMore: false } } = {};
+          data.forEach(user=>{
+            const postid = user.postid;
+            if (!organizedData.hasOwnProperty(postid || 0)){
+              organizedData[postid || 0] = { image: user.imgstr, comments: [],uplodeduserimg:user.uploadedbyimage,uplodedby:user.uplodedby,caption:user.caption,showMore:false };
+            }
+            organizedData[postid || 0].comments.push(user.comment || ''); // Handle null or undefined comments
+          });
+          this.posts = Object.values(organizedData);
+        }
+      })
+    }
+  }
   someMethod(username : any) {
     // alert(username);
     this.receivedData = username
     
   }
+  toggleShowMore(post: any) {
+    post.showMore = !post.showMore;
+  }
 
+  getComments(post: any) {
+    return post.showMore ? post.comments : post.comments.slice(0, this.maxCommentsToShow);
+  }
   mutualdetail(name :any)
   {
+    this.selecteddiv=1;
+    this.posts=[];
+    this.likeposts=[];
     this.isLoading = true; 
-
       
-      timer(500) // Emit a value after 1 second
+      timer(2000) // Emit a value after 1 second
         .pipe(take(1)) // Take only one emitted value
         .subscribe(() => {
           this.isLoading = false; // Deactivate loading screen after 1 second
         });
-
-
     this.service.getUserDetails(name).subscribe({
       next: (data: UserDetails) => {
         console.log(data);
@@ -84,6 +145,9 @@ export class UserDetailComponent {
         console.error('Error loading private chats', error);
       }
     });
+   
+   
+
 
     this.service.getMutualNames(name).subscribe( {
       next: (data) => {
@@ -106,14 +170,6 @@ export class UserDetailComponent {
 
 ngOnInit(): void {
 
-  // this.service.data$.subscribe(data => {
-  //   this.receivedData = data;
-    
-  // });
- 
-//  alert(this.receivedData);
-
-
   this.service.getUserDetails(this.receivedData).subscribe({
     next: (data: UserDetails) => {
       console.log(data);
@@ -126,17 +182,15 @@ ngOnInit(): void {
       console.error('Error loading private chats', error);
     }
   });
-
-
-
+ 
 
   this.service.getMutualNames(this.receivedData).subscribe( {
     next: (data) => {
        console.log( data);
       this.service.mutualFriends = data;      
       console.log("mutual friends",this.service.mutualFriends.images)
-this.names=data.names.split(",")  ;
-this.images=data.images.split(",")  
+      this.names=data.names.split(",")  ;
+      this.images=data.images.split(",")  
 
       // this.names = this.service.mutualFriends.names
       // console.log(this.names);
@@ -179,4 +233,7 @@ this.images=data.images.split(",")
 
 
 }
+
+
+
 }

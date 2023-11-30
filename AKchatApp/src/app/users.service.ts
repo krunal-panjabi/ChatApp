@@ -153,13 +153,16 @@ public getUserDetails(username :string): Observable<UserDetails> {
 getGalleryData(myName :string): Observable<GalleryData[]> {
   return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
 }
+
 getMyGalleryData(myName :string): Observable<GalleryData[]> {
   return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetMyGallery?myName=`+myName);
 }
+
 uploadStoryData(caption: string, imgstr: string [], uploadedUser: string): Observable<any> {
   const storyData = { caption: caption, imgstr: imgstr, uploadedUser: uploadedUser }
   return this.http.post(`${environment.apiUrl}User/UploadStoryData`, storyData);
 }
+
 getStoryData(): Observable<StoryView[]> {
   const headers = new HttpHeaders({ 'content-type': 'application/json' });
   var name=sessionStorage.getItem('myName') || '';
@@ -174,6 +177,7 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
   const params = new HttpParams().set("imageId", imageId);
   return this.http.get<UsersLikedPost[]>(`${environment.apiUrl}User/UsersLikedPost`, { 'headers': headers, 'params': params });
 }
+
 // getUsersLikeComment(): Observable<userlikecommentpostmodel[]>{
 //   const headers = new HttpHeaders({ 'content-type': 'application/json' });
 //   var name=sessionStorage.getItem('myName') || '';
@@ -181,15 +185,15 @@ UsersLikedPost(imageId: any): Observable<UsersLikedPost[]> {
 //   return this.http.get<userlikecommentpostmodel[]>(`${environment.apiUrl}User/GetUsersLikeCommentData`, { 'headers': headers, 'params': params });
 
 // }
-getUsersCommentPosts():Observable<userlikecommentpostmodel[]>{
+getUsersCommentPosts(name:any):Observable<userlikecommentpostmodel[]>{
   const headers = new HttpHeaders({ 'content-type': 'application/json' });
-  var name=sessionStorage.getItem('myName') || '';
+  //var name=sessionStorage.getItem('myName') || '';
   const params = new HttpParams().set("username", name);
   return this.http.get<userlikecommentpostmodel[]>(`${environment.apiUrl}User/GetUsersCommentData`, { 'headers': headers, 'params': params });
 }
-getUsersLikePosts():Observable<userscommentposts[]>{
+getUsersLikePosts(name:any):Observable<userscommentposts[]>{
   const headers = new HttpHeaders({ 'content-type': 'application/json' });
-  var name=sessionStorage.getItem('myName') || '';
+ // var name=sessionStorage.getItem('myName') || '';
   const params = new HttpParams().set("username", name);
   return this.http.get<userslikepostsdata[]>(`${environment.apiUrl}User/GetUsersLikeData`, { 'headers': headers, 'params': params });
 
@@ -309,6 +313,7 @@ getUsersLikePosts():Observable<userscommentposts[]>{
     return this.http.post(`${environment.apiUrl}User/ProfileData`, profiledata);
   }
   public uploadfile(fileToUpload: File, name: string) {
+    alert('hii');
     const endpoint = `${environment.apiUrl}User/uploadphoto`;
     const formData: FormData = new FormData();
     formData.append('Image', fileToUpload, fileToUpload.name);
@@ -326,6 +331,7 @@ getUsersLikePosts():Observable<userscommentposts[]>{
     const params = new HttpParams().set("msgid", msgid);
     return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetLikeMembers`, { 'headers': headers, 'params': params });
   }
+
   deletenotimsg(msgid:any){
       const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("msgid", msgid);

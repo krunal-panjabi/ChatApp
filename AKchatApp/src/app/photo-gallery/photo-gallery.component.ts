@@ -5,6 +5,7 @@ import { GalleryData } from '../Models/galleryData';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationComponent } from '../notification/notification.component';
 import { PostCommentComponent } from '../post-comment/post-comment.component';
+import { GalleryService } from '../gallery.service';
 
 
 @Component({
@@ -14,8 +15,8 @@ import { PostCommentComponent } from '../post-comment/post-comment.component';
 })
 export class PhotoGalleryComponent {
   showAllNames = false;
-  galleryData: GalleryData[] = [];
-  constructor(public service: UsersService, private router: Router,private matdialog: MatDialog) {
+//  galleryData: GalleryData[] = [];
+  constructor(public service: UsersService,public galleryservice:GalleryService ,private router: Router,private matdialog: MatDialog) {
     if(window.location.pathname !== "/chat")
     {
       service.isButtonVisisble=true;
@@ -64,16 +65,16 @@ export class PhotoGalleryComponent {
 
 
  fetchGalleryData() {
-  this.service.getGalleryData(this.service.myName).subscribe(data => {
-    this.galleryData = data;
-  });
+  if(this.galleryservice.galleryData.length===0){
+    this.service.getGalleryData(this.service.myName).subscribe(data => {
+      this.galleryservice.galleryData = data;
+    });
+  }
+  
 }
-
-
 
 toggleHeartClass(id:any,uUser:string) {
   // const myName = this.service.myName;
- 
   const myName = this.service.myName;
   this.service.sendGalleryData(id,myName).subscribe({
     next:(data)=>{
@@ -81,17 +82,13 @@ toggleHeartClass(id:any,uUser:string) {
       this.service.getGalleryData(this.service.myName).subscribe({
         next:(data)=>{
           this.service.likePost(uUser);
-          this.galleryData = data;
+          this.galleryservice.galleryData = data;
         }
       })
-      
-      
     },
     error:(error)=>{
       console.log('error ')
     }
-
-
 })
 }
 

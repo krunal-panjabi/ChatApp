@@ -81,24 +81,24 @@ export class UploadGalleryComponent implements OnInit {
     //   }
 
     // });
-    this.service.getUsersLikePosts().subscribe({
-      next: (data) => {
-        this.likeposts = data;
-      }
-    })
-    this.service.getUsersCommentPosts().subscribe({
-      next:(data)=>{
-        const organizedData: { [key: number]: { image: string | undefined,caption:string | undefined,uplodeduserimg:string | undefined,uplodedby:string|undefined ,comments: string[],showMore: false } } = {};
-        data.forEach(user=>{
-          const postid = user.postid;
-          if (!organizedData.hasOwnProperty(postid || 0)){
-            organizedData[postid || 0] = { image: user.imgstr, comments: [],uplodeduserimg:user.uploadedbyimage,uplodedby:user.uplodedby,caption:user.caption,showMore:false };
-          }
-          organizedData[postid || 0].comments.push(user.comment || ''); // Handle null or undefined comments
-        });
-        this.posts = Object.values(organizedData);
-      }
-    })
+    // this.service.getUsersLikePosts().subscribe({
+    //   next: (data) => {
+    //     this.likeposts = data;
+    //   }
+    // })
+    // this.service.getUsersCommentPosts().subscribe({
+    //   next:(data)=>{
+    //     const organizedData: { [key: number]: { image: string | undefined,caption:string | undefined,uplodeduserimg:string | undefined,uplodedby:string|undefined ,comments: string[],showMore: false } } = {};
+    //     data.forEach(user=>{
+    //       const postid = user.postid;
+    //       if (!organizedData.hasOwnProperty(postid || 0)){
+    //         organizedData[postid || 0] = { image: user.imgstr, comments: [],uplodeduserimg:user.uploadedbyimage,uplodedby:user.uplodedby,caption:user.caption,showMore:false };
+    //       }
+    //       organizedData[postid || 0].comments.push(user.comment || ''); // Handle null or undefined comments
+    //     });
+    //     this.posts = Object.values(organizedData);
+    //   }
+    // })
     console.log("data of users", this.posts)
     this.service.myName = sessionStorage.getItem('myName') || '';
     this.service.imageUrl = sessionStorage.getItem('userimage') || '';
@@ -135,6 +135,19 @@ export class UploadGalleryComponent implements OnInit {
   }
   toggleShowAllNames() {
     this.showAllNames = !this.showAllNames;
+  }
+  
+  convertToBase64(file: File) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const base64String = e.target.result;
+      // Do something with the base64String, such as assigning it to a variable or form control
+      // For example, if you want to set it in a form control:
+      this.galleryForm.get('imgstr')?.setValue(base64String);
+      this.galleryimg.nativeElement.src = base64String;
+      this.imagesrcurl = base64String;
+    };
+    reader.readAsDataURL(file);
   }
   handleFileInput(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -183,21 +196,9 @@ export class UploadGalleryComponent implements OnInit {
     //   this.renderer.addClass(divElement1, 'afterclick1');
     // }
     this.tagdiv = false;
-
+  }
   // }
 
-  convertToBase64(file: File) {
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const base64String = e.target.result;
-      // Do something with the base64String, such as assigning it to a variable or form control
-      // For example, if you want to set it in a form control:
-      this.galleryForm.get('imgstr')?.setValue(base64String);
-      this.galleryimg.nativeElement.src = base64String;
-      this.imagesrcurl = base64String;
-    };
-    reader.readAsDataURL(file);
-  }
 
 
 
@@ -223,7 +224,7 @@ export class UploadGalleryComponent implements OnInit {
 
 
       this.service.getGalleryData(this.service.myName);
-      this.router.navigateByUrl('/gallery')
+      this.router.navigateByUrl('/gallery');
     }
   }
 }

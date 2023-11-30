@@ -285,11 +285,11 @@
                 </mat-step>
 
             </mat-vertical-stepper>
-
+            <div class="d-flex justify-content-center">
+                <button mat-raised-button color="primary" class="w-50" type="submit" [disabled]="nameError && emailError">Save</button>
+            </div>
         </form>
-        <div class="d-flex justify-content-center">
-            <button mat-raised-button color="primary" class="w-50" type="submit" [disabled]="nameError && emailError">Save</button>
-        </div>
+       
 
 
         <!-- <form [formGroup]="empForm" (ngSubmit)="onFormSubmit()">
@@ -447,7 +447,6 @@
                 </div>
 
                 <div class="div1 d-flex justify-content-between">
-
                     <mat-card-content class="d-flex flex-column half-size">
                         <label>Phone Number</label>
                         <mat-form-field appearance="outline">

@@ -36,10 +36,10 @@
 }
 
 .user-image{
-    height: 200px;
-    width: 200px;
+    background: white;
+   
     border-radius: 50%;
-    position: relative;
+  
 }
 
 .user-text{
@@ -107,20 +107,21 @@
 
 .image{
     position: absolute;
-    left: 2%;
+    left: 44%;
     top: 40%;
 }
 
 .card{
     width: 45%;
-    max-height: 220px;
+    /* max-height: 220px; */
+    min-height: 350px;
 }
 .pstyle{
     font-weight: 600;font-size: larger;
 }
 
 .spanstyle{
-    font-weight: 400;font-size:medium ;
+    font-weight: 400;font-size:15px ;
 }
 
 .mutual-div{

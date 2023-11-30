@@ -9,7 +9,7 @@
             <div class="container d-flex justify-content-center mypost-btn  mt-2">
                 <a class="btn ubtn " [routerLink]="['/my-posts']"><i class="bi bi-file-post d-none posticon" style="font-size: large;"></i><span class="headtitle">My Posts</span></a>
             </div>
-            <div  class="container d-flex justify-content-center p-2 posts" *ngFor="let data of galleryData">
+            <div  class="container d-flex justify-content-center p-2 posts" *ngFor="let data of galleryservice.galleryData">
 
                 <div class="card mt-3 " style="width: fit-content;height: fit-content;">
                     <div class="m-3 justify-content-between d-flex">
