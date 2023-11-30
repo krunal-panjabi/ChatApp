@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ElementRef, OnInit, OnDestroy,ViewChild } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { profile } from '../Models/profile';
 import { UsersService } from '../users.service';
 import { ActivatedRoute } from '@angular/router';
@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NotificationComponent } from '../notification/notification.component';
 import { FormControl } from '@angular/forms';
 import { MatTabGroup } from '@angular/material/tabs';
+import { Subscription, filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -21,14 +22,41 @@ isGreenActive: boolean = true;
 userctrl = new FormControl('');
 filteredlist:string[]=[];
 userlist:string[]=[];
-
+private routerSubscription: Subscription;
 // searchVisible: boolean = false;
 
 isDropdownVisible = false;
 
 
   constructor(public service: UsersService, private router: Router, private route: ActivatedRoute,private matdialog: MatDialog) { 
-   
+    this.routerSubscription = this.router.events
+    .pipe(filter((event) => event instanceof NavigationEnd))
+    .subscribe(() => {
+      this.checkURL();
+    });
+  }
+
+  checkURL() {
+    const currentUrl = this.router.url;
+
+    if (currentUrl.includes('chat')) {
+      console.log('This is the chatpage!');
+      // Perform actions specific to the chatpage
+    } else {
+      console.log('This is not the chatpage.');
+      this.userctrl.setValue(null);
+      this.onUserSearch();
+      // this.service.clearFilteredUsers();
+    this.service.reintialized();
+
+      this.isDropdownVisible = !this.isDropdownVisible;
+      // Perform other actions
+    }
+  }
+  ngOnDestroy() {
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
@@ -40,7 +68,8 @@ isDropdownVisible = false;
     console.log("")
     this.filteredlist=this.userlist
   }
-
+ 
+ 
 
   toggleDivColors(color:any) {
     this.isGreenActive = !this.isGreenActive;
@@ -60,15 +89,16 @@ isDropdownVisible = false;
   
 
   profile() {
-    this.service.getuserprofiledetail().subscribe({
-      next:(data:profile)=>{
-        this.service.singleuser=data;
-        this.router.navigateByUrl('/user-profile');
-      },
-      error: (error) => {
-        console.error('Error loading private chats', error);
-      }
-    });
+    this.router.navigateByUrl('/user-profile');
+    // this.service.getuserprofiledetail().subscribe({
+    //   next:(data:profile)=>{
+    //     this.service.singleuser=data;
+    //     this.router.navigateByUrl('/user-profile');
+    //   },
+    //   error: (error) => {
+    //     console.error('Error loading private chats', error);
+    //   }
+    // });
   }
 
   logout() {

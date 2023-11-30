@@ -1,31 +1,61 @@
 <div class="row d-flex justify-content-center main-body mt-5 mb-5">
     <div class="col-12 col-md-8 mb-5">
         <form class="mb-5" [formGroup]="empForm" (ngSubmit)="onFormSubmit()">
-            <div class="d-flex justify-content-center mb-5">
-                <div class="user-image d-flex justify-content-center">
-                    <input class="image-input" type="file" #Image accept="image/*" (change)="handleFileInput($event)">
+            <div class="d-flex justify-content-center mb-5" style="position: relative;height: 275px;">
+
+                <div style="    position: absolute;bottom: 116px;left: 43%;z-index: 22;">
+                    <div class="user-image d-flex justify-content-center">
+                        <input class="image-input" type="file" #Image accept="image/*"
+                            (change)="handleFileInput($event)">
 
 
-                    <ng-container *ngIf="imageUrl;else noofflineuser">
-                        <img class="user-image" [src]="imageUrl" alt="">
+                        <ng-container *ngIf="imageUrl;else noofflineuser">
+                            <img class="user-image" [src]="imageUrl" alt="">
+                        </ng-container>
+                        <ng-template #noofflineuser>
+
+                            <div class="user-text me-2">{{this.service.myName.charAt(0)}}</div>
+                        </ng-template>
+
+
+                        <div class="edit-pencil"><i class="bi bi-pencil-square"
+                                style="font-size: x-large;color: white;"></i></div>
+                    </div>
+                </div>
+
+                <div class=" d-flex justify-content-center" style="position: absolute;background-color: purple;   height: 100%;
+                    width: 100%;
+                    
+                    position: absolute;">
+                    <input class="image-input-cover" type="file" #Image accept="image/*"
+                        (change)="handleFileInput2($event)">
+
+
+                    <ng-container *ngIf="imageUrl2;else noofflineuser2">
+                        <img class="user-image-cover" [src]="imageUrl2" alt="">
                     </ng-container>
-                    <ng-template #noofflineuser>
+                    <ng-template #noofflineuser2>
 
-                        <div class="user-text me-2">{{this.service.myName.charAt(0)}}</div>
+                        <div class="user-text me-2">Cover</div>
                     </ng-template>
 
 
-                    <div class="edit-pencil"><i class="bi bi-pencil-square"
-                            style="font-size: x-large;color: white;"></i></div>
+                    <!-- <div class="edit-pencil"><i class="bi bi-pencil-square"
+                            style="font-size: x-large;color: white;"></i></div> -->
+
+
                 </div>
+
+
             </div>
             <div class="example-input-wrapper d-none">
                 <label for="duration">Animation duration:</label>
                 <input id="duration" value="2000" type="number" min="0" step="100" #duration>
-              </div>
+            </div>
             <mat-vertical-stepper #stepper labelPosition="bottom" [animationDuration]="duration.value">
                 <mat-step label="Personal Details">
-                    <ng-template matStepLabel>Personal Details<img src='/assets/img/perdetail.png' style="position: absolute;right: 0%;width:30px;height:35px"></ng-template>
+                    <ng-template matStepLabel>Personal Details<img src='/assets/img/perdetail.png'
+                            style="position: absolute;right: 0%;width:30px;height:35px"></ng-template>
                     <mat-card>
                         <div class="div1 d-flex justify-content-between">
                             <mat-card-content class="d-flex flex-column half-size">
@@ -79,8 +109,9 @@
                 </mat-step>
 
                 <mat-step label="More Details">
-                    <ng-template matStepLabel>More Details<img src='/assets/img/moredetail.png' style="position: absolute;right: 0%;width:30px;height:35px"></ng-template>
-                    
+                    <ng-template matStepLabel>More Details<img src='/assets/img/moredetail.png'
+                            style="position: absolute;right: 0%;width:30px;height:35px"></ng-template>
+
                     <mat-card>
                         <div class="div1 d-flex justify-content-between">
 
@@ -100,13 +131,12 @@
                                     <input type="date" id="birthday" name="birthday" formControlName="dob | date:'MM-dd-yyyy'"  (input)="updateDate($event)">
                               
                             </mat-card-content> -->
-                        
+
                             <mat-form-field class="date half-size">
                                 <mat-label>Choose a date</mat-label>
                                 <input matInput [matDatepicker]="picker" formControlName="dob">
                                 <mat-hint>MM/DD/YYYY</mat-hint>
-                                <mat-datepicker-toggle  matIconSuffix
-                                    [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
 
@@ -159,7 +189,8 @@
                 </mat-step>
 
                 <mat-step label="Education/WorkPlace">
-                    <ng-template matStepLabel>Education/WorkPlace<img src='/assets/img/workicon.png' style="position: absolute;right: 0%;width:30px;height:35px"></ng-template>
+                    <ng-template matStepLabel>Education/WorkPlace<img src='/assets/img/workicon.png'
+                            style="position: absolute;right: 0%;width:30px;height:35px"></ng-template>
 
                     <mat-card>
                         <mat-card-content class="d-flex flex-column"
@@ -202,7 +233,8 @@
                 </mat-step>
 
                 <mat-step label="SocialMedia Links">
-                    <ng-template matStepLabel>SocialMedia Links<img src='/assets/img/socialimg.png' style="position: absolute;right: 0%;width:30px;height:35px"></ng-template>
+                    <ng-template matStepLabel>SocialMedia Links<img src='/assets/img/socialimg.png'
+                            style="position: absolute;right: 0%;width:30px;height:35px"></ng-template>
 
                     <mat-card>
                         <div class="d-flex flex-column" style="padding: 9px;">
@@ -286,10 +318,11 @@
 
             </mat-vertical-stepper>
             <div class="d-flex justify-content-center">
-                <button mat-raised-button color="primary" class="w-50" type="submit" [disabled]="nameError && emailError">Save</button>
+                <button mat-raised-button color="primary" class="w-50" type="submit"
+                    [disabled]="nameError && emailError">Save</button>
             </div>
         </form>
-       
+
 
 
         <!-- <form [formGroup]="empForm" (ngSubmit)="onFormSubmit()">

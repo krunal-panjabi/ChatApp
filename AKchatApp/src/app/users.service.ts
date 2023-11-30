@@ -42,7 +42,7 @@ export class UsersService {
   globalgpname:string='';
   myName: string = '';      
   typename: string = '';
-  imageUrl: string = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ";
+  imageUrl: string = "";
   onlineUsers: string[] = [];
   offlineUsers: OfflineUsers[] = [];
   allStories: AllStories[] = [];
@@ -75,6 +75,7 @@ export class UsersService {
   readonly url = "https://localhost:7239/"
   jwtHelper: any;
   tokenglobal:any;
+  coverimg:string="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fprofile-icon&psig=AOvVaw1YXgufaK25e4kCD3jshBmw&ust=1692781344078000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOCPlfvz74ADFQAAAAAdAAAAABAJ";
   constructor(private http: HttpClient, private modalService: NgbModal, public msgservice: MessageService) { }
 
 reintialized()
@@ -86,7 +87,6 @@ reintialized()
   this.searchfilteredlist=[];
   this.searchuserlist=[];
 }
-
 
 
 // private dataSubject = new Subject<string>();
@@ -408,6 +408,7 @@ getUsersLikePosts(name:any):Observable<userscommentposts[]>{
     return this.http.get<groupname[]>(`${environment.apiUrl}User/GetGroups`, { 'headers': headers, 'params': params });
   }
   public getuserprofiledetail(): Observable<profile> {
+    //alert("this called again")
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     var name=sessionStorage.getItem('myName') || '';
     const params = new HttpParams().set("username", name);
@@ -420,7 +421,7 @@ getUsersLikePosts(name:any):Observable<userscommentposts[]>{
     var name=sessionStorage.getItem('myName') || '';
     const params = new HttpParams().set("username", name);
     //const params = new HttpParams().set("username", name);
-    return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
+    return this.http.get<profile>(`${environment.apiUrl}User/FetchUserImage`, { 'headers': headers, 'params': params })
   }
 
   Declined(name:string,msgid:any)

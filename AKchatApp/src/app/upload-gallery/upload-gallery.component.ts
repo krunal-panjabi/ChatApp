@@ -111,17 +111,17 @@ export class UploadGalleryComponent implements OnInit {
     })
     // this.service.getUsersLikeComment().subscribe({
     //   next:(data)=>{
-    //     const organizedData: { [key: number]: { image: string,liked:number ,comments: string[] } } = {};
+      //     const organizedData: { [key: number]: { image: string,liked:number ,comments: string[] } } = {};
     //     data.forEach(user=>{
-    //       const postid=user.postid;
-    //       if(!organizedData[postid]){
-
-    //       }
-    //     })
+      //       const postid=user.postid;
+      //       if(!organizedData[postid]){
+        
+        //       }
+        //     })
     //   }
     // })
 
-
+    
     // this.service.createChatConnection();
   }
   onSearchInputChange1() {
@@ -136,7 +136,6 @@ export class UploadGalleryComponent implements OnInit {
   toggleShowAllNames() {
     this.showAllNames = !this.showAllNames;
   }
-  
   convertToBase64(file: File) {
     const reader = new FileReader();
     reader.onload = (e: any) => {
@@ -149,6 +148,8 @@ export class UploadGalleryComponent implements OnInit {
     };
     reader.readAsDataURL(file);
   }
+
+
   handleFileInput(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0]; // Assuming only one file is selected
@@ -170,38 +171,14 @@ export class UploadGalleryComponent implements OnInit {
     this.selectedProfiles.delete(name);
   }
   tagpeople() {
-    // const divElement = this.elementRef.nativeElement.querySelector('#afterclick');
-    // const divElement1 = this.elementRef.nativeElement.querySelector('#afterclick1');
-    // const divElement2 = this.elementRef.nativeElement.querySelector('#afterclick2');
-
-
-
-    // if (divElement2.classList.contains('d-flex')) {
-    //   this.renderer.removeClass(divElement2, 'd-flex');
-    // } else {
-    //   this.renderer.addClass(divElement2, 'd-flex');
-    // }
-
-    // if (divElement.classList.contains('afterclick')) {
-    //   this.renderer.removeClass(divElement, 'afterclick');
-    // } else {
-    //   this.renderer.addClass(divElement, 'afterclick');
-    // }
-
-    // if (divElement1.classList.contains('afterclick1')) {
-    //   this.renderer.removeClass(divElement1, 'afterclick1');
-    //   this.renderer.addClass(divElement1, 'd-none');
-    // } else {
-    //   this.renderer.removeClass(divElement1, 'd-none');
-    //   this.renderer.addClass(divElement1, 'afterclick1');
-    // }
+   
     this.tagdiv = false;
   }
-  // }
 
 
 
 
+  
 
   onFormSubmit() {
     const formValue = this.galleryForm.value;

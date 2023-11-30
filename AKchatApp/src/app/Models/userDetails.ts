@@ -8,11 +8,13 @@ export interface UserDetails {
     aboutme?:string,
     status?:string,
     imgstr?:string,
+    imgstr2?:string,
     schoolname?:string,
     workplace?:string,
     clgname?:string,
     instalink?:string,
     twitterlink?:string,
     linkdinlink?:string,
-    facebooklink?:string
+    facebooklink?:string,
+    followers?:string
   }

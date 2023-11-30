@@ -59,12 +59,15 @@ export class LoginPageComponent implements OnInit {
               this.service.getuserImage(this.userForm.get('username')?.value).subscribe({
                 next: (data: profile) => {
                   this.service.imageUrl = data.imgstr ?? '';
+                  // this.service.coverimg=data.imgstr2 ?? '';
                   sessionStorage.setItem('userimage',data.imgstr ?? '');
                 },
                 error: (error) => {
                   console.error('Error loading private chats', error);
                 }
               });    
+              console.log("the cover img",this.service.coverimg);
+              console.log("the cover img",this.service.imageUrl);
               this.toastr.success('Success', 'You are Loggedinnn',{
                 disableTimeOut:false,
                 closeButton:true,

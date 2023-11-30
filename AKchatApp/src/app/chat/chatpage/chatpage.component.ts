@@ -125,6 +125,12 @@ private removeFirst(array: string[], toRemove: string): void {
     array.splice(index, 1);
   }
 }
+
+
+
+
+
+
   ngOnInit():void{
     this.service.myName = sessionStorage.getItem('myName') || '';
     this.service.imageUrl=sessionStorage.getItem('userimage') || '';

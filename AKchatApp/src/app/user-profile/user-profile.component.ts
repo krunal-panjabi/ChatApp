@@ -28,14 +28,16 @@ export class UserProfileComponent implements OnInit {
   oldname = '';
   
   ngOnInit(): void {
-    
     this.service.myName = sessionStorage.getItem('myName') || '';
     this.service.imageUrl = sessionStorage.getItem('userimage') || '';
     this.service.getuserprofiledetail().subscribe({
       next: (data: profile) => {
         this.service.singleuser = data;
-       this.empForm.patchValue(this.service.singleuser);
-      
+
+        this.imageUrl2=data.imgstr2 ?? '';
+        //alert("see data")
+        console.log(data);
+        this.empForm.patchValue(this.service.singleuser);
       },
       error: (error) => {
         console.error('Error loading private chats', error);
@@ -49,6 +51,8 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.imageUrl = this.service.imageUrl;
     }
+  
+    
   }
 
 //   if (this.service.imageUrl2 === "") {
@@ -73,6 +77,7 @@ export class UserProfileComponent implements OnInit {
       aboutme: '',
       status: '',
       imgstr: '',
+      imgstr2: '',
       workplace:'',
       schoolname:'',
       clgname:'',
@@ -121,8 +126,19 @@ export class UserProfileComponent implements OnInit {
   
   
   onFormSubmit() {
-    alert('called');
+   
+    // this.button2.nativeElement.click();
     if (this.empForm.valid) {
+      // if (
+      //   this.empForm.get('name')?.hasError('required') ||
+      //   this.empForm.get('email')?.hasError('invalid') ||
+      //   this.empForm.get('name')?.hasError('invalid') ||
+      //   this.empForm.get('email')?.hasError('required')
+      // ) 
+      // {
+      //   // Do not proceed with submission if there are errors
+      //   return;
+      // }
       alert('called');
       this.oldname = this.service.myName;
       if (this.service.myName.trim() !== this.empForm.get('name')?.value.trim()) {
@@ -130,28 +146,17 @@ export class UserProfileComponent implements OnInit {
         this.service.myName = this.empForm.get('name')?.value;
         this.service.notifyOthertabsforname();
       }
+    
       this.imageUrl = this.empForm.get('imgstr')?.value;
+      this.imageUrl2 = this.empForm.get('imgstr2')?.value;
+      
       this.service.imageUrl = this.empForm.get('imgstr')?.value;
       // Programmatically trigger a click on button2
       // this.button2.nativeElement.click();
       console.log("the form",this.empForm.value);
-      // this.service.postFile(this.empForm.value, this.oldname).subscribe({
-      //   next: (response) => {
-      //     console.log(response);
-      //   },
-      //   error: (error) => {
-      //     console.log(error);
-      //   }
-      // });
-
-      // this.service.getAllUsers().subscribe({
-      //   next: (data) => {
-      //     this.service.offlineUsers = data;
-      //     this.service.usernamelist = this.service.offlineUsers;
-      //   }
-      // });
-      this.service.uploadfile(this.file, this.service.myName).subscribe(
-        data => {
+      this.service.postFile(this.empForm.value, this.oldname).subscribe({
+        next: (response) => {
+          console.log(response);
           this.service.getuserImage(this.empForm.get('name')?.value).subscribe({
             next: (data: profile) => {
               sessionStorage.setItem('userimage', data.imgstr ?? '');
@@ -162,9 +167,14 @@ export class UserProfileComponent implements OnInit {
               console.error('Error loading private chats', error);
             }
           });
-        }
-      );
+        },
+        error: (error) => {
+          console.log(error);
+        },
+    });
     }
+
+
   }
 
   handleFileInput(event: any) {
@@ -182,6 +192,7 @@ export class UserProfileComponent implements OnInit {
     this.file = event.target.files[0];
     reader.onload = (event: any) => {
       this.imageUrl2 = event.target.result;
+      this.service.coverimg=event.target.result;
       this.empForm.get('imgstr2')?.setValue(event.target.result);
     };
     reader.readAsDataURL(this.file);
@@ -190,7 +201,7 @@ export class UserProfileComponent implements OnInit {
 
 
 
-  
+
   abc() {
     // alert("dsf")
   }

@@ -34,6 +34,7 @@ export class UserDetailComponent {
   noofflineuser:any;
   showMore = false;
   maxCommentsToShow = 2;
+  myposts : GalleryData[]=[];
  
   // private subscription: Subscription;
   // receivedData: string = '';

@@ -25,5 +25,6 @@ namespace ViewModels.Models
         public string? twitterlink { get; set; }
         public string? linkdinlink { get; set; }
         public string? facebooklink { get; set; }
+        public int? followers { get; set; }
     }
 }

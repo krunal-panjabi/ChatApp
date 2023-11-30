@@ -43,7 +43,7 @@
 .user-text{
     height: 200px;
     width: 200px;
-    /* height: 88px; width: 88px; */
+     /* height: 88px; width: 88px;  */
      border-radius: 50%;
     background-color: rgb(231, 231, 231);
     display: flex;
@@ -111,7 +111,7 @@
 
 .card{
     width: 45%;
-    /* max-height: 220px; */
+    /* / max-height: 220px; / */
     min-height: 350px;
 }
 .pstyle{
@@ -140,7 +140,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(209, 209, 209, 0.8); /* Semi-transparent background */
+    background-color: rgba(209, 209, 209, 0.8);
+     /* / Semi-transparent background / */
     display: flex;
     justify-content: center;
     align-items: center;
