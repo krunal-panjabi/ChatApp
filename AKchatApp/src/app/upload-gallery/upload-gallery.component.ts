@@ -111,17 +111,17 @@ export class UploadGalleryComponent implements OnInit {
     })
     // this.service.getUsersLikeComment().subscribe({
     //   next:(data)=>{
-    //     const organizedData: { [key: number]: { image: string,liked:number ,comments: string[] } } = {};
+      //     const organizedData: { [key: number]: { image: string,liked:number ,comments: string[] } } = {};
     //     data.forEach(user=>{
-    //       const postid=user.postid;
-    //       if(!organizedData[postid]){
-
-    //       }
-    //     })
+      //       const postid=user.postid;
+      //       if(!organizedData[postid]){
+        
+        //       }
+        //     })
     //   }
     // })
 
-
+    
     // this.service.createChatConnection();
   }
   onSearchInputChange1() {
@@ -136,7 +136,6 @@ export class UploadGalleryComponent implements OnInit {
   toggleShowAllNames() {
     this.showAllNames = !this.showAllNames;
   }
-  
   convertToBase64(file: File) {
     const reader = new FileReader();
     reader.onload = (e: any) => {
@@ -149,6 +148,8 @@ export class UploadGalleryComponent implements OnInit {
     };
     reader.readAsDataURL(file);
   }
+
+
   handleFileInput(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0]; // Assuming only one file is selected
@@ -201,7 +202,7 @@ export class UploadGalleryComponent implements OnInit {
 
 
 
-
+  }
 
   onFormSubmit() {
     const formValue = this.galleryForm.value;
