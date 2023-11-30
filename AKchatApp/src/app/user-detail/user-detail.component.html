@@ -1,53 +1,51 @@
-<div class="wholebody">
-
-    <div style="background-color: rgb(0, 191, 255);height: 300px;position: relative">
-
-        <img style="position: absolute;width: 100%;height: 300px; " [src]="service.oneuserdetail.imgstr2" alt="">
-
-        <!-- <div class="container-fluid" style="background-color: lightblue;height: 200px;position: relative;"> -->
-        <button style="position: absolute;top:5px;left: 5px;border: 0px;background-color: transparent;z-index: 5;"
-            (click)="back()">
-            <i style="color: grey;font-size: x-large;" class="bi bi-arrow-left-circle"></i></button>
+<div class="wholebody"
+    style="margin-left: 160px;margin-right: 160px;box-shadow: 3px 3px 13px -3px #888888;border: 1px solid lightgrey;background: white;border-radius: 10px;padding: 30px 10px 10px 10px;">
+    <div style="border: 1px solid lightgrey;border-radius: 10px;">
+        <div style="height: 209px;position: relative;background: whitesmoke;">
+            <img [src]="service.oneuserdetail.imgstr2" style="width:100%;height:100%">
+            <button style="position: absolute;top:5px;left: 5px;border: 0px;background-color: transparent;"
+                (click)="back()">
+                <i style="color: grey;font-size: x-large;" class="bi bi-arrow-left-circle"></i></button>
 
 
-        <div class="image d-flex justify-content-center mb-5" style="z-index: 5;">
-            <div class="user-image d-flex justify-content-center">
+            <div class="image d-flex justify-content-center mb-5">
+                <div class="user-image d-flex justify-content-center">
 
-                <ng-container *ngIf="service.oneuserdetail.imgstr;else noofflineuser">
-                    <img class="user-image" [src]="service.oneuserdetail.imgstr" alt="">
-                </ng-container>
+                    <ng-container *ngIf="service.oneuserdetail?.imgstr;else noofflineuser">
+                        <img class="" [src]="service.oneuserdetail.imgstr" alt=""
+                            style="border-radius: 50%;width:150px;height:150px">
+                    </ng-container>
 
-                <ng-template #noofflineuser>
-
-                    <div class="user-text me-2">{{service.oneuserdetail.name?.charAt(0)}}</div>
-                </ng-template>
-                `
+                    <ng-template #noofflineuser *ngIf="service.oneuserdetail">
+                        <div class="user-text me-2">{{service.oneuserdetail.name?.charAt(0)}}</div>
+                    </ng-template>
+                    `
+                </div>
             </div>
-        </div>
-        <!-- </div> -->
-    </div>
 
-        <div *ngIf="isLoading" class="buffer-screen">
-            <!-- Add your buffering screen content or spinner here -->
-            <img style="height: 30px;width: 30px;" src="https://media.tenor.com/_62bXB8gnzoAAAAj/loading.gif" alt="">
-            <p class="text-center ms-2" style="font-size: larger; font-weight: 600;">Loading...</p>
         </div>
+
+
 
         <div class="container mt-4">
             <div class="middlesection pt-3" style="background: white;">
                 <div style="text-align: center;font-size: 27px;font-weight: 500;" class="mb-3">
                     {{service.oneuserdetail?.name}}</div>
                 <div class="p-3 d-flex" style="border-top:1px solid lightgrey">
-                    <div class="mx-3" style="font-weight: 500;color: darkgray;cursor: pointer;" (click)="changediv(1,service.oneuserdetail?.name)">
+                    <div class="mx-3" style="font-weight: 500;color: darkgray;cursor: pointer;"
+                        (click)="changediv(1,service.oneuserdetail?.name)">
                         <span>Posts</span>
                     </div>
-                    <div class="mx-3" style="font-weight: 500;color: darkgray;cursor: pointer" (click)="changediv(2,service.oneuserdetail?.name)">
+                    <div class="mx-3" style="font-weight: 500;color: darkgray;cursor: pointer"
+                        (click)="changediv(2,service.oneuserdetail?.name)">
                         <span>Likes</span>
                     </div>
-                    <div class="mx-3" style="font-weight: 500;color: darkgray;cursor: pointer" (click)="changediv(3,service.oneuserdetail?.name)">
+                    <div class="mx-3" style="font-weight: 500;color: darkgray;cursor: pointer"
+                        (click)="changediv(3,service.oneuserdetail?.name)">
                         <span>Comments</span>
                     </div>
-                    <div class="mx-3" style="font-weight: 500;color: darkgray;cursor: pointer" (click)="changediv(4,service.oneuserdetail?.name)">
+                    <div class="mx-3" style="font-weight: 500;color: darkgray;cursor: pointer"
+                        (click)="changediv(4,service.oneuserdetail?.name)">
                         <span>
                             Personal Info
                         </span>
@@ -114,6 +112,20 @@
                             <div style="font-size:18px;font-weight: 500;">
                                 Posts
                             </div>
+                            <ng-container *ngIf="myposts.length===0;else noLikes">
+                                <div>
+                                    No Likes are added in any post
+                                </div>
+                            </ng-container>
+                            <ng-template #noLikes>
+                                <div class="row" style="height: 481px;overflow-y: auto;">
+                                    <div class="col-3" *ngFor="let user of myposts"
+                                        (click)="redirectToPost(user.galleryId)">
+                                        <img style="height:115px;width:100%;border-radius:10px"
+                                            [src]="user.imgstr || 'default-image-url'">
+                                    </div>
+                                </div>
+                            </ng-template>
                         </div>
                         <div *ngIf="selecteddiv===2" class="p-3 d-flex flex-column" style="background: white;">
                             <div style="font-size:18px;font-weight: 500;">
@@ -121,27 +133,28 @@
                             </div>
                             <ng-container *ngIf="likeposts.length===0;else noLikes">
                                 <div>
-                                  No Likes are added in any post
+                                    No Likes are added in any post
                                 </div>
-                              </ng-container>
-                              <ng-template #noLikes>
+                            </ng-container>
+                            <ng-template #noLikes>
                                 <div class="row" style="height: 481px;overflow-y: auto;">
-                                    <div class="col-3" *ngFor="let user of likeposts" (click)="redirectToPost(user.postid)">
+                                    <div class="col-3" *ngFor="let user of likeposts"
+                                        (click)="redirectToPost(user.postid)">
                                         <img style="height:115px;width:100%;border-radius:10px"
                                             [src]="user.imgstr || 'default-image-url'">
                                     </div>
                                 </div>
-                              </ng-template>
-                       
+                            </ng-template>
+
                         </div>
                         <div *ngIf="selecteddiv===3" class="p-3 d-flex flex-column" style="background: white;">
                             <div style="font-size:18px;font-weight: 500;">
                                 Comments
                             </div>
                             <ng-container *ngIf="posts.length===0;else noComments">
-                              <div>
-                                No comments are added in any post
-                              </div>
+                                <div>
+                                    No comments are added in any post
+                                </div>
                             </ng-container>
                             <ng-template #noComments>
                                 <div style="height: 481px;overflow-y: auto;" #noComments>
@@ -156,7 +169,7 @@
                                                     <span class="fw-bolder">{{post.caption}}</span>
                                                 </div>
                                             </div>
-    
+
                                             <div class="ms-4">
                                                 <ng-container
                                                     *ngIf="post.comments && post.comments.length > 0; else noComments">
@@ -166,19 +179,20 @@
                                                                 style="width:100%;height:100%"></p>
                                                         <p class="">{{ service.oneuserdetail?.name }}: {{ comment }}</p>
                                                     </div>
-    
+
                                                     <div *ngIf="post.comments.length > maxCommentsToShow">
-                                                        <a class="fw-bolder" style="text-decoration: none;color: #3F51B5;"
+                                                        <a class="fw-bolder"
+                                                            style="text-decoration: none;color: #3F51B5;"
                                                             (click)="toggleShowMore(post)">{{ post.showMore ? 'Show Less
                                                             Comments' : 'Show More Comments' }}</a>
                                                     </div>
                                                 </ng-container>
-    
+
                                                 <ng-template #noComments>
                                                     <p>No comments added.</p>
                                                 </ng-template>
                                             </div>
-    
+
                                         </div>
                                         <div class="" style="flex:1;width:40%;">
                                             <img [src]="post.image || 'default-image-url'" alt="Post Image"
@@ -199,23 +213,26 @@
                                 <div class="item1 d-flex" style="gap:10px">
                                     <div class="item1-links d-flex flex-column half-size">
                                         <label for="Name" style="font-size: 16px;font-weight: 500;">Name
-                                            </label>
+                                        </label>
                                         <div class=" mb-3 d-flex align-items-center"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
                                             <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"
                                                 src='/assets/img/profile.png' />
                                             <!-- <i class="bi bi-link-45deg"
                                                 style="font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"></i> -->
-                                            <p class="mb-0 ms-2" style="font-size: 19px;">{{service.oneuserdetail?.name}}</p>
+                                            <p class="mb-0 ms-2" style="font-size: 19px;">
+                                                {{service.oneuserdetail?.name}}</p>
                                         </div>
                                     </div>
                                     <div class="item1-links d-flex flex-column half-size">
                                         <label for="Name" style="font-size: 16px;font-weight: 500;">Birth Date</label>
                                         <div class=" mb-3 d-flex align-items-center"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                            <mat-icon style="width: 33px;height: 36px;font-size: 32px;border-right: solid rgb(185, 185, 185) 1px;">cake</mat-icon>
+                                            <mat-icon
+                                                style="width: 33px;height: 36px;font-size: 32px;border-right: solid rgb(185, 185, 185) 1px;">cake</mat-icon>
 
-                                            <p class="mb-0 ms-2" style="font-size: 19px;">{{service.oneuserdetail?.dob | date:'MMM dd'}}</p>
+                                            <p class="mb-0 ms-2" style="font-size: 19px;">{{service.oneuserdetail?.dob |
+                                                date:'MMM dd'}}</p>
                                         </div>
                                     </div>
 
@@ -225,18 +242,23 @@
                                         <label for="Name" style="font-size: 16px;font-weight: 500;">Gender</label>
                                         <div class=" mb-3 d-flex"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                            <mat-icon style="width: 33px;height: 36px;font-size: 32px;border-right: solid rgb(185, 185, 185) 1px;">supervised_user_circle</mat-icon>
+                                            <mat-icon
+                                                style="width: 33px;height: 36px;font-size: 32px;border-right: solid rgb(185, 185, 185) 1px;">supervised_user_circle</mat-icon>
 
-                                            <p class="mb-0 ms-2" style="font-size: 19px;">{{service.oneuserdetail?.gender}}</p>
+                                            <p class="mb-0 ms-2" style="font-size: 19px;">
+                                                {{service.oneuserdetail?.gender}}</p>
                                         </div>
                                     </div>
                                     <div class="item1-links d-flex flex-column half-size">
-                                        <label for="Name" style="font-size: 16px;font-weight: 500;">Martial Status</label>
+                                        <label for="Name" style="font-size: 16px;font-weight: 500;">Martial
+                                            Status</label>
                                         <div class=" mb-3 d-flex"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                            <mat-icon style="width: 33px;height: 36px;font-size: 32px;border-right: solid rgb(185, 185, 185) 1px;">person</mat-icon>
+                                            <mat-icon
+                                                style="width: 33px;height: 36px;font-size: 32px;border-right: solid rgb(185, 185, 185) 1px;">person</mat-icon>
 
-                                            <p class="mb-0 ms-2" style="font-size: 19px;">{{service.oneuserdetail?.status}}</p>
+                                            <p class="mb-0 ms-2" style="font-size: 19px;">
+                                                {{service.oneuserdetail?.status}}</p>
                                         </div>
                                     </div>
 
@@ -249,50 +271,57 @@
                                 <div class="item1 d-flex" style="gap:10px">
                                     <div class="item1-links d-flex flex-column half-size">
                                         <label for="Name" style="font-size: 16px;font-weight: 500;">SchoolName
-                                            </label>
+                                        </label>
                                         <div class=" mb-3 d-flex align-items-center"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                                <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;" src='/assets/img/school.png' />
+                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"
+                                                src='/assets/img/school.png' />
 
                                             <!-- <i class="bi bi-link-45deg"
                                                 style="font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"></i> -->
-                                            <p class="mb-0 ms-2" style="font-size: 19px;">{{service.oneuserdetail?.schoolname}}</p>
+                                            <p class="mb-0 ms-2" style="font-size: 19px;">
+                                                {{service.oneuserdetail?.schoolname}}</p>
                                         </div>
                                     </div>
                                     <div class="item1-links d-flex flex-column half-size">
                                         <label for="Name" style="font-size: 16px;font-weight: 500;">CollegeName</label>
                                         <div class=" mb-3 d-flex align-items-center"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                            <img style="width: 33px;height: 36px;font-size: 32px;border-right: solid rgb(185, 185, 185) 1px;" src='/assets/img/clg.png' />
+                                            <img style="width: 33px;height: 36px;font-size: 32px;border-right: solid rgb(185, 185, 185) 1px;"
+                                                src='/assets/img/clg.png' />
 
-                                            <p class="mb-0 ms-2" style="font-size: 19px;">{{service.oneuserdetail?.clgname}}</p>
+                                            <p class="mb-0 ms-2" style="font-size: 19px;">
+                                                {{service.oneuserdetail?.clgname}}</p>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="links mt-3 d-flex flex-column">
                                 <div style="background: whitesmoke;font-size: 21px;font-weight: 200;padding: 6px;">
-                                   SocialNetwork Links
+                                    SocialNetwork Links
                                 </div>
                                 <div class="item1 d-flex" style="gap:10px">
                                     <div class="item1-links d-flex flex-column half-size">
                                         <label for="Name" style="font-size: 16px;font-weight: 500;">TwitterLink
-                                            </label>
+                                        </label>
                                         <div class=" mb-3 d-flex align-items-center"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;" src='/assets/img/twitter.jpg' />
+                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"
+                                                src='/assets/img/twitter.jpg' />
                                             <!-- <i class="bi bi-link-45deg"
                                                 style="font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"></i> -->
-                                            <p class="mb-0 ms-2" style="font-size: 19px;">{{service.oneuserdetail?.twitterlink}}</p>
+                                            <p class="mb-0 ms-2" style="font-size: 19px;">
+                                                {{service.oneuserdetail?.twitterlink}}</p>
                                         </div>
                                     </div>
                                     <div class="item1-links d-flex flex-column half-size">
                                         <label for="Name" style="font-size: 16px;font-weight: 500;">FacebookLink</label>
                                         <div class=" mb-3 d-flex align-items-center"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                            <img style="width: 33px;height: 36px;font-size: 32px;border-right: solid rgb(185, 185, 185) 1px;" src='/assets/img/facebook.jpg' />
-                                            <p class="mb-0 ms-2" style="font-size: 19px;">{{service.oneuserdetail?.facebooklink}}</p>
+                                            <img style="width: 33px;height: 36px;font-size: 32px;border-right: solid rgb(185, 185, 185) 1px;"
+                                                src='/assets/img/facebook.jpg' />
+                                            <p class="mb-0 ms-2" style="font-size: 19px;">
+                                                {{service.oneuserdetail?.facebooklink}}</p>
                                         </div>
                                     </div>
 
@@ -300,22 +329,26 @@
                                 <div class="item1 d-flex" style="gap:10px">
                                     <div class="item1-links d-flex flex-column half-size">
                                         <label for="Name" style="font-size: 16px;font-weight: 500;">InstaLink
-                                            </label>
+                                        </label>
                                         <div class=" mb-3 d-flex align-items-center"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;" src='/assets/img/insta.jpg' />
+                                            <img style="width: 34px;height: 36px;font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"
+                                                src='/assets/img/insta.jpg' />
 
                                             <!-- <i class="bi bi-link-45deg"
                                                 style="font-size: x-large;border-right: solid rgb(185, 185, 185) 1px;padding: 5px;"></i> -->
-                                            <p class="mb-0 ms-2" style="font-size: 19px;">{{service.oneuserdetail?.instalink}}</p>
+                                            <p class="mb-0 ms-2" style="font-size: 19px;">
+                                                {{service.oneuserdetail?.instalink}}</p>
                                         </div>
                                     </div>
                                     <div class="item1-links d-flex flex-column half-size">
                                         <label for="Name" style="font-size: 16px;font-weight: 500;">LinkdinLink</label>
                                         <div class=" mb-3 d-flex align-items-center"
                                             style="border: solid rgb(185, 185, 185) 1px;border-radius: 5px;">
-                                            <img style="width: 33px;height: 36px;font-size: 32px;border-right: solid rgb(185, 185, 185) 1px;" src='/assets/img/linkdin.jpg'  />
-                                            <p class="mb-0 ms-2" style="font-size: 19px;">{{service.oneuserdetail?.linkdinlink}}</p>
+                                            <img style="width: 33px;height: 36px;font-size: 32px;border-right: solid rgb(185, 185, 185) 1px;"
+                                                src='/assets/img/linkdin.jpg' />
+                                            <p class="mb-0 ms-2" style="font-size: 19px;">
+                                                {{service.oneuserdetail?.linkdinlink}}</p>
                                         </div>
                                     </div>
 
@@ -329,349 +362,15 @@
 
 
 
-        <div class="container m-3 d-none">
-            <!-- <mat-horizontal-stepper #stepper labelPosition="bottom">
-        <mat-step label="Personal Details">
-        </mat-step>
 
-        <mat-step label="more Details">
-        </mat-step>
 
-        <mat-step label="dsad Details">
-        </mat-step>
 
-          </mat-horizontal-stepper> -->
 
-            <mat-tab-group>
-                <mat-tab label="Personal details">
 
 
-                    <div class="d-flex">
-                        <mat-card class="example-card card">
-                            <mat-card-header
-                                style="background-color: rgb(222, 222, 222);display: flex;align-items: center;">
-                                <!-- <div mat-card-avatar class="example-header-image"></div> -->
-                                <!-- <mat-card-title class="m-2 ">Personal Details</mat-card-title> -->
-                                <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
-                            </mat-card-header>
-                            <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                            alt="Photo of a Shiba Inu"> -->
 
 
-                            <div class="m-2">
-                                <p class="pstyle d-flex align-items-center"><mat-icon
-                                        class="mx-2">contact_mail</mat-icon>
-                                    Email <span class="spanstyle mx-1">
-                                        {{service.oneuserdetail?.email}}</span></p>
 
-                            <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">cake</mat-icon> Born On
-                                <span class="spanstyle mx-1">
-                                    {{service.oneuserdetail.dob}}</span>
-                            </p>
-                            <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">person</mat-icon> Status
-                                <span class="spanstyle mx-1">
-                                    {{service.oneuserdetail.status}}</span>
-                            </p>
-                            <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">face</mat-icon> Gender
-                                <span class="spanstyle mx-1">
-                                    {{service.oneuserdetail.gender}}</span>
-                            </p>
 
-                            <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">face</mat-icon> Followers
-                                <span class="spanstyle mx-1">
-                                    {{service.oneuserdetail.followers}}</span>
-                            </p>
-
-                            <p class="pstyle d-flex align-items-center"><mat-icon class="mx-2">details</mat-icon> About
-                                <span class="spanstyle mx-1" [innerHTML]="sanitizedHtml">
-                                    <!-- {{service.oneuserdetail.aboutme}} -->
-                                </span>
-                            </p>
-
-
-                            <!-- <p>{{service.mutualFriends.names}}</p> -->
-
-                            </div>
-
-
-                            <!-- 
-                    <mat-card-content>
-
-                        <div class="ms-3 mt-3" *ngFor="let user of service.mutualFriends.names; let i = index">
-                            <div class=" d-flex">
-                                <span class="me-2"><img style="width:20px;height:20px;border-radius:50%"
-                                        [src]="images[i] ?? '/assets/img/profile.png'"></span>
-                              
-                                <span>{{ user }}</span> 
-                            </div>
-
-                        </div>
-                    </mat-card-content> -->
-
-                            <!--
-                <mat-card-actions>
-                    <button mat-button>LIKE</button>
-                    <button mat-button>SHARE</button>
-                </mat-card-actions> -->
-                        </mat-card>
-
-                        <mat-card class="example-card card">
-
-
-
-                            <mat-card-content class="mutual-div">
-                                <div style="font-size: large; font-weight: 700;color: purple;">
-                                    Mutual Friends
-                                </div>
-                                <div style="overflow-y: auto;max-height: 175px;">
-                                    <div class="ms-3 mt-3" *ngFor="let mutualFriend of names; let i = index">
-                                        <button (click)="mutualdetail(mutualFriend)" class="mutualbtn"
-                                            *ngIf="images && images.length > 0">
-                                            <div class="d-flex">
-                                                <span class="me-2" *ngIf="images[i];else noofflineuser">
-                                                    <img style="width:40px;height:40px;border-radius:50%"
-                                                        [src]="images[i]">
-                                                </span>
-                                                <ng-template #noofflineuser>
-
-                                                    <div class="smUser-text me-2" style="">
-                                                        {{mutualFriend.charAt(0)}}</div>
-                                                </ng-template>
-                                                <span
-                                                    style="font-size: larger;font-weight: 600;display: flex;align-items: center;">{{
-                                                    mutualFriend }}</span>
-                                            </div>
-                                        </button>
-                                    </div>
-                                </div>
-                            </mat-card-content>
-
-                        </mat-card>
-
-
-                    </div>
-
-
-
-                </mat-tab>
-
-
-                <mat-tab label="Second" class="d-flex justify-content-center">
-                    <mat-card class="example-card card">
-                        <mat-card-header
-                            style="background-color: rgb(222, 222, 222);display: flex;align-items: center;">
-                            <!-- <div mat-card-avatar class="example-header-image"></div> -->
-
-                            <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
-                        </mat-card-header>
-                        <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-            alt="Photo of a Shiba Inu"> -->
-
-
-                        <!-- <div class="m-2">
-                            <p class="pstyle"><img style="width:25px;height:26px" src='/assets/img/school.png' />School
-                                :<span class="spanstyle"> {{ service.oneuserdetail.schoolname ?
-                                    service.oneuserdetail.schoolname : 'not added' }}</span>
-                            </p>
-                            <p class="pstyle"><img style="width:27px;height:28px" src='/assets/img/clg.png' />
-
-                                College :<span class="spanstyle"> {{service.oneuserdetail.clgname ?
-                                    service.oneuserdetail.clgname : 'not added'}}</span>
-                            </p>
-                            <p class="pstyle"><img style="width:23px;height:24px" src='/assets/img/workicon.png' />
-                                WorkPlace :<span class="spanstyle"> {{service.oneuserdetail.workplace ?
-                                    service.oneuserdetail.workplace : 'not added'}}</span>
-                            </p>
-                            <p class="pstyle"><img style="width:30px;height:30px"
-                                    src='/assets/img/twitter.jpg' />Twitter
-                                :<span class="spanstyle"> {{service.oneuserdetail.twitterlink ?
-                                    service.oneuserdetail.twitterlink : 'not added'}}</span>
-                            </p>
-                            <p class="pstyle"><img style="width: 34px;height: 36px;font-size: x-large;padding: 5px;"
-                                    src='/assets/img/facebook.jpg' />FaceBook :<span class="spanstyle">
-                                    {{service.oneuserdetail.facebooklink ?
-                                    service.oneuserdetail.facebooklink : 'not added'}}</span></p>
-                            <p class="pstyle"> <img style="width: 34px;height: 36px;font-size: x-large;padding: 5px;"
-                                    src='/assets/img/linkdin.jpg' />LinkedIn :<span class="spanstyle">
-                                    {{service.oneuserdetail.linkdinlink ?
-                                    service.oneuserdetail.linkdinlink : 'not added'}}</span></p>
-                            <p class="pstyle"><img style="width:30px;height:30px"
-                                    src='/assets/img/insta.jpg' />Instagram
-                                :<span class="spanstyle"> {{service.oneuserdetail.instalink ?
-                                    service.oneuserdetail.instalink : 'not added'}}</span>
-                            </p>
-                        </div> -->
-
-                        <!-- <mat-card-content>
-            <p>
-                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                bred for hunting.
-            </p>
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
-        </mat-card-actions> -->
-                    </mat-card> </mat-tab>
-                <mat-tab label="Third"> Content 3 </mat-tab>
-            </mat-tab-group>
-        </div>
-
-
-
-
-
-
-
-
-
-        <!-- <div class="d-flex justify-content-center">
-    <div class="col-10"> -->
-
-
-
-        <!-- <div class="row d-flex justify-content-center main-body mt-5 mb-5">
-            <div class="col-12 col-md-8 mb-5">
-
-
-
-
-
-
-
-
-                <mat-card>
-                    <div class="div1 d-flex justify-content-between">
-                        <mat-card-content class="d-flex flex-column half-size">
-
-                            <mat-form-field appearance="outline">
-                                <mat-label>Name</mat-label>
-                                <input matInput formControlName="name" readonly="true"
-                                    value={{service.oneuserdetail.name}}>
-
-                            </mat-form-field>
-                        </mat-card-content>
-                        <mat-card-content class="d-flex flex-column half-size">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Email</mat-label>
-
-                                <input matInput formControlName="email" readonly="true"
-                                    value={{service.oneuserdetail.email}}>
-                            </mat-form-field>
-                        </mat-card-content>
-                    </div>
-
-
-                    <div class="div1 d-flex justify-content-between">
-                        <mat-card-content class="d-flex flex-column mb-4 content-with-border half-size">
-                            <div class="d-flex">
-                                <mat-label>Gender</mat-label>
-
-                                <mat-radio-group class="mb-2" formControlName="gender" readonly="true"
-                                    value={{service.oneuserdetail.gender}}>
-                                    <mat-radio-button class="ms-4" value="Male">Male</mat-radio-button>
-                                    <mat-radio-button class="ms-4" value="Female">Female</mat-radio-button>
-                                    <mat-radio-button class="ms-4" value="Other">Other</mat-radio-button>
-                                </mat-radio-group>
-                            </div>
-                        </mat-card-content>
-
-                        <mat-card-content class="d-flex flex-column content-with-border half-size">
-                            <div class="d-flex">
-                                <mat-label>Status</mat-label>
-
-                                <mat-radio-group style="width:56%" class="mb-2" formControlName="status" readonly="true"
-                                    value={{service.oneuserdetail.status}}>
-                                    <mat-radio-button class="ms-4" value="Single">Single</mat-radio-button>
-                                    <mat-radio-button class="ms-4" value="Married">Married</mat-radio-button>
-                                    <mat-radio-button class="ms-4" value="Prefer Not To Say">Prefer Not To
-                                        Say</mat-radio-button>
-                                </mat-radio-group>
-                            </div>
-
-                        </mat-card-content>
-                    </div>
-
-                    <div class="div1 d-flex justify-content-between">
-
-
-                        <mat-card-content class="d-flex flex-column half-size">
-                            <mat-form-field appearance="outline">
-                                <mat-label>About Me</mat-label>
-
-                                <input matInput formControlName="about" readonly="true"
-                                    value={{service.oneuserdetail.aboutme}}>
-                            </mat-form-field>
-                        </mat-card-content>
-
-                    </div> -->
-
-
-
-        <!-- <mat-card-content class="d-flex flex-column about">
-                        <label>About me</label>
-                   
-
-                        <p></p>
-
-
-                    </mat-card-content> -->
-
-
-
-
-
-
-
-        <!-- <mat-card-content class="d-flex flex-column"
-                        style="margin-left: 0px !important;width:100% !important">
-                        <div class="d-flex align-items-center">
-                            <label class="me-1" style="font-size: 17px;font-weight: 500;">WorkPlace</label>
-                            <img style="width:23px;height:24px" src='/assets/img/workicon.png' />
-                        </div>
-
-                        <mat-form-field appearance="outline" style="width:100% !important">
-
-                            <input matInput formControlName="workplace">
-                        </mat-form-field>
-
-                    </mat-card-content>
-                    <mat-card-content class="d-flex flex-column"
-                        style="margin-left: 0px !important;width:100% !important">
-                        <div class="d-flex align-items-center">
-                            <label class="me-1" style="font-size: 17px;font-weight: 500;">School Name</label>
-                            <img style="width:25px;height:26px" src='/assets/img/school.png' />
-                        </div>
-                        <mat-form-field appearance="outline" style="width:100% !important">
-                            <input matInput formControlName="schoolname">
-                        </mat-form-field>
-
-                    </mat-card-content>
-                    <mat-card-content class="d-flex flex-column"
-                        style="margin-left: 0px !important;width:100% !important">
-                        <div class="d-flex align-items-center">
-                            <label class="me-1" style="font-size: 17px;font-weight: 500;">College Name</label>
-                            <img style="width:27px;height:28px" src='/assets/img/clg.png' />
-                        </div>
-
-                        <mat-form-field appearance="outline">
-                            <input matInput formControlName="clgname">
-                        </mat-form-field>
-
-                    </mat-card-content> -->
-
-        <!-- 
-                </mat-card>
-
-            </div>
-        </div>
-
-
-
-
-
-    </div>
-</div> -->
     </div>
 </div>

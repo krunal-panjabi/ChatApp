@@ -77,6 +77,7 @@ export class UserProfileComponent implements OnInit {
       aboutme: '',
       status: '',
       imgstr: '',
+      imgstr2: '',
       workplace:'',
       schoolname:'',
       clgname:'',
@@ -125,8 +126,19 @@ export class UserProfileComponent implements OnInit {
   
   
   onFormSubmit() {
-    alert('called');
+   
+    // this.button2.nativeElement.click();
     if (this.empForm.valid) {
+      // if (
+      //   this.empForm.get('name')?.hasError('required') ||
+      //   this.empForm.get('email')?.hasError('invalid') ||
+      //   this.empForm.get('name')?.hasError('invalid') ||
+      //   this.empForm.get('email')?.hasError('required')
+      // ) 
+      // {
+      //   // Do not proceed with submission if there are errors
+      //   return;
+      // }
       alert('called');
       this.oldname = this.service.myName;
       if (this.service.myName.trim() !== this.empForm.get('name')?.value.trim()) {
@@ -134,28 +146,17 @@ export class UserProfileComponent implements OnInit {
         this.service.myName = this.empForm.get('name')?.value;
         this.service.notifyOthertabsforname();
       }
+    
       this.imageUrl = this.empForm.get('imgstr')?.value;
+      this.imageUrl2 = this.empForm.get('imgstr2')?.value;
+      
       this.service.imageUrl = this.empForm.get('imgstr')?.value;
       // Programmatically trigger a click on button2
       // this.button2.nativeElement.click();
       console.log("the form",this.empForm.value);
-      // this.service.postFile(this.empForm.value, this.oldname).subscribe({
-      //   next: (response) => {
-      //     console.log(response);
-      //   },
-      //   error: (error) => {
-      //     console.log(error);
-      //   }
-      // });
-
-      // this.service.getAllUsers().subscribe({
-      //   next: (data) => {
-      //     this.service.offlineUsers = data;
-      //     this.service.usernamelist = this.service.offlineUsers;
-      //   }
-      // });
-      this.service.uploadfile(this.file, this.service.myName).subscribe(
-        data => {
+      this.service.postFile(this.empForm.value, this.oldname).subscribe({
+        next: (response) => {
+          console.log(response);
           this.service.getuserImage(this.empForm.get('name')?.value).subscribe({
             next: (data: profile) => {
               sessionStorage.setItem('userimage', data.imgstr ?? '');
@@ -172,6 +173,8 @@ export class UserProfileComponent implements OnInit {
         },
     });
     }
+
+
   }
 
   handleFileInput(event: any) {

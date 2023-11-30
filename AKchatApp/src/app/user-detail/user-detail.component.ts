@@ -7,6 +7,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { userslikepostsdata } from '../Models/userslikepostsdata';
 import { GalleryService } from '../gallery.service';
 import { Router } from '@angular/router';
+import { GalleryData } from '../Models/galleryData';
 
 @Component({
   selector: 'app-user-detail',
@@ -32,6 +33,7 @@ export class UserDetailComponent {
   noofflineuser:any;
   showMore = false;
   maxCommentsToShow = 2;
+  myposts : GalleryData[]=[];
  
   // private subscription: Subscription;
   // receivedData: string = '';

@@ -89,7 +89,6 @@ reintialized()
 }
 
 
-
 // private dataSubject = new Subject<string>();
 // data$ = this.dataSubject.asObservable();
 

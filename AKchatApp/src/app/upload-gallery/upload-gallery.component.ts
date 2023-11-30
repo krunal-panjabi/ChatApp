@@ -171,38 +171,14 @@ export class UploadGalleryComponent implements OnInit {
     this.selectedProfiles.delete(name);
   }
   tagpeople() {
-    // const divElement = this.elementRef.nativeElement.querySelector('#afterclick');
-    // const divElement1 = this.elementRef.nativeElement.querySelector('#afterclick1');
-    // const divElement2 = this.elementRef.nativeElement.querySelector('#afterclick2');
-
-
-
-    // if (divElement2.classList.contains('d-flex')) {
-    //   this.renderer.removeClass(divElement2, 'd-flex');
-    // } else {
-    //   this.renderer.addClass(divElement2, 'd-flex');
-    // }
-
-    // if (divElement.classList.contains('afterclick')) {
-    //   this.renderer.removeClass(divElement, 'afterclick');
-    // } else {
-    //   this.renderer.addClass(divElement, 'afterclick');
-    // }
-
-    // if (divElement1.classList.contains('afterclick1')) {
-    //   this.renderer.removeClass(divElement1, 'afterclick1');
-    //   this.renderer.addClass(divElement1, 'd-none');
-    // } else {
-    //   this.renderer.removeClass(divElement1, 'd-none');
-    //   this.renderer.addClass(divElement1, 'afterclick1');
-    // }
+   
     this.tagdiv = false;
   }
-  // }
 
 
 
-  }
+
+  
 
   onFormSubmit() {
     const formValue = this.galleryForm.value;
