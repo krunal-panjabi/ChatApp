@@ -684,7 +684,7 @@ namespace dataRepository.Repository
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@userName", model.username ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@cover", model.imgstr2 ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@profileimage", model.imgstr ?? (object)DBNull.Value);
+               /* cmd.Parameters.AddWithValue("@profileimage", model.imgstr ?? (object)DBNull.Value);*/
                 cmd.Parameters.AddWithValue("@name", model.name ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@gender", model.gender ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@phoneNumber", model.phonenumber ?? (object)DBNull.Value);
