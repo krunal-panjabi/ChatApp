@@ -303,37 +303,26 @@ namespace dataRepository.Repository
             }
             return model;
         }
-
-
-       
             public MutualFriends GetMutualOfUser(string myName, string name)
             {
                 MutualFriends mutualFriends = new MutualFriends();
-
                 using (SqlConnection con = new SqlConnection(connections))
                 {
                     SqlCommand cmd = new SqlCommand("MutualOfUser", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@myName", myName);
                     cmd.Parameters.AddWithValue("@name", name);
-
                     // Output parameters
                     cmd.Parameters.Add("@AllImagesResult", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@AllNamesResult", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
-
                     con.Open();
                     cmd.ExecuteNonQuery();
-
                     // Assign output parameter values to the MutualFriends model
                     mutualFriends.images = Convert.ToString(cmd.Parameters["@AllImagesResult"].Value);
                     mutualFriends.names = Convert.ToString(cmd.Parameters["@AllNamesResult"].Value);
                 }
-
                 return mutualFriends;
             }
-        
-
-
         //public async Task<ProfileVm> GetUserByProfileAsync(string name)
         //{
         //    List<ProfileVm> model = new List<ProfileVm>();

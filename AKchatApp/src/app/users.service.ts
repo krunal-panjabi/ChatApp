@@ -154,7 +154,8 @@ getGalleryData(myName :string): Observable<GalleryData[]> {
   return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetGallery?myName=`+myName);
 }
 
-getMyGalleryData(myName :string): Observable<GalleryData[]> {
+getMyGalleryData(myName :any): Observable<GalleryData[]> {
+ 
   return this.http.get<GalleryData[]>(`${environment.apiUrl}User/GetMyGallery?myName=`+myName);
 }
 
@@ -368,7 +369,6 @@ getUsersLikePosts(name:any):Observable<userscommentposts[]>{
     var name=sessionStorage.getItem('myName') || '';
     const params = new HttpParams().set("username", name);
     return this.http.get<OfflineUsers[]>(`${environment.apiUrl}User/GetAllOfflineUsers`, { 'headers': headers, 'params': params })
-    
   }
 
   getMutualNames(name : any)
@@ -376,19 +376,14 @@ getUsersLikePosts(name:any):Observable<userscommentposts[]>{
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     var myName=sessionStorage.getItem('myName') || '';
     const params = new HttpParams().set("myName", myName).set('name', name);
-    return this.http.get<MutualFriends>(`${environment.apiUrl}User/GetMutualOfUser`, { 'headers': headers, 'params': params })
-    
+    return this.http.get<MutualFriends>(`${environment.apiUrl}User/GetMutualOfUser`, { 'headers': headers, 'params': params })   
   }
-
-
   // public getuserprofiledetail(): Observable<profile> {
   //   const headers = new HttpHeaders({ 'content-type': 'application/json' });
   //   const params = new HttpParams().set("username", this.myName);
   //   return this.http.get<profile>(`${environment.apiUrl}User/FetchUserDetail`, { 'headers': headers, 'params': params })
   // }
-
   // getAllGroups(username: string) {
-
   //   const headers = new HttpHeaders({ 'content-type': 'application/json' });
   //   const params = new HttpParams().set("username", username);
   //   return this.http.get<groupname[]>(`${environment.apiUrl}User/GetGroups`, { 'headers': headers, 'params': params }).subscribe({

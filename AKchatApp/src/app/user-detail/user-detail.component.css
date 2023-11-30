@@ -37,11 +37,9 @@
 
 .user-image{
     background: white;
-   
-    border-radius: 50%;
-  
-}
 
+    border-radius: 50%; 
+}
 .user-text{
     height: 200px;
     width: 200px;

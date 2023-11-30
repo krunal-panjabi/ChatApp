@@ -7,6 +7,7 @@ import { UsersService } from './users.service';
 })
 export class GalleryService {
   galleryData: GalleryData[] = [];
+  myposts:GalleryData[]=[];
   constructor(public service: UsersService) {}
 
   // changeOrderById(postid:any){

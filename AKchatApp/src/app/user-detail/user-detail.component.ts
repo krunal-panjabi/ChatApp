@@ -7,6 +7,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { userslikepostsdata } from '../Models/userslikepostsdata';
 import { GalleryService } from '../gallery.service';
 import { Router } from '@angular/router';
+import { GalleryData } from '../Models/galleryData';
 
 @Component({
   selector: 'app-user-detail',
@@ -21,6 +22,7 @@ export class UserDetailComponent {
   coverUrl: string ='';
   userslist:string[]=[];
   posts: any[] = [];
+  myposts:GalleryData[]=[];
   names:string[]=[];
   images:string[]=[];
   filteredlist:string[]=[];
@@ -49,10 +51,7 @@ export class UserDetailComponent {
 
   constructor(public service: UsersService,private router:Router,private sanitizer: DomSanitizer,public galleryservice:GalleryService) {
     this.sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(this.htmlContent);
-    // this.subscription = this.service.data$.subscribe((data: any) => {
-    //   this.username = data; 
-    //   alert('Data received in UserDetailsComponent: ' + this.username);
-    // });
+    
   }
 
   back() {
@@ -61,31 +60,29 @@ export class UserDetailComponent {
   redirectToPost(postid:any){
     this.isLoading = true; 
       
-      timer(2000) // Emit a value after 1 second
-        .pipe(take(1)) // Take only one emitted value
+      timer(2000) 
+        .pipe(take(1)) 
         .subscribe(() => {
-          this.isLoading = false; // Deactivate loading screen after 1 second
+          this.isLoading = false; 
         });
     this.galleryservice.changeOrderById(postid);
      setTimeout(() => {
       this.router.navigateByUrl('/gallery');
-    }, 1000); // 2000 milliseconds (2 seconds)
+    }, 1000); 
 
   }
-  // showAlert(){
-  //   alert("woohoo this worked");
-    
-  //    this.ngOnInit()
-  // }
+
+
   changediv(number:any,name:any){
     this.isLoading = true; 
       
       timer(500) 
         .pipe(take(1)) 
         .subscribe(() => {
-          this.isLoading = false; // Deactivate loading screen after 1 second
+          this.isLoading = false; 
         });
     this.selecteddiv=number;
+
     if(number===2){
       this.service.getUsersLikePosts(name).subscribe({
         next: (data) => {
@@ -126,6 +123,7 @@ export class UserDetailComponent {
     this.selecteddiv=1;
     this.posts=[];
     this.likeposts=[];
+    this.myposts=[];
     this.isLoading = true; 
       
       timer(2000) // Emit a value after 1 second
@@ -138,8 +136,9 @@ export class UserDetailComponent {
         console.log(data);
         this.service.oneuserdetail = data;
         this.htmlContent=this.service.oneuserdetail.aboutme??'';
-        // this.imageUrl = data.imgstr
-        // this.empForm.patchValue(this.service.singleuser);
+        this.service.getMyGalleryData(data.name).subscribe(data => {
+          this.myposts = data;
+        });
       },
       error: (error) => {
         console.error('Error loading private chats', error);
@@ -153,84 +152,54 @@ export class UserDetailComponent {
       next: (data) => {
          console.log( data);
         this.service.mutualFriends = data;      
-        console.log("mutual friends",this.service.mutualFriends.images)
-  this.names=data.names.split(",")  ;
-  this.images=data.images.split(",")  
-  
+        console.log("mutual friends",this.service.mutualFriends.images);
+  this.names=data.names.split(",");  
+  this.images=data.images.split(",");  
+  console.log("the names and images",this.names,this.images);  
         // this.names = this.service.mutualFriends.names
         // console.log(this.names);
         // this.isLoading = false;
       }, 
-  
      });
-
-
-
 }
 
 ngOnInit(): void {
-
+  this.isLoading = true; 
+      timer(2000) 
+        .pipe(take(1)) 
+        .subscribe(() => {
+          this.isLoading = false; 
+        });
   this.service.getUserDetails(this.receivedData).subscribe({
     next: (data: UserDetails) => {
       console.log(data);
       this.service.oneuserdetail = data;
       this.htmlContent=this.service.oneuserdetail.aboutme??'';
-      // this.imageUrl = data.imgstr
-      // this.empForm.patchValue(this.service.singleuser);
+      this.service.getMyGalleryData(data.name).subscribe(data => {
+        this.myposts = data;
+      });
+      console.log("myposts",this.myposts);
     },
     error: (error) => {
       console.error('Error loading private chats', error);
     }
   });
- 
+
 
   this.service.getMutualNames(this.receivedData).subscribe( {
     next: (data) => {
        console.log( data);
       this.service.mutualFriends = data;      
-      console.log("mutual friends",this.service.mutualFriends.images)
-      this.names=data.names.split(",")  ;
-      this.images=data.images.split(",")  
-
+      console.log("mutual friends",this.service.mutualFriends.images);
+      this.names=data.names.split(",");
+      this.images=data.images.split(",");
+      console.log("the names and images",this.names,this.images);  
       // this.names = this.service.mutualFriends.names
       // console.log(this.names);
     }, 
 
-   });
-
-
-
-  // this.service.getAllUserNames().subscribe({
-  //   next:(data)=>{
-  //     data.forEach(user=>{
-  //       const imgAry = user.mutualimages ? user.mutualimages.split(',') : [];
-  //       const friendsarr = user.mutualnames ? user.mutualnames.split(',') : [];
-  //        const newUser={
-  //          username:user.username,
-  //          status:user.status,
-  //          mutualimages:user.mutualimages,
-  //          imgstr:user.imgstr,
-  //          mutualarr:imgAry,
-  //          mutualfriends:friendsarr
-  //        }
-
-  //        this.service.searchfilteredlist.push(newUser);
-  //        this.service.searchuserlist.push(newUser);
-  //     });
-  //     console.log("the usermutual",this.service.searchfilteredlist);
-  //     this.userslist=data.filter(user=>user.username!==this.service.myName).map(user=>user.username);
-
-  //     this.filteredlist=this.userslist;
-  //   }
-  // })
-
-  // const filteredUsers = this.service.searchfilteredlist.filter(user => user.username === this.service.oneuserdetail.name);
-  //   console.log("user data",filteredUsers);
-  //   const imgArray = filteredUsers.map(user => user.mutualarr);
-  //   const friendNamesArray = filteredUsers.map(user => user.mutualfriends);
-
-
-
+  });
+ 
 
 }
 

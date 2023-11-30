@@ -8,6 +8,7 @@ import { PostCommentComponent } from '../post-comment/post-comment.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersLikedPost } from '../Models/usersLikedPosts';
 import { UserLikedPostsComponent } from '../user-liked-posts/user-liked-posts.component';
+import { GalleryService } from '../gallery.service';
 
 
 @Component({
@@ -19,22 +20,21 @@ export class MyPostsComponent {
   grid = true;
   galleryData: GalleryData[] = [];
   userLikedPost: UsersLikedPost[] = [];
-
-  
-  constructor(public service : UsersService,private modalService:NgbModal,private router:Router,public msgservice:MessageService,private matdialog: MatDialog) {
+           
+           
+  constructor(public service : UsersService,public galleryservice:GalleryService,private modalService:NgbModal,private router:Router,public msgservice:MessageService,private matdialog: MatDialog) {
    }
 
    ngOnInit(): void {
-   this.service.getMyGalleryData(this.service.myName).subscribe(data => {
-    this.galleryData = data;
+  this.service.getMyGalleryData(this.service.myName).subscribe(data => {
+    this.galleryservice.myposts = data;
   });
-}
-
+} 
+  
 comment(postId : any){
   this.matdialog.open(PostCommentComponent,{
     width:'500px',  
     height : '400px',   
-    
     // position:{top:'48px',right:'50px', },
     panelClass: 'custom-dialog-container',
     data:{postId}

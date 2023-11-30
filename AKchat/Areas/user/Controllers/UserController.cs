@@ -602,8 +602,6 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(false);
             }
         }
-
-
         [Authorize]
         [HttpGet("GetStory")]
         public List<AllStoryVm> GetStory(string username)
