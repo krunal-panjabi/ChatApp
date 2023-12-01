@@ -21,9 +21,10 @@ export class UserProfileComponent implements OnInit {
   imageUrl2: string = "";
   fileToUpload!: File;
   file!: File;
-    nameError: boolean = false;
-    emailError:boolean=false;
-    htmlContent = '';
+  file1!:File;
+  nameError: boolean = false;
+  emailError:boolean=false;
+  htmlContent = '';
   empForm: FormGroup;
   oldname = '';
   
@@ -33,9 +34,7 @@ export class UserProfileComponent implements OnInit {
     this.service.getuserprofiledetail().subscribe({
       next: (data: profile) => {
         this.service.singleuser = data;
-
         this.imageUrl2=data.imgstr2 ?? '';
-        //alert("see data")
         console.log(data);
         this.empForm.patchValue(this.service.singleuser);
       },
@@ -106,9 +105,13 @@ export class UserProfileComponent implements OnInit {
       this.nameError = false;
     }
   }
+
+
   updateDate(event: any) {
     this.empForm.get('dob')?.setValue(event.target.value);
   }
+
+
   validateEmail(event: any) {
     if (event && event.target && event.target.value) {
       const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -126,69 +129,78 @@ export class UserProfileComponent implements OnInit {
   
   
   onFormSubmit() {
-   
     // this.button2.nativeElement.click();
     if (this.empForm.valid) {
       // if (
       //   this.empForm.get('name')?.hasError('required') ||
       //   this.empForm.get('email')?.hasError('invalid') ||
-      //   this.empForm.get('name')?.hasError('invalid') ||
+      //   this.empForm.get('name')?.hasError('invalid') |ha|
       //   this.empForm.get('email')?.hasError('required')
       // ) 
       // {
       //   // Do not proceed with submission if there are errors
       //   return;
       // }
-      alert('called');
       this.oldname = this.service.myName;
       if (this.service.myName.trim() !== this.empForm.get('name')?.value.trim()) {
         sessionStorage.setItem('myName', this.empForm.get('name')?.value);
         this.service.myName = this.empForm.get('name')?.value;
         this.service.notifyOthertabsforname();
       }
-    
       this.imageUrl = this.empForm.get('imgstr')?.value;
       this.imageUrl2 = this.empForm.get('imgstr2')?.value;
       
       this.service.imageUrl = this.empForm.get('imgstr')?.value;
-      // Programmatically trigger a click on button2
-      // this.button2.nativeElement.click();
+      
       console.log("the form",this.empForm.value);
-      this.service.uploadfile(this.file, this.service.myName).subscribe(
-        data => {
-          this.service.getuserImage(this.empForm.get('name')?.value).subscribe({
-            next: (data: profile) => {
-              sessionStorage.setItem('userimage', data.imgstr ?? '');
-              this.service.imageUrl = data.imgstr ?? '';
-              console.log("the iamge", data.imgstr);
-            },
-            error: (error) => {
-              console.error('Error loading private chats', error);
-            }
-          });
-        }
-      );
+      if(this.file){
+     
+        this.service.uploadfile(this.file, this.service.myName).subscribe(
+          data => {
+            this.service.getuserImage(this.empForm.get('name')?.value).subscribe({
+              next: (data: profile) => {
+                sessionStorage.setItem('userimage', data.imgstr ?? '');
+                this.service.imageUrl = data.imgstr ?? '';
+                console.log("the iamge", data.imgstr);
+              },
+              error: (error) => {
+                console.error('Error loading private chats', error);
+              }
+            });
+          }
+        );
+      }
+    
       this.service.postFile(this.empForm.value, this.oldname).subscribe({
         next: (response) => {
           console.log(response);
-          this.service.getuserImage(this.empForm.get('name')?.value).subscribe({
-            next: (data: profile) => {
-              sessionStorage.setItem('userimage', data.imgstr ?? '');
-              this.service.imageUrl = data.imgstr ?? '';
-              console.log("the iamge", data.imgstr);
-            },
-            error: (error) => {
-              console.error('Error loading private chats', error);
-            }
-          });
+          // this.service.getuserImage(this.empForm.get('name')?.value).subscribe({
+          //   next: (data: profile) => {
+          //     sessionStorage.setItem('userimage', data.imgstr ?? '');
+          //     this.service.imageUrl = data.imgstr ?? '';
+          //     console.log("the iamge", data.imgstr);
+          //   },
+          //   error: (error) => {
+          //     console.error('Error loading private chats', error);
+          //   }
+          // });
         },
         error: (error) => {
           console.log(error);
         },
     });
     }
+  }
 
-
+  handleFileInput2(event: any) {
+    let reader = new FileReader();
+    this.file1 = event.target.files[0];
+    reader.onload = (event: any) => {
+      this.imageUrl2 = event.target.result;
+      this.service.coverimg=event.target.result;
+      this.empForm.get('imgstr2')?.setValue(event.target.result);
+    };
+    reader.readAsDataURL(this.file1);
   }
 
   handleFileInput(event: any) {
@@ -197,23 +209,10 @@ export class UserProfileComponent implements OnInit {
     reader.onload = (event: any) => {
       this.imageUrl = event.target.result;
       this.empForm.get('imgstr')?.setValue(event.target.result);
+      console.log("the image",event.target.result);
     };
     reader.readAsDataURL(this.file);
-  }
-
-  handleFileInput2(event: any) {
-    let reader = new FileReader();
-    this.file = event.target.files[0];
-    reader.onload = (event: any) => {
-      this.imageUrl2 = event.target.result;
-      this.service.coverimg=event.target.result;
-      this.empForm.get('imgstr2')?.setValue(event.target.result);
-    };
-    reader.readAsDataURL(this.file);
-  }
-
-
-
+  }   
 
 
   abc() {

@@ -65,7 +65,7 @@ namespace AKchat.Areas.user.Controllers
                 }
                 return Ok("Name in use");
             }
-            var invalid_response = new { message = "Invalid" };
+            var invalid_response = new { message = "Invalid"};
             return Ok(invalid_response);
         }
         [Authorize]
@@ -80,7 +80,7 @@ namespace AKchat.Areas.user.Controllers
             var imageFile = httpRequest.Form.Files["Image"];
             string name = httpRequest.Form["name"].ToString();
             string angpath = Constants.ANGULAR_ABSOLUTE_PATH + imageFile.FileName;
-            if (imageFile == null)
+            if(imageFile == null)
             {
                 return BadRequest("No image file uploaded.");
             }

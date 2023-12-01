@@ -313,6 +313,7 @@ getUsersLikePosts(name:any):Observable<userscommentposts[]>{
     console.log("the userdata",profiledata);
     return this.http.post(`${environment.apiUrl}User/ProfileData`, profiledata);
   }
+  
   public uploadfile(fileToUpload: File, name: string) {
     alert('hii');
     const endpoint = `${environment.apiUrl}User/uploadphoto`;
