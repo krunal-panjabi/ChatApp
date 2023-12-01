@@ -154,6 +154,23 @@ export class UserProfileComponent implements OnInit {
       // Programmatically trigger a click on button2
       // this.button2.nativeElement.click();
       console.log("the form",this.empForm.value);
+
+      this.service.uploadfile(this.file, this.service.myName).subscribe(
+        data => {
+          this.service.getuserImage(this.empForm.get('name')?.value).subscribe({
+            next: (data: profile) => {
+              sessionStorage.setItem('userimage', data.imgstr ?? '');
+              this.service.imageUrl = data.imgstr ?? '';
+              console.log("the iamge", data.imgstr);
+            },
+            error: (error) => {
+              console.error('Error loading private chats', error);
+            }
+          });
+        }
+      );
+
+      
       this.service.postFile(this.empForm.value, this.oldname).subscribe({
         next: (response) => {
           console.log(response);
