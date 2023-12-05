@@ -23,6 +23,7 @@ isGreenActive: boolean = true;
 userctrl = new FormControl('');
 filteredlist:string[]=[];
 userlist:string[]=[];
+shouldShowDiv: boolean = true;
 private routerSubscription: Subscription;
 // searchVisible: boolean = false;
 
@@ -42,6 +43,8 @@ isDropdownVisible = false;
 
     if (currentUrl.includes('chat')) {
       console.log('This is the chatpage!');
+      this.shouldShowDiv = true;
+
       // Perform actions specific to the chatpage
     } else {
       console.log('This is not the chatpage.');
@@ -50,7 +53,7 @@ isDropdownVisible = false;
       // this.service.clearFilteredUsers();
     this.service.reintialized();
 
-      this.isDropdownVisible = !this.isDropdownVisible;
+      this.shouldShowDiv = false;
       // Perform other actions
     }
   }

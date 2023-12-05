@@ -15,7 +15,17 @@
                 <div class="card mt-3 " style="width: fit-content;height: fit-content;">
                     <div class="m-3 justify-content-between d-flex">
                         <div class="d-flex align-items-center">
-                            <img class="user-image me-2" [src]="data.userimage" alt="">
+
+                            <ng-container *ngIf="data.userimage;else noofflineuser">
+                                <img class="user-image me-2" [src]="data.userimage" alt="">
+                            </ng-container>
+
+                            <ng-template #noofflineuser>
+
+                                <div class="user-text me-2">{{data.uploadedUser.charAt(0)}}</div>
+                            </ng-template>
+
+
                             <span class="navbar-brand me-1">{{ data.uploadedUser }}</span>
                             <span *ngIf="data.tagnames" class="navbar-brand">has tagged
                                 <ng-container

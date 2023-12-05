@@ -55,22 +55,23 @@
 
 
 
-        <div class="dropdown" style="margin: auto;">
-          <button (click)="toggleDropdown()" class="dropbtn"
+        <!-- <div class="dropdown" style="margin: auto;"> -->
+        <!-- <button (click)="toggleDropdown()" class="dropbtn"
             style="padding: 0px;background-color: transparent;position: relative;z-index: 2;">
             <i class="bi bi-search me-2"
               style="color: rgb(175, 175, 175); font-size: 22px;-webkit-text-stroke: 1px;"></i>
-          </button>
-          <div id="myDropdown" style="border: 0px;" class="dropdown-content" [ngClass]="{'show': isDropdownVisible}">
-            <div class="input-container" style="padding: 0px;">
-              <input #myInput type="text" placeholder="Search.." id="myInput" [formControl]="userctrl"
-                (input)="onUserSearch()" style="position: absolute;
-              right: 28px;
-              bottom: 0px;
-              height: 20px;">
-            </div>
-          </div>
-        </div>
+          </button> -->
+        <!-- <div id="myDropdown" style="border: 0px;" class="dropdown-content"> -->
+        <!-- <div class="input-container" style="padding: 0px;"> -->
+        <input #myInput class="ps-2" *ngIf="shouldShowDiv" type="text" placeholder="Search.." id="myInput"
+          [formControl]="userctrl" (input)="onUserSearch()" style="position: absolute;
+          right: 210px;
+          bottom: 0px;
+          height: 34px;
+          width: 170px;border-radius: 12px;padding: 0px;">
+        <!-- </div> -->
+        <!-- </div> -->
+        <!-- </div> -->
         <!-- 
         <div class="dropdown" style="margin: auto;">
           <button (click)="toggleDropdown()" class="dropbtn"
@@ -153,13 +154,13 @@
               <span style="margin-right: 23px;"><a (click)="logout()">LogOut</a></span>
             </div>
 
-          
+
 
           </div>
         </div>
       </div>
 
-      
+
 
     </div>
   </div>
