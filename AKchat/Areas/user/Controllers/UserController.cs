@@ -619,6 +619,7 @@ namespace AKchat.Areas.user.Controllers
             var story = _userrepo.GetStory(username);
             return story;
         }
+
         [Authorize]
         [HttpGet("GetUsersLikeCommentData")]
         public List<UsersLikeCommentPostsVm> GetUsersLikeCommentData(string username)
@@ -626,6 +627,7 @@ namespace AKchat.Areas.user.Controllers
             var data = _userrepo.GetUsersLikeCommentData(username);
             return data;
         }
+
         [Authorize]
         [HttpGet("GetUsersCommentData")]
         public List<UsersLikeCommentPostsVm> GetUsersCommentData(string username)
@@ -633,13 +635,15 @@ namespace AKchat.Areas.user.Controllers
             var data = _userrepo.GetUsersCommentData(username);
             return data;
         }
-        [Authorize]
+
+        [Authorize]                  
         [HttpGet("GetUsersLikeData")]
         public List<UsersLikePostDataVm> GetUsersLikeData(string username)
         {
             var data = _userrepo.GetUsersLikeData(username);
             return data;
         }
+
         [Authorize]
         [HttpGet("UsersLikedPost")]
         public List<UsersLikedPostVm> UsersLikedPost(int imageId)

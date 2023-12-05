@@ -7,7 +7,9 @@ import { UsersService } from './users.service';
 })
 export class GalleryService {
   galleryData: GalleryData[] = [];
+  filtergalleryData:GalleryData[]=[];
   myposts:GalleryData[]=[];
+  filterAlert=false;
   constructor(public service: UsersService) {}
 
   // changeOrderById(postid:any){
@@ -22,10 +24,10 @@ export class GalleryService {
   //   });
   // }
   changeOrderById(postid: any) {
-    if (this.galleryData.length === 0) {
-      alert('if');
+    if (this.filtergalleryData.length === 0) {
+      this.filtergalleryData=this.galleryData;
       this.service.getGalleryData(this.service.myName).subscribe(data => {
-        this.galleryData = data.sort((a, b) => {
+        this.filtergalleryData = data.sort((a, b) => {
           if (a.galleryId === postid) {
             return -1; 
           } else if (b.galleryId === postid) {
@@ -36,8 +38,8 @@ export class GalleryService {
         });
       });
     } else {
-      alert('else');
-      this.galleryData = this.galleryData.sort((a, b) => {
+      this.filtergalleryData=this.galleryData;
+      this.filtergalleryData = this.filtergalleryData.sort((a, b) => {
         if (a.galleryId === postid) {
           return -1; 
         } else if (b.galleryId === postid) {

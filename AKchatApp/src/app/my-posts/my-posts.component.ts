@@ -27,7 +27,8 @@ export class MyPostsComponent {
 
    ngOnInit(): void {
   this.service.getMyGalleryData(this.service.myName).subscribe(data => {
-    this.galleryservice.myposts = data;
+    this.galleryData = data;
+    console.log('the data',this.galleryData);
   });
 } 
   
@@ -40,6 +41,7 @@ comment(postId : any){
     data:{postId}
    })
 }
+
 likes(imageId: any){
   // this.service.UsersLikedPost(imageId).subscribe(data => {
   //   this.userLikedPost = data;

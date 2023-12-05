@@ -328,12 +328,9 @@ namespace AKchat.Hubs
             string[] namearr = _chatServices.GetOnlineUsers();
 
             foreach (string item in namearr)
-            {
-               
-                
+            { 
                     var toConnectionId = _chatServices.GetConnectionIdByUser(item);
-                    await Groups.AddToGroupAsync(toConnectionId, privateGroupName);
-                
+                    await Groups.AddToGroupAsync(toConnectionId, privateGroupName);   
             }
 
             await Clients.Group(privateGroupName).SendAsync("LiveStory");

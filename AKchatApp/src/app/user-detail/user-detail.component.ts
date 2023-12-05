@@ -2,11 +2,11 @@ import { Component,EventEmitter,Inject,Input,OnInit, Output } from '@angular/cor
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UsersService } from '../users.service';
 import { UserDetails } from '../Models/userDetails';
-import { Subscription, take, timer } from 'rxjs';
+import { filter, Subscription, take, timer } from 'rxjs';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { userslikepostsdata } from '../Models/userslikepostsdata';
 import { GalleryService } from '../gallery.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { GalleryData } from '../Models/galleryData';
 
 @Component({
@@ -60,15 +60,17 @@ export class UserDetailComponent {
   }
   redirectToPost(postid:any){
     this.isLoading = true; 
-      
+    this.galleryservice.filterAlert=true;
       timer(2000) 
         .pipe(take(1)) 
         .subscribe(() => {
           this.isLoading = false; 
         });
+    
     this.galleryservice.changeOrderById(postid);
      setTimeout(() => {
       this.router.navigateByUrl('/gallery');
+      // this.galleryservice.filterAlert=false;
     }, 1000); 
 
   }
@@ -195,8 +197,7 @@ ngOnInit(): void {
       this.names=data.names.split(",");
       this.images=data.images.split(",");
       console.log("the names and images",this.names,this.images);  
-      // this.names = this.service.mutualFriends.names
-      // console.log(this.names);
+      
     }, 
 
   });

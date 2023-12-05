@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { data } from 'jquery';
 import { OfflineUsers } from '../Models/OfflineUsers';
 import { userslikepostsdata } from '../Models/userslikepostsdata';
+import { GalleryService } from '../gallery.service';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class UploadGalleryComponent implements OnInit {
   showMore = false;
   maxCommentsToShow = 2;
   selectedProfiles: Set<string> = new Set();
-  constructor(private formBuilder: FormBuilder, public service: UsersService, private router: Router, private renderer: Renderer2, private elementRef: ElementRef) {
+  constructor(private formBuilder: FormBuilder,public galleryservice:GalleryService ,public service: UsersService, private router: Router, private renderer: Renderer2, private elementRef: ElementRef) {
     this.galleryForm = this.formBuilder.group({
       caption: '',
       imgstr: ''
@@ -182,6 +183,7 @@ export class UploadGalleryComponent implements OnInit {
 
   onFormSubmit() {
     const formValue = this.galleryForm.value;
+    this.galleryservice.filterAlert=false;
     const postData: GalleryData = {
       caption: formValue.caption,
       imgstr: formValue.imgstr,

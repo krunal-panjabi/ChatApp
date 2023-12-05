@@ -15,6 +15,7 @@ import { GalleryService } from '../gallery.service';
 })
 export class PhotoGalleryComponent {
   showAllNames = false;
+  filterAlert=false;
 //  galleryData: GalleryData[] = [];
   constructor(public service: UsersService,public galleryservice:GalleryService ,private router: Router,private matdialog: MatDialog) {
     if(window.location.pathname !== "/chat")
@@ -54,23 +55,25 @@ export class PhotoGalleryComponent {
   this.service.deleteMyPost(id).subscribe({
     next:()=>{
       this.ngOnInit();
-      // this.service.LiveStory();
-  
     }
-  
   })
-
  }
 
-
-
  fetchGalleryData() {
-  if(this.galleryservice.galleryData.length===0){
+  if(!this.galleryservice.filterAlert){
+    this.filterAlert=false;
     this.service.getGalleryData(this.service.myName).subscribe(data => {
       this.galleryservice.galleryData = data;
     });
   }
-  
+  else if(this.galleryservice.filtergalleryData.length>0){
+    this.galleryservice.filterAlert=false;
+    this.filterAlert=true;
+  }  
+}
+
+getGalleryData(): GalleryData[] {
+  return this.filterAlert ? this.galleryservice.filtergalleryData : this.galleryservice.galleryData;
 }
 
 toggleHeartClass(id:any,uUser:string) {
@@ -78,13 +81,21 @@ toggleHeartClass(id:any,uUser:string) {
   const myName = this.service.myName;
   this.service.sendGalleryData(id,myName).subscribe({
     next:(data)=>{
-      // alert('next');
-      this.service.getGalleryData(this.service.myName).subscribe({
-        next:(data)=>{
-          this.service.likePost(uUser);
-          this.galleryservice.galleryData = data;
-        }
-      })
+      const index = this.galleryservice.galleryData.findIndex((item) => item.galleryId === id);
+      this.galleryservice.galleryData[index]!.currentUserLiked = this.galleryservice.galleryData[index]!.currentUserLiked === 1 ? 0 : 1;
+      if(this.galleryservice.galleryData[index].currentUserLiked===1){
+        this.galleryservice.galleryData[index]!.likeCount=(this.galleryservice.galleryData[index]!.likeCount ?? 0) + 1;
+      }
+      else if((this.galleryservice.galleryData[index]?.likeCount ?? 0) > 0) {
+        this.galleryservice.galleryData[index]!.likeCount = (this.galleryservice.galleryData[index]?.likeCount ?? 0) - 1;
+      }
+      //this.galleryservice.galleryData[index]!.currentUserLiked = 1;
+      //this.service.getGalleryData(this.service.myName).subscribe({
+      //   next:(data)=>{
+      //     this.service.likePost(uUser);
+      //     this.galleryservice.galleryData = data;
+      //   }
+      // })
     },
     error:(error)=>{
       console.log('error ')

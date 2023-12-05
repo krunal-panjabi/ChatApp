@@ -8,6 +8,7 @@ import { NotificationComponent } from '../notification/notification.component';
 import { FormControl } from '@angular/forms';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Subscription, filter } from 'rxjs';
+import { GalleryService } from '../gallery.service';
 
 @Component({
   selector: 'app-header',
@@ -28,7 +29,7 @@ private routerSubscription: Subscription;
 isDropdownVisible = false;
 
 
-  constructor(public service: UsersService, private router: Router, private route: ActivatedRoute,private matdialog: MatDialog) { 
+  constructor(public service: UsersService,public galleryservice:GalleryService ,private router: Router, private route: ActivatedRoute,private matdialog: MatDialog) { 
     this.routerSubscription = this.router.events
     .pipe(filter((event) => event instanceof NavigationEnd))
     .subscribe(() => {
@@ -106,9 +107,11 @@ isDropdownVisible = false;
     sessionStorage.clear();
     this.service.myName = '';
     this.service.reintialized();
-      this.service.notifyOtherTabs();
-      this.userctrl.setValue(null);
-     
+    this.service.notifyOtherTabs();
+    this.userctrl.setValue(null);
+    this.galleryservice.filterAlert=false;
+    this.galleryservice.galleryData=[];
+    this.galleryservice.filtergalleryData=[];
     this.router.navigateByUrl('/login');
   }
  
