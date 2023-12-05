@@ -27,7 +27,7 @@ export class MyPostsComponent {
 
    ngOnInit(): void {
   this.service.getMyGalleryData(this.service.myName).subscribe(data => {
-    this.galleryservice.myposts = data;
+    this.galleryData = data;
   });
 } 
   

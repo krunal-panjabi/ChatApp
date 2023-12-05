@@ -54,19 +54,33 @@
 
 
 .user-text{
-    height: 140px;
-    width: 140px;
+    height: 100%;
+    width: 100%;
     /* height: 88px; width: 88px; */
      border-radius: 50%;
-    background-color: rgb(231, 231, 231);
+    background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: red;
+    color: rgb(255, 30, 30);
     font-weight: 600;
     font-size: xxx-large;
 }
 
+
+.user-text-cover{
+    height: 100%;
+    width: 100%;
+    /* height: 88px; width: 88px; */
+     border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #585858;
+    font-weight: 100;
+    font-size: xxx-large;
+}
 
 .image-input-cover{
     height:100%;
@@ -92,9 +106,9 @@
 
 .edit-pencil{
     position: absolute;
-    right: 52px;
+    right: 20px;
     opacity: 0.7;
-    bottom: 54px;
+    bottom: 4px;
     background-color: #ababab;
     height: 35px;
     width: 35px;
