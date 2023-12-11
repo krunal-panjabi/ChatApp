@@ -70,7 +70,7 @@
             <div class="col-lg-8">
                 <app-story></app-story>
 
-                <div class="p-2 mt-3"
+                <div class="p-2 mt-3 searchdiv"
                     style="border-radius: 22px;background-color: rgb(218 255 211);; width: 65%; position: absolute; height: 54vh; overflow-y: auto;overflow-x: hidden; padding: 10px;">
 
                     <div class="row mt-2" *ngIf="service.isdivvalid">
@@ -82,10 +82,10 @@
                                 style=" border: solid black 1px;box-shadow: 3px 4px 12px grey;border-radius: 12px; background-color: white">
                                 <div class="mt-2 d-flex justify-content-center">
                                     <div class="card me-2 mb-2" (click)="userDetail(user.username)"
-                                        style="width: 190px;height: 190px;border-radius: 50%; display: flex;justify-content: center;">
+                                        style="width: 85%;height: 190px;border-radius: 50%; display: flex;justify-content: center;">
 
                                         <ng-container *ngIf="user.imgstr;else noofflineuser">
-                                            <img style="width: 190px;height: 190px;border-radius: 50%;"
+                                            <img style="width: 100%;height: 190px;border-radius: 50%;"
                                                 class="card-img-top" [src]="user.imgstr" alt="">
                                         </ng-container>
                                         <ng-template #noofflineuser>
@@ -214,7 +214,7 @@
     <!-- </div> -->
 
     <div class="tabsbody d-none">
-        <mat-tab-group color="transparent">
+        <mat-tab-group color="transparent" [selectedIndex]="1">
             <mat-tab label="Chats">
                 <div class="section1">
                     <div class="d-flex justify-content-between sec1_grp my-3">
@@ -348,8 +348,107 @@
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab label="GeneralChat">
+            <mat-tab label="Searched Users">
                 <div class="card border-secondary g1-chat">
+
+                    <div class="p-2 mt-3 ms-1 searchdiv" *ngIf="displayComponent === 'A'"
+                        style="border-radius: 22px;background-color: rgb(218 255 211);; width: 98%; position: absolute; height: 94%; overflow-y: auto;overflow-x: hidden; padding: 10px;">
+
+                        <div class="row mt-2" *ngIf="service.isdivvalid">
+                            <p class="text-center mb-3" style="font-size: x-large;font-weight: 800;">Searched Users</p>
+
+                            <div class="mb-3" *ngFor="let user of service.searchfilteredlist"
+                                [ngClass]="grid ? 'col-4' : 'col-12'">
+                                <div
+                                    style=" border: solid black 1px;box-shadow: 3px 4px 12px grey;border-radius: 12px; background-color: white">
+                                    <div class="mt-2 d-flex justify-content-center">
+                                        <div class="card me-2 mb-2" (click)="userDetail(user.username)"
+                                            style="width: 85%;height: 190px;border-radius: 50%; display: flex;justify-content: center;">
+
+                                            <ng-container *ngIf="user.imgstr;else noofflineuser">
+                                                <img style="width: 100%;height: 190px;border-radius: 50%;"
+                                                    class="card-img-top" [src]="user.imgstr" alt="">
+                                            </ng-container>
+                                            <ng-template #noofflineuser>
+
+                                                <div class="user-text me-2">{{user.username.charAt(0)}}</div>
+                                            </ng-template>
+
+                                        </div>
+                                    </div>
+                                    <div class="card-body text-center " style="background-color:transparent">
+                                        <span class="card-text"
+                                            style="font-size: large;font-weight: 600;">{{user.username}}
+                                        </span>
+
+                                    </div>
+
+                                    <div class="d-flex justify-content-between">
+                                        <button [class]="user.status === 0 ? 'btn btn-primary' : 'btn btn-secondary'"
+                                            (click)="requestUser(user.username)" [disabled]="user.status === 1"
+                                            class="card-text"
+                                            style="font-size: larger; font-weight: 500; margin: 0 auto; width: fit-content; text-align: center;">
+                                            <i class="ms-1"
+                                                [class]="user.status === 1 ? 'bi bi-check' : 'bi bi-person-fill-add'"></i>
+                                            <span class="ms-2 me-1" *ngIf="user.status === 1">Following</span>
+                                            <span class="ms-2 me-1" *ngIf="user.status === 0">Follow</span>
+                                        </button>
+                                        <div class="me-2" style="text-align: right;display: flex;align-items: center;"
+                                            (click)="openPrivateChat(user.username, user.imgstr)"
+                                            *ngIf="user.status === 1">
+                                            <i class="bi bi-send-fill" style="font-size: x-large;"></i>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="mt-2 mb-2 d-flex justify-content-center align-items-center"
+                                        style="    background-color: #e3e3e3;">
+
+
+
+                                        <span class="me-3" style="color: purple;font-weight: 600;"> mutual
+                                            Friends</span>
+                                        <button style="padding: 0px;background-color: transparent;border: 0px;">
+                                            <ng-container *ngIf="user!.mutualarr!.length > 0; else nomutual">
+                                                <button style="border: 0px;background-color: transparent"
+                                                    (click)="openDialog(user.username)">
+                                                    <ng-container
+                                                        *ngFor="let img of user!.mutualarr; let imgId = index">
+                                                        <ng-container *ngIf="imgId < 3">
+                                                            <img style="width: 20px; height: 20px; border-radius: 50%; border: solid black 1px;"
+                                                                [src]="img ?? '/assets/img/profile.png'">
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </button>
+                                            </ng-container>
+
+                                            <ng-template #nomutual>
+                                                <div style="cursor:default">
+                                                    <span>No Mutual Users</span>
+                                                </div>
+
+                                            </ng-template>
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-container *ngIf="displayComponent === 'B'">
+                        <div class="col-12" style="background-color: whitesmoke;">
+                            <app-user-detail [receivedData]="dataToSend"
+                                (dataEvent)="receiveDataFromChild($event) "></app-user-detail>
+                        </div>
+                    </ng-container>
+
+
+
+
+                    <!-- 
                     <div class="card-header h3 text-muted text-center">General Chat</div>
                     <div class="card-body" style="min-height: 500px;background-color: white;">
                         <app-messages [messages]="service.messages"></app-messages>
@@ -357,8 +456,11 @@
                     </div>
                     <div class="card-footer">
                         <app-chat-input-general (contentemitter)="sendMessage($event)"></app-chat-input-general>
-                        <!-- <app-chat-input (contentemitter)="sendMessage($event)"></app-chat-input> -->
-                    </div>
+                    </div> -->
+
+
+
+
                 </div>
             </mat-tab>
             <mat-tab label="Stories">

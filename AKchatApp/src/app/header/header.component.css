@@ -55,8 +55,9 @@ hr {
     width: 28px;
     position: absolute;
     right: 30px;
-    top:-2px;
+    top: -2px;
 }
+
 hr {
     color: white;
 }
@@ -87,7 +88,7 @@ hr {
     /* margin-top: 63px !important; */
 }
 
-.main-content-wrapper >*{
+.main-content-wrapper>* {
     width: 22%;
     height: 40px;
     display: block;
@@ -170,9 +171,11 @@ input[type=checkbox] {
     box-sizing: border-box;
     float: left;
 }
-.maintitle{
+
+.maintitle {
     font-size: 28px;
 }
+
 .diagonal.part-2 {
     transition: all 0.3s;
     box-sizing: border-box;
@@ -194,6 +197,209 @@ input[type=checkbox]:checked~.sidebarIconToggle>.diagonal.part-1 {
     margin-top: 8px;
 }
 
+input[type=checkbox]:checked~.sidebarIconToggle>.diagonal.part-2 {
+    transition: all 0.3s;
+    box-sizing: border-box;
+    transform: rotate(-135deg);
+    margin-top: -9px;
+}
+
+@media screen and (max-width: 950px) {
+    .sidebarIconToggle {
+        display: block;
+    }
+
+    /* .dropdown {
+        display: none !important;
+    } */
+
+}
+
+@media screen and (max-width: 845px) {
+    /* .myInput{
+        display: none;
+    } */
+
+    .myInput {
+        box-sizing: border-box;
+        /* background-image: url('searchicon.png'); */
+        background-position: 14px 12px;
+        background-repeat: no-repeat;
+        font-size: 16px;
+        padding: 14px 20px 12px 45px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+@media screen and (max-width:940px) {
+    .togglebody {
+        display: block !important;
+    }
+
+    .dropdown {
+        display: none !important;
+    }
+
+    .bellicon {
+        display: block !important;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .maintitle {
+        font-size: 26px;
+    }
+}
+
+@media screen and (max-width:600px) {
+    .main-content-wrapper>* {
+        width: 27%;
+    }
+
+    #sidebarMenu {
+        left: 70%;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .bellicon {
+        margin-right: 22px;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .bellicon {
+        margin-right: 45px !important;
+    }
+
+    .maintitle {
+        font-size: 23px;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .bellicon {
+        margin-right: 60px !important;
+    }
+}
+
+@media screen and (max-width:485px) {
+    .bellnoti {
+        display: block !important;
+    }
+}
+
+@media screen and (max-width:450px) {
+    .main-content-wrapper>* {
+        width: 32% !important;
+    }
+
+    #sidebarMenu {
+        left: 65% !important;
+    }
+
+    .maintitle {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width:390px) {
+    .maintitle {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width:1320px) {
+    .myInput {
+        right: 32%;
+        position: absolute;
+        /* box-sizing: border-box;
+        display: none;
+        background-position: 14px 12px;
+        background-repeat: no-repeat;
+        font-size: 16px;
+        padding: 14px 20px 12px 45px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        bottom: 0px;
+        height: 34px;
+        width: 170px;
+        border-radius: 12px;
+        padding: 0px; */
+    }
+}
+
+@media screen and (min-width:1320px) {
+    .myInput {
+        right: 26%;
+        position: absolute;
+        /* box-sizing: border-box;
+        display: none;
+        background-position: 14px 12px;
+        background-repeat: no-repeat;
+        font-size: 16px;
+        padding: 14px 20px 12px 45px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        bottom: 0px;
+        height: 34px;
+        width: 170px;
+        border-radius: 12px;
+        padding: 0px; */
+    }
+}
+
+@media screen and (max-width:1040px) {
+    #myInput {
+
+        position: absolute;
+        right: 115%;
+
+        width: 170px;
+
+    }
+}
+
+@media screen and (max-width:600px) {
+    #myInput {
+        box-sizing: border-box;
+        background-position: 14px 12px;
+        background-repeat: no-repeat;
+        font-size: 16px;
+        padding: 14px 20px 12px 45px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        position: absolute;
+        right: 115%;
+        bottom: 0px;
+        height: 34px;
+        width: 100px;
+        border-radius: 12px;
+        padding: 0px;
+    }
+}
+
+@media screen and (max-width:840px) {
+    #myInput {
+        box-sizing: border-box;
+        background-position: 14px 12px;
+        background-repeat: no-repeat;
+        font-size: 16px;
+        padding: 14px 20px 12px 45px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        position: absolute;
+        right: 100%;
+        bottom: 0px;
+        height: 34px;
+        width: 100px;
+        border-radius: 12px;
+        padding: 0px;
+    }
+}
+
+
 /* search */
 
 /* Dropdown Button */
@@ -204,15 +410,16 @@ input[type=checkbox]:checked~.sidebarIconToggle>.diagonal.part-1 {
     font-size: 16px;
     border: none;
     cursor: pointer;
-  }
-  
-  /* Dropdown button on hover & focus */
-  .dropbtn:hover, .dropbtn:focus {
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover,
+.dropbtn:focus {
     background-color: #3e8e41;
-  }
-  
-  /* The search field */
-  /* #myInput {
+}
+
+/* The search field */
+#myInput {
     box-sizing: border-box;
     background-position: 14px 12px;
     background-repeat: no-repeat;
@@ -221,62 +428,72 @@ input[type=checkbox]:checked~.sidebarIconToggle>.diagonal.part-1 {
     border: none;
     border-bottom: 1px solid #ddd;
     position: absolute;
-  right: 210px;
-  bottom: 8px;
-  height: 34px;
-  width: 170px;border-radius: 12px;
-  }
-   */
-  /* The search field when it gets focus/clicked on */
-  #myInput:focus {outline: 3px solid #ddd;}
-  
-  /* The container <div> - needed to position the dropdown content */
-  .dropdown {
+    /* right: 26%; */
+    bottom: 0px;
+    height: 34px;
+    /* width: 170px; */
+    border-radius: 12px;
+    padding: 0px;
+}
+
+/* The search field when it gets focus/clicked on */
+#myInput:focus {
+    outline: 3px solid #ddd;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
     position: relative;
     display: inline-block;
-  }
-  
-  /* Dropdown Content (Hidden by Default) */
-  .dropdown-content {
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
     display: none;
     position: absolute;
     background-color: #f6f6f6;
     min-width: 230px;
     border: 1px solid #ddd;
     z-index: 1;
-  }
-  
-  /* Links inside the dropdown */
-  .dropdown-content a {
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-  }
-  
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {background-color: #f1f1f1}
-  
-  /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-  .show {display:block;}
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {
+    display: block;
+}
 
 
 
 
 
 
-  /* search */
+/* search */
 
-  .input-container {
+.input-container {
     display: flex;
     align-items: center;
-    padding: 5px; /* Adjust this value to control the vertical position */
-  }
-  
-  /* Adjust the vertical position of the input field */
-  .input-container input {
-    margin-top: 5px; /* Adjust this value to control the vertical position */
-  }
+    padding: 5px;
+    /* Adjust this value to control the vertical position */
+}
+
+/* Adjust the vertical position of the input field */
+.input-container input {
+    margin-top: 5px;
+    /* Adjust this value to control the vertical position */
+}
 
 
 /* new */
@@ -284,32 +501,36 @@ input[type=checkbox]:checked~.sidebarIconToggle>.diagonal.part-1 {
 .dropdown-content {
     position: absolute;
     top: 0;
-    right: 0; /* Initially position it outside the visible area */
-    width: 0; /* Initially, set the width to 0 */
+    right: 0;
+    /* Initially position it outside the visible area */
+    width: 0;
+    /* Initially, set the width to 0 */
     height: 100%;
     background-color: #f1f1f1;
     overflow: hidden;
-    transition: width 0.5s; /* Add a transition for the width property */
-  }
-  
-  .show {
-    /* width: 210px;  */
-  }
-  
-  /* .search-input {
+    transition: width 0.5s;
+    /* Add a transition for the width property */
+}
+
+.show {
+    width: 210px;
+    /* Adjust the width according to your design */
+}
+
+/* .search-input {
     position: absolute;
     bottom: 1px;
     height: 20px;
-    transition: right 1s; 
+    transition: right 1s;
   }
-  
+
   .show .search-input {
-    right: 0; 
+    right: 0;
   }
    */
 
 
-   .user-text{
+.user-text {
     height: 20px;
     width: 20px;
     border-radius: 50%;

@@ -27,16 +27,54 @@ namespace AKchat.Areas.user.Controllers
         private readonly IUserRepository _userrepo;
         private readonly IConfiguration _configuration;
         private readonly ChatServices _chatservices;
-        public UserController(IUserRepository userrepo, IConfiguration configuration,ChatServices chatservices)
+        public UserController(IUserRepository userrepo, IConfiguration configuration, ChatServices chatservices)
         {
             _userrepo = userrepo;
-            _chatservices=chatservices;
+            _chatservices = chatservices;
             _configuration = configuration;
+        }
+
+        public static class CommonMethods
+        {
+
+            public static string key = "akckjk@kyu@";
+            public static string ConvertToEncrypt(string password)
+            {
+                if (string.IsNullOrEmpty(password)) return "";
+                password += key;
+                var passwordBytes = Encoding.UTF8.GetBytes(password);
+                return Convert.ToBase64String(passwordBytes);
+            }
+
+            public static string ConvertToDecrypt(string base64encodeData)
+            {
+                try
+                {
+
+                    if (string.IsNullOrEmpty(base64encodeData)) return "";
+                    var base64EncodeBytes = Convert.FromBase64String(base64encodeData);
+                    var result = Encoding.UTF8.GetString(base64EncodeBytes);
+
+
+                    result = result.Substring(0, result.Length - key.Length);
+                    return result;
+                }
+
+                catch(Exception ex)
+                {
+                    return "";
+
+                }
+            }
+
         }
 
         [HttpPost("Register")]
         public IActionResult Register([FromBody] UserVM model)//company register
         {
+            var Epass = CommonMethods.ConvertToEncrypt(model.password);
+            model.password = Epass;
+
             var count_value = _userrepo.registerrepo(model);
             if (count_value > 0)
             {
@@ -51,18 +89,20 @@ namespace AKchat.Areas.user.Controllers
         [HttpPost("UserLogin")]
         public IActionResult Login([FromBody] UserVM model)
         {
+            var Epass = CommonMethods.ConvertToEncrypt(model.password);
+            model.password = Epass;
             var valid_user = _userrepo.loginrepo(model);
             if (!Convert.ToBoolean(valid_user)) // Result=>   0=false and 1=true 
             {
                 if (_chatservices.AddUserToList(model))
                 {
                     string token = CreateJwt(model.username);
-                    var response = new { Token = token, Success = true,message="Valid" };
+                    var response = new { Token = token, Success = true, message = "Valid" };
                     return Ok(response);
                 }
                 return Ok("Name in use");
             }
-            var invalid_response = new { message = "Invalid"};
+            var invalid_response = new { message = "Invalid" };
             return Ok(invalid_response);
         }
         [Authorize]
@@ -114,7 +154,7 @@ namespace AKchat.Areas.user.Controllers
             var imageFile = httpRequest.Form.Files["Image"];
             string name = httpRequest.Form["name"].ToString();
             string angpath = Constants.ANGULAR_ABSOLUTE_PATH + imageFile.FileName;
-            if(imageFile == null)
+            if (imageFile == null)
             {
                 return BadRequest("No image file uploaded.");
             }
@@ -141,9 +181,9 @@ namespace AKchat.Areas.user.Controllers
             {
                 return Ok(false);
             }
-           
+
         }
-       
+
         /// <summary>
         /// For disling purpose in Grp chat
         /// </summary>
@@ -174,7 +214,7 @@ namespace AKchat.Areas.user.Controllers
         [HttpPost("DisLikemsgbyId")]
         public IActionResult DisLikeMsgById([FromBody] LikeVm model)
         {
-           var count_value = _userrepo.DisLikeEntry(model);
+            var count_value = _userrepo.DisLikeEntry(model);
             if (count_value == 0)
             {
                 return Ok(false);
@@ -189,7 +229,7 @@ namespace AKchat.Areas.user.Controllers
         public IActionResult profiledata([FromBody] ProfileVm model)
         {
             var count_value = _userrepo.profiledata(model);
-              if(count_value > 0)
+            if (count_value > 0)
             {
                 return Ok(true);
             }
@@ -219,16 +259,16 @@ namespace AKchat.Areas.user.Controllers
         public IActionResult LikeMsgByIdGrp([FromBody] LikeVm model)
         {
             var count_value = _userrepo.LikeEntryGrp(model);
-            if(count_value ==0)
+            if (count_value == 0)
             {
                 return Ok(false);
             }
             else
             {
                 return Ok(true);
-           }
+            }
         }
-        
+
 
         [Authorize]
         [SwaggerOperation(Summary = "For like msg")]
@@ -287,9 +327,9 @@ namespace AKchat.Areas.user.Controllers
 
         [Authorize]
         [HttpGet("GetMutualOfUser")]
-        public MutualFriends GetMutualOfUser(string myName,string name)
+        public MutualFriends GetMutualOfUser(string myName, string name)
         {
-            var users = _userrepo.GetMutualOfUser(myName,name);
+            var users = _userrepo.GetMutualOfUser(myName, name);
             return users;
         }
 
@@ -318,7 +358,7 @@ namespace AKchat.Areas.user.Controllers
         public IActionResult GetLikeMmbersGrp(int msgid)
         {
             var members = _userrepo.GetLikeMembersGrp(msgid);
-            if(members!=null)
+            if (members != null)
             {
                 return Ok(members);
             }
@@ -332,10 +372,10 @@ namespace AKchat.Areas.user.Controllers
         public IActionResult DeleteNotiMsg(int msgid)
         {
             var count_value = _userrepo.DeleteNotiMsg(msgid);
-            if(count_value>0)
+            if (count_value > 0)
             {
                 return Ok(true);
-           }
+            }
             else
             {
                 return Ok(false);
@@ -344,7 +384,7 @@ namespace AKchat.Areas.user.Controllers
         [HttpGet("GetNotiMsg")]
         public IActionResult GetNotificationMessages(string username)
         {
-            var messages=_userrepo.GetNotimsgs(username);
+            var messages = _userrepo.GetNotimsgs(username);
             if (messages != null)
             {
                 return Ok(messages);
@@ -373,15 +413,15 @@ namespace AKchat.Areas.user.Controllers
         [HttpGet("GetGroups")]
         public async Task<IActionResult> GetGroups(string username)
         {
-            var grpnames =await _userrepo.GetAllGroupsName(username);
+            var grpnames = await _userrepo.GetAllGroupsName(username);
 
             if (grpnames != null)
             {
-                return Ok(grpnames); 
+                return Ok(grpnames);
             }
             else
             {
-                return NotFound(); 
+                return NotFound();
             }
         }
         [Authorize]
@@ -406,7 +446,8 @@ namespace AKchat.Areas.user.Controllers
         public IActionResult AcceptReq([FromBody] ResponseVm model)
         {
             var count_value = _userrepo.acceptrequest(model);
-            if(count_value>0) {
+            if (count_value > 0)
+            {
                 return Ok(true);
 
             }
@@ -421,7 +462,7 @@ namespace AKchat.Areas.user.Controllers
         public IActionResult DeleteById([FromBody] ResponseVm model)
         {
             var count_value = _userrepo.deletemessage(model);
-            if(count_value > 0)
+            if (count_value > 0)
             {
                 return Ok(true);
             }
@@ -433,11 +474,11 @@ namespace AKchat.Areas.user.Controllers
 
         [Authorize]
         [HttpPost("SelectedUsers")]
-        public IActionResult SelectedUsers([FromBody] Dictionary<string,string> data)
+        public IActionResult SelectedUsers([FromBody] Dictionary<string, string> data)
         {
             string userlist = data["userlist"];
             string name = data["name"];
-      
+
             var count_value = _userrepo.selectedusers(userlist, name);
             if (count_value > 0)
             {
@@ -451,9 +492,17 @@ namespace AKchat.Areas.user.Controllers
 
         [Authorize]
         [HttpGet("LoadInitialPrivateChat")]
-        public async  Task<List<MessageVM>> LoadInitialPrivateChat(string fromUser, string toUser)
+        public async Task<List<MessageVM>> LoadInitialPrivateChat(string fromUser, string toUser)
         {
-            var messages =await _userrepo.loadprivatechat(fromUser, toUser);
+            var messages = await _userrepo.loadprivatechat(fromUser, toUser);
+            //var Epass = CommonMethods.ConvertToDecrypt(messages.);
+            //model.password = Epass;]
+
+            foreach (var message in messages)
+            {
+                //CommonMethods.ConvertToDecrypt(message.Content)
+                message.Content = CommonMethods.ConvertToDecrypt(message.Content);
+            }
             return messages;
         }
         [Authorize]
@@ -465,9 +514,9 @@ namespace AKchat.Areas.user.Controllers
         }
         [Authorize]
         [HttpGet("LoadInitialGroupChat")]
-        public async Task<List<MessageVM>> LoadInitialGroupChat(string grpname,string name)
+        public async Task<List<MessageVM>> LoadInitialGroupChat(string grpname, string name)
         {
-            var messages =await _userrepo.loadgroupchat(grpname,name);
+            var messages = await _userrepo.loadgroupchat(grpname, name);
             return messages;
         }
 
@@ -475,8 +524,8 @@ namespace AKchat.Areas.user.Controllers
         [HttpPost("CreateGroup")]
         public IActionResult CreateGroup([FromBody] GroupVM model)//company register
         {
-            
-            var count_value = _userrepo.creategroup(model.groupName,model.members);
+
+            var count_value = _userrepo.creategroup(model.groupName, model.members);
             if (count_value > 0)
             {
                 return Ok(true);
@@ -498,11 +547,11 @@ namespace AKchat.Areas.user.Controllers
 
         [HttpPost("sendOtp")]
         public IActionResult sendOtp([FromBody] ForgetVm model)//company register
-         {
+        {
             string email = model.email;
             string OTP = GenerateOTP();
             model = new ForgetVm();
-            
+
             model.otp = OTP;
             model.email = email;
 
@@ -582,7 +631,7 @@ namespace AKchat.Areas.user.Controllers
         public IActionResult UploadGalleryData([FromBody] GalleryVm model)//company register
         {
 
-            var count_value = _userrepo.UploadGalleryData(model.caption, model.imgstr, model.uploadedUser,model.tagnames);
+            var count_value = _userrepo.UploadGalleryData(model.caption, model.imgstr, model.uploadedUser, model.tagnames);
             if (count_value > 0)
             {
                 return Ok(true);
@@ -592,7 +641,7 @@ namespace AKchat.Areas.user.Controllers
                 return Ok(false);
             }
         }
-       
+
         [HttpPost("postComment")]
         public IActionResult postComment([FromBody] PostComments model)//company register
         {
@@ -703,16 +752,16 @@ namespace AKchat.Areas.user.Controllers
 
 
         [HttpGet("StoryOfUser")]
-        public StoryVm  StoryOfUser(int userId)
+        public StoryVm StoryOfUser(int userId)
         {
-             var story = _userrepo.StoryOfUser(userId);
+            var story = _userrepo.StoryOfUser(userId);
 
             return story;
         }
 
 
         [HttpPost("deleteStory")]
-        public IActionResult deleteStory([FromBody]int userid)
+        public IActionResult deleteStory([FromBody] int userid)
         {
             var post = _userrepo.deleteStory(userid);
             if (post > 0)
@@ -772,7 +821,7 @@ namespace AKchat.Areas.user.Controllers
         public IActionResult likePost(likePostVm model)
         {
             var post = _userrepo.likePost(model);
-                 if (post > 0)
+            if (post > 0)
             {
                 return Ok(true);
             }

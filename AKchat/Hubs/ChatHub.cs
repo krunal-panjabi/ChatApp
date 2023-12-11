@@ -4,10 +4,12 @@ using Humanizer;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using ViewModels.Models;
 using static Azure.Core.HttpHeader;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace AKchat.Hubs
 {
@@ -20,7 +22,30 @@ namespace AKchat.Hubs
             _userrepo = userrepo;
             _chatServices = chatServices;
         }
-      
+
+        public static class CommonMethods
+        {
+
+            public static string key = "akckjk@kyu@";
+            public static string ConvertToEncrypt(string password)
+            {
+                if (string.IsNullOrEmpty(password)) return "";
+                password += key;
+                var passwordBytes = Encoding.UTF8.GetBytes(password);
+                return Convert.ToBase64String(passwordBytes);
+            }
+
+            public static string ConvertToDecrypt(string base64encodeData)
+            {
+                if (string.IsNullOrEmpty(base64encodeData)) return "";
+                var base64EncodeBytes = Convert.FromBase64String(base64encodeData);
+                var result = Encoding.UTF8.GetString(base64EncodeBytes);
+                result = result.Substring(0, result.Length - key.Length);
+                return result;
+            }
+
+        }
+
         public override async Task OnConnectedAsync()
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, "ChatApp");
@@ -53,6 +78,9 @@ namespace AKchat.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, privateGroupName);
             if (_chatServices.IsUserOnline(message.To))
             {
+
+                var Emsg = CommonMethods.ConvertToEncrypt(message.Content);
+                message.Content = Emsg;
                 message.isread = 1;
                 _userrepo.storechat(message);
                 var toConnectionId = _chatServices.GetConnectionIdByUser(message.To);
@@ -61,6 +89,8 @@ namespace AKchat.Hubs
             }
             else
             {
+                var Emsg = CommonMethods.ConvertToEncrypt(message.Content);
+                message.Content = Emsg;
                 _userrepo.storechat(message);
                 MessageVM model = new MessageVM
                 {
@@ -86,6 +116,11 @@ namespace AKchat.Hubs
             message.likename = "other";
             message.messageLike = 0;
             message.count = 0;
+
+
+            var Emsg = CommonMethods.ConvertToEncrypt(message.Content);
+            message.Content = Emsg;
+
             _userrepo.storechat(message);
             message.time = DateTime.Now.ToString("MMM dd, HH:mm");
             string privateGroupName = GetPrivateGroupName(message.From, message.To);
