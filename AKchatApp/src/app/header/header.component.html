@@ -23,11 +23,28 @@
           <span class="ms-1 d-none d-sm-inline-flex">Home</span>
         </button>
       </div>
+
+
+
+
     </div>
     <div class="col-8 col-sm-7 col-md-7 d-flex justify-content-between header">
       <div>
         <span class="navbar-brand mb-0 h1 maintitle">Chat Application</span>
       </div>
+
+
+      <!--       
+      <input #myInput class="ps-2 myInput" *ngIf="shouldShowDiv" type="text" placeholder="Search.." id="myInput"
+        [formControl]="userctrl" (input)="onUserSearch()" style="position: absolute;
+          right: 210px;
+          bottom: 0px;
+          height: 34px;
+          width: 170px;border-radius: 12px;padding: 0px;"> -->
+      <input #myInput class="ps-2 myInput" *ngIf="shouldShowDiv" type="text" placeholder="Search.." id="myInput"
+        [formControl]="userctrl" (input)="onUserSearch()" style="">
+
+
 
       <div class="dropdown mb-0 d-flex">
 
@@ -63,12 +80,6 @@
           </button> -->
         <!-- <div id="myDropdown" style="border: 0px;" class="dropdown-content"> -->
         <!-- <div class="input-container" style="padding: 0px;"> -->
-        <input #myInput class="ps-2" *ngIf="shouldShowDiv" type="text" placeholder="Search.." id="myInput"
-          [formControl]="userctrl" (input)="onUserSearch()" style="position: absolute;
-          right: 210px;
-          bottom: 0px;
-          height: 34px;
-          width: 170px;border-radius: 12px;padding: 0px;">
         <!-- </div> -->
         <!-- </div> -->
         <!-- </div> -->

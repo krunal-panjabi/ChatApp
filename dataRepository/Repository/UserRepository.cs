@@ -25,7 +25,7 @@ namespace dataRepository.Repository
                 SqlCommand cmd = new SqlCommand("spInsertUser", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@name", model.username);
-                cmd.Parameters.AddWithValue("@password", model.password);
+                cmd.Parameters.AddWithValue("@password",  (model.password));
                 cmd.Parameters.AddWithValue("@email", model.email);
                 con.Open();
                 int value= cmd.ExecuteNonQuery();
