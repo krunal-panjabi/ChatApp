@@ -257,9 +257,9 @@ getUsersLikePosts(name:any):Observable<userscommentposts[]>{
   CheckName(username: string): Observable<any> {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const params = new HttpParams().set("username", username);
-    
     return this.http.get(`${environment.apiUrl}User/CheckForName`, { 'headers': headers, 'params': params })
   }
+
   dislikemessage(mesaageId: any, name: string): Observable<any> {
     const likeentry = {
       msgid: mesaageId,
@@ -313,7 +313,15 @@ getUsersLikePosts(name:any):Observable<userscommentposts[]>{
     console.log("the userdata",profiledata);
     return this.http.post(`${environment.apiUrl}User/ProfileData`, profiledata);
   }
-  
+
+public uploadfileforgroup(fileToUpload:File,name:string){
+  const endpoint = `${environment.apiUrl}User/uploadgrpphoto`;
+  const formData: FormData = new FormData();
+  formData.append('Image', fileToUpload, fileToUpload.name);
+  formData.append('name', name);
+  return this.http
+    .post(endpoint, formData);
+}
   public uploadfile(fileToUpload: File, name: string) {
     alert('hii');
     const endpoint = `${environment.apiUrl}User/uploadphoto`;
@@ -537,6 +545,7 @@ getUsersLikePosts(name:any):Observable<userscommentposts[]>{
   }
 
   createChatConnection() {
+
     this.chatConnection = new HubConnectionBuilder()
       .withUrl(`https://localhost:7239/hubs/chat`, {
         skipNegotiation: true,
@@ -570,7 +579,6 @@ getUsersLikePosts(name:any):Observable<userscommentposts[]>{
     });
 
     this.chatConnection.on('NewMessage', (newMessage: Message) => {
-
       this.messages = [...this.messages, newMessage];
     });
 
@@ -622,10 +630,12 @@ getUsersLikePosts(name:any):Observable<userscommentposts[]>{
       }
     });
    })
+
    this.chatConnection.on('DeclineUser',(name:string)=>{
     this.countmsg=this.countmsg+1;
    })
-    this.chatConnection.on('ReceiveTypingIndicator', (name: string) => {
+
+   this.chatConnection.on('ReceiveTypingIndicator', (name: string) => {
       console.log('the name',name);
       this.privatetypeintiate = true;
       this.isTyping = true;
@@ -634,6 +644,7 @@ getUsersLikePosts(name:any):Observable<userscommentposts[]>{
         this.isTyping = false;
       }, 4000);
     });
+
     this.chatConnection.on('ReceiveTypingIndicatorGrp',(name:string)=>{
       this.grptypeintiate = true;
       this.isTyping = true;

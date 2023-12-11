@@ -24,7 +24,6 @@ namespace AKchat.Areas.user.Controllers
 
     public class UserController : Controller
     {
-
         private readonly IUserRepository _userrepo;
         private readonly IConfiguration _configuration;
         private readonly ChatServices _chatservices;
@@ -33,13 +32,11 @@ namespace AKchat.Areas.user.Controllers
             _userrepo = userrepo;
             _chatservices=chatservices;
             _configuration = configuration;
-         
         }
 
         [HttpPost("Register")]
         public IActionResult Register([FromBody] UserVM model)//company register
         {
-           
             var count_value = _userrepo.registerrepo(model);
             if (count_value > 0)
             {
@@ -67,6 +64,43 @@ namespace AKchat.Areas.user.Controllers
             }
             var invalid_response = new { message = "Invalid"};
             return Ok(invalid_response);
+        }
+        [Authorize]
+        [HttpPost("uploadgrpphoto")]
+        public IActionResult uploadgrpphoto()
+        {
+            var httpRequest = HttpContext.Request;
+            var imageFile = httpRequest.Form.Files["Image"];
+            string name = httpRequest.Form["name"].ToString();
+            string angpath = Constants.ANGULAR_ABSOLUTE_PATH + imageFile.FileName;
+            if (imageFile == null)
+            {
+                return BadRequest("No image file uploaded.");
+            }
+            else
+            {
+                string addpath = Constants.WEBAPI_PATH;
+                var filePath = Directory.GetCurrentDirectory() + addpath + imageFile.FileName;
+                var filepathanguar = Path.Combine(Constants.ANGULAR_RELATIVE_PATH, imageFile.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    imageFile.CopyTo(stream);
+                }
+                using (var stream = new FileStream(filepathanguar, FileMode.Create))
+                {
+                    imageFile.CopyTo(stream);
+                }
+            }
+            var count_value = _userrepo.uploadgrpphoto(angpath, name);
+            if (count_value > 0)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+
         }
         [Authorize]
         [SwaggerOperation(Summary = "Upload Image")]
@@ -233,7 +267,6 @@ namespace AKchat.Areas.user.Controllers
         public IActionResult CheckForName(string username)
         {
             var valid_value = _userrepo.checkforname(username);
-
             if (valid_value == 0)
             {
                 return Ok(false);
@@ -651,9 +684,6 @@ namespace AKchat.Areas.user.Controllers
             var story = _userrepo.UsersLikedPost(imageId);
             return story;
         }
-
-
-
         //[HttpGet("StoryOfUser")]
         //public IActionResult StoryOfUser(StoryVm model)
         //{

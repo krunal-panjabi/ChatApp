@@ -4,6 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { data } from 'jquery';
 import { map, startWith } from 'rxjs';
 import { group } from 'src/app/Models/group';
 import { UsersService } from 'src/app/users.service';
@@ -21,6 +22,8 @@ export class GroupCreateComponent  {
   groupForm : FormGroup = new FormGroup({});
   allnames:string='';
   group:group | undefined;
+  imageUrl: string = "";
+  file!: File;
   userslist:string[]=[];
   constructor(public activeModal: NgbActiveModal, private formBuilder : FormBuilder,public service : UsersService ) {
     this.groupForm = this.formBuilder.group({
@@ -34,6 +37,16 @@ export class GroupCreateComponent  {
   get membersArray(): FormArray {
     return this.groupForm.get('members') as FormArray;
   }
+
+  handleFileInput(event: any) {
+    let reader = new FileReader();
+    this.file = event.target.files[0];
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+      console.log("the image",event.target.result);
+    };
+    reader.readAsDataURL(this.file);
+  }   
 
   
 
@@ -86,6 +99,8 @@ export class GroupCreateComponent  {
   getSelectedUsers() {
     this.selectedUsers.push(this.service.myName);
      this.allnames = this.selectedUsers.join(',');
+    
+   
       this.service.createGroup(this.grpname, this.allnames).subscribe(
         (response) => {
           console.log('Group created:', response);
@@ -106,6 +121,13 @@ export class GroupCreateComponent  {
           console.error('Error creating group:', error);
         }
       );
+      if(this.file){
+        this.service.uploadfileforgroup(this.file,this.grpname).subscribe({
+          next:(data)=>{
+            console.log("the success");
+          }
+        });
+       }
       //this.service.getAllGroups(this.service.myName);
       this.service.callbackend();
     }

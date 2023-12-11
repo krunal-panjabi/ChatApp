@@ -20,12 +20,16 @@ export class MyPostsComponent {
   grid = true;
   galleryData: GalleryData[] = [];
   userLikedPost: UsersLikedPost[] = [];
-           
-           
   constructor(public service : UsersService,public galleryservice:GalleryService,private modalService:NgbModal,private router:Router,public msgservice:MessageService,private matdialog: MatDialog) {
+    if(window.location.pathname === "/chat")
+    {
+      service.isButtonVisisble=true;
+    }
    }
 
    ngOnInit(): void {
+    this.service.myName = sessionStorage.getItem('myName') || '';
+    this.service.imageUrl=sessionStorage.getItem('userimage') || '';
   this.service.getMyGalleryData(this.service.myName).subscribe(data => {
     this.galleryData = data;
     console.log('the data',this.galleryData);

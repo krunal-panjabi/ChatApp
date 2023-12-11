@@ -565,7 +565,8 @@ namespace dataRepository.Repository
                     {
                         AllGroupsVm names = new AllGroupsVm
                         {
-                            groupname = rdr["GrpName"].ToString()
+                            groupname = rdr["GrpName"].ToString(),
+                            imgstr = rdr["Image"].ToString()
                         };
 
                         model.Add(names);
@@ -773,7 +774,21 @@ namespace dataRepository.Repository
                 return row_count;
             }
         }
+        public int uploadgrpphoto(string photo,string name)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("spInsertImageInGrp", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@grpName", name);
+                cmd.Parameters.AddWithValue("@imageSrc", photo);
+                con.Open();
 
+                int row_count = cmd.ExecuteNonQuery();
+
+                return row_count;
+            }
+        }
 
         public int uploadphoto(string photo,string name)
         {
@@ -855,7 +870,7 @@ namespace dataRepository.Repository
 
         public int UploadGalleryData(string caption, string imgstr, string uploadedUser,string tagnames)
         {
-            using (SqlConnection con = new SqlConnection(connections))
+            using(SqlConnection con = new SqlConnection(connections))
             {
                 SqlCommand cmd = new SqlCommand("UploadGalleryData", con);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -864,27 +879,23 @@ namespace dataRepository.Repository
                 cmd.Parameters.AddWithValue("@uploadedUser", uploadedUser);
                 cmd.Parameters.AddWithValue("@tagnames", tagnames);
                 con.Open();
-
                 int row_count = cmd.ExecuteNonQuery();
-
                 return row_count;
             }
-        }
+        }    
 
 
         public int postComment(PostComments model)
         {
             using (SqlConnection con = new SqlConnection(connections))
             {
-                SqlCommand cmd = new SqlCommand("postComments", con);
+                SqlCommand cmd = new SqlCommand("postComments",con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@comment", model.comment);
                 cmd.Parameters.AddWithValue("@commenter", model.commenter);
                 cmd.Parameters.AddWithValue("@postId", model.postId);
                 con.Open();
-
                 int row_count = cmd.ExecuteNonQuery();
-
                 return row_count;
             }
         }

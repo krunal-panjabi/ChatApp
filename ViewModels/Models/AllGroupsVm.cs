@@ -9,5 +9,6 @@ namespace ViewModels.Models
     public class AllGroupsVm
     {
         public string groupname { get; set; }
+        public string? imgstr { get; set; }
     }
 }

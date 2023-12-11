@@ -1,6 +1,4 @@
 <div class="container-fluid mt-5 ">
-
-
     <div class="row mt-3 mainBody" style="margin-bottom: 44px">
         <div class="col-lg-2  ">
             <div class="d-grid mb-2 cpbtn">
@@ -56,7 +54,7 @@
                             <div class="d-grid">
                                 <button (click)="openGroupChat(grp.groupname)" type="button"
                                     class="btn card-text  btn-group mt-1">
-                                    <i class="bi bi-people-fill ms-2" style="font-size: large;"></i> &nbsp;
+                                    <img class="user-image me-2" [src]="grp.imgstr ? grp.imgstr : '/assets/img/profile.png'">&nbsp;
                                     {{grp.groupname}}
                                 </button>
                             </div>
@@ -69,9 +67,7 @@
 
 
         <ng-container *ngIf="displayComponent === 'A'">
-
-            <div class="col-lg-8 ">
-
+            <div class="col-lg-8">
                 <app-story></app-story>
 
                 <div class="p-2 mt-3"
@@ -218,7 +214,7 @@
     <!-- </div> -->
 
     <div class="tabsbody d-none">
-        <mat-tab-group color="transparent" >
+        <mat-tab-group color="transparent">
             <mat-tab label="Chats">
                 <div class="section1">
                     <div class="d-flex justify-content-between sec1_grp my-3">

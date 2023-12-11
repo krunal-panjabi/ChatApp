@@ -91,16 +91,15 @@ img {vertical-align: middle;}
 }
 
 /* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .text {font-size: 11px}
-}
+
 
 
 /* abhi trial */
 
 .slide {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 544px;
+  /* width: 100%;
+  height: 100%; */
   border-radius: 10px;
   background-size: cover;
   background-position: center;
@@ -131,6 +130,7 @@ img {vertical-align: middle;}
 .slider {
   position: relative;
   height: 100%;
+  width:100%;
 }
 
 .dotsContainer {
@@ -144,8 +144,44 @@ img {vertical-align: middle;}
   font-size: 20px;
 }
 
-
-
+@media only screen and (max-width:927px){
+  /* .slide{
+    width:500px;
+  } */
+  .designarrow{
+    border-radius: 50%;
+    background-color: green;
+    height:30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .rightArrow{
+    font-size: 30px;
+  }
+  .leftArrow{
+    font-size: 30px;
+  }
+}
+@media only screen and (max-width:625px){
+  /* .slide{
+    width:300px;
+  } */
+  .designarrow{
+    border-radius: 50%;
+    background-color: green;
+  }
+  .rightArrow{
+    font-size: 27px;
+  }
+  .leftArrow{
+    font-size: 27px;
+  }
+}
+@media only screen and (max-width: 300px) {
+  .text {font-size: 11px}
+}
 
 
 

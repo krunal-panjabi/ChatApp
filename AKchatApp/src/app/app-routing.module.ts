@@ -14,6 +14,7 @@ import { OtpSendComponent } from './otp-send/otp-send.component';
 import { LoggedGuard } from './guards/logged.guard';
 // import { StoryComponent } from './story/story.component';
  import { MyPostsComponent } from './my-posts/my-posts.component';
+import { FormGuardGuard } from './guards/formguard.guard';
 
 const routes: Routes = [
   { path: '', component: LoginPageComponent,canActivate:[LoggedGuard] },
@@ -25,7 +26,7 @@ const routes: Routes = [
   { path: 'my-posts', component: MyPostsComponent },
   { path: 'user-profile', component: UserProfileComponent,canActivate:[AuthGuard] },
   { path: 'gallery', component: PhotoGalleryComponent,canActivate:[AuthGuard] },
-  { path: 'upload-gallery', component: UploadGalleryComponent,canActivate:[AuthGuard] },
+  { path: 'upload-gallery', component: UploadGalleryComponent,canActivate:[AuthGuard],canDeactivate:[FormGuardGuard] },
   { path: 'no-connection', component: NoConnectionComponent,canActivate:[AuthGuard]  },
   { path: 'chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule),canActivate:[AuthGuard] }
 ];

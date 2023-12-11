@@ -18,12 +18,13 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatChipInput, MatChipInputEvent, MatChipList, MatChipsModule} from '@angular/material/chips';
-import {MatDialogModule} from '@angular/material/dialog';
+import {MatDialogActions, MatDialogModule} from '@angular/material/dialog';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [],
+  imports:[],
   exports: [
     MatInputModule,
     MatSelectModule,
@@ -31,7 +32,7 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatToolbarModule,
     MatMenuModule,
     MatIconModule,
-    MatButtonModule,MatBadgeModule,
+    MatBadgeModule,
     MatSidenavModule,
     MatCardModule,
     MatSliderModule,

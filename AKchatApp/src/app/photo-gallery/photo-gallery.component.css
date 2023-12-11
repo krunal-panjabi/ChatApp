@@ -189,14 +189,14 @@ hr{
  
    @media screen and (max-width:840px){
     .mypost-btn{
-      position: absolute !important;
-      top:0px !important;
+      position: fixed !important;
+      top:48px !important;
     }
     .upload-btn{
       top:48px !important;
     }
     .posts{
-      margin-top:30px;
+      margin-top:51px;
     }
   
    }

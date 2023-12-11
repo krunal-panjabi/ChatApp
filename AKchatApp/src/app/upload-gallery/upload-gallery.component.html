@@ -1,6 +1,10 @@
 <div class="mainBody">
     <div class="row d-flex justify-content-center mt-5">
-        <div class="col-4 mt-3" style="box-shadow: 3px 4px 12px grey;" *ngIf="tagdiv">
+       
+        <div class="col-10 col-sm-8 col-md-8 col-lg-4 mt-3" style="box-shadow: 3px 4px 12px grey;" *ngIf="tagdiv">
+            <div *ngIf="imgstrError" class="error-message">
+                You have not uploaded an image.
+              </div>
             <form [formGroup]="galleryForm" (ngSubmit)="onFormSubmit()">
                 <div class="d-flex justify-content-between" style="padding:10px;border-bottom: 1px solid lightgrey;">
                     <div style="color: black;padding: 10px;font-size: 18px;"><span
@@ -21,7 +25,7 @@
                             </ng-template>
                         </span>
                     </div>
-                    <button mat-raised-button style=" color: white;" color="primary" type="submit">Save</button>
+                    <button mat-button style="background-color: #3F51B5 ;color: white;" class="btn" type="submit">Save</button>
                 </div>
                 <div style="width:100%;" class="position-relative">
                     <img #galleryimg class="user-image-o" [src]="imagesrcurl ? imagesrcurl : '/assets/img/backup.jpg'"
@@ -32,8 +36,10 @@
                     style="border-top: 1px solid lightgray;padding-top: 16px;">
                     <input matInput placeholder="caption" formControlName="caption"
                         style="padding: 4px;border-radius: 5px;border: 1px solid lightgrey;width: 64%">
-                    <button mat-raised-button color="primary" type="button" (click)="tagpeople()">Tag
-                        People</button>
+                    <!-- <button mat-raised-button color="primary" type="button" (click)="tagpeople()" style="background-color: #3F51B5 ;color: white;" color="btn">Tag
+                        People</button> -->
+                        <div class="fw-bolder text-align-center btn"  (click)="tagpeople()"  style="background-color: #3F51B5 ;color: white;">Tag People
+                        </div>
                 </div>
             </form>
         </div>
@@ -42,10 +48,8 @@
             <div class="d-flex" style="padding:10px;border-bottom: 1px solid lightgrey;">
                 <div class="col-2" (click)="backtodiv()"><i class="bi bi-arrow-left-circle-fill"
                         style="font-size: 22px;"></i></div>
-                <div class="col-10 fw-bolder text-align-center" style="margin-left: 24%;font-size: 18px;">Tag People
-                </div>
+              
             </div>
-
             <div class="d-flex align-items-center flex-wrap">
                 <div class="d-flex align-items-center py-2"
                     style="background: #EEEE;border-radius: 22px;width:79%;margin-top: 11px;margin-bottom: 11px;margin-left: 6px;margin-right: 6px;">
@@ -53,7 +57,7 @@
                     <input placeholder="Search Here" matInput [formControl]="searchctrl" class="afterfocus"
                         (input)="onSearchInputChange1()" />
                 </div>
-                <button mat-raised-button style="color: white;height: 10%;" color="primary" type="button"
+                <button mat-button style="background-color: #3F51B5 ;color: white;" class="btn" type="button"
                     (click)="backtodiv()">Done</button>
             </div>
 
@@ -84,61 +88,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
-    <div class="row d-flex mt-5 justify-content-center" style="margin-left: 330px;margin-right: 320px;width:40%">
-        <mat-tab-group color="transparent">
-            <mat-tab>
-                <ng-template mat-tab-label> Likes </ng-template>
-                
-                <div class="row">
-                    <div class="col-3" *ngFor="let user of likeposts">
-                        <img style="width:100%;height:100%;border-radius:10px" [src]="user.imgstr || 'default-image-url'">
-                    </div>
-                </div>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label> Comments </ng-template>
-             
-                <div class="d-flex justify-content-between mb-2" style="border-bottom: 1px solid lightgrey;" *ngFor="let post of posts">
-                    <div class="d-flex flex-column" style="flex:6;">
-                        <div class="d-flex">
-                          <div class="d-flex align-items-center">
-                            <span style="width: 9%;"><img [src]="post.uplodeduserimg" style="width:100%;height:100%"></span>
-                            <span class="ms-1 fw-bolder me-2">{{post.uplodedby}}</span>
-                            <span class="fw-bolder">{{post.caption}}</span>
-                          </div>
-                        </div>
-                        
-                        <div class="ms-4">
-                            <ng-container *ngIf="post.comments && post.comments.length > 0; else noComments">
-                              <div *ngFor="let comment of getComments(post)" class="d-flex align-items-center">
-                                <p style="width:33px"><img [src]="service.imageUrl" style="width:100%;height:100%"></p>
-                                <p class="">{{ service.myName }}: {{ comment }}</p>
-                              </div>
-                              
-                              <div *ngIf="post.comments.length > maxCommentsToShow">
-                                <a class="fw-bolder" style="text-decoration: none;color: #3F51B5;" (click)="toggleShowMore(post)">{{ post.showMore ? 'Show Less Comments' : 'Show More Comments' }}</a>
-                              </div>
-                            </ng-container>
-                          
-                            <ng-template #noComments>
-                              <p>No comments added.</p>
-                            </ng-template>
-                          </div>
-                          
-                      </div>
-                    <div class="" style="flex:1;width:40%;">
-                        <img [src]="post.image || 'default-image-url'" alt="Post Image" style="width:100%;height:90px;max-height: 104px;border-radius: 6px;box-shadow:5px 10px 8px #888888;">
-                    </div>
-                </div>
 
-
-            </mat-tab>
-        </mat-tab-group>
-    </div>
     <!-- <div class="row d-flex mt-5 justify-content-center" style="margin-left: 336px;margin-right: 329px;gap:2px">
         <div *ngFor="let post of posts" class="col-3" style="border:1px solid lightgrey">
             <img [src]="post.image || 'default-image-url'" alt="Post Image" style="width:100%;height: 66%;">

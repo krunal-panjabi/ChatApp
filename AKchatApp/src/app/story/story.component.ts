@@ -66,11 +66,6 @@
 
 
     bb( userId: any,enterAnimationDuration: string, exitAnimationDuration: string) {
-
-
-
-   
-
       this.service.storyOfUser(userId).subscribe({
         next: (res) => {
           console.log('response for image',res);
@@ -83,9 +78,9 @@
               data:{res}
   
             });
-            const removalTimeout = setTimeout(() => {
-              dialogRef.close(); // Close the dialog
-            }, 10000);
+            // const removalTimeout = setTimeout(() => {
+            //   dialogRef.close(); // Close the dialog
+            // }, 10000);
         },
         error: () => {
           console.log('error ')

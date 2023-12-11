@@ -31,8 +31,13 @@ export class UploadGalleryComponent implements OnInit {
   imagesrcurl = '';
   showMore = false;
   maxCommentsToShow = 2;
+  issaved=false;
+  imgstrError = false;
   selectedProfiles: Set<string> = new Set();
   constructor(private formBuilder: FormBuilder,public galleryservice:GalleryService ,public service: UsersService, private router: Router, private renderer: Renderer2, private elementRef: ElementRef) {
+    if (window.location.pathname !== "/chat") {
+      service.isButtonVisisble = true;
+    }
     this.galleryForm = this.formBuilder.group({
       caption: '',
       imgstr: ''
@@ -132,11 +137,20 @@ export class UploadGalleryComponent implements OnInit {
 
   backtodiv() {
     this.tagdiv = true;
-
   }
+
   toggleShowAllNames() {
     this.showAllNames = !this.showAllNames;
   }
+  isDataSaved(): boolean {
+     if( this.galleryForm.value.imgstr!==null){
+      return false;
+     }else{
+    
+      return true;
+     }
+  }
+
   convertToBase64(file: File) {
     const reader = new FileReader();
     reader.onload = (e: any) => {
@@ -182,6 +196,14 @@ export class UploadGalleryComponent implements OnInit {
   
 
   onFormSubmit() {
+    const imgstrValue = this.galleryForm.value.imgstr;
+    if (imgstrValue===null) {
+      alert('hii called');
+      this.imgstrError = true;
+      return;
+    }
+    alert('false');
+    this.imgstrError = false;
     const formValue = this.galleryForm.value;
     this.galleryservice.filterAlert=false;
     const postData: GalleryData = {
@@ -201,7 +223,7 @@ export class UploadGalleryComponent implements OnInit {
         }
       });
 
-
+      this.galleryForm.value.imgstr=null;
       this.service.getGalleryData(this.service.myName);
       this.router.navigateByUrl('/gallery');
     }

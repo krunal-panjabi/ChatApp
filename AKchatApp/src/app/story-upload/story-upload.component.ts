@@ -174,6 +174,7 @@ export class StoryUploadComponent implements OnInit {
     reader.readAsDataURL(file);
   }
   sendMessage(contentmsg: string) {
+    alert('here called');
     this.content = contentmsg;
     this.onFormSubmit();
   }
@@ -194,9 +195,6 @@ export class StoryUploadComponent implements OnInit {
       uploadedUser: this.service.myName
 
     };
-
-    console.log(postData);
-
     if (this.storyForm.valid) {
       this.service.uploadStoryData(formValue.caption, formValue.imgstr, this.service.myName).subscribe(data => {
         this.dialogRef.close({ submitted: true });

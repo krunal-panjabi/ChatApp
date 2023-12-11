@@ -25,7 +25,7 @@ interface UserWithIcon extends OfflineUsers {
   templateUrl: './chatpage.component.html',
   styleUrls: ['./chatpage.component.css']
 })
-
+   
 export class ChatpageComponent implements OnInit {
   userControl:FormControl<string[] | null> = new FormControl([]);
   userslist:string[]=[];
@@ -35,6 +35,7 @@ export class ChatpageComponent implements OnInit {
   displayComponent: 'A' | 'B' = 'A';
   receiveddata: string = '';
   dataToSend: string = '';
+
   @ViewChild('childComponent', { static: true }) childComponent!: ElementRef;
 
 
@@ -127,11 +128,12 @@ private removeFirst(array: string[], toRemove: string): void {
 }
 
 
+// Function to show the third tab
+// showThirdTab() {
+//   this.selectedTabIndex = 1; // 2 is the index of the third tab (0-based index)
+// }
+  ngOnInit():void {
 
-
-
-
-  ngOnInit():void{
     this.service.myName = sessionStorage.getItem('myName') || '';
     this.service.imageUrl=sessionStorage.getItem('userimage') || '';
     this.service.getAllUsers().subscribe({
@@ -152,7 +154,6 @@ private removeFirst(array: string[], toRemove: string): void {
       }
     });
     this.service.createChatConnection();
-
     this.service.getAllUserNames().subscribe({
       next:(data)=>{
         data.forEach(user=>{
@@ -166,7 +167,6 @@ private removeFirst(array: string[], toRemove: string): void {
              mutualarr:imgAry,
              mutualfriends:friendsarr
            }
-
            this.service.searchfilteredlist.push(newUser);
            this.service.searchuserlist.push(newUser);
         });
@@ -176,14 +176,17 @@ private removeFirst(array: string[], toRemove: string): void {
         this.filteredlist=this.userslist;
       }
     })
+
     if (this.service.myName) {
       console.log(this.service.myName);
     }
+
   }
 
   sendMessage(content:string){
     this.service.sendMessage(content);
   }
+
   // onSaveButtonClick()
   // {
   //   const categories = this.userControl.value as string[];
@@ -197,13 +200,9 @@ private removeFirst(array: string[], toRemove: string): void {
   //        }
   //      })
   //   }
-
   // }
-
   // requestUser(username :any)
   // {
-
-
   //      this.service.SelectedUsers(username).subscribe({
   //        next:(data)=>{
   //         this.service.requestnoti(username);
@@ -212,17 +211,11 @@ private removeFirst(array: string[], toRemove: string): void {
   //       //  this.service.getAllUsers();
   //        }
   //      })
-
-
-
   // }
 
 
   requestUser(username: string) {
-    // alert("clicked noww");
-    // Find the user by username and update the request status
-    // const user = this.userslist1.find(user => user.username === username);
-    // if (user) {
+    
       console.log()
       this.service.SelectedUsers(username).subscribe({
         next: (data) => {

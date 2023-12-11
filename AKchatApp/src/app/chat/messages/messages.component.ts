@@ -12,13 +12,13 @@ import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css']
 })
-export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
+export class MessagesComponent implements OnInit, AfterViewChecked, OnChanges {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef | undefined;
   @Input() messages: Message[] = [];
   @Input() username: string | undefined;
   @Input() scrollautomatic: any;
-  private shoulAutoscroll:boolean=true;
-  
+  private shoulAutoscroll: boolean = true;
+
   // messageDivVisibility: { [key: number]: boolean } = {}; //for options div
   // messageDiv1Visibility: { [key: number]: boolean } = {}; //for heart
   // ngOnInit() {
@@ -38,58 +38,53 @@ export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
   //   }
   // }
   // messageDiv2Visibility: { [key: number]: boolean } = {}; // for members
-  ngOnChanges(changes:SimpleChanges){
+  ngOnChanges(changes: SimpleChanges) {
     if (changes['messages'] && this.messages && this.messages.length > 0) {
       this.shoulAutoscroll = true; // Set to true when new messages are added
-  }
+    }
   }
   scrollToBottom(): void {
     try {
-      if(this.myScrollContainer){
+      if (this.myScrollContainer) {
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
       }
-       
-    } catch(err) { }                 
-}
-  constructor(public service: UsersService, private matdialog: MatDialog, public msgservice: MessageService, private router: Router) {
+
+    } catch (err) { }
   }
+  constructor(public service: UsersService, private matdialog: MatDialog, public msgservice: MessageService, private router: Router) { }
   ngOnInit(): void {
-    setTimeout(()=>{
-      this.scrollToBottom();     
-    },1000);
-    
-  console.log("the name",this.service.myName)
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 1000);
+
+    console.log("the name", this.service.myName)
   }
+
   ngAfterViewChecked() {
-    if(this.shoulAutoscroll){
-      this.scrollToBottom();  
+    if (this.shoulAutoscroll) {
+      this.scrollToBottom();
     }
-      const messageIdToHighlight = this.username;
-      if (messageIdToHighlight) {
-        const spanClass = '.targetmsg-' + messageIdToHighlight;
-        const selectedSpan = document.querySelector(spanClass) as HTMLElement;
-
-        if (selectedSpan) {
-          selectedSpan.classList.add('highlighted-message');
-          selectedSpan.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-            inline: 'nearest'
-          });
-      
-        }
+    const messageIdToHighlight = this.username;
+    if (messageIdToHighlight) {
+      const spanClass = '.targetmsg-' + messageIdToHighlight;
+      const selectedSpan = document.querySelector(spanClass) as HTMLElement;
+      if (selectedSpan) {
+        selectedSpan.classList.add('highlighted-message');
+        selectedSpan.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
       }
-    
+    }
   }
-
-
-
 
   closediv(mesaageId: number) {
     this.msgservice.messageDivVisibility[mesaageId] = false;
   }
+
   togglediv(mesaageId: number) {
-    this.shoulAutoscroll=false;
+    this.shoulAutoscroll = false;
     if (this.msgservice.messageDivVisibility[mesaageId]) { this.msgservice.messageDivVisibility[mesaageId] = false; return; }
     this.msgservice.messageDivVisibility[mesaageId] = true;
     Object.keys(this.msgservice.messageDivVisibility).forEach(key => {
@@ -99,15 +94,16 @@ export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
       }
     });
   }
+
   openDialogue(megid: any) {
-    this.shoulAutoscroll=false;
+    this.shoulAutoscroll = false;
     if (this.service.isGroupChat) {
       this.service.getLikeMembersGrp(megid).subscribe({
         next: (data) => {
           this.service.likemembers = data;
           this.matdialog.open(DialogBodyComponent, {
             width: '350px',
-            position: { top: '600px',left:'200px' },
+            position: { top: '600px', left: '200px' },
           })
         },
         error: (error) => {
@@ -136,8 +132,6 @@ export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
       console.log("enter the name");
       console.log("enter hire name");
     }
-
-
   }
 
   closePdiv(mesaageId: number) {
@@ -149,12 +143,12 @@ export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
     const selectedSpan = document.querySelector(spanClass) as HTMLElement;
     selectedSpan.classList.add('d-none');
     this.service.deletemsg(messageid).subscribe({
-      next:(data)=>{
-       this.service.DeleteMsgById(messageid);
+      next: (data) => {
+        this.service.DeleteMsgById(messageid);
       }
     })
-
   }
+
   Like1Msg(messageid: any, msgid: any) {
     if (this.msgservice.messageDivVisibility[msgid]) {
       this.msgservice.messageDivVisibility[msgid] = false;
@@ -162,7 +156,6 @@ export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
     }
     this.msgservice.messageDivVisibility[msgid] = true;
   }
-
 
   LikeMsg(messageid: any, msgid: any, indexid: any) {
     debugger;
@@ -174,7 +167,6 @@ export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
         const selectedSpan = document.querySelector(spanClass) as HTMLElement;
         const divClass = '.logodiv-' + messageid;
         const selecteddiv = document.querySelector(divClass) as HTMLElement;
-
         let likename = selectedSpan.getAttribute('likename');
         if (selectedSpan) {
           const currentValue = parseInt(selectedSpan.innerText);
@@ -188,7 +180,6 @@ export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
             selectedSpan.innerText = newValue.toString();
           }
         }
-
         //  this.msgservice.messageDiv2Visibility[msgid]=false;
         this.service.dislikemessageGrp(messageid, this.service.myName).subscribe({
           next: (response) => {
@@ -196,7 +187,6 @@ export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
           },
           error: (error) => {
             console.error('Error loading private chats', error);
-
           }
         })
       }
@@ -248,7 +238,6 @@ export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
             }
           })
         }
-
       }
       else { //here when there is no recation intially and for like purpose
         const spanClass = '.count-' + messageid;
@@ -270,21 +259,16 @@ export class MessagesComponent implements OnInit, AfterViewChecked,OnChanges {
 
         this.msgservice.messageDiv1Visibility[msgid] = true;
         this.msgservice.messageDiv2Visibility[msgid] = true;
-        // this.msgservice.messageDiv2Visibility[msgid]={count:0};
-
         this.service.likemessageGrp(messageid, this.service.myName).subscribe({
           next: (response) => {
             this.service.SendLikeResGrp();
           },
           error: (error) => {
             console.error('Error loading private chats', error);
-
           }
         })
       }
     }
-
-
     else {
       let newValue: any;
       if (this.msgservice.messageDiv1Visibility[msgid]) { //Here it will come only when there is no reaction from this user or from myName at time of only dislike

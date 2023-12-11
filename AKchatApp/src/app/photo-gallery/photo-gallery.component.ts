@@ -95,7 +95,7 @@ toggleHeartClass(id:any,uUser:string) {
       //     this.service.likePost(uUser);
       //     this.galleryservice.galleryData = data;
       //   }
-      // })
+      // }) 
     },
     error:(error)=>{
       console.log('error ')

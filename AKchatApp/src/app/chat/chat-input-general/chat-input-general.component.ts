@@ -27,11 +27,11 @@ export class ChatInputGeneralComponent {
   
     sendMessage(){
       this.content= $("#mTexts")[0].emojioneArea.getText();
-    if(this.content.trim()!=="")
-    {
+    // if(this.content.trim()!=="")
+    // {
       console.log('teh message',this.content);
       this.contentemitter.emit(this.content);
-    }
+    // }
     this.content= $("#mTexts")[0].emojioneArea.setText('');
     this.content=""
   }

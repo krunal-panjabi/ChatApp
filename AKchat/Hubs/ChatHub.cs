@@ -319,9 +319,6 @@ namespace AKchat.Hubs
             }
             await Clients.Group(privateGroupName).SendAsync("ReceiveCloseTypingIndicatorGrp", userlist);
         }
-
-
-
         public async Task LiveStory()
         {
             string privateGroupName = "randomgrp";
@@ -332,10 +329,7 @@ namespace AKchat.Hubs
                     var toConnectionId = _chatServices.GetConnectionIdByUser(item);
                     await Groups.AddToGroupAsync(toConnectionId, privateGroupName);   
             }
-
             await Clients.Group(privateGroupName).SendAsync("LiveStory");
-
-
         }
         public async Task LikePost(string uUser)
         {
@@ -352,11 +346,8 @@ namespace AKchat.Hubs
             {
                 var toConnectionId = _chatServices.GetConnectionIdByUser(name);
                 await Clients.Client(toConnectionId).SendAsync("RecieveCommentRes", name);
-
             }
-
         }
-
         public async Task disconnectfromdic(string name)
         {
             var user = _chatServices.GetUserByConnectionId(Context.ConnectionId);
@@ -366,6 +357,5 @@ namespace AKchat.Hubs
                 await DisplayOnlineUsers();
             }
         }
-
     }
 }

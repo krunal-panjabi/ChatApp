@@ -29,6 +29,8 @@ import { MyPostsComponent } from './my-posts/my-posts.component';
 import { UserLikedPostsComponent } from './user-liked-posts/user-liked-posts.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { UserDetailComponent } from './user-detail/user-detail.component';
+import {MatDialogActions, MatDialogModule} from '@angular/material/dialog';
+import { ConfirmdialogueComponent } from './confirmdialogue/confirmdialogue.component';
 // import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
 //import { MatChipsModule } from '@angular/material/chips';
 
@@ -49,6 +51,7 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
     OtpSendComponent,
     MyPostsComponent,
     UserLikedPostsComponent,
+    ConfirmdialogueComponent
     // UserDetailComponent
       ],
   imports: [
@@ -58,15 +61,17 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
+    MatDialogModule,
     MaterialModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    AngularEditorModule
+    AngularEditorModule,
+    
 
     // MatChipsModule
     
   ],
-  exports:[MatChipsModule],
+  exports:[MatChipsModule,MatDialogActions],
    providers: [UsersService,
     {
       provide:HTTP_INTERCEPTORS,

@@ -1,6 +1,15 @@
-<nav class="navbar navbar-dark" [ngClass]="service.defaulttheme">
-  <div class="row container-fluid" *ngIf="!service.isLogInComponent">
+<nav class="navbar navbar-dark" [ngClass]="service.defaulttheme" style="position: relative;">
 
+  <!-- <input #myInput class="ps-2 searchinput" *ngIf="shouldShowDiv && service.isLogInComponent" type="text"  placeholder="Search 
+  .."  [formControl]="userctrl" (input)="onUserSearch()" > -->
+  <input #myInput class="ps-2" *ngIf="shouldShowDiv" type="text" placeholder="Search.." id="myInput"
+    [formControl]="userctrl" (input)="onUserSearch()" style="position: absolute;
+  right: 210px;
+  bottom: 0px;
+  height: 34px;
+  width: 170px;border-radius: 12px;padding: 0px;">
+  
+  <div class="row container-fluid" *ngIf="!service.isLogInComponent">
     <div class="col-7 d-flex" style="justify-content: space-between;">
       <span class="text-center navbar-brand mb-0" style="font-family: cursive;color: white; font-size: x-large;">AK
         <span style="color: yellow;">Chat</span>
@@ -12,17 +21,23 @@
     </div> -->
   </div>
 
-
-
   <!-- after login header -->
   <div class="container-fluid d-flex" *ngIf="service.isLogInComponent">
     <div class="col-2 col-sm-4 col-md-5">
-      <div *ngIf="service.isButtonVisisble">
+      <!-- <div *ngIf="service.isButtonVisisble">
         <button class=" ms-1 btn btn-warning btn-sm" type="button" [routerLink]="['/chat']"><i
             class="bi bi-house-door-fill"></i>
           <span class="ms-1 d-none d-sm-inline-flex">Home</span>
         </button>
+      </div> -->
+      <div class="d-flex flex-column" style="width: fit-content;cursor: pointer;" [routerLink]="['/chat']">
+        <span class="text-center navbar-brand mb-0" style="padding: 0px;font-family: cursive;color: white; font-size: x-large;" >AK
+          <span style="color: yellow;">Chat</span>
+        </span>
+        <span style="font-family: cursive;color: white;font-size: 10px;">World's Most Demanding app</span>
+
       </div>
+    
     </div>
     <div class="col-8 col-sm-7 col-md-7 d-flex justify-content-between header">
       <div>
@@ -30,69 +45,7 @@
       </div>
 
       <div class="dropdown mb-0 d-flex">
-
-        <div class="d-flex me-2" style="display: none !important;">
-          <div class="p-1" [class.defaultgreen]="isGreenActive" [class.bg-white]="!isGreenActive"
-            (click)="toggleDivColors('headergreen')" style="margin:auto;">green</div>
-          <div class="p-1" [class.defaultpurple]="!isGreenActive" [class.bg-white]="isGreenActive"
-            (click)="toggleDivColors('headerpurple')" style="margin:auto;">purple</div>
-        </div>
-
-
-        <!-- <div style="display: flex;align-items: center;" class="position-relative me-3" (click)="search()">
-          <i class="bi bi-search me-2" style="color: white; font-size: 22px;"></i>
-       
-        </div> -->
-
-        <!-- <div class="dropdown" style="margin: auto;">
-          <button (click)="toggleDropdown()" class="dropbtn" style="padding: 0px;background-color: transparent;"> <i
-              class="bi bi-search me-2" style="color: white; font-size: 22px;"></i></button>
-          <div id="myDropdown" class="dropdown-content" [ngClass]="{'show': isDropdownVisible}">
-            <input type="text" placeholder="Search.." id="myInput" (keyup)="filterFunction()">
-        
-          </div>
-        </div> -->
-
-
-
-        <!-- <div class="dropdown" style="margin: auto;"> -->
-        <!-- <button (click)="toggleDropdown()" class="dropbtn"
-            style="padding: 0px;background-color: transparent;position: relative;z-index: 2;">
-            <i class="bi bi-search me-2"
-              style="color: rgb(175, 175, 175); font-size: 22px;-webkit-text-stroke: 1px;"></i>
-          </button> -->
-        <!-- <div id="myDropdown" style="border: 0px;" class="dropdown-content"> -->
-        <!-- <div class="input-container" style="padding: 0px;"> -->
-        <input #myInput class="ps-2" *ngIf="shouldShowDiv" type="text" placeholder="Search.." id="myInput"
-          [formControl]="userctrl" (input)="onUserSearch()" style="position: absolute;
-          right: 210px;
-          bottom: 0px;
-          height: 34px;
-          width: 170px;border-radius: 12px;padding: 0px;">
-        <!-- </div> -->
-        <!-- </div> -->
-        <!-- </div> -->
-        <!-- 
-        <div class="dropdown" style="margin: auto;">
-          <button (click)="toggleDropdown()" class="dropbtn"
-            style="padding: 0px;background-color: transparent;position: relative;z-index: 2;">
-            <i class="bi bi-search me-2"
-              style="color: rgb(175, 175, 175); font-size: 22px;-webkit-text-stroke: 1px;"></i>
-          </button>
-          <div id="myDropdown" class="dropdown-content" [ngClass]="{'show': isDropdownVisible}">
-            <div class="input-container">
-              <input type="text" placeholder="Search.." id="myInput" (keyup)="filterFunction()" class="search-input">
-            </div>
-          </div>
-        </div> -->
-
-
-
-
-
-
-
-
+        <!-- notification div -->
         <div style="display: flex;align-items: center;" class="position-relative" (click)="openNotiDialogue()">
           <i class="bi bi-bell me-2" style="color: white; font-size: 22px;"></i>
           <span
@@ -103,6 +56,7 @@
           <button class="btn btn-danger btn-sm me-3 gallery-btn" type="button" [routerLink]="['/gallery']"><i
               class="bi bi-images" style=" font-size: larger;"></i></button>
         </div>
+
         <div class="d-flex">
           <ng-container *ngIf="this.service.imageUrl;else noofflineuser">
             <img class="user-image me-2" [src]="this.service.imageUrl" alt="">
@@ -114,12 +68,21 @@
             aria-expanded="false">
             <span class="navbar-brand ">{{service.myName}}</span>
           </button>
-          <ul class="dropdown-menu mt-2" style="background-color: rgba(25,135,84,255);padding: 10px;">
-            <hr>
+          <ul class="dropdown-menu mt-2 p-1"
+            style="background-color: white;padding: 10px;box-shadow: 3px 3px 13px -3px #888888;left:25px">
+            <div class="d-flex p-2" (click)="profile()" style="border-bottom: 2px solid lightgrey;cursor: pointer;">
+              <span class="me-2"><i class="bi bi-person"></i></span>
+              <span>Profile</span>
+            </div>
+            <div class="d-flex p-2" (click)="logout()" style="cursor: pointer;">
+              <span class="me-2"><i class="bi bi-power"></i></span>
+              <span>LogOut</span>
+            </div>
+            <!-- <hr>
             <li><a class="btn btn-primary mx-1 buttons" (click)="profile()">Profile</a></li>
             <hr>
             <li><a class="btn btn-danger mx-1 buttons" (click)="logout()">LogOut</a></li>
-            <hr>
+            <hr> -->
           </ul>
         </div>
       </div>
@@ -153,9 +116,6 @@
               <span><img class="me-2" style="width:20px;height:20px" src='/assets/img/logo.jpg' alt=""></span>
               <span style="margin-right: 23px;"><a (click)="logout()">LogOut</a></span>
             </div>
-
-
-
           </div>
         </div>
       </div>

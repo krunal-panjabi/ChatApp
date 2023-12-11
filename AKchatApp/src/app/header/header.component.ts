@@ -44,19 +44,17 @@ isDropdownVisible = false;
     if (currentUrl.includes('chat')) {
       console.log('This is the chatpage!');
       this.shouldShowDiv = true;
-
       // Perform actions specific to the chatpage
-    } else {
+    }
+    else {
       console.log('This is not the chatpage.');
       this.userctrl.setValue(null);
       this.onUserSearch();
-      // this.service.clearFilteredUsers();
-    this.service.reintialized();
-
+      this.service.reintialized();
       this.shouldShowDiv = false;
-      // Perform other actions
     }
   }
+
   ngOnDestroy() {
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
@@ -64,21 +62,18 @@ isDropdownVisible = false;
   }
 
   ngOnInit(): void {
-
     this.extractedWord = this.route.snapshot.paramMap.get('chat') as string;
     this.userlist=this.service.offlineUsers.filter(user=>user.username!==this.service.myName).map(user=>user.username);
-    // alert(this.userlist);
     this.service.myName = sessionStorage.getItem('myName') || '';
-    console.log("")
     this.filteredlist=this.userlist
   }
  
  
-
   toggleDivColors(color:any) {
     this.isGreenActive = !this.isGreenActive;
     this.service.toggletheme(color);
   }
+
   onUserSearch(){
     const userValue = this.userctrl.value;
     if (userValue && userValue.trim().length > 0) {

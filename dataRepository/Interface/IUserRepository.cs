@@ -29,6 +29,7 @@ namespace dataRepository.Interface
         public int newpassword(NewPasswordVM model);
         public int CheckOtp(string otp);
         public int uploadphoto(string photo, string name);
+        public int uploadgrpphoto(string photo, string name);
         public Task<ProfileVm> GetUserByProfileAsync(string name);
         public Task<ProfileVm> FetchUserImage(string name);
         public int UploadGalleryData(string caption, string imgstr, string uploadedUser, string tagnames);

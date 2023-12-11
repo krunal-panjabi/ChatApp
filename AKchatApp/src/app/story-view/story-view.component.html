@@ -1,13 +1,13 @@
-<div id="progressBar">
-    <div class="bar"></div>
+<div >
+    <div ></div>
   </div>
-<div style="position: relative;" >
+  <div style="position: relative;" >
     <h2 class="ms-5">{{storydata.uploadedUser}}</h2>
 
 
 
 
-    <div class="abhi d-flex justify-content-center mb-2">
+    <div class="abhi d-flex justify-content-center mb-2" style="width:100%">
         <!-- <img style="width: 100%;height: 644px;" src="{{storydata.imgstr}}" alt=""> -->
     
     
@@ -137,13 +137,13 @@
 
         <div class="slider">
             <div>
-              <div (click)="goToPrevious()" id="restartButton" class="leftArrow" style="color: black;">❰</div>
-              <div (click)="goToNext()" class="rightArrow" style="color: black;">❱</div>
+              <div (click)="goToPrevious()" id="restartButton" class="leftArrow designarrow" style="color: black;">❰</div>
+              <div (click)="goToNext()" class="rightArrow designarrow" style="color: black;">❱</div>
             </div>
-            <div style="width: 740px; height: 544px;"
+            <img style=""
               class="slide"
-              [ngStyle]="{ 'background-image': getCurrentSlideUrl() }"
-            ></div>
+              [src]="getCurrentSlideUrl()"
+            >
             <!-- <div class="dotsContainer mt-5">
               <div
                 *ngFor="let slide of newElements; let slideIndex = index"

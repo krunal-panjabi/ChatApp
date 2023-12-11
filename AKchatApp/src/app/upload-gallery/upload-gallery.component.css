@@ -8,7 +8,18 @@
     /* border: solid grey 1px; */
     /* background-color: rgb(225, 225, 225); */
     position: relative;
-    
+}
+/* Add this to your component's CSS file or styles array */
+.error-message {
+  margin-top: 8px;
+  text-align: center;
+  color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 7px;
+    margin: 10px 0px;
+    border: 1px solid transparent;
+    border-radius: 0px;
 }
 
 .image-input{
@@ -23,10 +34,10 @@
 .user-image-o{
     height: 364px;
     width: 100%; 
-   
     z-index: 0;
     opacity: 1;
 }
+
 .selected-profile {
     display: inline-block;
     margin: 5px;
