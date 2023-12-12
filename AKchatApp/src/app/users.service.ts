@@ -599,13 +599,20 @@ public uploadfileforgroup(fileToUpload:File,name:string){
       this.privateMessageInitiated = true;
       const modalRef = this.modalService.open(PrivateChatsComponent);
       modalRef.componentInstance.toUser = newMessage.from;
+      const index=this.usernamelist.findIndex(user=>user.username===newMessage.from);
+      if (index !== -1) {
+        this.usernamelist[index].notread = (this.usernamelist[index].notread ?? 0)+1;
+      }
     });
+
     this.chatConnection.on('NotificationCount',(newMessage:Message)=>{
       this.countmsg=this.countmsg+1;
     });
+
    this.chatConnection.on('NotificationGrp',(name:string)=>{
     this.countmsg=this.countmsg+1;
    })
+   
    this.chatConnection.on('SendDisLikeResGrp',(name:string,gpname:string)=>{
     this.loadgrpchats(gpname);
    })

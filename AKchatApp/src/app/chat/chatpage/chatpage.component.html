@@ -33,7 +33,10 @@
                                             class="user-image me-2"
                                             [src]="user.imgstr ? user.imgstr : '/assets/img/profile.png'" alt="">
                                         {{user.username}}
-                                        <span *ngIf="user.username === service.myName"> (you)</span> <span
+                                        <span *ngIf="user.username === service.myName"> (you)</span> 
+                                        <div class="d-flex justify-content-center align-items-center" style="margin-left: auto;background-color: green;border-radius: 50%;width:20px;height:20px"> <span style="color: white;">{{user.notread}}</span></div>
+                                       
+                                        <span
                                             class="fw-bolder text-primary"
                                             *ngIf="user.username===service.username && service.isTyping">typing...</span>
                                         <span class="position-absolute pos_dot"
@@ -311,9 +314,12 @@
                                                     [src]="user.imgstr ? user.imgstr : '/assets/img/profile.png'"
                                                     alt="">
                                                 {{user.username}}
-                                                <span *ngIf="user.username === service.myName"> (you)</span> <span
+                                                <span *ngIf="user.username === service.myName"> (you)</span>
+                                                <div class="d-flex justify-content-center align-items-center" style="margin-left: auto;background-color: green;border-radius: 50%;width:20px;height:20px"> <span style="color: white;">{{user.notread}}</span></div>
+                                                <span
                                                     class="fw-bolder text-primary"
                                                     *ngIf="user.username===service.username && service.isTyping">typing...</span>
+
                                                 <span class="position-absolute pos_dot"
                                                     *ngIf="service.onlineUsers.includes(user.username)">
                                                     <div class="onlinesign"></div>

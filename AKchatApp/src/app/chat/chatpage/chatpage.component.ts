@@ -140,6 +140,7 @@ private removeFirst(array: string[], toRemove: string): void {
       next:(data)=>{
         this.service.offlineUsers=data;
         this.service.usernamelist=this.service.offlineUsers;
+        console.log("the data",data);
       }
     })
     this.service.getAllGroups(sessionStorage.getItem('myName') || '').subscribe({
@@ -237,12 +238,16 @@ private removeFirst(array: string[], toRemove: string): void {
   }
 
     openPrivateChat(toUser: string, image: string){
-      this.service.loadprivatechats(toUser);
-  this.service.isGroupChat=false;
-  this.service.isgeneral=false;
-  this.service.toUser=toUser;
-  this.msgservice.messageDiv1Visibility={};
-  this.msgservice.messageDiv2Visibility={};
+      const index=this.service.usernamelist.findIndex(user=>user.username===toUser);
+      if(index!==-1){
+        this.service.usernamelist[index].notread=0;
+      }
+    this.service.loadprivatechats(toUser);
+    this.service.isGroupChat=false;
+    this.service.isgeneral=false;
+    this.service.toUser=toUser;
+    this.msgservice.messageDiv1Visibility={};
+    this.msgservice.messageDiv2Visibility={};
    const modalRef=this.modalService.open(PrivateChatsComponent);
    modalRef.componentInstance.toUser=toUser;
    modalRef.componentInstance.image=image;

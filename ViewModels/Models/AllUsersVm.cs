@@ -11,7 +11,7 @@ namespace ViewModels.Models
         public string username { get; set; }
         public string imgstr { get; set; }
         public int? status { get; set; }
-
+        public int? notread { get; set; }
         public string? mutualimages { get; set; }
 
         public string? mutualnames { get;set; }

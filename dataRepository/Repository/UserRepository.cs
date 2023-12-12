@@ -368,7 +368,8 @@ namespace dataRepository.Repository
                     AllUsersVm names = new AllUsersVm
                     {
                         username = rdr["name"].ToString(),
-                        imgstr = rdr["image"].ToString()
+                        imgstr = rdr["image"].ToString(),
+                        notread= Convert.ToInt32(rdr["notread"]),
                     };
 
                     model.Add(names);
